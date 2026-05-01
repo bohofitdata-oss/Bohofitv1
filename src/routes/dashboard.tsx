@@ -216,6 +216,50 @@ function DashboardPage() {
             </div>
           </div>
         </div>
+
+        {/* DAILY FOOD LOG */}
+        <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2">
+              <Camera className="w-5 h-5 text-primary" />
+              <h3 className="font-bold">Daily food log</h3>
+            </div>
+            <p className="text-xs text-muted-foreground">Bootcamp members: upload a photo of every meal you eat.</p>
+          </div>
+          <div className="mt-4 grid sm:grid-cols-[1fr_auto] gap-2 items-end">
+            <div>
+              <Label htmlFor="meal_type" className="text-xs">Meal (optional)</Label>
+              <Input id="meal_type" placeholder="Breakfast, lunch, snack…" value={mealType} onChange={(e) => setMealType(e.target.value)} maxLength={40} className="mt-1" />
+            </div>
+            <label className={`inline-flex items-center justify-center gap-2 rounded-md bg-gradient-gold text-primary-foreground px-4 h-10 font-semibold cursor-pointer ${uploadingFood ? "opacity-60" : "hover:opacity-90"}`}>
+              <Upload className="w-4 h-4" />
+              {uploadingFood ? "Uploading…" : "Upload photo"}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={uploadingFood}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) uploadFoodPhoto(f);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          </div>
+          {foodLogs.length === 0 ? (
+            <p className="mt-5 text-sm text-muted-foreground">No food photos yet. Upload your first meal above.</p>
+          ) : (
+            <div className="mt-5 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+              {foodLogs.map((f) => (
+                <div key={f.id} className="aspect-square rounded-lg overflow-hidden bg-muted relative">
+                  {f.signedUrl && <img src={f.signedUrl} alt={f.meal_type ?? "Meal"} className="w-full h-full object-cover" loading="lazy" />}
+                  {f.meal_type && <span className="absolute bottom-1 left-1 right-1 text-[10px] bg-background/80 rounded px-1 py-0.5 truncate">{f.meal_type}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
     </SiteShell>
   );

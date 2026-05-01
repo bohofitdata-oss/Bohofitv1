@@ -89,7 +89,32 @@ function Home() {
             <h2 className="text-3xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
           </div>
         </Reveal>
-        <div className="grid md:grid-cols-3 gap-5">
+        {/* Mobile: compact stacked cards (all 3 fit on a phone screen). Desktop: full cards. */}
+        <div className="grid grid-cols-1 gap-3 md:hidden">
+          {paths.map((p) => (
+            <Link
+              key={p.to}
+              to={p.to}
+              className={`relative flex items-center gap-3 rounded-xl bg-card p-3.5 border ${p.featured ? "hairline" : "border-border"}`}
+            >
+              <div className="shrink-0 w-10 h-10 rounded-lg bg-gradient-gold flex items-center justify-center">
+                <p.icon className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground truncate">{p.tag}</p>
+                <h3 className="text-sm font-black leading-tight mt-0.5">{p.headline}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{p.desc}</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+              {p.featured && (
+                <span className="absolute -top-2 right-3 text-[9px] uppercase tracking-widest bg-gradient-gold text-primary-foreground px-1.5 py-0.5 rounded-full font-semibold">
+                  Popular
+                </span>
+              )}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden md:grid md:grid-cols-3 gap-5">
           {paths.map((p, i) => (
             <Reveal key={p.to} delay={i * 120}>
               <Link

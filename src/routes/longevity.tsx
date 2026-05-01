@@ -27,12 +27,12 @@ function LongevityPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-20 pb-12 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 3 · Boho Longevity</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 3 · Boho at 50+</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Move pain-free. <span className="text-gradient-gold">Age strong.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            1:1 rehab-style coaching designed for adults 50+. No machines. No injuries. No guesswork.
+            Extremely personal 1:1 training designed exclusively for people 50 and above. No machines. No injuries. No guesswork.
           </p>
           <Button asChild size="lg" className="mt-8 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
             <Link to="/booking" search={{ path: "longevity" }}>Book a free consult</Link>

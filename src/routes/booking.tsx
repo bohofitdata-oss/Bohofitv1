@@ -15,8 +15,8 @@ type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];
 
 export const Route = createFileRoute("/booking")({
-  validateSearch: (s: Record<string, unknown>): { path: PathChoice } => ({
-    path: PATHS.includes(s.path as PathChoice) ? (s.path as PathChoice) : "bohofit",
+  validateSearch: (s: Record<string, unknown>): { path?: PathChoice } => ({
+    path: PATHS.includes(s.path as PathChoice) ? (s.path as PathChoice) : undefined,
   }),
   head: () => ({
     meta: [
@@ -43,8 +43,8 @@ const schema = z.object({
 });
 
 function BookingPage() {
-  const search = Route.useSearch() as { path: PathChoice };
-  const path: PathChoice = search.path;
+  const search = Route.useSearch() as { path?: PathChoice };
+  const path: PathChoice = search.path ?? "bohofit";
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

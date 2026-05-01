@@ -1,101 +1,219 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { z } from "zod";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
-import { HeartPulse } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { SlotPicker } from "@/components/SlotPicker";
+import { EmergencyCTA } from "@/components/EmergencyCTA";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Check, HeartPulse } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({
     meta: [
-      { title: "Boho Longevity — Move pain-free. Age strong." },
-      { name: "description", content: "1:1 rehab-style coaching for 50+. Built for back pain, knee pain, neck pain, and mobility. Train without machines, train without pain." },
-      { property: "og:title", content: "Boho Longevity — Move pain-free. Age strong." },
+      { title: "Boho at 50+ — 1:1 personal training, online or offline" },
+      { name: "description", content: "Extremely personal 1:1 training for 50+. Online or at a Bohofit centre. Pick your own hour, Mon–Sat. Free 30-min consult before you commit." },
+      { property: "og:title", content: "Boho at 50+ — 1:1 personal training" },
     ],
   }),
   component: LongevityPage,
 });
 
-const conditions = [
-  { name: "Back pain", desc: "Strengthen the spine. Move without fear." },
-  { name: "Knee pain", desc: "Build the muscles around the joint. Climb stairs again." },
-  { name: "Neck pain", desc: "Release tension. Restore posture. Sleep better." },
-  { name: "Mobility issues", desc: "Bend, reach, squat — without thinking about it." },
+const TNC = [
+  { key: "duration", text: "I understand this is a 12-week 1:1 program." },
+  { key: "frequency", text: "I will train at my chosen time, Mon–Sat. 1 hour each day." },
+  { key: "absence", text: "If I miss a session for a real reason like illness or accident, I will give the coach proper doctor papers. Without papers, my access will not be extended." },
+  { key: "honesty", text: "I will tell my coach the truth about pain, sleep, food, and how I feel." },
+  { key: "consult_first", text: "I understand I will have a free 30-minute consult before any payment." },
 ];
 
+const schema = z.object({
+  full_name: z.string().trim().min(1).max(120),
+  phone: z.string().trim().min(6).max(20),
+  email: z.string().trim().email().max(255).optional().or(z.literal("")),
+  age: z.coerce.number().int().min(40).max(100).optional().or(z.nan()),
+  city: z.string().trim().max(80).optional().or(z.literal("")),
+  goal: z.string().trim().max(500).optional().or(z.literal("")),
+});
+
 function LongevityPage() {
+  const navigate = useNavigate();
+  const [mode, setMode] = useState<"offline" | "online">("offline");
+  const [primarySlot, setPrimarySlot] = useState<string | null>(null);
+  const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
+  const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
+
+  const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!primarySlot) return toast.error("Pick a primary time");
+    if (!allTncAccepted) return toast.error("Please accept every term & condition");
+    const fd = new FormData(e.currentTarget);
+    const parsed = schema.safeParse(Object.fromEntries(fd));
+    if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
+    setLoading(true);
+    const { full_name, phone, email, age, city, goal } = parsed.data;
+    const { error } = await supabase.from("slot_bookings").insert({
+      full_name,
+      phone,
+      email: email || null,
+      age: Number.isNaN(age as number) ? null : (age as number),
+      city: city || null,
+      program: "longevity",
+      mode,
+      primary_slot_id: primarySlot,
+      secondary_slot_id: secondarySlot,
+      tnc_accepted: tncChecked as never,
+      status: intent === "book" ? "pending" : "consult_requested",
+      notes: goal || null,
+    });
+    setLoading(false);
+    if (error) return toast.error("Something went wrong. Please try again.");
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <SiteShell>
+        <section className="container mx-auto max-w-xl px-5 py-24 text-center">
+          <Reveal>
+            <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
+              <Check className="w-7 h-7 text-primary-foreground" />
+            </div>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it. Your coach will call within 24 hours.</h1>
+            <p className="mt-3 text-muted-foreground">We always start with a free 30-minute consult — no sales pressure.</p>
+            <div className="mt-8 flex justify-center gap-3">
+              <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
+            </div>
+          </Reveal>
+        </section>
+      </SiteShell>
+    );
+  }
+
   return (
     <SiteShell>
-      <section className="container mx-auto px-5 pt-20 pb-12 text-center">
+      <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 3 · Boho at 50+</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 3 · Boho at 50+ · 1:1</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Move pain-free. <span className="text-gradient-gold">Age strong.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Extremely personal 1:1 training designed exclusively for people 50 and above. No machines. No injuries. No guesswork.
+            One coach. One client. Online or at a Bohofit centre. Mon–Sat, 1 hour/day.
           </p>
-          <Button asChild size="lg" className="mt-8 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-            <Link to="/booking" search={{ path: "longevity" }}>Book a free consult</Link>
-          </Button>
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm">
+            <HeartPulse className="w-4 h-4 text-primary" /> ₹29,999 / 12 weeks · 1:1
+          </div>
         </Reveal>
       </section>
 
-      <section className="container mx-auto px-5 py-12">
+      <div className="container mx-auto max-w-3xl px-5 pb-20">
+        {/* MODE */}
         <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-8">Built for these problems</h2>
+          <div className="mt-8">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1 · Online or offline</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Where will you train?</h2>
+          </div>
         </Reveal>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {conditions.map((c, i) => (
-            <Reveal key={c.name} delay={i * 80}>
-              <div className="rounded-xl border border-border bg-card p-6 flex items-start gap-4">
-                <HeartPulse className="w-6 h-6 text-primary mt-1 shrink-0" />
-                <div>
-                  <div className="font-bold text-lg">{c.name}</div>
-                  <p className="text-sm text-muted-foreground mt-1">{c.desc}</p>
-                </div>
-              </div>
-            </Reveal>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          {(["offline", "online"] as const).map((m) => (
+            <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
+              {m === "offline" ? "Offline (Bohofit centre)" : "Online (Google Meet)"}
+            </button>
           ))}
         </div>
-      </section>
 
-      <section className="container mx-auto px-5 py-16">
+        {/* SLOT */}
         <Reveal>
-          <div className="rounded-2xl bg-card border border-border p-8 md:p-12 hairline">
-            <h3 className="text-2xl md:text-3xl font-black">How it works</h3>
-            <ol className="mt-6 grid md:grid-cols-3 gap-5">
-              {[
-                ["1", "Free consult", "30 minutes. We listen. We assess. No sales pitch."],
-                ["2", "Custom plan", "Built around your body, your conditions, your schedule."],
-                ["3", "Twice-weekly 1:1", "With your dedicated coach. In-studio or on Google Meet."],
-              ].map(([n, t, d]) => (
-                <li key={n}>
-                  <div className="text-gradient-gold font-black text-3xl">{n}</div>
-                  <div className="font-bold mt-2">{t}</div>
-                  <p className="text-sm text-muted-foreground mt-1">{d}</p>
-                </li>
-              ))}
-            </ol>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Pick your hour</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Your dedicated time, Mon–Sat</h2>
+            <p className="text-sm text-muted-foreground mt-1">1 spot per slot — it&rsquo;s 1:1, just you and your coach.</p>
           </div>
         </Reveal>
-      </section>
-
-      <section className="container mx-auto px-5 py-12">
-        <div className="grid md:grid-cols-2 gap-6 items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Investment</p>
-            <h3 className="text-3xl font-black mt-2">From ₹34,999 / 12 weeks</h3>
-            <p className="text-muted-foreground mt-2">Premium 1:1 coaching. Consultation-first — we won&rsquo;t take you on if it&rsquo;s not the right fit.</p>
-            <Button asChild size="lg" className="mt-6 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-              <Link to="/booking" search={{ path: "longevity" }}>Book my consult</Link>
-            </Button>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-8 text-sm text-muted-foreground">
-            <span className="text-foreground font-bold text-lg block mb-2">No machines. Ever.</span>
-            Machines pin your joints into one path. Your body wasn&rsquo;t built that way. We train you the way you actually live — standing, bending, lifting, walking.
-          </div>
+        <div className="mt-5 rounded-2xl border border-border bg-card p-5">
+          <SlotPicker program="longevity" primaryId={primarySlot} secondaryId={secondarySlot} onPrimary={setPrimarySlot} onSecondary={setSecondarySlot} />
         </div>
-      </section>
+
+        {/* DETAILS */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 3 · Your details</p>
+          </div>
+        </Reveal>
+        <form id="lon-form" onSubmit={(e) => e.preventDefault()} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
+            <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" maxLength={255} className="mt-1" /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" min={40} max={100} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" maxLength={80} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" placeholder="e.g. Knee pain, want to walk pain-free." /></div>
+          </div>
+        </form>
+
+        {/* T&C */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · The rules</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Tick every box.</h2>
+          </div>
+        </Reveal>
+        <div className="mt-5 rounded-2xl border border-border bg-card p-5 space-y-3">
+          {TNC.map((t, i) => (
+            <label key={t.key} className={cn("flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
+              <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
+              <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
+            </label>
+          ))}
+        </div>
+
+        <div className="mt-8 grid sm:grid-cols-2 gap-3">
+          <Button
+            type="button"
+            size="lg"
+            disabled={loading}
+            onClick={() => {
+              const formEl = document.getElementById("lon-form") as HTMLFormElement | null;
+              if (formEl) submit("consult", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
+            }}
+            className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
+          >
+            Book my free 30-min consult
+          </Button>
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            disabled={loading}
+            onClick={() => {
+              const formEl = document.getElementById("lon-form") as HTMLFormElement | null;
+              if (formEl) submit("book", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
+            }}
+          >
+            I&rsquo;m ready — reserve my slot
+          </Button>
+        </div>
+
+        <EmergencyCTA />
+
+        <Reveal>
+          <div className="mt-10 rounded-2xl bg-card border border-border p-6 text-sm text-muted-foreground">
+            Already a member? <Link to="/auth" className="text-primary underline">Sign in</Link> first so this links to your dashboard.
+          </div>
+        </Reveal>
+      </div>
     </SiteShell>
   );
 }

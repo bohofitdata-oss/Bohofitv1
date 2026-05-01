@@ -15,8 +15,8 @@ type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];
 
 export const Route = createFileRoute("/booking")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    path: (PATHS.includes(s.path as PathChoice) ? s.path : "bohofit") as PathChoice,
+  validateSearch: (s: Record<string, unknown>): { path: PathChoice } => ({
+    path: PATHS.includes(s.path as PathChoice) ? (s.path as PathChoice) : "bohofit",
   }),
   head: () => ({
     meta: [

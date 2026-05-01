@@ -44,14 +44,24 @@ function DashboardPage() {
       setUserId(uid);
       setEmail(data.session.user.email ?? "");
 
-      const [{ data: p }, { data: l }, { data: r }] = await Promise.all([
+      const [{ data: p }, { data: l }, { data: r }, { data: f }] = await Promise.all([
         supabase.from("profiles").select("full_name, phone, age, city").eq("id", uid).maybeSingle(),
         supabase.from("progress_logs").select("id, log_date, weight_kg, attended, notes").eq("user_id", uid).order("log_date", { ascending: false }).limit(10),
         supabase.from("user_roles").select("role").eq("user_id", uid),
+        supabase.from("food_logs").select("id, image_path, meal_type, logged_at").eq("user_id", uid).order("logged_at", { ascending: false }).limit(12),
       ]);
       if (p) setProfile({ full_name: p.full_name ?? "", phone: p.phone ?? "", age: p.age, city: p.city ?? "" });
       if (l) setLogs(l);
       if (r) setIsAdmin(r.some((x) => x.role === "admin"));
+      if (f && f.length) {
+        const signed = await Promise.all(
+          f.map(async (row) => {
+            const { data: s } = await supabase.storage.from("food-photos").createSignedUrl(row.image_path, 3600);
+            return { ...row, signedUrl: s?.signedUrl } as FoodLog;
+          }),
+        );
+        setFoodLogs(signed);
+      }
     })();
     return () => sub.subscription.unsubscribe();
   }, [navigate]);

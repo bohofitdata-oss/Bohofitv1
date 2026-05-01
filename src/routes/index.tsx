@@ -23,7 +23,7 @@ const paths = [
     icon: Dumbbell,
     headline: "I want to stay fit long-term",
     desc: "Offline group classes that build a habit you actually keep.",
-    bullets: ["Spin, Yoga, Pilates, Zumba, Strength, Boxing", "Small batches, real coaches, in-studio", "Monthly to annual plans"],
+    bullets: ["Two formats: beginner & advanced", "Small batches, real coaches, in-studio", "Monthly to annual plans"],
     cta: "Explore group classes",
   },
   {

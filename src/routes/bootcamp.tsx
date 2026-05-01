@@ -20,12 +20,12 @@ function BootcampPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-20 pb-12 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 2 · 8-Week Bootcamp</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 2 · Boho Bootcamp — 8-Week Transformation</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
-            Visible transformation in <span className="text-gradient-gold">8 weeks.</span>
+            Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Lose 4–8 kg. Drop a size or two. Feel like yourself again. Compliance gets you there — we make compliance easy.
+            Lose 4–8 kg. Drop a size or two. Feel like yourself again. Guaranteed results — or we keep working with you free.
           </p>
           <Button asChild size="lg" className="mt-8 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
             <Link to="/booking" search={{ path: "bootcamp" }}>Join the next batch</Link>

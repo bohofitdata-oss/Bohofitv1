@@ -41,12 +41,12 @@ function BohofitPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-20 pb-12 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 1 · Bohofit</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 1 · Bohofit Group Classes — Offline</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Train consistently. <span className="text-gradient-gold">Stay fit for life.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Machine-free group classes designed for adults 28–55. Show up. We&rsquo;ll do the rest.
+            Machine-free offline group classes designed for adults 28–55. Show up. We&rsquo;ll do the rest.
           </p>
         </Reveal>
       </section>

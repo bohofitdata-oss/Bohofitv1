@@ -20,9 +20,9 @@ export function SiteHeader() {
           <span className="font-black tracking-tight text-lg">Bohofit</span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
-          <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Bohofit</Link>
-          <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Bootcamp</Link>
-          <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Longevity</Link>
+          <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Group Classes</Link>
+          <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho Bootcamp</Link>
+          <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho at 50+</Link>
           <Link to="/diet" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Diet</Link>
         </nav>
         <div className="flex items-center gap-2">

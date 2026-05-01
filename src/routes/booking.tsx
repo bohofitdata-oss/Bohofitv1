@@ -43,7 +43,8 @@ const schema = z.object({
 });
 
 function BookingPage() {
-  const { path } = Route.useSearch();
+  const search = Route.useSearch() as { path: PathChoice };
+  const path: PathChoice = search.path;
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

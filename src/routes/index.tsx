@@ -52,24 +52,24 @@ function Home() {
     <SiteShell>
       {/* HERO */}
       <section className="relative">
-        <div className="container mx-auto px-5 pt-20 pb-12 md:pt-28 md:pb-20 text-center">
+        <div className="container mx-auto px-5 pt-10 pb-6 md:pt-28 md:pb-20 text-center">
           <Reveal>
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1">
+            <div className="inline-flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1">
               <Star className="w-3 h-3 text-primary" /> India&rsquo;s first machine-free fitness system
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-5xl mx-auto">
+            <h1 className="mt-4 md:mt-6 text-3xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-5xl mx-auto">
               Fitness that fits your life — <span className="text-gradient-gold">not machines.</span>
             </h1>
           </Reveal>
           <Reveal delay={220}>
-            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="mt-3 md:mt-5 text-sm md:text-lg text-muted-foreground max-w-xl mx-auto">
               Choose your path based on your goal. One of these three is built for you.
             </p>
           </Reveal>
           <Reveal delay={320}>
-            <div className="mt-8 flex items-center justify-center gap-3">
+            <div className="mt-5 md:mt-8 flex items-center justify-center gap-2 md:gap-3 flex-wrap">
               <Button asChild size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 border-0">
                 <a href="#paths">Choose your path <ArrowRight className="ml-1 w-4 h-4" /></a>
               </Button>

@@ -82,6 +82,33 @@ export type Database = {
         }
         Relationships: []
       }
+      food_logs: {
+        Row: {
+          id: string
+          image_path: string
+          logged_at: string
+          meal_type: string | null
+          notes: string | null
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          image_path: string
+          logged_at?: string
+          meal_type?: string | null
+          notes?: string | null
+          user_id: string
+        }
+        Update: {
+          id?: string
+          image_path?: string
+          logged_at?: string
+          meal_type?: string | null
+          notes?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           age: number | null
@@ -223,6 +250,117 @@ export type Database = {
         }
         Relationships: []
       }
+      slot_bookings: {
+        Row: {
+          age: number | null
+          city: string | null
+          conditions: Json
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          mode: Database["public"]["Enums"]["slot_mode"]
+          needs_rehab: boolean
+          notes: string | null
+          phone: string
+          primary_slot_id: string | null
+          program: Database["public"]["Enums"]["slot_program"]
+          secondary_slot_id: string | null
+          status: Database["public"]["Enums"]["booking_status"]
+          tier: Database["public"]["Enums"]["bootcamp_tier"] | null
+          tnc_accepted: Json
+          user_id: string | null
+        }
+        Insert: {
+          age?: number | null
+          city?: string | null
+          conditions?: Json
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          mode: Database["public"]["Enums"]["slot_mode"]
+          needs_rehab?: boolean
+          notes?: string | null
+          phone: string
+          primary_slot_id?: string | null
+          program: Database["public"]["Enums"]["slot_program"]
+          secondary_slot_id?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          tier?: Database["public"]["Enums"]["bootcamp_tier"] | null
+          tnc_accepted?: Json
+          user_id?: string | null
+        }
+        Update: {
+          age?: number | null
+          city?: string | null
+          conditions?: Json
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          mode?: Database["public"]["Enums"]["slot_mode"]
+          needs_rehab?: boolean
+          notes?: string | null
+          phone?: string
+          primary_slot_id?: string | null
+          program?: Database["public"]["Enums"]["slot_program"]
+          secondary_slot_id?: string | null
+          status?: Database["public"]["Enums"]["booking_status"]
+          tier?: Database["public"]["Enums"]["bootcamp_tier"] | null
+          tnc_accepted?: Json
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "slot_bookings_primary_slot_id_fkey"
+            columns: ["primary_slot_id"]
+            isOneToOne: false
+            referencedRelation: "slots"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "slot_bookings_secondary_slot_id_fkey"
+            columns: ["secondary_slot_id"]
+            isOneToOne: false
+            referencedRelation: "slots"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      slots: {
+        Row: {
+          batch_start_date: string
+          capacity: number
+          confirmed_count: number
+          created_at: string
+          id: string
+          is_locked: boolean
+          program: Database["public"]["Enums"]["slot_program"]
+          start_time: string
+        }
+        Insert: {
+          batch_start_date?: string
+          capacity: number
+          confirmed_count?: number
+          created_at?: string
+          id?: string
+          is_locked?: boolean
+          program: Database["public"]["Enums"]["slot_program"]
+          start_time: string
+        }
+        Update: {
+          batch_start_date?: string
+          capacity?: number
+          confirmed_count?: number
+          created_at?: string
+          id?: string
+          is_locked?: boolean
+          program?: Database["public"]["Enums"]["slot_program"]
+          start_time?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           batch_id: string | null
@@ -307,7 +445,11 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "coach" | "member"
+      booking_status: "pending" | "consult_requested" | "paid" | "cancelled"
+      bootcamp_tier: "standard" | "intensive"
       path_choice: "bohofit" | "bootcamp" | "longevity"
+      slot_mode: "online" | "offline"
+      slot_program: "bootcamp" | "longevity"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -436,7 +578,11 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "coach", "member"],
+      booking_status: ["pending", "consult_requested", "paid", "cancelled"],
+      bootcamp_tier: ["standard", "intensive"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
+      slot_mode: ["online", "offline"],
+      slot_program: ["bootcamp", "longevity"],
     },
   },
 } as const

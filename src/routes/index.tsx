@@ -82,11 +82,11 @@ function Home() {
       </section>
 
       {/* 3 PATHS */}
-      <section id="paths" className="container mx-auto px-5 py-12 md:py-16">
+      <section id="paths" className="container mx-auto px-5 py-6 md:py-16">
         <Reveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-5 md:mb-12">
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1</p>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
+            <h2 className="text-2xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
           </div>
         </Reveal>
         {/* Mobile: compact stacked cards (all 3 fit on a phone screen). Desktop: full cards. */}

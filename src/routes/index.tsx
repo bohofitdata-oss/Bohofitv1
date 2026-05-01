@@ -52,24 +52,24 @@ function Home() {
     <SiteShell>
       {/* HERO */}
       <section className="relative">
-        <div className="container mx-auto px-5 pt-20 pb-12 md:pt-28 md:pb-20 text-center">
+        <div className="container mx-auto px-5 pt-10 pb-6 md:pt-28 md:pb-20 text-center">
           <Reveal>
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1">
+            <div className="inline-flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1">
               <Star className="w-3 h-3 text-primary" /> India&rsquo;s first machine-free fitness system
             </div>
           </Reveal>
           <Reveal delay={120}>
-            <h1 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-5xl mx-auto">
+            <h1 className="mt-4 md:mt-6 text-3xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-5xl mx-auto">
               Fitness that fits your life — <span className="text-gradient-gold">not machines.</span>
             </h1>
           </Reveal>
           <Reveal delay={220}>
-            <p className="mt-5 text-base md:text-lg text-muted-foreground max-w-xl mx-auto">
+            <p className="mt-3 md:mt-5 text-sm md:text-lg text-muted-foreground max-w-xl mx-auto">
               Choose your path based on your goal. One of these three is built for you.
             </p>
           </Reveal>
           <Reveal delay={320}>
-            <div className="mt-8 flex items-center justify-center gap-3">
+            <div className="mt-5 md:mt-8 flex items-center justify-center gap-2 md:gap-3 flex-wrap">
               <Button asChild size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 border-0">
                 <a href="#paths">Choose your path <ArrowRight className="ml-1 w-4 h-4" /></a>
               </Button>
@@ -82,14 +82,39 @@ function Home() {
       </section>
 
       {/* 3 PATHS */}
-      <section id="paths" className="container mx-auto px-5 py-12 md:py-16">
+      <section id="paths" className="container mx-auto px-5 py-6 md:py-16">
         <Reveal>
-          <div className="text-center mb-12">
+          <div className="text-center mb-5 md:mb-12">
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1</p>
-            <h2 className="text-3xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
+            <h2 className="text-2xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
           </div>
         </Reveal>
-        <div className="grid md:grid-cols-3 gap-5">
+        {/* Mobile: compact stacked cards (all 3 fit on a phone screen). Desktop: full cards. */}
+        <div className="grid grid-cols-1 gap-3 md:hidden">
+          {paths.map((p) => (
+            <Link
+              key={p.to}
+              to={p.to}
+              className={`relative flex items-center gap-3 rounded-xl bg-card p-3.5 border ${p.featured ? "hairline" : "border-border"}`}
+            >
+              <div className="shrink-0 w-10 h-10 rounded-lg bg-gradient-gold flex items-center justify-center">
+                <p.icon className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground truncate">{p.tag}</p>
+                <h3 className="text-sm font-black leading-tight mt-0.5">{p.headline}</h3>
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{p.desc}</p>
+              </div>
+              <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+              {p.featured && (
+                <span className="absolute -top-2 right-3 text-[9px] uppercase tracking-widest bg-gradient-gold text-primary-foreground px-1.5 py-0.5 rounded-full font-semibold">
+                  Popular
+                </span>
+              )}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden md:grid md:grid-cols-3 gap-5">
           {paths.map((p, i) => (
             <Reveal key={p.to} delay={i * 120}>
               <Link

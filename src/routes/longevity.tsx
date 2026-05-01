@@ -210,7 +210,8 @@ function LongevityPage() {
 
         <Reveal>
           <div className="mt-10 rounded-2xl bg-card border border-border p-6 text-sm text-muted-foreground">
-            Already a member? <Link to="/auth" className="text-primary underline">Sign in</Link> first so this links to your dashboard.
+            Already enrolled? <Link to="/longevity/me" className="text-primary underline">Open your member home</Link> ·{" "}
+            <Link to="/auth" className="text-primary underline">Sign in</Link>
           </div>
         </Reveal>
       </div>

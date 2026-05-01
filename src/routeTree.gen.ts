@@ -18,6 +18,8 @@ import { Route as BohofitRouteImport } from './routes/bohofit'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LongevityMeRouteImport } from './routes/longevity.me'
+import { Route as FamilyTokenRouteImport } from './routes/family.$token'
 
 const LongevityRoute = LongevityRouteImport.update({
   id: '/longevity',
@@ -64,6 +66,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LongevityMeRoute = LongevityMeRouteImport.update({
+  id: '/me',
+  path: '/me',
+  getParentRoute: () => LongevityRoute,
+} as any)
+const FamilyTokenRoute = FamilyTokenRouteImport.update({
+  id: '/family/$token',
+  path: '/family/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -74,7 +86,9 @@ export interface FileRoutesByFullPath {
   '/bootcamp': typeof BootcampRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
-  '/longevity': typeof LongevityRoute
+  '/longevity': typeof LongevityRouteWithChildren
+  '/family/$token': typeof FamilyTokenRoute
+  '/longevity/me': typeof LongevityMeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,7 +99,9 @@ export interface FileRoutesByTo {
   '/bootcamp': typeof BootcampRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
-  '/longevity': typeof LongevityRoute
+  '/longevity': typeof LongevityRouteWithChildren
+  '/family/$token': typeof FamilyTokenRoute
+  '/longevity/me': typeof LongevityMeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,7 +113,9 @@ export interface FileRoutesById {
   '/bootcamp': typeof BootcampRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
-  '/longevity': typeof LongevityRoute
+  '/longevity': typeof LongevityRouteWithChildren
+  '/family/$token': typeof FamilyTokenRoute
+  '/longevity/me': typeof LongevityMeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +129,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/family/$token'
+    | '/longevity/me'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +142,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/family/$token'
+    | '/longevity/me'
   id:
     | '__root__'
     | '/'
@@ -133,6 +155,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/family/$token'
+    | '/longevity/me'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -144,7 +168,8 @@ export interface RootRouteChildren {
   BootcampRoute: typeof BootcampRoute
   DashboardRoute: typeof DashboardRoute
   DietRoute: typeof DietRoute
-  LongevityRoute: typeof LongevityRoute
+  LongevityRoute: typeof LongevityRouteWithChildren
+  FamilyTokenRoute: typeof FamilyTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -212,8 +237,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/longevity/me': {
+      id: '/longevity/me'
+      path: '/me'
+      fullPath: '/longevity/me'
+      preLoaderRoute: typeof LongevityMeRouteImport
+      parentRoute: typeof LongevityRoute
+    }
+    '/family/$token': {
+      id: '/family/$token'
+      path: '/family/$token'
+      fullPath: '/family/$token'
+      preLoaderRoute: typeof FamilyTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface LongevityRouteChildren {
+  LongevityMeRoute: typeof LongevityMeRoute
+}
+
+const LongevityRouteChildren: LongevityRouteChildren = {
+  LongevityMeRoute: LongevityMeRoute,
+}
+
+const LongevityRouteWithChildren = LongevityRoute._addFileChildren(
+  LongevityRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -224,7 +275,8 @@ const rootRouteChildren: RootRouteChildren = {
   BootcampRoute: BootcampRoute,
   DashboardRoute: DashboardRoute,
   DietRoute: DietRoute,
-  LongevityRoute: LongevityRoute,
+  LongevityRoute: LongevityRouteWithChildren,
+  FamilyTokenRoute: FamilyTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

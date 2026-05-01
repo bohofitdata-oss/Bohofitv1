@@ -1,111 +1,294 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { z } from "zod";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
-import { Check, ShieldCheck } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { SlotPicker } from "@/components/SlotPicker";
+import { EmergencyCTA } from "@/components/EmergencyCTA";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Check, ShieldCheck, Sparkles, Flame } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
     meta: [
       { title: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
-      { name: "description", content: "Lose 4–8 kg in 8 weeks. Structured training, daily diet, weekly check-ins. Designed for thyroid, PCOS, fatty liver, metabolic reset." },
+      { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 5 spots per slot. Pick your time, accept the rules, start 1st May." },
       { property: "og:title", content: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
     ],
   }),
   component: BootcampPage,
 });
 
+const TNC: { key: string; text: string }[] = [
+  { key: "duration", text: "I understand this is an 8-week program. I will show up for all 8 weeks." },
+  { key: "attendance", text: "I will come to every session — online or at the Bohofit centre. Coming is not optional." },
+  { key: "frequency", text: "I will train Monday to Saturday. That is 6 days every week, 1 hour each day." },
+  { key: "slot_lock", text: "Once 3 people pick the same time, that time is locked. New people must pick a different time." },
+  { key: "absence", text: "If I miss a session for a real reason like a long illness or accident, I will give the coach proper doctor papers. Without papers, my access will not be extended." },
+  { key: "food_photos", text: "I will upload a photo of every meal I eat through my member dashboard. Every day." },
+  { key: "guarantee", text: "Bohofit promises results only if I follow every single rule. If I skip the rules, I lose the guarantee." },
+  { key: "honesty", text: "I will tell my coach the truth about my food, sleep, and how I feel. No hiding things." },
+  { key: "tier", text: "I am picking the right plan for myself. If I need rehab help, I have chosen the Intensive plan." },
+  { key: "no_refund", text: "I understand the program fee is for the full 8 weeks. There are no refunds once the program starts." },
+];
+
+const schema = z.object({
+  full_name: z.string().trim().min(1).max(120),
+  phone: z.string().trim().min(6).max(20),
+  email: z.string().trim().email().max(255).optional().or(z.literal("")),
+  age: z.coerce.number().int().min(10).max(100).optional().or(z.nan()),
+  city: z.string().trim().max(80).optional().or(z.literal("")),
+  goal: z.string().trim().max(500).optional().or(z.literal("")),
+});
+
+const conditionsList = [
+  { key: "thyroid", label: "Thyroid" },
+  { key: "pcos", label: "PCOD / PCOS" },
+  { key: "fatty_liver", label: "Fatty liver" },
+  { key: "diabetes", label: "Diabetes" },
+  { key: "back_pain", label: "Back / knee pain" },
+  { key: "post_injury", label: "Post-injury rehab" },
+];
+
 function BootcampPage() {
+  const navigate = useNavigate();
+  const [tier, setTier] = useState<"standard" | "intensive">("standard");
+  const [mode, setMode] = useState<"offline" | "online">("offline");
+  const [primarySlot, setPrimarySlot] = useState<string | null>(null);
+  const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
+  const [conditions, setConditions] = useState<Record<string, boolean>>({});
+  const [needsRehab, setNeedsRehab] = useState(false);
+  const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
+
+  const submit = async (intent: "pay" | "consult", e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!primarySlot) {
+      toast.error("Pick a primary time slot");
+      return;
+    }
+    if (!allTncAccepted) {
+      toast.error("Please accept every term & condition");
+      return;
+    }
+    const fd = new FormData(e.currentTarget);
+    const parsed = schema.safeParse(Object.fromEntries(fd));
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Check the form");
+      return;
+    }
+    setLoading(true);
+    const { full_name, phone, email, age, city, goal } = parsed.data;
+    const { error } = await supabase.from("slot_bookings").insert({
+      full_name,
+      phone,
+      email: email || null,
+      age: Number.isNaN(age as number) ? null : (age as number),
+      city: city || null,
+      program: "bootcamp",
+      mode,
+      tier,
+      primary_slot_id: primarySlot,
+      secondary_slot_id: secondarySlot,
+      conditions: conditions as never,
+      needs_rehab: needsRehab,
+      tnc_accepted: tncChecked as never,
+      status: intent === "pay" ? "pending" : "consult_requested",
+      notes: goal || null,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error("Something went wrong. Please try again.");
+      return;
+    }
+    setSubmitted(true);
+  };
+
+  if (submitted) {
+    return (
+      <SiteShell>
+        <section className="container mx-auto max-w-xl px-5 py-24 text-center">
+          <Reveal>
+            <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
+              <Check className="w-7 h-7 text-primary-foreground" />
+            </div>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">Your bootcamp spot is reserved.</h1>
+            <p className="mt-3 text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
+            <div className="mt-8 flex justify-center gap-3">
+              <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
+              <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
+            </div>
+          </Reveal>
+        </section>
+      </SiteShell>
+    );
+  }
+
   return (
     <SiteShell>
-      <section className="container mx-auto px-5 pt-20 pb-12 text-center">
+      {/* HERO */}
+      <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 2 · Boho Bootcamp — 8-Week Transformation</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 2 · Boho Bootcamp — 8 weeks</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Lose 4–8 kg. Drop a size or two. Feel like yourself again. Guaranteed results — or we keep working with you free.
+            Online or at a Bohofit centre. Mon–Sat, 1 hour/day. 5 spots per time slot. Starts 1st May.
           </p>
-          <Button asChild size="lg" className="mt-8 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-            <Link to="/booking" search={{ path: "bootcamp" }}>Join the next batch</Link>
+        </Reveal>
+      </section>
+
+      <form onSubmit={(e) => e.preventDefault()} className="container mx-auto max-w-3xl px-5 pb-20">
+        {/* TIER */}
+        <Reveal>
+          <div className="mt-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1 · Pick your plan</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Standard or Intensive?</h2>
+            <p className="text-sm text-muted-foreground mt-1">Pick honestly. The Intensive plan includes rehab support.</p>
+          </div>
+        </Reveal>
+        <div className="mt-5 grid sm:grid-cols-2 gap-4">
+          <button type="button" onClick={() => setTier("standard")} className={cn("text-left rounded-2xl border bg-card p-5 transition", tier === "standard" ? "border-primary shadow-elegant" : "border-border hover:border-primary/60")}>
+            <Sparkles className="w-5 h-5 text-primary" />
+            <div className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">Standard</div>
+            <div className="text-3xl font-black">₹14,999</div>
+            <p className="mt-2 text-sm text-muted-foreground">For general transformation. No active injuries or chronic conditions.</p>
+          </button>
+          <button type="button" onClick={() => { setTier("intensive"); setNeedsRehab(true); }} className={cn("text-left rounded-2xl border bg-card p-5 transition", tier === "intensive" ? "border-primary shadow-elegant" : "border-border hover:border-primary/60")}>
+            <Flame className="w-5 h-5 text-primary" />
+            <div className="mt-3 text-xs uppercase tracking-widest text-muted-foreground">Intensive · with rehab</div>
+            <div className="text-3xl font-black">₹18,999</div>
+            <p className="mt-2 text-sm text-muted-foreground">For thyroid, PCOS, fatty liver, post-injury. Includes rehab protocol.</p>
+          </button>
+        </div>
+
+        {/* MODE */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Online or offline</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Where will you train?</h2>
+          </div>
+        </Reveal>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          {(["offline", "online"] as const).map((m) => (
+            <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
+              {m === "offline" ? "Offline (Bohofit centre)" : "Online (live with coach)"}
+            </button>
+          ))}
+        </div>
+
+        {/* CONDITIONS */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 3 · Tell us your body</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Any of these apply to you?</h2>
+            <p className="text-sm text-muted-foreground mt-1">So your coach can build the right plan.</p>
+          </div>
+        </Reveal>
+        <div className="mt-5 grid sm:grid-cols-3 gap-2">
+          {conditionsList.map((c) => (
+            <label key={c.key} className={cn("rounded-xl border bg-card p-3 text-sm cursor-pointer flex items-center gap-2", conditions[c.key] ? "border-primary bg-primary/10" : "border-border")}>
+              <Checkbox checked={!!conditions[c.key]} onCheckedChange={(v) => setConditions({ ...conditions, [c.key]: !!v })} />
+              {c.label}
+            </label>
+          ))}
+        </div>
+
+        {/* SLOT */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · Pick your time</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Choose your hour, Mon–Sat</h2>
+            <p className="text-sm text-muted-foreground mt-1">5 spots per slot. A slot locks once 3 people confirm — others move to the next slot.</p>
+          </div>
+        </Reveal>
+        <div className="mt-5 rounded-2xl border border-border bg-card p-5">
+          <SlotPicker program="bootcamp" primaryId={primarySlot} secondaryId={secondarySlot} onPrimary={setPrimarySlot} onSecondary={setSecondarySlot} />
+        </div>
+
+        {/* DETAILS */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 5 · Your details</p>
+          </div>
+        </Reveal>
+        <form onSubmit={(e) => submit("pay", e)} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5" id="bootcamp-form">
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
+            <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" maxLength={255} className="mt-1" /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" min={10} max={100} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" maxLength={80} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" /></div>
+          </div>
+        </form>
+
+        {/* T&C */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 6 · The rules</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">Read every rule. Tick every box.</h2>
+            <p className="text-sm text-muted-foreground mt-1">This is a guaranteed program — only if you follow every single rule. No skipping.</p>
+          </div>
+        </Reveal>
+        <div className="mt-5 rounded-2xl border border-border bg-card p-5 space-y-3">
+          {TNC.map((t, i) => (
+            <label key={t.key} className={cn("flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
+              <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
+              <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
+            </label>
+          ))}
+        </div>
+
+        {/* CTAS */}
+        <div className="mt-8 grid sm:grid-cols-2 gap-3">
+          <Button
+            type="button"
+            size="lg"
+            disabled={loading}
+            onClick={() => {
+              const formEl = document.getElementById("bootcamp-form") as HTMLFormElement | null;
+              if (formEl) submit("pay", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
+            }}
+            className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
+          >
+            <ShieldCheck className="w-4 h-4 mr-2" /> Reserve my spot — Pay later
           </Button>
-        </Reveal>
-      </section>
-
-      <section className="container mx-auto px-5 py-12">
-        <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-8">What you get</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-2 gap-4">
-          {[
-            ["Structured 8-week training", "3–4 sessions per week, machine-free, scaled to you."],
-            ["Daily personalized diet", "Indian meals, your goals, no boring chicken-broccoli."],
-            ["Weekly check-ins", "Photos, weight, measurements, energy. We adjust as you go."],
-            ["Lifestyle correction", "Sleep, water, walk steps, stress. The boring stuff that actually moves the needle."],
-          ].map(([t, d]) => (
-            <div key={t} className="rounded-xl border border-border bg-card p-5">
-              <div className="font-bold">{t}</div>
-              <p className="text-sm text-muted-foreground mt-1">{d}</p>
-            </div>
-          ))}
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            disabled={loading}
+            onClick={() => {
+              const formEl = document.getElementById("bootcamp-form") as HTMLFormElement | null;
+              if (formEl) submit("consult", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
+            }}
+          >
+            Talk to a coach first
+          </Button>
         </div>
-      </section>
+        <p className="mt-3 text-xs text-muted-foreground text-center">Reserving doesn&rsquo;t charge you. We&rsquo;ll call within 24 hours to confirm payment.</p>
 
-      <section className="container mx-auto px-5 py-12">
-        <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-6">Built for these conditions</h2>
-        </Reveal>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {["Thyroid", "PCOD / PCOS", "Fatty liver", "Metabolic reset"].map((c) => (
-            <div key={c} className="rounded-xl border border-border bg-card p-4 text-center font-semibold">
-              {c}
-            </div>
-          ))}
-        </div>
-      </section>
+        <EmergencyCTA />
 
-      <section className="container mx-auto px-5 py-16">
         <Reveal>
-          <div className="rounded-2xl bg-card border border-border p-8 md:p-12 hairline shadow-elegant">
-            <div className="flex items-start gap-4">
-              <ShieldCheck className="w-8 h-8 text-primary shrink-0" />
-              <div>
-                <p className="text-xs uppercase tracking-[0.18em] text-primary">The Bohofit promise</p>
-                <h3 className="mt-2 text-2xl md:text-3xl font-black">Visible transformation in 8 weeks &mdash; or your next month is on us.</h3>
-                <p className="mt-3 text-muted-foreground">Conditions: 90% session attendance, daily diet logs, weekly check-ins. Show up. We&rsquo;ll deliver the result.</p>
-              </div>
-            </div>
+          <div className="mt-10 rounded-2xl bg-card border border-border p-6 text-sm text-muted-foreground">
+            <p className="font-bold text-foreground">Already on the way?</p>
+            <p className="mt-1">If you have a returning member account, <Link to="/auth" className="text-primary underline">sign in</Link> first so this booking links to your dashboard.</p>
           </div>
         </Reveal>
-      </section>
-
-      <section className="container mx-auto px-5 py-12">
-        <div className="grid md:grid-cols-2 gap-6 items-center">
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Pricing</p>
-            <h3 className="text-3xl font-black mt-2">8 weeks · ₹18,999</h3>
-            <p className="text-muted-foreground mt-2">Includes training, diet, check-ins, and Bohofit class access.</p>
-            <ul className="mt-5 space-y-2">
-              {["Small batch (max 20)", "Real coach, real attention", "Pay once. No surprise add-ons."].map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm"><Check className="w-4 h-4 text-primary mt-0.5" />{b}</li>
-              ))}
-            </ul>
-            <Button asChild size="lg" className="mt-6 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-              <Link to="/booking" search={{ path: "bootcamp" }}>Book my spot</Link>
-            </Button>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-8">
-            <div className="text-sm text-muted-foreground">Next batch starts</div>
-            <div className="text-4xl font-black text-gradient-gold mt-1">In a week</div>
-            <div className="text-sm text-muted-foreground mt-1">Mon / Wed / Fri · 6:30 AM &amp; 7:00 PM</div>
-            <div className="mt-6 flex items-center gap-2">
-              <div className="text-3xl font-black">12</div>
-              <div className="text-sm text-muted-foreground">spots left of 20</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      </form>
     </SiteShell>
   );
 }

@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Activity, CalendarCheck, Salad, Settings, ShieldCheck } from "lucide-react";
+import { Activity, CalendarCheck, Salad, Settings, ShieldCheck, Camera, Upload } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Your dashboard — Bohofit" }] }),
@@ -15,6 +15,7 @@ export const Route = createFileRoute("/dashboard")({
 
 type Profile = { full_name: string | null; phone: string | null; age: number | null; city: string | null };
 type ProgressLog = { id: string; log_date: string; weight_kg: number | null; attended: boolean | null; notes: string | null };
+type FoodLog = { id: string; image_path: string; meal_type: string | null; logged_at: string; signedUrl?: string };
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -25,6 +26,9 @@ function DashboardPage() {
   const [weight, setWeight] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+  const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
+  const [uploadingFood, setUploadingFood] = useState(false);
+  const [mealType, setMealType] = useState("");
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -40,14 +44,24 @@ function DashboardPage() {
       setUserId(uid);
       setEmail(data.session.user.email ?? "");
 
-      const [{ data: p }, { data: l }, { data: r }] = await Promise.all([
+      const [{ data: p }, { data: l }, { data: r }, { data: f }] = await Promise.all([
         supabase.from("profiles").select("full_name, phone, age, city").eq("id", uid).maybeSingle(),
         supabase.from("progress_logs").select("id, log_date, weight_kg, attended, notes").eq("user_id", uid).order("log_date", { ascending: false }).limit(10),
         supabase.from("user_roles").select("role").eq("user_id", uid),
+        supabase.from("food_logs").select("id, image_path, meal_type, logged_at").eq("user_id", uid).order("logged_at", { ascending: false }).limit(12),
       ]);
       if (p) setProfile({ full_name: p.full_name ?? "", phone: p.phone ?? "", age: p.age, city: p.city ?? "" });
       if (l) setLogs(l);
       if (r) setIsAdmin(r.some((x) => x.role === "admin"));
+      if (f && f.length) {
+        const signed = await Promise.all(
+          f.map(async (row) => {
+            const { data: s } = await supabase.storage.from("food-photos").createSignedUrl(row.image_path, 3600);
+            return { ...row, signedUrl: s?.signedUrl } as FoodLog;
+          }),
+        );
+        setFoodLogs(signed);
+      }
     })();
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
@@ -82,6 +96,34 @@ function DashboardPage() {
     setLogs((l) => [data as ProgressLog, ...l]);
     setWeight("");
     toast.success("Logged");
+  };
+
+  const uploadFoodPhoto = async (file: File) => {
+    if (!userId) return;
+    if (!file.type.startsWith("image/")) return toast.error("Please pick an image");
+    if (file.size > 5 * 1024 * 1024) return toast.error("Image must be under 5 MB");
+    setUploadingFood(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${userId}/${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage.from("food-photos").upload(path, file, { upsert: false });
+    if (upErr) {
+      setUploadingFood(false);
+      return toast.error(upErr.message);
+    }
+    const { data, error } = await supabase
+      .from("food_logs")
+      .insert({ user_id: userId, image_path: path, meal_type: mealType || null })
+      .select("id, image_path, meal_type, logged_at")
+      .single();
+    if (error) {
+      setUploadingFood(false);
+      return toast.error(error.message);
+    }
+    const { data: signed } = await supabase.storage.from("food-photos").createSignedUrl(path, 3600);
+    setFoodLogs((prev) => [{ ...(data as FoodLog), signedUrl: signed?.signedUrl }, ...prev]);
+    setMealType("");
+    setUploadingFood(false);
+    toast.success("Food photo logged");
   };
 
   const signOut = async () => {
@@ -173,6 +215,50 @@ function DashboardPage() {
               )}
             </div>
           </div>
+        </div>
+
+        {/* DAILY FOOD LOG */}
+        <div className="mt-8 rounded-2xl border border-border bg-card p-6">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2">
+              <Camera className="w-5 h-5 text-primary" />
+              <h3 className="font-bold">Daily food log</h3>
+            </div>
+            <p className="text-xs text-muted-foreground">Bootcamp members: upload a photo of every meal you eat.</p>
+          </div>
+          <div className="mt-4 grid sm:grid-cols-[1fr_auto] gap-2 items-end">
+            <div>
+              <Label htmlFor="meal_type" className="text-xs">Meal (optional)</Label>
+              <Input id="meal_type" placeholder="Breakfast, lunch, snack…" value={mealType} onChange={(e) => setMealType(e.target.value)} maxLength={40} className="mt-1" />
+            </div>
+            <label className={`inline-flex items-center justify-center gap-2 rounded-md bg-gradient-gold text-primary-foreground px-4 h-10 font-semibold cursor-pointer ${uploadingFood ? "opacity-60" : "hover:opacity-90"}`}>
+              <Upload className="w-4 h-4" />
+              {uploadingFood ? "Uploading…" : "Upload photo"}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={uploadingFood}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) uploadFoodPhoto(f);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+          </div>
+          {foodLogs.length === 0 ? (
+            <p className="mt-5 text-sm text-muted-foreground">No food photos yet. Upload your first meal above.</p>
+          ) : (
+            <div className="mt-5 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+              {foodLogs.map((f) => (
+                <div key={f.id} className="aspect-square rounded-lg overflow-hidden bg-muted relative">
+                  {f.signedUrl && <img src={f.signedUrl} alt={f.meal_type ?? "Meal"} className="w-full h-full object-cover" loading="lazy" />}
+                  {f.meal_type && <span className="absolute bottom-1 left-1 right-1 text-[10px] bg-background/80 rounded px-1 py-0.5 truncate">{f.meal_type}</span>}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </SiteShell>

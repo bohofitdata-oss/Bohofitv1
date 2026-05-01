@@ -14,16 +14,300 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      batches: {
+        Row: {
+          capacity: number
+          created_at: string
+          id: string
+          program_id: string
+          schedule: string | null
+          spots_left: number
+          start_date: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          id?: string
+          program_id: string
+          schedule?: string | null
+          spots_left?: number
+          start_date: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          id?: string
+          program_id?: string
+          schedule?: string | null
+          spots_left?: number
+          start_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "batches_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      diet_plans: {
+        Row: {
+          created_at: string
+          goal: string | null
+          id: string
+          meals: Json
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          goal?: string | null
+          id?: string
+          meals?: Json
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          goal?: string | null
+          id?: string
+          meals?: Json
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          age: number | null
+          city: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          goal: string | null
+          id: string
+          notes: string | null
+          path: Database["public"]["Enums"]["path_choice"]
+          phone: string
+          status: string
+        }
+        Insert: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name: string
+          goal?: string | null
+          id?: string
+          notes?: string | null
+          path: Database["public"]["Enums"]["path_choice"]
+          phone: string
+          status?: string
+        }
+        Update: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          goal?: string | null
+          id?: string
+          notes?: string | null
+          path?: Database["public"]["Enums"]["path_choice"]
+          phone?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          age: number | null
+          city: string | null
+          created_at: string
+          full_name: string | null
+          goal_path: Database["public"]["Enums"]["path_choice"] | null
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          goal_path?: Database["public"]["Enums"]["path_choice"] | null
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          goal_path?: Database["public"]["Enums"]["path_choice"] | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      programs: {
+        Row: {
+          active: boolean
+          created_at: string
+          description: string | null
+          duration_weeks: number | null
+          id: string
+          path: Database["public"]["Enums"]["path_choice"]
+          price_inr: number | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          duration_weeks?: number | null
+          id?: string
+          path: Database["public"]["Enums"]["path_choice"]
+          price_inr?: number | null
+          slug: string
+          title: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          description?: string | null
+          duration_weeks?: number | null
+          id?: string
+          path?: Database["public"]["Enums"]["path_choice"]
+          price_inr?: number | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      progress_logs: {
+        Row: {
+          attended: boolean | null
+          created_at: string
+          id: string
+          log_date: string
+          notes: string | null
+          user_id: string
+          weight_kg: number | null
+        }
+        Insert: {
+          attended?: boolean | null
+          created_at?: string
+          id?: string
+          log_date?: string
+          notes?: string | null
+          user_id: string
+          weight_kg?: number | null
+        }
+        Update: {
+          attended?: boolean | null
+          created_at?: string
+          id?: string
+          log_date?: string
+          notes?: string | null
+          user_id?: string
+          weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          batch_id: string | null
+          created_at: string
+          end_date: string | null
+          id: string
+          program_id: string | null
+          start_date: string | null
+          status: string
+          user_id: string
+        }
+        Insert: {
+          batch_id?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          program_id?: string | null
+          start_date?: string | null
+          status?: string
+          user_id: string
+        }
+        Update: {
+          batch_id?: string | null
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          program_id?: string | null
+          start_date?: string | null
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "subscriptions_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "coach" | "member"
+      path_choice: "bohofit" | "bootcamp" | "longevity"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +434,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "coach", "member"],
+      path_choice: ["bohofit", "bootcamp", "longevity"],
+    },
   },
 } as const

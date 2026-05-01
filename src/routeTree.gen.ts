@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LongevityRouteImport } from './routes/longevity'
+import { Route as DietRouteImport } from './routes/diet'
+import { Route as BootcampRouteImport } from './routes/bootcamp'
+import { Route as BohofitRouteImport } from './routes/bohofit'
 import { Route as IndexRouteImport } from './routes/index'
 
+const LongevityRoute = LongevityRouteImport.update({
+  id: '/longevity',
+  path: '/longevity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DietRoute = DietRouteImport.update({
+  id: '/diet',
+  path: '/diet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BootcampRoute = BootcampRouteImport.update({
+  id: '/bootcamp',
+  path: '/bootcamp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BohofitRoute = BohofitRouteImport.update({
+  id: '/bohofit',
+  path: '/bohofit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bohofit': typeof BohofitRoute
+  '/bootcamp': typeof BootcampRoute
+  '/diet': typeof DietRoute
+  '/longevity': typeof LongevityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bohofit': typeof BohofitRoute
+  '/bootcamp': typeof BootcampRoute
+  '/diet': typeof DietRoute
+  '/longevity': typeof LongevityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bohofit': typeof BohofitRoute
+  '/bootcamp': typeof BootcampRoute
+  '/diet': typeof DietRoute
+  '/longevity': typeof LongevityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/bohofit' | '/bootcamp' | '/diet' | '/longevity'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/bohofit' | '/bootcamp' | '/diet' | '/longevity'
+  id: '__root__' | '/' | '/bohofit' | '/bootcamp' | '/diet' | '/longevity'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BohofitRoute: typeof BohofitRoute
+  BootcampRoute: typeof BootcampRoute
+  DietRoute: typeof DietRoute
+  LongevityRoute: typeof LongevityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/longevity': {
+      id: '/longevity'
+      path: '/longevity'
+      fullPath: '/longevity'
+      preLoaderRoute: typeof LongevityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diet': {
+      id: '/diet'
+      path: '/diet'
+      fullPath: '/diet'
+      preLoaderRoute: typeof DietRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bootcamp': {
+      id: '/bootcamp'
+      path: '/bootcamp'
+      fullPath: '/bootcamp'
+      preLoaderRoute: typeof BootcampRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bohofit': {
+      id: '/bohofit'
+      path: '/bohofit'
+      fullPath: '/bohofit'
+      preLoaderRoute: typeof BohofitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +121,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BohofitRoute: BohofitRoute,
+  BootcampRoute: BootcampRoute,
+  DietRoute: DietRoute,
+  LongevityRoute: LongevityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

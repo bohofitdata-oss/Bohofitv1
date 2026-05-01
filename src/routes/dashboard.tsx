@@ -15,6 +15,7 @@ export const Route = createFileRoute("/dashboard")({
 
 type Profile = { full_name: string | null; phone: string | null; age: number | null; city: string | null };
 type ProgressLog = { id: string; log_date: string; weight_kg: number | null; attended: boolean | null; notes: string | null };
+type FoodLog = { id: string; image_path: string; meal_type: string | null; logged_at: string; signedUrl?: string };
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -25,6 +26,9 @@ function DashboardPage() {
   const [weight, setWeight] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
+  const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
+  const [uploadingFood, setUploadingFood] = useState(false);
+  const [mealType, setMealType] = useState("");
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {

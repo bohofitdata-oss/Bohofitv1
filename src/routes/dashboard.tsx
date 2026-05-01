@@ -98,6 +98,34 @@ function DashboardPage() {
     toast.success("Logged");
   };
 
+  const uploadFoodPhoto = async (file: File) => {
+    if (!userId) return;
+    if (!file.type.startsWith("image/")) return toast.error("Please pick an image");
+    if (file.size > 5 * 1024 * 1024) return toast.error("Image must be under 5 MB");
+    setUploadingFood(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${userId}/${Date.now()}.${ext}`;
+    const { error: upErr } = await supabase.storage.from("food-photos").upload(path, file, { upsert: false });
+    if (upErr) {
+      setUploadingFood(false);
+      return toast.error(upErr.message);
+    }
+    const { data, error } = await supabase
+      .from("food_logs")
+      .insert({ user_id: userId, image_path: path, meal_type: mealType || null })
+      .select("id, image_path, meal_type, logged_at")
+      .single();
+    if (error) {
+      setUploadingFood(false);
+      return toast.error(error.message);
+    }
+    const { data: signed } = await supabase.storage.from("food-photos").createSignedUrl(path, 3600);
+    setFoodLogs((prev) => [{ ...(data as FoodLog), signedUrl: signed?.signedUrl }, ...prev]);
+    setMealType("");
+    setUploadingFood(false);
+    toast.success("Food photo logged");
+  };
+
   const signOut = async () => {
     await supabase.auth.signOut();
     navigate({ to: "/" });

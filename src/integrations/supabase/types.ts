@@ -151,6 +151,177 @@ export type Database = {
         }
         Relationships: []
       }
+      longevity_checkins: {
+        Row: {
+          created_at: string
+          energy: number
+          id: string
+          member_id: string
+          note: string | null
+          pain_level: number
+          pain_part: string | null
+          sleep: number
+        }
+        Insert: {
+          created_at?: string
+          energy: number
+          id?: string
+          member_id: string
+          note?: string | null
+          pain_level: number
+          pain_part?: string | null
+          sleep: number
+        }
+        Update: {
+          created_at?: string
+          energy?: number
+          id?: string
+          member_id?: string
+          note?: string | null
+          pain_level?: number
+          pain_part?: string | null
+          sleep?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "longevity_checkins_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "longevity_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      longevity_members: {
+        Row: {
+          created_at: string
+          family_name: string | null
+          family_phone: string | null
+          family_share_token: string | null
+          first_name: string
+          id: string
+          next_session_at: string | null
+          program_name: string
+          sessions_completed: number
+          sessions_total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          family_name?: string | null
+          family_phone?: string | null
+          family_share_token?: string | null
+          first_name: string
+          id?: string
+          next_session_at?: string | null
+          program_name?: string
+          sessions_completed?: number
+          sessions_total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          family_name?: string | null
+          family_phone?: string | null
+          family_share_token?: string | null
+          first_name?: string
+          id?: string
+          next_session_at?: string | null
+          program_name?: string
+          sessions_completed?: number
+          sessions_total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      longevity_milestones: {
+        Row: {
+          id: string
+          member_id: string
+          more_energy: boolean
+          sit_stand: boolean
+          sleep_better: boolean
+          stairs: boolean
+          stronger: boolean
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          member_id: string
+          more_energy?: boolean
+          sit_stand?: boolean
+          sleep_better?: boolean
+          stairs?: boolean
+          stronger?: boolean
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          member_id?: string
+          more_energy?: boolean
+          sit_stand?: boolean
+          sleep_better?: boolean
+          stairs?: boolean
+          stronger?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "longevity_milestones_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: true
+            referencedRelation: "longevity_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      longevity_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          modification: string | null
+          observation: string | null
+          session_date: string
+          session_number: number
+          share_with_family: boolean
+          workout: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          modification?: string | null
+          observation?: string | null
+          session_date?: string
+          session_number: number
+          share_with_family?: boolean
+          workout?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          modification?: string | null
+          observation?: string | null
+          session_date?: string
+          session_number?: number
+          share_with_family?: boolean
+          workout?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "longevity_sessions_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "longevity_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age: number | null
@@ -435,6 +606,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_family_progress: { Args: { _token: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

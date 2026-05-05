@@ -268,6 +268,12 @@ function DashboardPage() {
             </div>
           )}
         </div>
+
+        {userId && (
+          <div className="mt-8">
+            <MedicalHistoryCard userId={userId} />
+          </div>
+        )}
       </section>
     </SiteShell>
   );

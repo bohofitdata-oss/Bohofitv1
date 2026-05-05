@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Dumbbell, HeartPulse, Sparkles, Star } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
+import { JourneyRoadmap } from "@/components/JourneyRoadmap";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -74,7 +75,7 @@ function Home() {
                 <a href="#paths">Choose your path <ArrowRight className="ml-1 w-4 h-4" /></a>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <Link to="/booking">Talk to a coach</Link>
+                <Link to="/booking">Speak with us</Link>
               </Button>
             </div>
           </Reveal>
@@ -162,7 +163,7 @@ function Home() {
             { n: "01", t: "Choose your path", d: "Pick the program built for your goal." },
             { n: "02", t: "Tell us a bit", d: "A 60-second form. No medical jargon." },
             { n: "03", t: "Get your plan", d: "We share the plan, schedule, and price." },
-            { n: "04", t: "Book or consult", d: "Start training. Or talk to a coach first." },
+            { n: "04", t: "Book or consult", d: "Start training. Or speak with us first." },
           ].map((s, i) => (
             <Reveal key={s.n} delay={i * 100}>
               <div className="rounded-2xl border border-border bg-card p-6 h-full">

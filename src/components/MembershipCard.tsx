@@ -73,7 +73,7 @@ export function MembershipCard({ userId }: { userId: string }) {
       _membership_id: m.id,
       _start: start,
       _days: d,
-      _reason: reason || null,
+      _reason: reason || undefined,
     });
     setPausing(false);
     if (error) return toast.error(error.message);

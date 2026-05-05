@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Activity, CalendarCheck, Salad, Settings, ShieldCheck, Camera, Upload } from "lucide-react";
+import { MembershipCard } from "@/components/MembershipCard";
+import { MedicalHistoryCard } from "@/components/MedicalHistoryCard";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Your dashboard — Bohofit" }] }),
@@ -148,6 +150,12 @@ function DashboardPage() {
             <Button onClick={signOut} variant="ghost" size="sm">Sign out</Button>
           </div>
         </div>
+
+        {userId && (
+          <div className="mt-8 space-y-5">
+            <MembershipCard userId={userId} />
+          </div>
+        )}
 
         <div className="mt-8 grid md:grid-cols-3 gap-5">
           <div className="rounded-2xl border border-border bg-card p-5 text-center">

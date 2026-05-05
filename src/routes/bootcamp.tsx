@@ -12,6 +12,7 @@ import { SlotPicker } from "@/components/SlotPicker";
 import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Check, ShieldCheck, Sparkles, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -139,12 +140,13 @@ function BootcampPage() {
       {/* HERO */}
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 2 · Boho Bootcamp — 8 weeks</p>
+          <div className="flex justify-center mb-4"><ProgramSwitcher current="bootcamp" /></div>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Boho Bootcamp — 8 weeks</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Online or at a Bohofit centre. Mon–Sat, 1 hour/day. 5 spots per time slot. Starts 1st May.
+            Studio, online, or at home with a coach. Mon–Sat, 1 hour/day. 5 spots per time slot.
           </p>
         </Reveal>
       </section>
@@ -275,7 +277,7 @@ function BootcampPage() {
               if (formEl) submit("consult", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
             }}
           >
-            Talk to a coach first
+            Speak with us first
           </Button>
         </div>
         <p className="mt-3 text-xs text-muted-foreground text-center">Reserving doesn&rsquo;t charge you. We&rsquo;ll call within 24 hours to confirm payment.</p>

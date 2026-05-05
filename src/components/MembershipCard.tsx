@@ -42,7 +42,7 @@ export function MembershipCard({ userId }: { userId: string }) {
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
-    setM(data);
+    setM((data as Membership) ?? null);
     setLoading(false);
   };
   useEffect(() => {

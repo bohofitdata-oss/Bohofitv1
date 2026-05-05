@@ -150,6 +150,9 @@ function Home() {
         </div>
       </section>
 
+      {/* JOURNEY ROADMAP */}
+      <JourneyRoadmap />
+
       {/* HOW IT WORKS */}
       <section className="container mx-auto px-5 py-16 md:py-24">
         <Reveal>

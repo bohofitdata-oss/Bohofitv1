@@ -32,7 +32,7 @@ export function SiteHeader() {
             <Button asChild variant="ghost" size="sm"><Link to="/auth">Sign in</Link></Button>
           )}
           <Button asChild size="sm" className="bg-gradient-gold text-primary-foreground hover:opacity-90 border-0">
-            <Link to="/booking">Book a call</Link>
+            <Link to="/booking">Speak with us</Link>
           </Button>
         </div>
       </div>

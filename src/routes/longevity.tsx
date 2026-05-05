@@ -12,6 +12,7 @@ import { SlotPicker } from "@/components/SlotPicker";
 import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Check, HeartPulse } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -105,12 +106,13 @@ function LongevityPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Path 3 · Boho at 50+ · 1:1</p>
+          <div className="flex justify-center mb-4"><ProgramSwitcher current="longevity" /></div>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Bohofit at 50+ · 1:1</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Move pain-free. <span className="text-gradient-gold">Age strong.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            One coach. One client. Online or at a Bohofit centre. Mon–Sat, 1 hour/day.
+            One coach. One client. Studio, online, or at home. Mon–Sat, 1 hour/day.
           </p>
           <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm">
             <HeartPulse className="w-4 h-4 text-primary" /> ₹29,999 / 12 weeks · 1:1

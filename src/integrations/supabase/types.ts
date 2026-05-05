@@ -322,6 +322,122 @@ export type Database = {
           },
         ]
       }
+      medical_history: {
+        Row: {
+          attachments: Json
+          conditions: Json
+          created_at: string
+          id: string
+          notes: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attachments?: Json
+          conditions?: Json
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attachments?: Json
+          conditions?: Json
+          created_at?: string
+          id?: string
+          notes?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      membership_pauses: {
+        Row: {
+          created_at: string
+          days: number
+          id: string
+          membership_id: string
+          pause_end: string
+          pause_start: string
+          reason: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          days: number
+          id?: string
+          membership_id: string
+          pause_end: string
+          pause_start: string
+          reason?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          days?: number
+          id?: string
+          membership_id?: string
+          pause_end?: string
+          pause_start?: string
+          reason?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "membership_pauses_membership_id_fkey"
+            columns: ["membership_id"]
+            isOneToOne: false
+            referencedRelation: "memberships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      memberships: {
+        Row: {
+          created_at: string
+          delivery: string
+          end_date: string
+          id: string
+          pause_balance_days: number
+          price_inr: number
+          program: string
+          start_date: string
+          status: string
+          tier: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          delivery?: string
+          end_date: string
+          id?: string
+          pause_balance_days?: number
+          price_inr?: number
+          program: string
+          start_date?: string
+          status?: string
+          tier: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          delivery?: string
+          end_date?: string
+          id?: string
+          pause_balance_days?: number
+          price_inr?: number
+          program?: string
+          start_date?: string
+          status?: string
+          tier?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
@@ -613,6 +729,30 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      request_membership_pause: {
+        Args: {
+          _days: number
+          _membership_id: string
+          _reason?: string
+          _start: string
+        }
+        Returns: {
+          created_at: string
+          days: number
+          id: string
+          membership_id: string
+          pause_end: string
+          pause_start: string
+          reason: string | null
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "membership_pauses"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
     }
     Enums: {

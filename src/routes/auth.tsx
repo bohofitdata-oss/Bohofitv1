@@ -5,25 +5,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
+import { Mail, Phone } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Bohofit" },
-      { name: "description", content: "Sign in or create your Bohofit account." },
+      { name: "description", content: "Sign in to your Bohofit account with Google, email or your mobile number." },
     ],
   }),
   component: AuthPage,
 });
 
+type Method = "email" | "phone";
+
 function AuthPage() {
   const navigate = useNavigate();
+  const [method, setMethod] = useState<Method>("email");
   const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [loading, setLoading] = useState(false);
+
+  // email
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  // phone
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -35,7 +48,19 @@ function AuthPage() {
     return () => sub.subscription.unsubscribe();
   }, [navigate]);
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onGoogle = async () => {
+    setLoading(true);
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin + "/dashboard",
+    });
+    if (result.error) {
+      setLoading(false);
+      toast.error(result.error.message ?? "Could not sign in with Google");
+    }
+    // if redirected, browser navigates away
+  };
+
+  const onEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     if (mode === "signup") {
@@ -57,6 +82,38 @@ function AuthPage() {
     }
   };
 
+  const formatPhone = (raw: string) => {
+    const digits = raw.replace(/\D/g, "");
+    if (raw.startsWith("+")) return "+" + digits;
+    if (digits.length === 10) return "+91" + digits;
+    return "+" + digits;
+  };
+
+  const sendOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOtp({
+      phone: formatPhone(phone),
+      options: { channel: "sms" },
+    });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+    setOtpSent(true);
+    toast.success("OTP sent — check your phone");
+  };
+
+  const verifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.verifyOtp({
+      phone: formatPhone(phone),
+      token: otp.trim(),
+      type: "sms",
+    });
+    setLoading(false);
+    if (error) return toast.error(error.message);
+  };
+
   return (
     <SiteShell>
       <section className="container mx-auto max-w-md px-5 py-16">
@@ -66,35 +123,137 @@ function AuthPage() {
             {mode === "signup" ? "Start your Bohofit journey." : "Sign in to your dashboard."}
           </p>
 
-          <form onSubmit={onSubmit} className="mt-6 space-y-4">
-            {mode === "signup" && (
-              <div>
-                <Label htmlFor="name">Full name</Label>
-                <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} maxLength={120} className="mt-1" />
-              </div>
-            )}
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1" />
-            </div>
-            <div>
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1" />
-            </div>
-            <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-              {loading ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
-            </Button>
-          </form>
-
-          <button
+          {/* Google */}
+          <Button
             type="button"
-            onClick={() => setMode((m) => (m === "signin" ? "signup" : "signin"))}
-            className="mt-5 text-sm text-muted-foreground hover:text-foreground w-full text-center"
+            onClick={onGoogle}
+            disabled={loading}
+            variant="outline"
+            className="w-full mt-6 h-11"
           >
-            {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
-          </button>
+            <GoogleIcon className="w-4 h-4 mr-2" /> Continue with Google
+          </Button>
+
+          <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-widest text-muted-foreground">
+            <span className="flex-1 h-px bg-border" /> or <span className="flex-1 h-px bg-border" />
+          </div>
+
+          {/* Method toggle */}
+          <div className="grid grid-cols-2 gap-2">
+            {(
+              [
+                { k: "email" as const, label: "Email", icon: Mail },
+                { k: "phone" as const, label: "Phone OTP", icon: Phone },
+              ]
+            ).map((m) => (
+              <button
+                key={m.k}
+                type="button"
+                onClick={() => {
+                  setMethod(m.k);
+                  setOtpSent(false);
+                }}
+                className={cn(
+                  "rounded-lg border py-2 text-sm font-semibold inline-flex items-center justify-center gap-2 transition",
+                  method === m.k
+                    ? "border-primary bg-primary/10"
+                    : "border-border bg-card hover:border-primary/50",
+                )}
+              >
+                <m.icon className="w-4 h-4 text-primary" /> {m.label}
+              </button>
+            ))}
+          </div>
+
+          {method === "email" ? (
+            <form onSubmit={onEmailSubmit} className="mt-5 space-y-4">
+              {mode === "signup" && (
+                <div>
+                  <Label htmlFor="name">Full name</Label>
+                  <Input id="name" required value={name} onChange={(e) => setName(e.target.value)} maxLength={120} className="mt-1" />
+                </div>
+              )}
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1" />
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1" />
+              </div>
+              <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
+                {loading ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
+              </Button>
+
+              <button
+                type="button"
+                onClick={() => setMode((m) => (m === "signin" ? "signup" : "signin"))}
+                className="text-sm text-muted-foreground hover:text-foreground w-full text-center"
+              >
+                {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={otpSent ? verifyOtp : sendOtp} className="mt-5 space-y-4">
+              <div>
+                <Label htmlFor="phone">Mobile number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="+91 98XXXXXXXX"
+                  disabled={otpSent}
+                  className="mt-1"
+                />
+                <p className="mt-1 text-[11px] text-muted-foreground">We&rsquo;ll send a one-time code over SMS.</p>
+              </div>
+
+              {otpSent && (
+                <div>
+                  <Label htmlFor="otp">Enter OTP</Label>
+                  <Input
+                    id="otp"
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    required
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    maxLength={8}
+                    className="mt-1 tracking-[0.4em] text-center"
+                  />
+                </div>
+              )}
+
+              <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
+                {loading ? "Please wait…" : otpSent ? "Verify & sign in" : "Send OTP"}
+              </Button>
+
+              {otpSent && (
+                <button
+                  type="button"
+                  onClick={() => setOtpSent(false)}
+                  className="text-sm text-muted-foreground hover:text-foreground w-full text-center"
+                >
+                  Use a different number
+                </button>
+              )}
+            </form>
+          )}
         </div>
       </section>
     </SiteShell>
+  );
+}
+
+function GoogleIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="#EA4335"
+        d="M12 10.2v3.9h5.5c-.24 1.4-1.65 4.1-5.5 4.1-3.31 0-6-2.74-6-6.1s2.69-6.1 6-6.1c1.88 0 3.14.8 3.86 1.49l2.63-2.53C16.83 3.36 14.66 2.4 12 2.4 6.81 2.4 2.6 6.6 2.6 11.8s4.21 9.4 9.4 9.4c5.43 0 9.02-3.81 9.02-9.18 0-.62-.07-1.09-.16-1.56H12z"
+      />
+    </svg>
   );
 }

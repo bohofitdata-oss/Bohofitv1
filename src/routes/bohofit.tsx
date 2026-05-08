@@ -6,6 +6,8 @@ import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Flame, Infinity as InfinityIcon, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { GeneralFitnessTerms, allGeneralTermsAccepted } from "@/components/GeneralFitnessTerms";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
@@ -50,7 +52,9 @@ const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.Compone
 
 function BohofitPage() {
   const [tab, setTab] = useState<Tab>("start");
+  const [terms, setTerms] = useState<Record<string, boolean>>({});
   const meta = TAB_META[tab];
+  const accepted = allGeneralTermsAccepted(terms);
 
   return (
     <SiteShell>
@@ -131,12 +135,33 @@ function BohofitPage() {
                   </li>
                 ))}
               </ul>
-              <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-                <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
+              <Button
+                asChild={accepted}
+                disabled={!accepted}
+                onClick={() => { if (!accepted) toast.error("Please accept all terms below to continue"); }}
+                className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90 disabled:opacity-50"
+              >
+                {accepted ? (
+                  <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
+                ) : (
+                  <span>Accept terms to continue</span>
+                )}
               </Button>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* TERMS & CONDITIONS */}
+      <section className="container mx-auto px-5 pb-16">
+        <Reveal>
+          <div className="text-center mb-6">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Before you join</p>
+            <h2 className="text-2xl md:text-3xl font-black mt-2">Terms &amp; conditions</h2>
+            <p className="text-xs text-muted-foreground mt-2">Tick every box. Tap any rule to read the full version.</p>
+          </div>
+        </Reveal>
+        <GeneralFitnessTerms checked={terms} onChange={setTerms} />
       </section>
 
       <section className="container mx-auto px-5 pb-20">

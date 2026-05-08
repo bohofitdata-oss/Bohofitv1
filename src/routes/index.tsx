@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Check, Dumbbell, HeartPulse, Sparkles, Star } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
-import { JourneyRoadmap } from "@/components/JourneyRoadmap";
+import { JourneyMap } from "@/components/JourneyMap";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
@@ -150,9 +150,6 @@ function Home() {
         </div>
       </section>
 
-      {/* JOURNEY ROADMAP */}
-      <JourneyRoadmap />
-
       {/* HOW IT WORKS */}
       <section className="container mx-auto px-5 py-16 md:py-24">
         <Reveal>
@@ -178,6 +175,9 @@ function Home() {
           ))}
         </div>
       </section>
+
+      {/* JOURNEY LIFECYCLE CHART (after explanation, so users know how to choose) */}
+      <JourneyMap />
 
       {/* CLOSING TAGLINE */}
       <section className="container mx-auto px-5 py-20 text-center">

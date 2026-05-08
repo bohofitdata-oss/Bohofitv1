@@ -121,7 +121,7 @@ function Node({
     >
       <div className="flex items-center gap-2">
         <div className="w-9 h-9 rounded-lg bg-gradient-gold flex items-center justify-center shrink-0">
-          <Icon className="w-4.5 h-4.5 text-primary-foreground" />
+          <Icon className="w-4 h-4 text-primary-foreground" />
         </div>
         <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
       </div>

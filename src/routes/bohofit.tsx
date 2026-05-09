@@ -129,9 +129,10 @@ function BohofitPage() {
           {meta.plans.map((p) => (
             <div key={p.months} className={cn("rounded-2xl border bg-card p-5 flex flex-col", p.best ? "hairline shadow-elegant" : "border-border")}>
               {p.best && <span className="text-[10px] uppercase tracking-widest text-primary font-semibold">Most popular</span>}
+              {p.phase && <div className="text-[10px] uppercase tracking-widest text-primary/80 mt-1">{p.phase}</div>}
               <div className="text-sm text-muted-foreground mt-1">{p.months}</div>
               <div className="mt-1 text-3xl font-black">{p.price}</div>
-              <div className="text-xs text-muted-foreground">Pause balance · {p.pause}</div>
+              <div className="text-[11px] text-muted-foreground">All inclusive · Pause {p.pause}</div>
               <ul className="mt-4 space-y-2 flex-1">
                 {p.perks.map((perk) => (
                   <li key={perk} className="flex items-start gap-2 text-xs">
@@ -139,18 +140,22 @@ function BohofitPage() {
                   </li>
                 ))}
               </ul>
-              <Button
-                asChild={accepted}
-                disabled={!accepted}
-                onClick={() => { if (!accepted) toast.error("Please accept all terms below to continue"); }}
-                className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90 disabled:opacity-50"
-              >
-                {accepted ? (
+              {accepted ? (
+                <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
                   <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
-                ) : (
-                  <span>Accept terms to continue</span>
-                )}
-              </Button>
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    toast.error("Please tick all terms below to continue");
+                    scrollToFirstUncheckedTerm(terms);
+                  }}
+                  className="mt-5 bg-muted text-foreground hover:bg-muted/80 border border-border"
+                >
+                  Accept terms to continue
+                </Button>
+              )}
             </div>
           ))}
         </div>

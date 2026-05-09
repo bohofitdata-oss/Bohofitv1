@@ -152,6 +152,9 @@ function Home() {
       </section>
 
       {/* HOW IT WORKS */}
+      {/* PROGRAM FINDER QUIZ */}
+      <ProgramFinder />
+
       <section className="container mx-auto px-5 py-16 md:py-24">
         <Reveal>
           <div className="text-center mb-12">

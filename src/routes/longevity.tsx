@@ -55,6 +55,17 @@ function LongevityPage() {
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
 
+  const scrollToFirstUncheckedTnc = () => {
+    const missing = TNC.find((t) => !tncChecked[t.key]);
+    if (!missing) return;
+    const el = document.getElementById(`tnc-${missing.key}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("ring-2", "ring-primary");
+      setTimeout(() => el.classList.remove("ring-2", "ring-primary"), 1600);
+    }
+  };
+
   const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!primarySlot) return toast.error("Pick a primary time");

@@ -6,7 +6,7 @@ import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Flame, Infinity as InfinityIcon, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GeneralFitnessTerms, allGeneralTermsAccepted } from "@/components/GeneralFitnessTerms";
+import { GeneralFitnessTerms, allGeneralTermsAccepted, scrollToFirstUncheckedTerm } from "@/components/GeneralFitnessTerms";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/bohofit")({
@@ -26,28 +26,32 @@ const startFormats = ["Yoga", "Spin", "Zumba", "Mat Pilates", "Beginner Strength
 const strengthFormats = ["Calisthenics", "S&C", "Boxing / Kickboxing", "Weightlifting"];
 const unlimitedFormats = [...startFormats, ...strengthFormats];
 
-type Plan = { months: string; price: string; pause: string; perks: string[]; best?: boolean };
+type Plan = { months: string; phase?: string; price: string; pause: string; perks: string[]; best?: boolean };
 
+// Per official pricing posters
 const startPlans: Plan[] = [
-  { months: "12 Months", price: "₹14,174", pause: "45 days", perks: ["Unlimited classes & formats", "Full diet consultation", "6 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-  { months: "6 Months", price: "₹10,499", pause: "30 days", perks: ["Unlimited classes & formats", "Full diet consultation", "3 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "3 Months", price: "₹7,348", pause: "15 days", perks: ["Unlimited classes & formats", "Full diet consultation", "Transfer not possible"] },
-  { months: "2 Months", price: "₹5,774", pause: "7 days", perks: ["Unlimited classes & formats", "Full diet consultation", "Transfer not possible"] },
+  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 5 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
-const strengthPlans: Plan[] = startPlans;
+const strengthPlans: Plan[] = [
+  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+];
 
 const unlimitedPlans: Plan[] = [
-  { months: "12 Months", price: "₹15,999", pause: "60 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "6 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-  { months: "6 Months", price: "₹11,999", pause: "30 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "3 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "3 Months", price: "₹8,200", pause: "15 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "Transfer not possible"] },
-  { months: "2 Months", price: "₹6,499", pause: "7 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "Transfer not possible"] },
+  { months: "3 Months", phase: "Option 1", price: "₹10,499", pause: "15 days", perks: ["Unlimited classes — all 9 formats", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Option 2", price: "₹14,999", pause: "30 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Option 3", price: "₹18,499", pause: "60 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
   start: { name: "Bohofit Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 5 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Boho Strength", tagline: "Strength without limits. Flexibility without compromise.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Bohofit Unlimited", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  strength: { name: "Boho Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Boho One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 9 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
 };
 
 function BohofitPage() {
@@ -125,9 +129,10 @@ function BohofitPage() {
           {meta.plans.map((p) => (
             <div key={p.months} className={cn("rounded-2xl border bg-card p-5 flex flex-col", p.best ? "hairline shadow-elegant" : "border-border")}>
               {p.best && <span className="text-[10px] uppercase tracking-widest text-primary font-semibold">Most popular</span>}
+              {p.phase && <div className="text-[10px] uppercase tracking-widest text-primary/80 mt-1">{p.phase}</div>}
               <div className="text-sm text-muted-foreground mt-1">{p.months}</div>
               <div className="mt-1 text-3xl font-black">{p.price}</div>
-              <div className="text-xs text-muted-foreground">Pause balance · {p.pause}</div>
+              <div className="text-[11px] text-muted-foreground">All inclusive · Pause {p.pause}</div>
               <ul className="mt-4 space-y-2 flex-1">
                 {p.perks.map((perk) => (
                   <li key={perk} className="flex items-start gap-2 text-xs">
@@ -135,18 +140,22 @@ function BohofitPage() {
                   </li>
                 ))}
               </ul>
-              <Button
-                asChild={accepted}
-                disabled={!accepted}
-                onClick={() => { if (!accepted) toast.error("Please accept all terms below to continue"); }}
-                className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90 disabled:opacity-50"
-              >
-                {accepted ? (
+              {accepted ? (
+                <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
                   <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
-                ) : (
-                  <span>Accept terms to continue</span>
-                )}
-              </Button>
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  onClick={() => {
+                    toast.error("Please tick all terms below to continue");
+                    scrollToFirstUncheckedTerm(terms);
+                  }}
+                  className="mt-5 bg-muted text-foreground hover:bg-muted/80 border border-border"
+                >
+                  Accept terms to continue
+                </Button>
+              )}
             </div>
           ))}
         </div>

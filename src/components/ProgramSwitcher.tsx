@@ -10,7 +10,7 @@ const PROGRAMS: { key: ProgramKey; to: "/bohofit" | "/bootcamp" | "/longevity"; 
   { key: "longevity", to: "/longevity", name: "Bohofit at 50+", tag: "Personal 1:1" },
 ];
 
-export function ProgramSwitcher({ current }: { current: ProgramKey }) {
+export function ProgramSwitcher({ current }: { current?: ProgramKey }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 

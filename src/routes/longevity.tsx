@@ -55,10 +55,25 @@ function LongevityPage() {
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
 
+  const scrollToFirstUncheckedTnc = () => {
+    const missing = TNC.find((t) => !tncChecked[t.key]);
+    if (!missing) return;
+    const el = document.getElementById(`tnc-${missing.key}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+      el.classList.add("ring-2", "ring-primary");
+      setTimeout(() => el.classList.remove("ring-2", "ring-primary"), 1600);
+    }
+  };
+
   const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!primarySlot) return toast.error("Pick a primary time");
-    if (!allTncAccepted) return toast.error("Please accept every term & condition");
+    if (!allTncAccepted) {
+      toast.error("Please accept every term & condition");
+      scrollToFirstUncheckedTnc();
+      return;
+    }
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
@@ -174,7 +189,7 @@ function LongevityPage() {
         </Reveal>
         <div className="mt-5 rounded-2xl border border-border bg-card p-5 space-y-3">
           {TNC.map((t, i) => (
-            <label key={t.key} className={cn("flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
+            <label key={t.key} id={`tnc-${t.key}`} className={cn("scroll-mt-24 flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
               <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
               <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
             </label>

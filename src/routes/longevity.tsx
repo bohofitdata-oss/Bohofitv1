@@ -69,7 +69,11 @@ function LongevityPage() {
   const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!primarySlot) return toast.error("Pick a primary time");
-    if (!allTncAccepted) return toast.error("Please accept every term & condition");
+    if (!allTncAccepted) {
+      toast.error("Please accept every term & condition");
+      scrollToFirstUncheckedTnc();
+      return;
+    }
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");

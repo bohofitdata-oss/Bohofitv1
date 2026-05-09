@@ -26,28 +26,32 @@ const startFormats = ["Yoga", "Spin", "Zumba", "Mat Pilates", "Beginner Strength
 const strengthFormats = ["Calisthenics", "S&C", "Boxing / Kickboxing", "Weightlifting"];
 const unlimitedFormats = [...startFormats, ...strengthFormats];
 
-type Plan = { months: string; price: string; pause: string; perks: string[]; best?: boolean };
+type Plan = { months: string; phase?: string; price: string; pause: string; perks: string[]; best?: boolean };
 
+// Per official pricing posters
 const startPlans: Plan[] = [
-  { months: "12 Months", price: "₹14,174", pause: "45 days", perks: ["Unlimited classes & formats", "Full diet consultation", "6 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-  { months: "6 Months", price: "₹10,499", pause: "30 days", perks: ["Unlimited classes & formats", "Full diet consultation", "3 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "3 Months", price: "₹7,348", pause: "15 days", perks: ["Unlimited classes & formats", "Full diet consultation", "Transfer not possible"] },
-  { months: "2 Months", price: "₹5,774", pause: "7 days", perks: ["Unlimited classes & formats", "Full diet consultation", "Transfer not possible"] },
+  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 5 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
-const strengthPlans: Plan[] = startPlans;
+const strengthPlans: Plan[] = [
+  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+];
 
 const unlimitedPlans: Plan[] = [
-  { months: "12 Months", price: "₹15,999", pause: "60 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "6 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-  { months: "6 Months", price: "₹11,999", pause: "30 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "3 free goBoho meals", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "3 Months", price: "₹8,200", pause: "15 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "Transfer not possible"] },
-  { months: "2 Months", price: "₹6,499", pause: "7 days", perks: ["All 7 formats — Start + Strength", "Full diet consultation", "Transfer not possible"] },
+  { months: "3 Months", phase: "Option 1", price: "₹10,499", pause: "15 days", perks: ["Unlimited classes — all 9 formats", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Option 2", price: "₹14,999", pause: "30 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Option 3", price: "₹18,499", pause: "60 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
   start: { name: "Bohofit Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 5 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Boho Strength", tagline: "Strength without limits. Flexibility without compromise.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Bohofit Unlimited", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  strength: { name: "Boho Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Boho One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 9 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
 };
 
 function BohofitPage() {

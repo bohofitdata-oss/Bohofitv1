@@ -136,3 +136,18 @@ export function GeneralFitnessTerms({
 export function allGeneralTermsAccepted(checked: Record<string, boolean>) {
   return GENERAL_FITNESS_TERMS.every((t) => checked[t.key]);
 }
+
+export function firstUncheckedTermKey(checked: Record<string, boolean>) {
+  return GENERAL_FITNESS_TERMS.find((t) => !checked[t.key])?.key ?? null;
+}
+
+export function scrollToFirstUncheckedTerm(checked: Record<string, boolean>) {
+  const key = firstUncheckedTermKey(checked);
+  if (!key) return;
+  const el = document.getElementById(`term-${key}`);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.classList.add("ring-2", "ring-primary");
+    setTimeout(() => el.classList.remove("ring-2", "ring-primary"), 1600);
+  }
+}

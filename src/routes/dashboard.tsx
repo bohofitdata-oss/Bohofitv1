@@ -141,7 +141,8 @@ function DashboardPage() {
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Your dashboard</p>
             <h1 className="text-3xl md:text-4xl font-black mt-1">Hi {profile.full_name || email.split("@")[0]}</h1>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <ProgramSwitcher />
             {isAdmin && (
               <Button asChild variant="outline" size="sm">
                 <Link to="/admin"><ShieldCheck className="w-4 h-4 mr-1" /> Admin</Link>

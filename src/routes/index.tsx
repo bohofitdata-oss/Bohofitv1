@@ -3,6 +3,7 @@ import { ArrowRight, Check, Dumbbell, HeartPulse, Sparkles, Star } from "lucide-
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { JourneyMap } from "@/components/JourneyMap";
+import { ProgramFinder } from "@/components/ProgramFinder";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({

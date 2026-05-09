@@ -91,6 +91,7 @@ function BootcampPage() {
     }
     if (!allTncAccepted) {
       toast.error("Please accept every term & condition");
+      scrollToFirstUncheckedTnc();
       return;
     }
     const fd = new FormData(e.currentTarget);

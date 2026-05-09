@@ -91,8 +91,9 @@ export function GeneralFitnessTerms({
           return (
             <div
               key={t.key}
+              id={`term-${t.key}`}
               className={cn(
-                "rounded-xl border transition",
+                "rounded-xl border transition scroll-mt-24",
                 isChecked ? "border-primary bg-primary/5" : "border-border",
               )}
             >

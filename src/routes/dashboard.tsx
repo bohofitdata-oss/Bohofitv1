@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Activity, CalendarCheck, Salad, Settings, ShieldCheck, Camera, Upload } from "lucide-react";
 import { MembershipCard } from "@/components/MembershipCard";
 import { MedicalHistoryCard } from "@/components/MedicalHistoryCard";
+import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Your dashboard — Bohofit" }] }),

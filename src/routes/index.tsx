@@ -185,6 +185,12 @@ function Home() {
       {/* JOURNEY LIFECYCLE CHART (after explanation, so users know how to choose) */}
       <JourneyMap />
 
+      {/* FLAGSHIP 50+ PROGRAM — high-value 1:1 product, given prominence */}
+      <FiftyPlusFeature />
+
+      {/* SOCIAL PROOF */}
+      <Testimonials />
+
       {/* CLOSING TAGLINE */}
       <section className="container mx-auto px-5 py-20 text-center">
         <Reveal>

@@ -30,10 +30,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Bohofit — Machine-free fitness for life" },
+      { title: "Bohofit — Machine-free gym" },
       { name: "description", content: "India's first machine-free fitness system. Choose your path: long-term classes, 8-week transformation, or pain-free movement." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Bohofit — Machine-free gym" },
+      { name: "twitter:title", content: "Bohofit — Machine-free gym" },
+      { property: "og:description", content: "India's first machine-free fitness system. Choose your path: long-term classes, 8-week transformation, or pain-free movement." },
+      { name: "twitter:description", content: "India's first machine-free fitness system. Choose your path: long-term classes, 8-week transformation, or pain-free movement." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/87618b0a-7555-4252-a5bb-5b91f27756ac/id-preview-d3d6e8f2--7447a638-8e75-4abd-839b-0a2e1422b9b4.lovable.app-1778317694506.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/87618b0a-7555-4252-a5bb-5b91f27756ac/id-preview-d3d6e8f2--7447a638-8e75-4abd-839b-0a2e1422b9b4.lovable.app-1778317694506.png" },
     ],
     links: [
       {

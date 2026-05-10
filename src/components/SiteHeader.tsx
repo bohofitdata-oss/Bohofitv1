@@ -23,7 +23,7 @@ export function SiteHeader() {
           <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Group Classes</Link>
           <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho Bootcamp</Link>
           <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho at 50+</Link>
-          <Link to="/diet" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Diet</Link>
+          
         </nav>
         <div className="flex items-center gap-2">
           {authed ? (

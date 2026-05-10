@@ -24,7 +24,7 @@ export function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold mb-3">Company</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/diet" className="hover:text-foreground">Go Boho Diet</Link></li>
+            
             <li><Link to="/booking" className="hover:text-foreground">Speak with us</Link></li>
             <li><Link to="/auth" className="hover:text-foreground">Member login</Link></li>
           </ul>

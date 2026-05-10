@@ -52,6 +52,66 @@ export type Database = {
           },
         ]
       }
+      bookings: {
+        Row: {
+          age: number | null
+          city: string | null
+          created_at: string
+          email: string | null
+          goal: string | null
+          health_conditions: string[]
+          id: string
+          mode: string | null
+          name: string
+          payment_status: string
+          phone: string
+          plan: string | null
+          primary_slot: string | null
+          program: string
+          rules_accepted: boolean
+          secondary_slot: string | null
+          status: string
+        }
+        Insert: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          goal?: string | null
+          health_conditions?: string[]
+          id?: string
+          mode?: string | null
+          name: string
+          payment_status?: string
+          phone: string
+          plan?: string | null
+          primary_slot?: string | null
+          program: string
+          rules_accepted?: boolean
+          secondary_slot?: string | null
+          status?: string
+        }
+        Update: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          email?: string | null
+          goal?: string | null
+          health_conditions?: string[]
+          id?: string
+          mode?: string | null
+          name?: string
+          payment_status?: string
+          phone?: string
+          plan?: string | null
+          primary_slot?: string | null
+          program?: string
+          rules_accepted?: boolean
+          secondary_slot?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       diet_plans: {
         Row: {
           created_at: string
@@ -730,6 +790,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      program_slot_availability: {
+        Args: { _program: Database["public"]["Enums"]["slot_program"] }
+        Returns: {
+          booked: number
+          capacity: number
+          is_locked: boolean
+          remaining: number
+          slot_id: string
+          start_time: string
+        }[]
+      }
       request_membership_pause: {
         Args: {
           _days: number
@@ -754,6 +825,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      slot_availability: { Args: { _slot_id: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "coach" | "member"

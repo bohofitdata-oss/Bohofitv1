@@ -20,7 +20,9 @@ import {
   Smile,
   Moon,
   Activity,
+  Download,
 } from "lucide-react";
+import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/longevity/me")({

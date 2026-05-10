@@ -4,6 +4,8 @@ import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { JourneyMap } from "@/components/JourneyMap";
 import { ProgramFinder } from "@/components/ProgramFinder";
+import { Testimonials } from "@/components/Testimonials";
+import { FiftyPlusFeature } from "@/components/FiftyPlusFeature";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({

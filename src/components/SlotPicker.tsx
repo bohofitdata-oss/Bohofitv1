@@ -53,8 +53,7 @@ export function SlotPicker({ program, primaryId, secondaryId, onPrimary, onSecon
   ) => (
     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
       {slots.map((s) => {
-        const spotsLeft = Math.max(s.capacity - s.confirmed_count, 0);
-        const disabled = s.is_locked || spotsLeft === 0 || (isSecondary && s.id === primaryId);
+        const disabled = s.is_locked || (isSecondary && s.id === primaryId);
         const selected = selectedId === s.id;
         return (
           <button
@@ -75,8 +74,8 @@ export function SlotPicker({ program, primaryId, secondaryId, onPrimary, onSecon
               {fmtTime(s.start_time)}
               {s.is_locked && <Lock className="w-3 h-3" />}
             </div>
-            <div className="text-[10px] uppercase tracking-widest mt-1">
-              {s.is_locked ? "Locked" : `${spotsLeft}/${s.capacity} left`}
+            <div className="text-[10px] uppercase tracking-widest mt-1 text-muted-foreground">
+              {s.is_locked ? "Locked" : "Available"}
             </div>
           </button>
         );

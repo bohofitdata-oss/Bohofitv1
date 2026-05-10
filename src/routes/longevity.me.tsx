@@ -446,6 +446,15 @@ function MyLongevityPage() {
               </span>
             </div>
           )}
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Button
+              onClick={downloadProgressPdf}
+              size="sm"
+              className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
+            >
+              <Download className="w-4 h-4 mr-1.5" /> Download progress PDF
+            </Button>
+          </div>
         </div>
 
         {/* WEEKLY CHECK-IN NUDGE */}

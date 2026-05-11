@@ -51,7 +51,7 @@ function LongevityPage() {
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<null | { name: string; slot: string | null }>(null);
   const [loading, setLoading] = useState(false);
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);

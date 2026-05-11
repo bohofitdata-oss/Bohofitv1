@@ -80,11 +80,13 @@ function LongevityPage() {
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const { error } = await supabase.from("slot_bookings").insert({
+    const ageVal = Number.isNaN(age as number) ? null : (age as number);
+
+    const { error: slotErr } = await supabase.from("slot_bookings").insert({
       full_name,
       phone,
       email: email || null,
-      age: Number.isNaN(age as number) ? null : (age as number),
+      age: ageVal,
       city: city || null,
       program: "longevity",
       mode,
@@ -94,9 +96,27 @@ function LongevityPage() {
       status: intent === "book" ? "pending" : "consult_requested",
       notes: goal || null,
     });
+    if (slotErr) {
+      setLoading(false);
+      return toast.error("Something went wrong. Please try again.");
+    }
+
+    const result = await saveBooking({
+      name: full_name,
+      phone,
+      email: email || null,
+      age: ageVal,
+      city: city || null,
+      goal: goal || null,
+      program: "fifty_plus",
+      mode,
+      primary_slot_id: primarySlot,
+      secondary_slot_id: secondarySlot,
+      rules_accepted: true,
+    });
     setLoading(false);
-    if (error) return toast.error("Something went wrong. Please try again.");
-    setSubmitted(true);
+    if (!result.ok) return toast.error(result.error);
+    setSubmitted({ name: full_name, slot: result.primarySlotLabel });
   };
 
   if (submitted) {
@@ -107,8 +127,9 @@ function LongevityPage() {
             <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
-            <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it. Your coach will call within 24 hours.</h1>
-            <p className="mt-3 text-muted-foreground">We always start with a free 30-minute consult — no sales pressure.</p>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it, {submitted.name.split(" ")[0]}.</h1>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
+            <p className="mt-2 text-sm text-muted-foreground">Your coach will call within 24 hours. We always start with a free 30-minute consult — no sales pressure.</p>
             <div className="mt-8 flex justify-center gap-3">
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>

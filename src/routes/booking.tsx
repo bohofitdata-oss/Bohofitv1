@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
+import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 
 type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];
@@ -46,7 +47,7 @@ function BookingPage() {
   const search = Route.useSearch() as { path?: PathChoice };
   const path: PathChoice = search.path ?? "bohofit";
   const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<null | { name: string }>(null);
   const [loading, setLoading] = useState(false);
   const meta = labels[path];
 
@@ -60,12 +61,31 @@ function BookingPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
+    const ageVal = Number.isNaN(age as number) ? null : (age as number);
+
+    if (path === "bohofit") {
+      const result = await saveBooking({
+        name: full_name,
+        phone,
+        email: email || null,
+        age: ageVal,
+        city: city || null,
+        goal: goal || null,
+        program: "group_classes",
+        rules_accepted: true,
+      });
+      setLoading(false);
+      if (!result.ok) return toast.error(result.error);
+      setSubmitted({ name: full_name });
+      return;
+    }
+
     const { error } = await supabase.from("leads").insert({
       path,
       full_name,
       phone,
       email: email || null,
-      age: Number.isNaN(age as number) ? null : (age as number),
+      age: ageVal,
       city: city || null,
       goal: goal || null,
     });
@@ -74,7 +94,7 @@ function BookingPage() {
       toast.error("Something went wrong. Please try again.");
       return;
     }
-    setSubmitted(true);
+    setSubmitted({ name: full_name });
   };
 
   if (submitted) {
@@ -85,8 +105,9 @@ function BookingPage() {
             <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
-            <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it. We&rsquo;ll call you within 24 hours.</h1>
-            <p className="mt-3 text-muted-foreground">Want to skip the wait? Create your account so your coach can build your plan inside the app.</p>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">Thanks, {submitted.name.split(" ")[0]}!</h1>
+            <p className="mt-3 text-muted-foreground">{path === "bohofit" ? PROGRAM_LABEL.group_classes : meta.tag} · We&rsquo;ll call you within 24 hours.</p>
+            <p className="mt-2 text-sm text-muted-foreground">Want to skip the wait? Create your account so your coach can build your plan inside the app.</p>
             <div className="mt-8 flex justify-center gap-3">
               <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>

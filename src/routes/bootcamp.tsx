@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Check, ShieldCheck, Sparkles, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
@@ -67,7 +68,7 @@ function BootcampPage() {
   const [conditions, setConditions] = useState<Record<string, boolean>>({});
   const [needsRehab, setNeedsRehab] = useState(false);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<null | { name: string; slot: string | null }>(null);
   const [loading, setLoading] = useState(false);
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
@@ -102,11 +103,14 @@ function BootcampPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const { error } = await supabase.from("slot_bookings").insert({
+    const ageVal = Number.isNaN(age as number) ? null : (age as number);
+    const conditionsArr = Object.entries(conditions).filter(([, v]) => v).map(([k]) => k);
+
+    const { error: slotErr } = await supabase.from("slot_bookings").insert({
       full_name,
       phone,
       email: email || null,
-      age: Number.isNaN(age as number) ? null : (age as number),
+      age: ageVal,
       city: city || null,
       program: "bootcamp",
       mode,
@@ -119,12 +123,33 @@ function BootcampPage() {
       status: intent === "pay" ? "pending" : "consult_requested",
       notes: goal || null,
     });
-    setLoading(false);
-    if (error) {
+    if (slotErr) {
+      setLoading(false);
       toast.error("Something went wrong. Please try again.");
       return;
     }
-    setSubmitted(true);
+
+    const result = await saveBooking({
+      name: full_name,
+      phone,
+      email: email || null,
+      age: ageVal,
+      city: city || null,
+      goal: goal || null,
+      program: "bootcamp",
+      plan: tier,
+      mode,
+      health_conditions: conditionsArr,
+      primary_slot_id: primarySlot,
+      secondary_slot_id: secondarySlot,
+      rules_accepted: true,
+    });
+    setLoading(false);
+    if (!result.ok) {
+      toast.error(result.error);
+      return;
+    }
+    setSubmitted({ name: full_name, slot: result.primarySlotLabel });
   };
 
   if (submitted) {
@@ -135,8 +160,9 @@ function BootcampPage() {
             <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
-            <h1 className="mt-6 text-3xl md:text-4xl font-black">Your bootcamp spot is reserved.</h1>
-            <p className="mt-3 text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {submitted.name.split(" ")[0]}.</h1>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
+            <p className="mt-2 text-sm text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
             <div className="mt-8 flex justify-center gap-3">
               <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>

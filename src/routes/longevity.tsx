@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Check, HeartPulse } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({

@@ -68,7 +68,7 @@ function BootcampPage() {
   const [conditions, setConditions] = useState<Record<string, boolean>>({});
   const [needsRehab, setNeedsRehab] = useState(false);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<null | { name: string; slot: string | null }>(null);
   const [loading, setLoading] = useState(false);
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);

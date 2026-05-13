@@ -13,9 +13,10 @@ import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
-import { Check, ShieldCheck, Sparkles, Flame } from "lucide-react";
+import { Check, ShieldCheck, Sparkles, Flame, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
@@ -139,7 +140,12 @@ function BootcampPage() {
             <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {submitted.name.split(" ")[0]}.</h1>
             <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
             <p className="mt-2 text-sm text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
-            <div className="mt-8 flex justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: submitted.slot }))} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
+                </a>
+              </Button>
               <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>

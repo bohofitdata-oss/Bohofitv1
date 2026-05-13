@@ -53,7 +53,8 @@ export function SlotPicker({ program, primaryId, secondaryId, onPrimary, onSecon
   ) => (
     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
       {slots.map((s) => {
-        const disabled = s.is_locked || (isSecondary && s.id === primaryId);
+        const sameAsOther = isSecondary ? s.id === primaryId : s.id === secondaryId;
+        const disabled = s.is_locked || sameAsOther;
         const selected = selectedId === s.id;
         return (
           <button

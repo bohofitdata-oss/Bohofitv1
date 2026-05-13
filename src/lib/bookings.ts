@@ -5,10 +5,10 @@ export type BookingProgram = "bootcamp" | "group_classes" | "fifty_plus";
 export type SaveBookingInput = {
   name: string;
   phone: string;
-  email?: string | null;
-  age?: number | null;
-  city?: string | null;
-  goal?: string | null;
+  email: string;
+  age: number;
+  city: string;
+  goal: string;
   program: BookingProgram;
   plan?: "standard" | "intensive" | null;
   mode?: "online" | "offline" | null;
@@ -16,10 +16,11 @@ export type SaveBookingInput = {
   primary_slot_id?: string | null;
   secondary_slot_id?: string | null;
   rules_accepted: boolean;
+  is_trial?: boolean;
 };
 
 export type SaveBookingResult =
-  | { ok: true; primarySlotLabel: string | null; bookingId: string }
+  | { ok: true; primarySlotLabel: string | null; secondarySlotLabel: string | null; bookingId: string }
   | { ok: false; error: string; reason?: "slot_full" | "validation" | "db" };
 
 function fmtTime(t: string | null | undefined) {
@@ -34,8 +35,10 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
   if (!input.rules_accepted) {
     return { ok: false, error: "Please accept all terms first.", reason: "validation" };
   }
+  if (input.primary_slot_id && input.secondary_slot_id && input.primary_slot_id === input.secondary_slot_id) {
+    return { ok: false, error: "Secondary slot must be different from your primary slot.", reason: "validation" };
+  }
 
-  // Validate primary slot capacity using helper
   if (input.primary_slot_id) {
     const { data: avail, error: availErr } = await supabase.rpc("slot_availability", {
       _slot_id: input.primary_slot_id,
@@ -52,23 +55,14 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
     }
   }
 
-  // Resolve slot times to display labels stored in bookings.primary_slot (text)
   let primaryLabel: string | null = null;
   let secondaryLabel: string | null = null;
   if (input.primary_slot_id) {
-    const { data } = await supabase
-      .from("slots")
-      .select("start_time")
-      .eq("id", input.primary_slot_id)
-      .maybeSingle();
+    const { data } = await supabase.from("slots").select("start_time").eq("id", input.primary_slot_id).maybeSingle();
     primaryLabel = fmtTime(data?.start_time);
   }
   if (input.secondary_slot_id) {
-    const { data } = await supabase
-      .from("slots")
-      .select("start_time")
-      .eq("id", input.secondary_slot_id)
-      .maybeSingle();
+    const { data } = await supabase.from("slots").select("start_time").eq("id", input.secondary_slot_id).maybeSingle();
     secondaryLabel = fmtTime(data?.start_time);
   }
 
@@ -77,10 +71,10 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
     .insert({
       name: input.name,
       phone: input.phone,
-      email: input.email || null,
-      age: input.age ?? null,
-      city: input.city || null,
-      goal: input.goal || null,
+      email: input.email,
+      age: input.age,
+      city: input.city,
+      goal: input.goal,
       program: input.program,
       plan: input.plan ?? null,
       mode: input.mode ?? null,
@@ -90,12 +84,13 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
       rules_accepted: true,
       payment_status: "pending",
       status: "new",
+      is_trial: input.is_trial ?? false,
     })
     .select("id")
     .single();
 
   if (error) return { ok: false, error: error.message, reason: "db" };
-  return { ok: true, primarySlotLabel: primaryLabel, bookingId: data.id };
+  return { ok: true, primarySlotLabel: primaryLabel, secondarySlotLabel: secondaryLabel, bookingId: data.id };
 }
 
 export const PROGRAM_LABEL: Record<BookingProgram, string> = {
@@ -103,3 +98,16 @@ export const PROGRAM_LABEL: Record<BookingProgram, string> = {
   group_classes: "Bohofit Group Classes",
   fifty_plus: "Bohofit at 50+ · 1:1",
 };
+
+// Reschedule fee logic (front-end only):
+// - Bootcamp / 1:1 (fifty_plus): 1 free reschedule, then ₹499 each.
+// - Group classes: trial day is free; 2nd trial day onwards ₹499 (max 2 trial days, then membership required).
+export function rescheduleFeeInfo(program: BookingProgram, prevCount: number) {
+  if (program === "group_classes") {
+    if (prevCount === 0) return { fee: 0, message: "Day 1 trial — free reschedule." };
+    if (prevCount === 1) return { fee: 499, message: "2nd trial day — ₹499 applies." };
+    return { fee: -1, message: "Trial limit reached. Please buy a membership to continue." };
+  }
+  if (prevCount === 0) return { fee: 0, message: "First reschedule is free." };
+  return { fee: 499, message: "₹499 per reschedule after the first free one." };
+}

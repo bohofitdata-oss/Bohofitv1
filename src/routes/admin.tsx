@@ -121,11 +121,12 @@ function AdminPage() {
     <SiteShell>
       <section className="container mx-auto px-5 py-12 max-w-6xl">
         <h1 className="text-3xl md:text-4xl font-black">Admin</h1>
-        <p className="text-muted-foreground mt-1">Leads, members, subscriptions.</p>
+        <p className="text-muted-foreground mt-1">Bookings, leads, members.</p>
 
-        <div className="mt-8 grid md:grid-cols-3 gap-5">
+        <div className="mt-8 grid md:grid-cols-4 gap-5">
           {[
-            { l: "Total leads", v: counts.leads },
+            { l: "Bookings", v: counts.bookings },
+            { l: "Leads", v: counts.leads },
             { l: "Members", v: counts.users },
             { l: "Subscriptions", v: counts.subs },
           ].map((s) => (
@@ -134,6 +135,64 @@ function AdminPage() {
               <div className="text-4xl font-black mt-1 text-gradient-gold">{s.v}</div>
             </div>
           ))}
+        </div>
+
+        {/* BOOKINGS */}
+        <div className="mt-10 rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+            <h2 className="font-bold">Recent bookings</h2>
+            <span className="text-xs text-muted-foreground">{bookings.length} shown</span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="text-left text-xs uppercase tracking-widest text-muted-foreground bg-secondary/30">
+                <tr>
+                  <th className="px-4 py-3">When</th>
+                  <th className="px-4 py-3">Program</th>
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Phone</th>
+                  <th className="px-4 py-3">Slot</th>
+                  <th className="px-4 py-3">Mode</th>
+                  <th className="px-4 py-3">Payment</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">WA</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookings.map((b) => (
+                  <tr key={b.id} className="border-t border-border/60 align-top">
+                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">{new Date(b.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3"><span className="text-xs uppercase tracking-widest text-primary">{b.program}</span>{b.plan ? <span className="text-[10px] text-muted-foreground ml-1">· {b.plan}</span> : null}{b.is_trial ? <span className="ml-1 text-[10px] uppercase text-amber-500">trial</span> : null}</td>
+                    <td className="px-4 py-3 font-semibold">{b.name}<div className="text-[11px] text-muted-foreground">{b.email ?? "—"}</div></td>
+                    <td className="px-4 py-3 whitespace-nowrap">{b.phone}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">{b.primary_slot ?? "—"}{b.secondary_slot ? <div className="text-[11px] text-muted-foreground">2nd: {b.secondary_slot}</div> : null}</td>
+                    <td className="px-4 py-3">{b.mode ?? "—"}</td>
+                    <td className="px-4 py-3">
+                      <select value={b.payment_status} onChange={(e) => updateBookingStatus(b.id, { payment_status: e.target.value })} className="bg-background border border-border rounded-md px-2 py-1 text-xs">
+                        <option value="pending">pending</option>
+                        <option value="paid">paid</option>
+                      </select>
+                    </td>
+                    <td className="px-4 py-3">
+                      <select value={b.status} onChange={(e) => updateBookingStatus(b.id, { status: e.target.value })} className="bg-background border border-border rounded-md px-2 py-1 text-xs">
+                        <option value="new">new</option>
+                        <option value="confirmed">confirmed</option>
+                        <option value="cancelled">cancelled</option>
+                      </select>
+                    </td>
+                    <td className="px-4 py-3">
+                      <a href={waLink(b.phone, bookingConfirmationMessage({ name: b.name, program: b.program, mode: b.mode, plan: b.plan, slot: b.primary_slot }))} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-[#25D366] hover:opacity-80" title="Send WhatsApp confirmation">
+                        <MessageCircle className="w-4 h-4" />
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+                {bookings.length === 0 && (
+                  <tr><td className="px-4 py-8 text-center text-muted-foreground" colSpan={9}>No bookings yet.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div className="mt-10 rounded-2xl border border-border bg-card overflow-hidden">

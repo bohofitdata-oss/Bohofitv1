@@ -13,9 +13,10 @@ import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
-import { Check, HeartPulse } from "lucide-react";
+import { Check, HeartPulse, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({
@@ -111,7 +112,12 @@ function LongevityPage() {
             <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it, {submitted.name.split(" ")[0]}.</h1>
             <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
             <p className="mt-2 text-sm text-muted-foreground">Your coach will call within 24 hours. We always start with a free 30-minute consult — no sales pressure.</p>
-            <div className="mt-8 flex justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: PROGRAM_LABEL.fifty_plus, mode: mode === "offline" ? "Offline" : "Online", slot: submitted.slot }))} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
+                </a>
+              </Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>
           </Reveal>

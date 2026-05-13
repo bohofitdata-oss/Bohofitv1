@@ -9,8 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check } from "lucide-react";
+import { Check, MessageCircle } from "lucide-react";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];

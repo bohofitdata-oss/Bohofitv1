@@ -42,12 +42,12 @@ const TNC: { key: string; text: string }[] = [
 ];
 
 const schema = z.object({
-  full_name: z.string().trim().min(1).max(120),
-  phone: z.string().trim().min(6).max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(10).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(10).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 const conditionsList = [
@@ -103,39 +103,15 @@ function BootcampPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
     const conditionsArr = Object.entries(conditions).filter(([, v]) => v).map(([k]) => k);
-
-    const { error: slotErr } = await supabase.from("slot_bookings").insert({
-      full_name,
-      phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      program: "bootcamp",
-      mode,
-      tier,
-      primary_slot_id: primarySlot,
-      secondary_slot_id: secondarySlot,
-      conditions: conditions as never,
-      needs_rehab: needsRehab,
-      tnc_accepted: tncChecked as never,
-      status: intent === "pay" ? "pending" : "consult_requested",
-      notes: goal || null,
-    });
-    if (slotErr) {
-      setLoading(false);
-      toast.error("Something went wrong. Please try again.");
-      return;
-    }
 
     const result = await saveBooking({
       name: full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
       program: "bootcamp",
       plan: tier,
       mode,

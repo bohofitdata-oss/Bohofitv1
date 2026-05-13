@@ -4,6 +4,11 @@ import { SiteShell } from "@/components/SiteShell";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { waLink, bookingConfirmationMessage } from "@/lib/whatsapp";
+import { MessageCircle } from "lucide-react";
+
+// Hardcoded admin emails — edit this list to grant dashboard access.
+const ADMIN_EMAILS = ["admin@bohofit.com"];
 
 type Lead = {
   id: string;
@@ -17,6 +22,26 @@ type Lead = {
   created_at: string;
 };
 
+type Booking = {
+  id: string;
+  created_at: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  age: number | null;
+  city: string | null;
+  goal: string | null;
+  program: string;
+  plan: string | null;
+  mode: string | null;
+  primary_slot: string | null;
+  secondary_slot: string | null;
+  payment_status: string;
+  status: string;
+  is_trial: boolean;
+  reschedule_count: number;
+};
+
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [{ title: "Admin — Bohofit" }] }),
   component: AdminPage,
@@ -26,7 +51,8 @@ function AdminPage() {
   const navigate = useNavigate();
   const [allowed, setAllowed] = useState<boolean | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [counts, setCounts] = useState({ leads: 0, users: 0, subs: 0 });
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [counts, setCounts] = useState({ leads: 0, users: 0, subs: 0, bookings: 0 });
 
   useEffect(() => {
     (async () => {
@@ -35,19 +61,25 @@ function AdminPage() {
         navigate({ to: "/auth" });
         return;
       }
+      const userEmail = sess.session.user.email ?? "";
       const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", sess.session.user.id);
-      const ok = roles?.some((r) => r.role === "admin" || r.role === "coach") ?? false;
+      const ok =
+        ADMIN_EMAILS.includes(userEmail) ||
+        (roles?.some((r) => r.role === "admin" || r.role === "coach") ?? false);
       setAllowed(ok);
       if (!ok) return;
 
-      const [{ data: l }, { count: lc }, { count: pc }, { count: sc }] = await Promise.all([
+      const [{ data: l }, { data: b }, { count: lc }, { count: pc }, { count: sc }, { count: bc }] = await Promise.all([
         supabase.from("leads").select("*").order("created_at", { ascending: false }).limit(50),
+        supabase.from("bookings").select("*").order("created_at", { ascending: false }).limit(100),
         supabase.from("leads").select("*", { count: "exact", head: true }),
         supabase.from("profiles").select("*", { count: "exact", head: true }),
         supabase.from("subscriptions").select("*", { count: "exact", head: true }),
+        supabase.from("bookings").select("*", { count: "exact", head: true }),
       ]);
       if (l) setLeads(l as Lead[]);
-      setCounts({ leads: lc ?? 0, users: pc ?? 0, subs: sc ?? 0 });
+      if (b) setBookings(b as Booking[]);
+      setCounts({ leads: lc ?? 0, users: pc ?? 0, subs: sc ?? 0, bookings: bc ?? 0 });
     })();
   }, [navigate]);
 
@@ -55,6 +87,13 @@ function AdminPage() {
     const { error } = await supabase.from("leads").update({ status }).eq("id", id);
     if (error) return toast.error(error.message);
     setLeads((arr) => arr.map((l) => (l.id === id ? { ...l, status } : l)));
+    toast.success("Updated");
+  };
+
+  const updateBookingStatus = async (id: string, patch: Partial<Pick<Booking, "status" | "payment_status">>) => {
+    const { error } = await supabase.from("bookings").update(patch).eq("id", id);
+    if (error) return toast.error(error.message);
+    setBookings((arr) => arr.map((b) => (b.id === id ? { ...b, ...patch } : b)));
     toast.success("Updated");
   };
 

@@ -13,9 +13,10 @@ import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
-import { Check, HeartPulse } from "lucide-react";
+import { Check, HeartPulse, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({
@@ -37,12 +38,12 @@ const TNC = [
 ];
 
 const schema = z.object({
-  full_name: z.string().trim().min(1).max(120),
-  phone: z.string().trim().min(6).max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(40).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(40).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 function LongevityPage() {
@@ -80,39 +81,20 @@ function LongevityPage() {
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
-
-    const { error: slotErr } = await supabase.from("slot_bookings").insert({
-      full_name,
-      phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      program: "longevity",
-      mode,
-      primary_slot_id: primarySlot,
-      secondary_slot_id: secondarySlot,
-      tnc_accepted: tncChecked as never,
-      status: intent === "book" ? "pending" : "consult_requested",
-      notes: goal || null,
-    });
-    if (slotErr) {
-      setLoading(false);
-      return toast.error("Something went wrong. Please try again.");
-    }
 
     const result = await saveBooking({
       name: full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
       program: "fifty_plus",
       mode,
       primary_slot_id: primarySlot,
       secondary_slot_id: secondarySlot,
       rules_accepted: true,
+      is_trial: intent === "consult",
     });
     setLoading(false);
     if (!result.ok) return toast.error(result.error);
@@ -130,7 +112,12 @@ function LongevityPage() {
             <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it, {submitted.name.split(" ")[0]}.</h1>
             <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
             <p className="mt-2 text-sm text-muted-foreground">Your coach will call within 24 hours. We always start with a free 30-minute consult — no sales pressure.</p>
-            <div className="mt-8 flex justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: PROGRAM_LABEL.fifty_plus, mode: mode === "offline" ? "Offline" : "Online", slot: submitted.slot }))} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
+                </a>
+              </Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>
           </Reveal>
@@ -195,10 +182,10 @@ function LongevityPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
             <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
-            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" maxLength={255} className="mt-1" /></div>
-            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" min={40} max={100} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" maxLength={80} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" placeholder="e.g. Knee pain, want to walk pain-free." /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" required maxLength={255} className="mt-1" /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" required min={40} max={100} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" required maxLength={80} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" required maxLength={500} rows={3} className="mt-1" placeholder="e.g. Knee pain, want to walk pain-free." /></div>
           </div>
         </form>
 

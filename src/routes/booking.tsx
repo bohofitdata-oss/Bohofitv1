@@ -9,8 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Check } from "lucide-react";
+import { Check, MessageCircle } from "lucide-react";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];
@@ -35,12 +36,12 @@ const labels: Record<PathChoice, { tag: string; title: string; sub: string }> = 
 };
 
 const schema = z.object({
-  full_name: z.string().trim().min(1, "Required").max(120),
-  phone: z.string().trim().min(6, "Enter a valid phone").max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(10).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(10).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 function BookingPage() {
@@ -61,18 +62,18 @@ function BookingPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
 
     if (path === "bohofit") {
       const result = await saveBooking({
         name: full_name,
         phone,
-        email: email || null,
-        age: ageVal,
-        city: city || null,
-        goal: goal || null,
+        email,
+        age,
+        city,
+        goal,
         program: "group_classes",
         rules_accepted: true,
+        is_trial: true,
       });
       setLoading(false);
       if (!result.ok) return toast.error(result.error);
@@ -84,10 +85,10 @@ function BookingPage() {
       path,
       full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
     });
     setLoading(false);
     if (error) {
@@ -108,7 +109,12 @@ function BookingPage() {
             <h1 className="mt-6 text-3xl md:text-4xl font-black">Thanks, {submitted.name.split(" ")[0]}!</h1>
             <p className="mt-3 text-muted-foreground">{path === "bohofit" ? PROGRAM_LABEL.group_classes : meta.tag} · We&rsquo;ll call you within 24 hours.</p>
             <p className="mt-2 text-sm text-muted-foreground">Want to skip the wait? Create your account so your coach can build your plan inside the app.</p>
-            <div className="mt-8 flex justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: path === "bohofit" ? PROGRAM_LABEL.group_classes : meta.tag }))} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
+                </a>
+              </Button>
               <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>
@@ -156,20 +162,20 @@ function BookingPage() {
                 <Input id="phone" name="phone" required maxLength={20} className="mt-1" />
               </div>
               <div>
-                <Label htmlFor="email">Email (optional)</Label>
-                <Input id="email" name="email" type="email" maxLength={255} className="mt-1" />
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" name="email" type="email" required maxLength={255} className="mt-1" />
               </div>
               <div>
                 <Label htmlFor="age">Age</Label>
-                <Input id="age" name="age" type="number" min={10} max={100} className="mt-1" />
+                <Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="city">City</Label>
-                <Input id="city" name="city" maxLength={80} className="mt-1" />
+                <Input id="city" name="city" required maxLength={80} className="mt-1" />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="goal">What do you want to achieve?</Label>
-                <Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" placeholder="e.g. Lose 6 kg, fix lower back pain, etc." />
+                <Textarea id="goal" name="goal" required maxLength={500} rows={3} className="mt-1" placeholder="e.g. Lose 6 kg, fix lower back pain, etc." />
               </div>
             </div>
             <Button type="submit" disabled={loading} size="lg" className="w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">

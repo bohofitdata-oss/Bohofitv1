@@ -13,9 +13,10 @@ import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
-import { Check, ShieldCheck, Sparkles, Flame } from "lucide-react";
+import { Check, ShieldCheck, Sparkles, Flame, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
@@ -42,12 +43,12 @@ const TNC: { key: string; text: string }[] = [
 ];
 
 const schema = z.object({
-  full_name: z.string().trim().min(1).max(120),
-  phone: z.string().trim().min(6).max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(10).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(10).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 const conditionsList = [
@@ -103,39 +104,15 @@ function BootcampPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
     const conditionsArr = Object.entries(conditions).filter(([, v]) => v).map(([k]) => k);
-
-    const { error: slotErr } = await supabase.from("slot_bookings").insert({
-      full_name,
-      phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      program: "bootcamp",
-      mode,
-      tier,
-      primary_slot_id: primarySlot,
-      secondary_slot_id: secondarySlot,
-      conditions: conditions as never,
-      needs_rehab: needsRehab,
-      tnc_accepted: tncChecked as never,
-      status: intent === "pay" ? "pending" : "consult_requested",
-      notes: goal || null,
-    });
-    if (slotErr) {
-      setLoading(false);
-      toast.error("Something went wrong. Please try again.");
-      return;
-    }
 
     const result = await saveBooking({
       name: full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
       program: "bootcamp",
       plan: tier,
       mode,
@@ -163,7 +140,12 @@ function BootcampPage() {
             <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {submitted.name.split(" ")[0]}.</h1>
             <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
             <p className="mt-2 text-sm text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
-            <div className="mt-8 flex justify-center gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: submitted.slot }))} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
+                </a>
+              </Button>
               <Button onClick={() => navigate({ to: "/auth" })} className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">Create account</Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>
@@ -267,10 +249,10 @@ function BootcampPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
             <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
-            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" maxLength={255} className="mt-1" /></div>
-            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" min={10} max={100} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" maxLength={80} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" required maxLength={255} className="mt-1" /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" required maxLength={80} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" required maxLength={500} rows={3} className="mt-1" /></div>
           </div>
         </form>
 

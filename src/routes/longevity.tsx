@@ -182,10 +182,10 @@ function LongevityPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
             <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
-            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" maxLength={255} className="mt-1" /></div>
-            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" min={40} max={100} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" maxLength={80} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" maxLength={500} rows={3} className="mt-1" placeholder="e.g. Knee pain, want to walk pain-free." /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" required maxLength={255} className="mt-1" /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" required min={40} max={100} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" required maxLength={80} className="mt-1" /></div>
+            <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" required maxLength={500} rows={3} className="mt-1" placeholder="e.g. Knee pain, want to walk pain-free." /></div>
           </div>
         </form>
 

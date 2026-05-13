@@ -37,12 +37,12 @@ const TNC = [
 ];
 
 const schema = z.object({
-  full_name: z.string().trim().min(1).max(120),
-  phone: z.string().trim().min(6).max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(40).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(40).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 function LongevityPage() {
@@ -80,39 +80,20 @@ function LongevityPage() {
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
-
-    const { error: slotErr } = await supabase.from("slot_bookings").insert({
-      full_name,
-      phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      program: "longevity",
-      mode,
-      primary_slot_id: primarySlot,
-      secondary_slot_id: secondarySlot,
-      tnc_accepted: tncChecked as never,
-      status: intent === "book" ? "pending" : "consult_requested",
-      notes: goal || null,
-    });
-    if (slotErr) {
-      setLoading(false);
-      return toast.error("Something went wrong. Please try again.");
-    }
 
     const result = await saveBooking({
       name: full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
       program: "fifty_plus",
       mode,
       primary_slot_id: primarySlot,
       secondary_slot_id: secondarySlot,
       rules_accepted: true,
+      is_trial: intent === "consult",
     });
     setLoading(false);
     if (!result.ok) return toast.error(result.error);

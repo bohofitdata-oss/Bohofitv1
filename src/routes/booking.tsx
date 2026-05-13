@@ -35,12 +35,12 @@ const labels: Record<PathChoice, { tag: string; title: string; sub: string }> = 
 };
 
 const schema = z.object({
-  full_name: z.string().trim().min(1, "Required").max(120),
-  phone: z.string().trim().min(6, "Enter a valid phone").max(20),
-  email: z.string().trim().email().max(255).optional().or(z.literal("")),
-  age: z.coerce.number().int().min(10).max(100).optional().or(z.nan()),
-  city: z.string().trim().max(80).optional().or(z.literal("")),
-  goal: z.string().trim().max(500).optional().or(z.literal("")),
+  full_name: z.string().trim().min(1, "Name is required").max(120),
+  phone: z.string().trim().min(6, "Phone is required").max(20),
+  email: z.string().trim().email("Email is required").max(255),
+  age: z.coerce.number({ invalid_type_error: "Age is required" }).int().min(10).max(100),
+  city: z.string().trim().min(1, "City is required").max(80),
+  goal: z.string().trim().min(3, "Tell us your goal").max(500),
 });
 
 function BookingPage() {
@@ -61,18 +61,18 @@ function BookingPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const ageVal = Number.isNaN(age as number) ? null : (age as number);
 
     if (path === "bohofit") {
       const result = await saveBooking({
         name: full_name,
         phone,
-        email: email || null,
-        age: ageVal,
-        city: city || null,
-        goal: goal || null,
+        email,
+        age,
+        city,
+        goal,
         program: "group_classes",
         rules_accepted: true,
+        is_trial: true,
       });
       setLoading(false);
       if (!result.ok) return toast.error(result.error);
@@ -84,10 +84,10 @@ function BookingPage() {
       path,
       full_name,
       phone,
-      email: email || null,
-      age: ageVal,
-      city: city || null,
-      goal: goal || null,
+      email,
+      age,
+      city,
+      goal,
     });
     setLoading(false);
     if (error) {

@@ -61,6 +61,7 @@ export type Database = {
           goal: string | null
           health_conditions: string[]
           id: string
+          is_trial: boolean
           mode: string | null
           name: string
           payment_status: string
@@ -68,6 +69,7 @@ export type Database = {
           plan: string | null
           primary_slot: string | null
           program: string
+          reschedule_count: number
           rules_accepted: boolean
           secondary_slot: string | null
           status: string
@@ -80,6 +82,7 @@ export type Database = {
           goal?: string | null
           health_conditions?: string[]
           id?: string
+          is_trial?: boolean
           mode?: string | null
           name: string
           payment_status?: string
@@ -87,6 +90,7 @@ export type Database = {
           plan?: string | null
           primary_slot?: string | null
           program: string
+          reschedule_count?: number
           rules_accepted?: boolean
           secondary_slot?: string | null
           status?: string
@@ -99,6 +103,7 @@ export type Database = {
           goal?: string | null
           health_conditions?: string[]
           id?: string
+          is_trial?: boolean
           mode?: string | null
           name?: string
           payment_status?: string
@@ -106,6 +111,7 @@ export type Database = {
           plan?: string | null
           primary_slot?: string | null
           program?: string
+          reschedule_count?: number
           rules_accepted?: boolean
           secondary_slot?: string | null
           status?: string

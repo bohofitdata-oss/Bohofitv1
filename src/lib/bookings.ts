@@ -90,6 +90,12 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
     .single();
 
   if (error) return { ok: false, error: error.message, reason: "db" };
+
+  // Increment confirmed_count + auto-lock if full. Best-effort: don't fail the booking.
+  if (input.primary_slot_id) {
+    await supabase.rpc("increment_slot_count", { _slot_id: input.primary_slot_id });
+  }
+
   return { ok: true, primarySlotLabel: primaryLabel, secondarySlotLabel: secondaryLabel, bookingId: data.id };
 }
 

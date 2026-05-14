@@ -17,6 +17,7 @@ import { Check, ShieldCheck, Sparkles, Flame, MessageCircle } from "lucide-react
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
+import { PaymentScreen } from "@/components/PaymentScreen";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
@@ -69,7 +70,15 @@ function BootcampPage() {
   const [conditions, setConditions] = useState<Record<string, boolean>>({});
   const [needsRehab, setNeedsRehab] = useState(false);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [submitted, setSubmitted] = useState<null | { name: string; slot: string | null }>(null);
+  const [phase, setPhase] = useState<"form" | "payment" | "confirmed">("form");
+  const [pending, setPending] = useState<null | {
+    bookingId: string;
+    name: string;
+    email: string;
+    phone: string;
+    slot: string | null;
+    amount: number;
+  }>(null);
   const [loading, setLoading] = useState(false);
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
@@ -120,16 +129,35 @@ function BootcampPage() {
       primary_slot_id: primarySlot,
       secondary_slot_id: secondarySlot,
       rules_accepted: true,
+      is_trial: intent === "consult",
     });
     setLoading(false);
     if (!result.ok) {
       toast.error(result.error);
       return;
     }
-    setSubmitted({ name: full_name, slot: result.primarySlotLabel });
+    const amount = tier === "intensive" ? 18999 : 14999;
+    setPending({ bookingId: result.bookingId, name: full_name, email, phone, slot: result.primarySlotLabel, amount });
+    setPhase(intent === "pay" ? "payment" : "confirmed");
   };
 
-  if (submitted) {
+  if (phase === "payment" && pending) {
+    return (
+      <SiteShell>
+        <PaymentScreen
+          bookingId={pending.bookingId}
+          amountInr={pending.amount}
+          programLabel={PROGRAM_LABEL.bootcamp}
+          planLabel={tier === "intensive" ? "Intensive" : "Standard"}
+          slotLabel={pending.slot}
+          customer={{ name: pending.name, email: pending.email, phone: pending.phone }}
+          onPaid={() => setPhase("confirmed")}
+        />
+      </SiteShell>
+    );
+  }
+
+  if (phase === "confirmed" && pending) {
     return (
       <SiteShell>
         <section className="container mx-auto max-w-xl px-5 py-24 text-center">
@@ -137,12 +165,12 @@ function BootcampPage() {
             <div className="mx-auto w-14 h-14 rounded-full bg-gradient-gold flex items-center justify-center">
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
-            <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {submitted.name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{submitted.slot ? ` · ${submitted.slot}` : ""}</p>
-            <p className="mt-2 text-sm text-muted-foreground">Our coach will call you within 24 hours to confirm payment and onboarding.</p>
+            <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {pending.name.split(" ")[0]}.</h1>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{pending.slot ? ` · ${pending.slot}` : ""}</p>
+            <p className="mt-2 text-sm font-semibold">Team Bohofit will contact you within 2 hours.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
-                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: submitted.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: submitted.slot }))} target="_blank" rel="noopener noreferrer">
+                <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: pending.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: pending.slot }))} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="w-4 h-4 mr-2" /> Send confirmation on WhatsApp
                 </a>
               </Button>

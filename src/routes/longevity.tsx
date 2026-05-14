@@ -17,6 +17,7 @@ import { Check, HeartPulse, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
+import { PaymentScreen } from "@/components/PaymentScreen";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({

@@ -844,7 +844,7 @@ export type Database = {
       bootcamp_tier: "standard" | "intensive"
       path_choice: "bohofit" | "bootcamp" | "longevity"
       slot_mode: "online" | "offline"
-      slot_program: "bootcamp" | "longevity"
+      slot_program: "bootcamp" | "longevity" | "group_classes"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -977,7 +977,7 @@ export const Constants = {
       bootcamp_tier: ["standard", "intensive"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
       slot_mode: ["online", "offline"],
-      slot_program: ["bootcamp", "longevity"],
+      slot_program: ["bootcamp", "longevity", "group_classes"],
     },
   },
 } as const

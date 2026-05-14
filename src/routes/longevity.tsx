@@ -55,6 +55,8 @@ function LongevityPage() {
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
   const [submitted, setSubmitted] = useState<null | { name: string; slot: string | null }>(null);
   const [loading, setLoading] = useState(false);
+  const [phase, setPhase] = useState<"form" | "payment" | "confirmed">("form");
+  const [pending, setPending] = useState<null | { bookingId: string; name: string; email: string; phone: string; slot: string | null }>(null);
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
 
@@ -100,9 +102,26 @@ function LongevityPage() {
     setLoading(false);
     if (!result.ok) return toast.error(result.error);
     setSubmitted({ name: full_name, slot: result.primarySlotLabel });
+    setPending({ bookingId: result.bookingId, name: full_name, email, phone, slot: result.primarySlotLabel });
+    if (intent === "book") setPhase("payment"); else setPhase("confirmed");
   };
 
-  if (submitted) {
+  if (phase === "payment" && pending) {
+    return (
+      <SiteShell>
+        <PaymentScreen
+          bookingId={pending.bookingId}
+          amountInr={29999}
+          programLabel={PROGRAM_LABEL.fifty_plus}
+          slotLabel={pending.slot}
+          customer={{ name: pending.name, email: pending.email, phone: pending.phone }}
+          onPaid={() => setPhase("confirmed")}
+        />
+      </SiteShell>
+    );
+  }
+
+  if (submitted || phase === "confirmed") {
     return (
       <SiteShell>
         <section className="container mx-auto max-w-xl px-5 py-24 text-center">

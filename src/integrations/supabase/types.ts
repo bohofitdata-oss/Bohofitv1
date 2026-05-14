@@ -796,6 +796,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_slot_count: { Args: { _slot_id: string }; Returns: undefined }
+      mark_booking_paid: {
+        Args: { _booking_id: string; _razorpay_payment_id: string }
+        Returns: undefined
+      }
       program_slot_availability: {
         Args: { _program: Database["public"]["Enums"]["slot_program"] }
         Returns: {

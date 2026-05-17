@@ -65,7 +65,7 @@ export const verifyRazorpayPayment = createServerFn({ method: "POST" })
       throw new Error("Invalid payment signature");
     }
 
-    const { error } = await supabaseAdmin.rpc("mark_booking_paid", {
+    const { error } = await bohofitAdmin.rpc("mark_booking_paid", {
       _booking_id: data.bookingId,
       _razorpay_payment_id: data.razorpay_payment_id,
     });

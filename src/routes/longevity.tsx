@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SlotPicker } from "@/components/SlotPicker";
 import { EmergencyCTA } from "@/components/EmergencyCTA";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client.bohofit";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Check, HeartPulse, MessageCircle } from "lucide-react";

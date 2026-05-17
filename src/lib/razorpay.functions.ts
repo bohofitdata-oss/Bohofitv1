@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { createHmac } from "crypto";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
+import { bohofitAdmin } from "@/integrations/supabase/client.bohofit.server";
 
 // Returns { orderId, keyId, amount } for Razorpay Checkout.
 export const createRazorpayOrder = createServerFn({ method: "POST" })

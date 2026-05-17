@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client.bohofit";
 import { cn } from "@/lib/utils";
 import { Lock } from "lucide-react";
 

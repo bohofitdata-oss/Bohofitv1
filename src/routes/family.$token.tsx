@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client.bohofit";
 import { Heart, Calendar, MessageSquareQuote, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/family/$token")({

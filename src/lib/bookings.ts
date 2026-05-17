@@ -1,4 +1,4 @@
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/supabase/client.bohofit";
 
 export type BookingProgram = "bootcamp" | "group_classes" | "fifty_plus";
 

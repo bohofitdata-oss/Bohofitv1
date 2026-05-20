@@ -313,7 +313,7 @@ function BootcampPage() {
             }}
             className="bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
           >
-            <ShieldCheck className="w-4 h-4 mr-2" /> Reserve my spot — Pay later
+            <ShieldCheck className="w-4 h-4 mr-2" /> Pay &amp; book my slot
           </Button>
           <Button
             type="button"
@@ -325,10 +325,10 @@ function BootcampPage() {
               if (formEl) submit("consult", { preventDefault: () => {}, currentTarget: formEl } as unknown as React.FormEvent<HTMLFormElement>);
             }}
           >
-            Speak with us first
+            Need a consultation first
           </Button>
         </div>
-        <p className="mt-3 text-xs text-muted-foreground text-center">Reserving doesn&rsquo;t charge you. We&rsquo;ll call within 24 hours to confirm payment.</p>
+        <p className="mt-3 text-xs text-muted-foreground text-center">Secure payment via Razorpay. Prefer to talk first? Tap &ldquo;Need a consultation&rdquo; — we&rsquo;ll call within 24 hours.</p>
 
         <EmergencyCTA />
 

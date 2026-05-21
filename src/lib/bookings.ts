@@ -89,7 +89,30 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
     .select("id")
     .single();
 
-  if (error) return { ok: false, error: error.message, reason: "db" };
+  if (error) {
+    // Surface the exact Postgres error so we can diagnose missing columns,
+    // null violations, enum mismatches, etc.
+    console.error("[bookings.insert] failed", {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+      payload: {
+        name: input.name, phone: input.phone, email: input.email,
+        age: input.age, city: input.city, goal: input.goal,
+        program: input.program, plan: input.plan ?? null, mode: input.mode ?? null,
+        health_conditions: input.health_conditions ?? [],
+        primary_slot: primaryLabel, secondary_slot: secondaryLabel,
+        rules_accepted: true, payment_status: "pending", status: "new",
+        is_trial: input.is_trial ?? false,
+      },
+    });
+    return {
+      ok: false,
+      error: `${error.message}${error.details ? ` — ${error.details}` : ""}${error.hint ? ` (${error.hint})` : ""}`,
+      reason: "db",
+    };
+  }
 
   // Increment confirmed_count + auto-lock if full. Best-effort: don't fail the booking.
   if (input.primary_slot_id) {

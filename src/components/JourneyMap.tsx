@@ -1,148 +1,159 @@
 import { Reveal } from "@/components/Reveal";
-import { Sparkles, Flame, Dumbbell, HeartPulse, ArrowRight, Repeat } from "lucide-react";
+import { Sparkles, Flame, Dumbbell, HeartPulse } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 /**
- * Single, clear lifecycle chart — not multiple "paths".
- * Shows the natural flow:
- *   Bohofit Start  ──►  Boho Strength  ◄──  Boho Bootcamp (8wk)
- *                            ▲
- *                            │
- *                       Bohofit at 50+
+ * Circular lifecycle:
+ *   Bohofit Start  ──►  Boho Strength  ──►  back to Start (loop)
+ *         ▲                                       │
+ *         └────────── Boho Bootcamp ──────────────┘
  *
- * Bohofit at 50+ enters from below — once they're comfortable, they
- * graduate into the same Start → Strength loop. It's a lifecycle.
+ * Bohofit at 50+ sits separately — its own track.
  */
-
 export function JourneyMap() {
   return (
     <section className="container mx-auto px-5 py-12 md:py-20">
       <Reveal>
         <div className="text-center mb-8 md:mb-12">
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">How to choose</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">How it flows</p>
           <h2 className="text-2xl md:text-4xl font-black mt-2">Your fitness lifecycle</h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-xl mx-auto">
-            One ecosystem. You enter wherever you are today and grow from there. It&rsquo;s not a finite plan — it&rsquo;s a way of living fit.
+            One ongoing loop. Start, grow into Strength, and stay there for life. Bootcamp is a fast on-ramp into the same loop. 50+ is its own personal track.
           </p>
         </div>
       </Reveal>
 
-      {/* CHART */}
       <Reveal delay={120}>
-        <div className="relative max-w-4xl mx-auto rounded-2xl border border-border bg-card p-6 md:p-10">
-          {/* TOP ROW: Start -> Strength <- Bootcamp */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 md:gap-2 items-center">
-            <Node
-              to="/bohofit"
-              icon={Sparkles}
-              eyebrow="Entry · gentle"
-              title="Bohofit Start"
-              desc="Yoga · Spin · Pilates · Zumba · Beginner Strength"
-            />
-            <Arrow direction="right" label="Build the habit" />
-            <Node
-              to="/bohofit"
-              icon={Dumbbell}
-              center
-              eyebrow="Lifelong home"
-              title="Boho Strength"
-              desc="Calisthenics · S&C · Boxing · Weightlifting"
-            />
-            <Arrow direction="left" label="Continue strong" />
-            <Node
-              to="/bootcamp"
-              icon={Flame}
-              eyebrow="Entry · fast"
-              title="Boho Bootcamp"
-              desc="8-week guaranteed transformation"
-            />
-          </div>
+        <div className="grid md:grid-cols-[1.4fr_1fr] gap-6 max-w-5xl mx-auto">
+          {/* CIRCULAR LIFECYCLE */}
+          <div className="relative rounded-2xl border border-border bg-card p-6 md:p-8 overflow-hidden">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-primary mb-1">The loop</p>
+            <h3 className="font-black text-lg mb-5">Group lifecycle</h3>
 
-          {/* CONNECTOR DOWN */}
-          <div className="flex flex-col items-center mt-6 md:mt-8">
-            <div className="hidden md:block h-8 w-px bg-border" />
-            <div className="hidden md:flex items-center gap-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-              <ArrowRight className="w-3 h-3 -rotate-90" /> graduates into
+            <div className="relative aspect-square max-w-[420px] mx-auto">
+              {/* Circle ring */}
+              <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full">
+                <defs>
+                  <linearGradient id="ring" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.15" />
+                  </linearGradient>
+                </defs>
+                <circle
+                  cx="100"
+                  cy="100"
+                  r="78"
+                  fill="none"
+                  stroke="url(#ring)"
+                  strokeWidth="1.2"
+                  strokeDasharray="3 4"
+                />
+                {/* Arrow heads on the ring */}
+                <polygon points="100,18 96,26 104,26" fill="hsl(var(--primary))" />
+                <polygon points="178,100 170,96 170,104" fill="hsl(var(--primary))" />
+                <polygon points="100,178 96,170 104,170" fill="hsl(var(--primary))" />
+                <polygon points="22,100 30,96 30,104" fill="hsl(var(--primary))" />
+              </svg>
+
+              {/* Nodes positioned on circle */}
+              <NodeDot
+                to="/bohofit"
+                icon={Sparkles}
+                label="Start"
+                sub="Beginner"
+                className="top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
+              <NodeDot
+                to="/bohofit"
+                icon={Dumbbell}
+                label="Strength"
+                sub="Advanced"
+                primary
+                className="top-1/2 right-0 translate-x-1/2 -translate-y-1/2"
+              />
+              <NodeDot
+                to="/bohofit"
+                icon={Sparkles}
+                label="Repeat"
+                sub="Stay fit"
+                className="bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2"
+              />
+              <NodeDot
+                to="/bootcamp"
+                icon={Flame}
+                label="Bootcamp"
+                sub="Fast on-ramp"
+                className="top-1/2 left-0 -translate-x-1/2 -translate-y-1/2"
+              />
+
+              {/* Center label */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center">
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Lifecycle</p>
+                  <p className="font-black text-sm mt-0.5">Train for life</p>
+                </div>
+              </div>
             </div>
-            <div className="hidden md:block h-4 w-px bg-border" />
           </div>
 
-          {/* BOTTOM ROW: 50+ */}
-          <div className="mt-6 md:mt-4 max-w-md mx-auto">
-            <Node
-              to="/longevity"
-              icon={HeartPulse}
-              eyebrow="Entry · 50 and above"
-              title="Bohofit at 50+"
-              desc="1:1 with a trainer. Once you feel strong, you can join Start. It&rsquo;s your gateway, not your ceiling."
-              accent
-            />
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal delay={200}>
-        <div className="mt-6 flex items-center justify-center gap-2 text-xs text-muted-foreground text-center px-4">
-          <Repeat className="w-3.5 h-3.5 text-primary shrink-0" />
-          One Bohofit Unlimited membership covers both Start &amp; Strength — no separate payment.
+          {/* 50+ separate track */}
+          <Link
+            to="/longevity"
+            className="group relative rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/10 to-transparent p-6 md:p-8 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-elegant transition"
+          >
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.18em] text-primary mb-1">Separate track</p>
+              <div className="flex items-center gap-3 mt-2">
+                <div className="w-11 h-11 rounded-xl bg-gradient-gold flex items-center justify-center">
+                  <HeartPulse className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <h3 className="font-black text-lg">Bohofit at 50+</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mt-4">
+                Personal 1:1 training, built for 50 and above. Its own pace, its own coach — not part of the group loop.
+              </p>
+            </div>
+            <span className="mt-6 inline-flex items-center text-sm font-semibold text-primary">
+              Learn more →
+            </span>
+          </Link>
         </div>
       </Reveal>
     </section>
   );
 }
 
-function Node({
+function NodeDot({
   icon: Icon,
-  eyebrow,
-  title,
-  desc,
+  label,
+  sub,
   to,
-  center,
-  accent,
+  className,
+  primary,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  eyebrow: string;
-  title: string;
-  desc: string;
-  to: "/bohofit" | "/bootcamp" | "/longevity";
-  center?: boolean;
-  accent?: boolean;
+  label: string;
+  sub: string;
+  to: "/bohofit" | "/bootcamp";
+  className?: string;
+  primary?: boolean;
 }) {
   return (
     <Link
       to={to}
-      className={`group block rounded-xl border p-4 text-left transition hover:-translate-y-0.5 hover:shadow-elegant ${
-        center
-          ? "border-primary bg-gradient-to-br from-primary/10 to-transparent"
-          : accent
-            ? "border-primary/40 bg-card"
-            : "border-border bg-background"
-      }`}
+      className={`absolute ${className} group`}
     >
-      <div className="flex items-center gap-2">
-        <div className="w-9 h-9 rounded-lg bg-gradient-gold flex items-center justify-center shrink-0">
-          <Icon className="w-4 h-4 text-primary-foreground" />
-        </div>
-        <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{eyebrow}</p>
+      <div
+        className={`w-20 h-20 md:w-24 md:h-24 rounded-full flex flex-col items-center justify-center text-center border-2 transition hover:scale-105 ${
+          primary
+            ? "bg-gradient-gold border-primary text-primary-foreground"
+            : "bg-card border-primary/50 text-foreground"
+        }`}
+      >
+        <Icon className={`w-4 h-4 ${primary ? "" : "text-primary"}`} />
+        <p className="text-[11px] font-black mt-1 leading-none">{label}</p>
+        <p className={`text-[9px] mt-0.5 leading-none ${primary ? "opacity-80" : "text-muted-foreground"}`}>{sub}</p>
       </div>
-      <h3 className="mt-2 font-black text-base leading-tight">{title}</h3>
-      <p className="mt-1 text-xs text-muted-foreground line-clamp-2">{desc}</p>
-      <span className="mt-2 inline-flex items-center text-[11px] font-semibold text-primary">
-        Open <ArrowRight className="w-3 h-3 ml-0.5 transition-transform group-hover:translate-x-0.5" />
-      </span>
     </Link>
-  );
-}
-
-function Arrow({ direction, label }: { direction: "left" | "right"; label: string }) {
-  return (
-    <div className="flex md:flex-col items-center justify-center gap-1 py-1">
-      <ArrowRight
-        className={`w-5 h-5 text-primary ${direction === "left" ? "rotate-180" : ""}`}
-      />
-      <span className="text-[10px] uppercase tracking-widest text-muted-foreground hidden md:block">
-        {label}
-      </span>
-    </div>
   );
 }

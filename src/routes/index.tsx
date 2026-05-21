@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Check, Dumbbell, HeartPulse, Sparkles, Star } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Check, Dumbbell, HeartPulse, Sparkles, Flame, Star, ChevronDown } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { JourneyMap } from "@/components/JourneyMap";
@@ -20,38 +21,9 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const paths = [
-  {
-    to: "/bohofit" as const,
-    tag: "Bohofit Group Classes — Offline",
-    icon: Dumbbell,
-    headline: "I want to stay fit long-term",
-    desc: "Offline group classes that build a habit you actually keep.",
-    bullets: ["Two formats: beginner & advanced", "Small batches, real coaches, in-studio", "Monthly to annual plans"],
-    cta: "Explore group classes",
-  },
-  {
-    to: "/bootcamp" as const,
-    tag: "Boho Bootcamp — 8-Week Transformation",
-    icon: Sparkles,
-    headline: "I want fast, visible results",
-    desc: "8-week transformation program with guaranteed results.",
-    bullets: ["Lose 4–8 kg in 8 weeks", "PCOS, thyroid, fatty liver friendly", "Guaranteed results"],
-    cta: "Join the next batch",
-    featured: true,
-  },
-  {
-    to: "/longevity" as const,
-    tag: "Boho at 50+",
-    icon: HeartPulse,
-    headline: "I want to move pain-free at 50+",
-    desc: "Extremely personal training for people 50 and above.",
-    bullets: ["Built exclusively for 50+", "1:1 coach, twice a week", "Gentle, progressive, pain-free"],
-    cta: "Book a consult",
-  },
-];
-
 function Home() {
+  const [groupOpen, setGroupOpen] = useState(false);
+
   return (
     <SiteShell>
       {/* HERO */}
@@ -69,7 +41,7 @@ function Home() {
           </Reveal>
           <Reveal delay={220}>
             <p className="mt-3 md:mt-5 text-sm md:text-lg text-muted-foreground max-w-xl mx-auto">
-              Choose your path based on your goal. One of these three is built for you.
+              Pick one of three. That&rsquo;s it.
             </p>
           </Reveal>
           <Reveal delay={320}>
@@ -85,75 +57,110 @@ function Home() {
         </div>
       </section>
 
-      {/* 3 PATHS */}
+      {/* 3 PATHS — stacked vertically */}
       <section id="paths" className="container mx-auto px-5 py-6 md:py-16">
         <Reveal>
           <div className="text-center mb-5 md:mb-12">
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1</p>
-            <h2 className="text-2xl md:text-4xl font-black mt-2">Pick the path that fits you</h2>
+            <h2 className="text-2xl md:text-4xl font-black mt-2">Pick your path</h2>
           </div>
         </Reveal>
-        {/* Mobile: compact stacked cards (all 3 fit on a phone screen). Desktop: full cards. */}
-        <div className="grid grid-cols-1 gap-3 md:hidden">
-          {paths.map((p) => (
-            <Link
-              key={p.to}
-              to={p.to}
-              className={`relative flex items-center gap-3 rounded-xl bg-card p-3.5 border ${p.featured ? "hairline" : "border-border"}`}
-            >
-              <div className="shrink-0 w-10 h-10 rounded-lg bg-gradient-gold flex items-center justify-center">
-                <p.icon className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground truncate">{p.tag}</p>
-                <h3 className="text-sm font-black leading-tight mt-0.5">{p.headline}</h3>
-                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{p.desc}</p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-primary shrink-0" />
-              {p.featured && (
-                <span className="absolute -top-2 right-3 text-[9px] uppercase tracking-widest bg-gradient-gold text-primary-foreground px-1.5 py-0.5 rounded-full font-semibold">
-                  Popular
-                </span>
-              )}
-            </Link>
-          ))}
-        </div>
-        <div className="hidden md:grid md:grid-cols-3 gap-5">
-          {paths.map((p, i) => (
-            <Reveal key={p.to} delay={i * 120}>
-              <Link
-                to={p.to}
-                className={`group relative block rounded-2xl bg-card p-7 h-full shadow-card transition-all hover:-translate-y-1 hover:shadow-elegant border ${
-                  p.featured ? "hairline" : "border-border"
-                }`}
+
+        <div className="max-w-3xl mx-auto space-y-4">
+          {/* GROUP CLASSES — expandable */}
+          <Reveal>
+            <div className="rounded-2xl border border-border bg-card overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setGroupOpen((v) => !v)}
+                className="w-full flex items-center gap-4 p-5 md:p-6 text-left hover:bg-muted/40 transition"
+                aria-expanded={groupOpen}
               >
-                {p.featured && (
-                  <span className="absolute -top-3 left-7 text-[10px] uppercase tracking-widest bg-gradient-gold text-primary-foreground px-2 py-1 rounded-full font-semibold">
-                    Most popular
-                  </span>
-                )}
-                <p.icon className="w-6 h-6 text-primary" />
-                <p className="mt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground">{p.tag}</p>
-                <h3 className="mt-2 text-2xl font-black leading-tight">{p.headline}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
-                <p className="mt-6 text-xs uppercase tracking-[0.18em] text-muted-foreground">Pick this if&hellip;</p>
-                <ul className="mt-3 space-y-2">
-                  {p.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-sm">
-                      <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" /> {b}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-7 inline-flex items-center text-sm font-semibold text-primary">
-                  {p.cta} <ArrowRight className="ml-1 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center">
+                  <Dumbbell className="w-6 h-6 text-primary-foreground" />
                 </div>
-              </Link>
-            </Reveal>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground">Group classes</p>
+                  <h3 className="text-lg md:text-2xl font-black leading-tight mt-0.5">Stay fit long-term</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground mt-1">Pick your level — Start or Strength.</p>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-primary shrink-0 transition-transform ${groupOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {groupOpen && (
+                <div className="grid sm:grid-cols-2 gap-3 p-4 md:p-5 pt-0 md:pt-0 border-t border-border">
+                  <Link
+                    to="/bohofit"
+                    className="group rounded-xl border border-border bg-background p-4 hover:border-primary transition"
+                  >
+                    <Sparkles className="w-5 h-5 text-primary" />
+                    <p className="mt-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Beginner</p>
+                    <h4 className="font-black mt-0.5">Bohofit Start</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Yoga · Spin · Pilates · Zumba · Beginner Strength</p>
+                    <span className="mt-3 inline-flex items-center text-xs font-semibold text-primary">
+                      View plans <ArrowRight className="ml-1 w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                  <Link
+                    to="/bohofit"
+                    className="group rounded-xl border border-border bg-background p-4 hover:border-primary transition"
+                  >
+                    <Dumbbell className="w-5 h-5 text-primary" />
+                    <p className="mt-2 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Advanced</p>
+                    <h4 className="font-black mt-0.5">Boho Strength</h4>
+                    <p className="text-xs text-muted-foreground mt-1">Calisthenics · S&C · Boxing · Weightlifting</p>
+                    <span className="mt-3 inline-flex items-center text-xs font-semibold text-primary">
+                      View plans <ArrowRight className="ml-1 w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                </div>
+              )}
+            </div>
+          </Reveal>
+
+          {/* BOOTCAMP */}
+          <Reveal delay={80}>
+            <Link
+              to="/bootcamp"
+              className="relative flex items-center gap-4 rounded-2xl border hairline bg-card p-5 md:p-6 hover:-translate-y-0.5 hover:shadow-elegant transition"
+            >
+              <span className="absolute -top-2 right-4 text-[9px] uppercase tracking-widest bg-gradient-gold text-primary-foreground px-2 py-0.5 rounded-full font-semibold">
+                Popular
+              </span>
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center">
+                <Flame className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground">8-week transformation</p>
+                <h3 className="text-lg md:text-2xl font-black leading-tight mt-0.5">Fast, visible results</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mt-1">Lose 4–8 kg in 8 weeks. Guaranteed.</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-primary shrink-0" />
+            </Link>
+          </Reveal>
+
+          {/* 50+ */}
+          <Reveal delay={160}>
+            <Link
+              to="/longevity"
+              className="flex items-center gap-4 rounded-2xl border border-border bg-card p-5 md:p-6 hover:-translate-y-0.5 hover:shadow-elegant transition"
+            >
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-gradient-gold flex items-center justify-center">
+                <HeartPulse className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground">Bohofit at 50+</p>
+                <h3 className="text-lg md:text-2xl font-black leading-tight mt-0.5">Pain-free at 50+</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mt-1">1:1 coach, twice a week. Built for you.</p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-primary shrink-0" />
+            </Link>
+          </Reveal>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       {/* PROGRAM FINDER QUIZ */}
       <ProgramFinder />
 
@@ -166,10 +173,10 @@ function Home() {
         </Reveal>
         <div className="grid md:grid-cols-4 gap-5">
           {[
-            { n: "01", t: "Choose your path", d: "Pick the program built for your goal." },
-            { n: "02", t: "Tell us a bit", d: "A 60-second form. No medical jargon." },
-            { n: "03", t: "Get your plan", d: "We share the plan, schedule, and price." },
-            { n: "04", t: "Book or consult", d: "Start training. Or speak with us first." },
+            { n: "01", t: "Pick your path", d: "One of the three above." },
+            { n: "02", t: "Quick form", d: "60 seconds. Plain English." },
+            { n: "03", t: "Get your plan", d: "Schedule and price, sent to you." },
+            { n: "04", t: "Start or chat", d: "Begin training, or talk to us." },
           ].map((s, i) => (
             <Reveal key={s.n} delay={i * 100}>
               <div className="rounded-2xl border border-border bg-card p-6 h-full">
@@ -182,10 +189,10 @@ function Home() {
         </div>
       </section>
 
-      {/* JOURNEY LIFECYCLE CHART (after explanation, so users know how to choose) */}
+      {/* JOURNEY LIFECYCLE CHART */}
       <JourneyMap />
 
-      {/* FLAGSHIP 50+ PROGRAM — high-value 1:1 product, given prominence */}
+      {/* FLAGSHIP 50+ PROGRAM */}
       <FiftyPlusFeature />
 
       {/* SOCIAL PROOF */}

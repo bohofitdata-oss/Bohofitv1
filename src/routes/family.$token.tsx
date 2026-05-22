@@ -6,7 +6,7 @@ import { Heart, Calendar, MessageSquareQuote, CheckCircle2 } from "lucide-react"
 export const Route = createFileRoute("/family/$token")({
   head: () => ({
     meta: [
-      { title: "Bohofit — Family progress" },
+      { title: "Rebel — Family progress" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -52,7 +52,7 @@ function FamilyView() {
           <Heart className="w-10 h-10 text-primary mx-auto" />
           <h1 className="mt-4 text-xl font-black">This link is no longer active</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Ask your family member to send you a fresh link from their Bohofit dashboard.
+            Ask your family member to send you a fresh link from their Rebel dashboard.
           </p>
         </div>
       </div>
@@ -66,7 +66,7 @@ function FamilyView() {
       <div className="max-w-md mx-auto">
         <div className="text-center">
           <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1 bg-background">
-            <Heart className="w-3 h-3 text-primary" /> Bohofit · Family update
+            <Heart className="w-3 h-3 text-primary" /> Rebel · Family update
           </div>
           <h1 className="mt-5 text-3xl font-black">
             {data.first_name} is showing up.
@@ -131,7 +131,7 @@ function FamilyView() {
         )}
 
         <p className="mt-8 text-center text-[11px] text-muted-foreground">
-          This is a private read-only update from Bohofit at HSR Layout, Bangalore.
+          This is a private read-only update from Rebel at HSR Layout, Bangalore.
         </p>
       </div>
     </div>

@@ -12,9 +12,9 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
     meta: [
-      { title: "Bohofit Group Classes — Start, Strength & Unlimited" },
-      { name: "description", content: "Three offline programs at HSR Bangalore. Bohofit Start (beginners), Boho Strength (advanced), and Bohofit Unlimited (everything)." },
-      { property: "og:title", content: "Bohofit Group Classes — Start, Strength & Unlimited" },
+      { title: "Rebel Group Classes — Start, Strength & Unlimited" },
+      { name: "description", content: "Three offline programs at HSR Bangalore. Rebel Start (beginners), Rebel Strength (advanced), and Rebel Unlimited (everything)." },
+      { property: "og:title", content: "Rebel Group Classes — Start, Strength & Unlimited" },
     ],
   }),
   component: BohofitPage,
@@ -49,9 +49,9 @@ const unlimitedPlans: Plan[] = [
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: "Bohofit Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 5 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Boho Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Boho One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 9 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  start: { name: "Rebel Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 5 beginner-friendly formats.", formats: startFormats, plans: startPlans },
+  strength: { name: "Rebel Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Rebel One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 9 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
 };
 
 function BohofitPage() {
@@ -65,7 +65,7 @@ function BohofitPage() {
       <section className="container mx-auto px-5 pt-12 md:pt-20 pb-6 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bohofit" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Bohofit Group Classes · HSR Layout, Bangalore</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Group Classes · HSR Layout, Bangalore</p>
           <h1 className="mt-3 text-3xl md:text-6xl font-black tracking-tight">
             India's first <span className="text-gradient-gold">machine-free</span> fitness center.
           </h1>
@@ -175,7 +175,7 @@ function BohofitPage() {
 
       <section className="container mx-auto px-5 pb-20">
         <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-6 text-center">Why Bohofit works</h2>
+          <h2 className="text-2xl md:text-3xl font-black mb-6 text-center">Why Rebel works</h2>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-4">
           {["Machine-free, joint-friendly", "Real coaches, small batches", "Pause anytime · transfer where allowed"].map((p) => (

@@ -15,10 +15,10 @@ import imgFifty from "@/assets/program-fiftyplus.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bohofit — Machine-free fitness that fits your life" },
-      { name: "description", content: "Group Classes, 8-Week Transformation, or BohoFit 50+. India's first machine-free fitness system." },
-      { property: "og:title", content: "Bohofit — Machine-free fitness that fits your life" },
-      { property: "og:description", content: "Pick a path: Group Classes, 8-Week Transformation, or BohoFit 50+." },
+      { title: "Rebel — Machine-free fitness that fits your life" },
+      { name: "description", content: "Group Classes, 8-Week Transformation, or Rebel 50+. India's first machine-free fitness system." },
+      { property: "og:title", content: "Rebel — Machine-free fitness that fits your life" },
+      { property: "og:description", content: "Pick a path: Group Classes, 8-Week Transformation, or Rebel 50+." },
     ],
   }),
   component: Home,
@@ -38,8 +38,8 @@ const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
   group: {
     label: "Group Classes",
     cards: [
-      { tag: "For Beginners", title: "Bohofit Start", sub: "Yoga · Spin · Zumba · Pilates", image: imgStart, to: "/bohofit" },
-      { tag: "Intermediate & Advanced", title: "Boho Strength", sub: "Calisthenics · S&C · Boxing", image: imgStrength, to: "/bohofit" },
+      { tag: "For Beginners", title: "Rebel Start", sub: "Yoga · Spin · Zumba · Pilates", image: imgStart, to: "/bohofit" },
+      { tag: "Intermediate & Advanced", title: "Rebel Strength", sub: "Calisthenics · S&C · Boxing", image: imgStrength, to: "/bohofit" },
     ],
   },
   bootcamp: {
@@ -50,7 +50,7 @@ const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
     ],
   },
   fifty: {
-    label: "BohoFit 50+",
+    label: "Rebel 50+",
     cards: [
       { tag: "Designed for 50+", title: "Move easy. Live long.", sub: "Joint-safe · 1:1 personal coach", image: imgFifty, to: "/longevity" },
       { tag: "Family gift", title: "Gift it to a parent", sub: "We handle everything", image: imgFifty, to: "/longevity" },
@@ -164,7 +164,7 @@ function Home() {
             <div className="mt-8 grid gap-3 md:gap-4">
               <PathStep n={1} icon={Sparkles} title="Start or Bootcamp" sub="Learn the basics. Build the habit." image={imgStart} />
               <ArrowDownBar />
-              <PathStep n={2} icon={Dumbbell} title="Boho Strength" sub="Get strong. Get capable." image={imgStrength} />
+              <PathStep n={2} icon={Dumbbell} title="Rebel Strength" sub="Get strong. Get capable." image={imgStrength} />
               <ArrowDownBar />
               <PathStep n={3} icon={Flame} title="Repeat. Train for life." sub="Stay consistent. Stay fit." image={imgBootcamp} />
             </div>

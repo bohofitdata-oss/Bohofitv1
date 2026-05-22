@@ -14,7 +14,7 @@ const STORIES: Story[] = [
   {
     name: "Priya M.",
     age: 34,
-    program: "Boho Bootcamp",
+    program: "Rebel Bootcamp",
     duration: "8 weeks",
     result: "Lost 7.2 kg · PCOS markers improved",
     quote:
@@ -23,7 +23,7 @@ const STORIES: Story[] = [
   {
     name: "Anand R.",
     age: 41,
-    program: "Boho Strength",
+    program: "Rebel Strength",
     duration: "6 months",
     result: "First-ever pull-up · BP back to normal",
     quote:
@@ -32,7 +32,7 @@ const STORIES: Story[] = [
   {
     name: "Lakshmi V.",
     age: 62,
-    program: "Bohofit at 50+",
+    program: "Rebel at 50+",
     duration: "12 weeks",
     result: "Climbing stairs pain-free · sleeping through the night",
     quote:
@@ -55,7 +55,7 @@ export function Testimonials() {
           <p className="text-xs uppercase tracking-[0.18em] text-primary">Real members · Real results</p>
           <h2 className="text-3xl md:text-4xl font-black mt-2">Does this actually work?</h2>
           <p className="text-muted-foreground mt-2 text-sm md:text-base max-w-xl mx-auto">
-            Three short stories from current Bohofit members. We&rsquo;ll connect you with any of them on request.
+            Three short stories from current Rebel members. We&rsquo;ll connect you with any of them on request.
           </p>
         </div>
       </Reveal>

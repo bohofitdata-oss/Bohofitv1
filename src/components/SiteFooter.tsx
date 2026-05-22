@@ -9,16 +9,16 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <span className="inline-block w-6 h-6 rounded-md bg-gradient-gold" />
-            <span className="font-black tracking-tight">Bohofit</span>
+            <span className="font-black tracking-tight">Rebel</span>
           </div>
           <p className="text-sm text-muted-foreground">India&rsquo;s first machine-free fitness system.</p>
         </div>
         <div>
           <h4 className="text-sm font-semibold mb-3">Programs</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/bohofit" className="hover:text-foreground">Bohofit Group Classes</Link></li>
-            <li><Link to="/bootcamp" className="hover:text-foreground">Boho Bootcamp · 8 weeks</Link></li>
-            <li><Link to="/longevity" className="hover:text-foreground">Bohofit at 50+</Link></li>
+            <li><Link to="/bohofit" className="hover:text-foreground">Rebel Group Classes</Link></li>
+            <li><Link to="/bootcamp" className="hover:text-foreground">Rebel Bootcamp · 8 weeks</Link></li>
+            <li><Link to="/longevity" className="hover:text-foreground">Rebel at 50+</Link></li>
           </ul>
         </div>
         <div>
@@ -57,7 +57,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Bohofit. Machine-free fitness for life.
+        &copy; {new Date().getFullYear()} Rebel. Machine-free fitness for life.
       </div>
     </footer>
   );

@@ -22,9 +22,9 @@ import { PaymentScreen } from "@/components/PaymentScreen";
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
     meta: [
-      { title: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { title: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
       { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 5 spots per slot. Pick your time, accept the rules, start 1st May." },
-      { property: "og:title", content: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { property: "og:title", content: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
     ],
   }),
   component: BootcampPage,
@@ -32,12 +32,12 @@ export const Route = createFileRoute("/bootcamp")({
 
 const TNC: { key: string; text: string }[] = [
   { key: "duration", text: "I understand this is an 8-week program. I will show up for all 8 weeks." },
-  { key: "attendance", text: "I will come to every session — online or at the Bohofit centre. Coming is not optional." },
+  { key: "attendance", text: "I will come to every session — online or at the Rebel centre. Coming is not optional." },
   { key: "frequency", text: "I will train Monday to Saturday. That is 6 days every week, 1 hour each day." },
   { key: "slot_lock", text: "Once 3 people pick the same time, that time is locked. New people must pick a different time." },
   { key: "absence", text: "If I miss a session for a real reason like a long illness or accident, I will give the coach proper doctor papers. Without papers, my access will not be extended." },
   { key: "food_photos", text: "I will upload a photo of every meal I eat through my member dashboard. Every day." },
-  { key: "guarantee", text: "Bohofit promises results only if I follow every single rule. If I skip the rules, I lose the guarantee." },
+  { key: "guarantee", text: "Rebel promises results only if I follow every single rule. If I skip the rules, I lose the guarantee." },
   { key: "honesty", text: "I will tell my coach the truth about my food, sleep, and how I feel. No hiding things." },
   { key: "tier", text: "I am picking the right plan for myself. If I need rehab help, I have chosen the Intensive plan." },
   { key: "no_refund", text: "I understand the program fee is for the full 8 weeks. There are no refunds once the program starts." },
@@ -166,8 +166,8 @@ function BootcampPage() {
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
             <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {pending.name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{pending.slot ? ` · ${pending.slot}` : ""}</p>
-            <p className="mt-2 text-sm font-semibold">Team Bohofit will contact you within 2 hours.</p>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Rebel centre" : "Online"}{pending.slot ? ` · ${pending.slot}` : ""}</p>
+            <p className="mt-2 text-sm font-semibold">Team Rebel will contact you within 2 hours.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
                 <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: pending.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: pending.slot }))} target="_blank" rel="noopener noreferrer">
@@ -189,7 +189,7 @@ function BootcampPage() {
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bootcamp" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Boho Bootcamp — 8 weeks</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Bootcamp — 8 weeks</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
@@ -233,7 +233,7 @@ function BootcampPage() {
         <div className="mt-5 grid grid-cols-2 gap-3">
           {(["offline", "online"] as const).map((m) => (
             <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
-              {m === "offline" ? "Offline (Bohofit centre)" : "Online (live with coach)"}
+              {m === "offline" ? "Offline (Rebel centre)" : "Online (live with coach)"}
             </button>
           ))}
         </div>

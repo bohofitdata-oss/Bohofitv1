@@ -123,9 +123,9 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
 }
 
 export const PROGRAM_LABEL: Record<BookingProgram, string> = {
-  bootcamp: "Boho Bootcamp · 8 weeks",
-  group_classes: "Bohofit Group Classes",
-  fifty_plus: "Bohofit at 50+ · 1:1",
+  bootcamp: "Rebel Bootcamp · 8 weeks",
+  group_classes: "Rebel Group Classes",
+  fifty_plus: "Rebel at 50+ · 1:1",
 };
 
 // Reschedule fee logic (front-end only):

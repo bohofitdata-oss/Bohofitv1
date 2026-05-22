@@ -68,7 +68,7 @@ export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, s
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
-        name: "Bohofit",
+        name: "Rebel",
         description: programLabel,
         order_id: order.orderId,
         prefill: { name: customer.name, email: customer.email, contact: customer.phone },

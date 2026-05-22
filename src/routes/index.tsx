@@ -15,10 +15,10 @@ import imgFifty from "@/assets/program-fiftyplus.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bohofit — Machine-free fitness that fits your life" },
-      { name: "description", content: "Group Classes, 8-Week Transformation, or BohoFit 50+. India's first machine-free fitness system." },
-      { property: "og:title", content: "Bohofit — Machine-free fitness that fits your life" },
-      { property: "og:description", content: "Pick a path: Group Classes, 8-Week Transformation, or BohoFit 50+." },
+      { title: "Rebel — Machine-free fitness that fits your life" },
+      { name: "description", content: "Group Classes, 8-Week Transformation, or Rebel 50+. India's first machine-free fitness system." },
+      { property: "og:title", content: "Rebel — Machine-free fitness that fits your life" },
+      { property: "og:description", content: "Pick a path: Group Classes, 8-Week Transformation, or Rebel 50+." },
     ],
   }),
   component: Home,
@@ -38,8 +38,8 @@ const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
   group: {
     label: "Group Classes",
     cards: [
-      { tag: "For Beginners", title: "Bohofit Start", sub: "Yoga · Spin · Zumba · Pilates", image: imgStart, to: "/bohofit" },
-      { tag: "Intermediate & Advanced", title: "Boho Strength", sub: "Calisthenics · S&C · Boxing", image: imgStrength, to: "/bohofit" },
+      { tag: "For Beginners", title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart, to: "/bohofit" },
+      { tag: "Intermediate & Advanced", title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength, to: "/bohofit" },
     ],
   },
   bootcamp: {
@@ -50,7 +50,7 @@ const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
     ],
   },
   fifty: {
-    label: "BohoFit 50+",
+    label: "Rebel 50+",
     cards: [
       { tag: "Designed for 50+", title: "Move easy. Live long.", sub: "Joint-safe · 1:1 personal coach", image: imgFifty, to: "/longevity" },
       { tag: "Family gift", title: "Gift it to a parent", sub: "We handle everything", image: imgFifty, to: "/longevity" },
@@ -85,9 +85,9 @@ function Home() {
         </div>
       </section>
 
-      {/* PILL TABS */}
-      <section className="container mx-auto px-5">
-        <div className="flex gap-2 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+      {/* PILL TABS — all 3 visible together, mobile-optimized */}
+      <section className="container mx-auto px-4">
+        <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
           {(Object.keys(TABS) as TabKey[]).map((key) => {
             const active = key === tab;
             return (
@@ -96,7 +96,7 @@ function Home() {
                 type="button"
                 onClick={() => setTab(key)}
                 className={cn(
-                  "snap-start shrink-0 rounded-md px-4 py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider border transition-colors",
+                  "rounded-md px-2 py-2.5 text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-tight md:tracking-wider border transition-colors text-center leading-tight",
                   active
                     ? "bg-gradient-gold text-primary-foreground border-transparent shadow-elegant"
                     : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-primary/50",
@@ -164,7 +164,7 @@ function Home() {
             <div className="mt-8 grid gap-3 md:gap-4">
               <PathStep n={1} icon={Sparkles} title="Start or Bootcamp" sub="Learn the basics. Build the habit." image={imgStart} />
               <ArrowDownBar />
-              <PathStep n={2} icon={Dumbbell} title="Boho Strength" sub="Get strong. Get capable." image={imgStrength} />
+              <PathStep n={2} icon={Dumbbell} title="Rebel Strength" sub="Get strong. Get capable." image={imgStrength} />
               <ArrowDownBar />
               <PathStep n={3} icon={Flame} title="Repeat. Train for life." sub="Stay consistent. Stay fit." image={imgBootcamp} />
             </div>

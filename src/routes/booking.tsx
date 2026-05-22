@@ -22,7 +22,7 @@ export const Route = createFileRoute("/booking")({
   }),
   head: () => ({
     meta: [
-      { title: "Book a call — Bohofit" },
+      { title: "Book a call — Rebel" },
       { name: "description", content: "Tell us your goal. We'll send a plan, pricing, and the next batch dates." },
     ],
   }),
@@ -30,7 +30,7 @@ export const Route = createFileRoute("/booking")({
 });
 
 const labels: Record<PathChoice, { tag: string; title: string; sub: string }> = {
-  bohofit: { tag: "Bohofit Classes", title: "Start your group fitness journey", sub: "We'll share class schedules and the right plan for you." },
+  bohofit: { tag: "Rebel Classes", title: "Start your group fitness journey", sub: "We'll share class schedules and the right plan for you." },
   bootcamp: { tag: "8-Week Bootcamp", title: "Join the next bootcamp batch", sub: "Tell us about your goals — we'll confirm your spot." },
   longevity: { tag: "Longevity 1:1", title: "Book a free 30-minute consult", sub: "We listen, assess, then recommend. No sales pressure." },
 };

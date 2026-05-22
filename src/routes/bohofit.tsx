@@ -4,17 +4,15 @@ import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Flame, Infinity as InfinityIcon, Home } from "lucide-react";
+import { Check, Sparkles, Flame, Infinity as InfinityIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GeneralFitnessTerms, allGeneralTermsAccepted, scrollToFirstUncheckedTerm } from "@/components/GeneralFitnessTerms";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
     meta: [
-      { title: "Bohofit Group Classes — Start, Strength & Unlimited" },
-      { name: "description", content: "Three offline programs at HSR Bangalore. Bohofit Start (beginners), Boho Strength (advanced), and Bohofit Unlimited (everything)." },
-      { property: "og:title", content: "Bohofit Group Classes — Start, Strength & Unlimited" },
+      { title: "Rebel Group Classes — Start, Strength & Unlimited" },
+      { name: "description", content: "Three offline programs at HSR Bangalore. Rebel Start (beginners), Rebel Strength (advanced), and Rebel Unlimited (everything)." },
+      { property: "og:title", content: "Rebel Group Classes — Start, Strength & Unlimited" },
     ],
   }),
   component: BohofitPage,
@@ -22,50 +20,49 @@ export const Route = createFileRoute("/bohofit")({
 
 type Tab = "start" | "strength" | "unlimited";
 
-const startFormats = ["Yoga", "Spin", "Zumba", "Mat Pilates", "Beginner Strength"];
-const strengthFormats = ["Calisthenics", "S&C", "Boxing / Kickboxing", "Weightlifting"];
+const startFormats = ["Yoga", "Zumba", "Beginner Strength", "Mat Pilates"];
+const strengthFormats = ["Calisthenics", "S&C", "Weightlifting"];
 const unlimitedFormats = [...startFormats, ...strengthFormats];
 
 type Plan = { months: string; phase?: string; price: string; pause: string; perks: string[]; best?: boolean };
 
 // Per official pricing posters
 const startPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 5 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 4 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const strengthPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 3 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 3 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 3 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 3 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const unlimitedPlans: Plan[] = [
-  { months: "3 Months", phase: "Option 1", price: "₹10,499", pause: "15 days", perks: ["Unlimited classes — all 9 formats", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Option 2", price: "₹14,999", pause: "30 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "12 Months", phase: "Option 3", price: "₹18,499", pause: "60 days", perks: ["Unlimited classes — all 9 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+  { months: "3 Months", phase: "Option 1", price: "₹10,499", pause: "15 days", perks: ["Unlimited classes — all 7 formats", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Option 2", price: "₹14,999", pause: "30 days", perks: ["Unlimited classes — all 7 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
+  { months: "12 Months", phase: "Option 3", price: "₹18,499", pause: "60 days", perks: ["Unlimited classes — all 7 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: "Bohofit Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 5 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Boho Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 4 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Boho One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 9 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  start: { name: "Rebel Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
+  strength: { name: "Rebel Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Rebel One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
 };
 
 function BohofitPage() {
   const [tab, setTab] = useState<Tab>("start");
-  const [terms, setTerms] = useState<Record<string, boolean>>({});
   const meta = TAB_META[tab];
-  const accepted = allGeneralTermsAccepted(terms);
+
 
   return (
     <SiteShell>
       <section className="container mx-auto px-5 pt-12 md:pt-20 pb-6 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bohofit" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Bohofit Group Classes · HSR Layout, Bangalore</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Group Classes · HSR Layout, Bangalore</p>
           <h1 className="mt-3 text-3xl md:text-6xl font-black tracking-tight">
             India's first <span className="text-gradient-gold">machine-free</span> fitness center.
           </h1>
@@ -106,11 +103,8 @@ function BohofitPage() {
             <p className="mt-2 text-sm text-muted-foreground">{meta.sub}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               {meta.formats.map((f) => (
-                <span key={f} className="text-xs font-semibold rounded-full border border-border px-3 py-1.5">{f}</span>
+                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-white px-4 py-2">{f}</span>
               ))}
-            </div>
-            <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
-              <Home className="w-3.5 h-3.5 text-primary" /> Prefer to train at home? Speak with us — we tailor delivery to your setting.
             </div>
           </div>
         </Reveal>
@@ -140,42 +134,19 @@ function BohofitPage() {
                   </li>
                 ))}
               </ul>
-              {accepted ? (
-                <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-                  <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={() => {
-                    toast.error("Please tick all terms below to continue");
-                    scrollToFirstUncheckedTerm(terms);
-                  }}
-                  className="mt-5 bg-muted text-foreground hover:bg-muted/80 border border-border"
-                >
-                  Accept terms to continue
-                </Button>
-              )}
+              <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
+                <Link to="/booking" search={{ path: "bohofit" }}>Pay &amp; book — {p.months}</Link>
+              </Button>
             </div>
           ))}
         </div>
+        <p className="text-center text-xs text-muted-foreground mt-6">You&rsquo;ll review and accept the membership terms right after payment.</p>
       </section>
 
-      {/* TERMS & CONDITIONS */}
-      <section className="container mx-auto px-5 pb-16">
-        <Reveal>
-          <div className="text-center mb-6">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Before you join</p>
-            <h2 className="text-2xl md:text-3xl font-black mt-2">Terms &amp; conditions</h2>
-            <p className="text-xs text-muted-foreground mt-2">Tick every box. Tap any rule to read the full version.</p>
-          </div>
-        </Reveal>
-        <GeneralFitnessTerms checked={terms} onChange={setTerms} />
-      </section>
 
       <section className="container mx-auto px-5 pb-20">
         <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-6 text-center">Why Bohofit works</h2>
+          <h2 className="text-2xl md:text-3xl font-black mb-6 text-center">Why Rebel works</h2>
         </Reveal>
         <div className="grid md:grid-cols-3 gap-4">
           {["Machine-free, joint-friendly", "Real coaches, small batches", "Pause anytime · transfer where allowed"].map((p) => (

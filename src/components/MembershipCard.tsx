@@ -18,11 +18,11 @@ type Membership = {
 };
 
 const PROGRAM_LABEL: Record<string, string> = {
-  start: "Bohofit Start",
-  strength: "Boho Strength",
-  unlimited: "Bohofit Unlimited",
-  bootcamp: "Boho Bootcamp",
-  longevity: "Bohofit at 50+",
+  start: "Rebel Start",
+  strength: "Rebel Strength",
+  unlimited: "Rebel Unlimited",
+  bootcamp: "Rebel Bootcamp",
+  longevity: "Rebel at 50+",
 };
 
 export function MembershipCard({ userId }: { userId: string }) {

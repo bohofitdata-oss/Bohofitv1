@@ -22,9 +22,9 @@ import { PaymentScreen } from "@/components/PaymentScreen";
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
     meta: [
-      { title: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { title: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
       { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 5 spots per slot. Pick your time, accept the rules, start 1st May." },
-      { property: "og:title", content: "Boho 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { property: "og:title", content: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
     ],
   }),
   component: BootcampPage,
@@ -32,12 +32,12 @@ export const Route = createFileRoute("/bootcamp")({
 
 const TNC: { key: string; text: string }[] = [
   { key: "duration", text: "I understand this is an 8-week program. I will show up for all 8 weeks." },
-  { key: "attendance", text: "I will come to every session — online or at the Bohofit centre. Coming is not optional." },
+  { key: "attendance", text: "I will come to every session — online or at the Rebel centre. Coming is not optional." },
   { key: "frequency", text: "I will train Monday to Saturday. That is 6 days every week, 1 hour each day." },
   { key: "slot_lock", text: "Once 3 people pick the same time, that time is locked. New people must pick a different time." },
   { key: "absence", text: "If I miss a session for a real reason like a long illness or accident, I will give the coach proper doctor papers. Without papers, my access will not be extended." },
   { key: "food_photos", text: "I will upload a photo of every meal I eat through my member dashboard. Every day." },
-  { key: "guarantee", text: "Bohofit promises results only if I follow every single rule. If I skip the rules, I lose the guarantee." },
+  { key: "guarantee", text: "Rebel promises results only if I follow every single rule. If I skip the rules, I lose the guarantee." },
   { key: "honesty", text: "I will tell my coach the truth about my food, sleep, and how I feel. No hiding things." },
   { key: "tier", text: "I am picking the right plan for myself. If I need rehab help, I have chosen the Intensive plan." },
   { key: "no_refund", text: "I understand the program fee is for the full 8 weeks. There are no refunds once the program starts." },
@@ -64,13 +64,13 @@ const conditionsList = [
 function BootcampPage() {
   const navigate = useNavigate();
   const [tier, setTier] = useState<"standard" | "intensive">("standard");
-  const [mode, setMode] = useState<"offline" | "online">("offline");
+  const mode: "offline" = "offline";
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
   const [conditions, setConditions] = useState<Record<string, boolean>>({});
   const [needsRehab, setNeedsRehab] = useState(false);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [phase, setPhase] = useState<"form" | "payment" | "confirmed">("form");
+  const [phase, setPhase] = useState<"form" | "payment" | "terms" | "confirmed">("form");
   const [pending, setPending] = useState<null | {
     bookingId: string;
     name: string;
@@ -81,18 +81,6 @@ function BootcampPage() {
   }>(null);
   const [loading, setLoading] = useState(false);
 
-  const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
-
-  const scrollToFirstUncheckedTnc = () => {
-    const missing = TNC.find((t) => !tncChecked[t.key]);
-    if (!missing) return;
-    const el = document.getElementById(`tnc-${missing.key}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      el.classList.add("ring-2", "ring-primary");
-      setTimeout(() => el.classList.remove("ring-2", "ring-primary"), 1600);
-    }
-  };
 
   const submit = async (intent: "pay" | "consult", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,11 +88,8 @@ function BootcampPage() {
       toast.error("Pick a primary time slot");
       return;
     }
-    if (!allTncAccepted) {
-      toast.error("Please accept every term & condition");
-      scrollToFirstUncheckedTnc();
-      return;
-    }
+    // Terms moved to after payment — no pre-payment gate.
+
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) {
@@ -141,6 +126,8 @@ function BootcampPage() {
     setPhase(intent === "pay" ? "payment" : "confirmed");
   };
 
+  const allTncAcceptedNow = TNC.every((t) => tncChecked[t.key]);
+
   if (phase === "payment" && pending) {
     return (
       <SiteShell>
@@ -151,8 +138,38 @@ function BootcampPage() {
           planLabel={tier === "intensive" ? "Intensive" : "Standard"}
           slotLabel={pending.slot}
           customer={{ name: pending.name, email: pending.email, phone: pending.phone }}
-          onPaid={() => setPhase("confirmed")}
+          onPaid={() => setPhase("terms")}
         />
+      </SiteShell>
+    );
+  }
+
+  if (phase === "terms" && pending) {
+    return (
+      <SiteShell>
+        <section className="container mx-auto max-w-2xl px-5 py-16">
+          <Reveal>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary text-center">Payment received ✓</p>
+            <h1 className="mt-2 text-3xl md:text-5xl font-black tracking-tight text-center">Agree to the rules</h1>
+            <p className="mt-3 text-sm text-muted-foreground text-center">Tick every rule below to lock in your spot, {pending.name.split(" ")[0]}.</p>
+          </Reveal>
+          <div className="mt-8 rounded-2xl border border-border bg-card p-5 space-y-3">
+            {TNC.map((t, i) => (
+              <label key={t.key} className={cn("flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
+                <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
+                <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
+              </label>
+            ))}
+          </div>
+          <Button
+            size="lg"
+            disabled={!allTncAcceptedNow}
+            onClick={() => setPhase("confirmed")}
+            className="mt-6 w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
+          >
+            {allTncAcceptedNow ? "I agree — confirm my spot" : "Tick all rules to continue"}
+          </Button>
+        </section>
       </SiteShell>
     );
   }
@@ -166,8 +183,8 @@ function BootcampPage() {
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
             <h1 className="mt-6 text-3xl md:text-4xl font-black">You're in, {pending.name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Bohofit centre" : "Online"}{pending.slot ? ` · ${pending.slot}` : ""}</p>
-            <p className="mt-2 text-sm font-semibold">Team Bohofit will contact you within 2 hours.</p>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.bootcamp} · {tier === "intensive" ? "Intensive" : "Standard"} · {mode === "offline" ? "At Rebel centre" : "Online"}{pending.slot ? ` · ${pending.slot}` : ""}</p>
+            <p className="mt-2 text-sm font-semibold">Team Rebel will contact you within 2 hours.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
                 <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: pending.name, program: PROGRAM_LABEL.bootcamp, mode: mode === "offline" ? "Offline" : "Online", plan: tier === "intensive" ? "Intensive" : "Standard", slot: pending.slot }))} target="_blank" rel="noopener noreferrer">
@@ -189,7 +206,7 @@ function BootcampPage() {
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bootcamp" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Boho Bootcamp — 8 weeks</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Bootcamp — 8 weeks</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
@@ -223,20 +240,8 @@ function BootcampPage() {
           </button>
         </div>
 
-        {/* MODE */}
-        <Reveal>
-          <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Online or offline</p>
-            <h2 className="mt-1 text-2xl md:text-3xl font-black">Where will you train?</h2>
-          </div>
-        </Reveal>
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          {(["offline", "online"] as const).map((m) => (
-            <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
-              {m === "offline" ? "Offline (Bohofit centre)" : "Online (live with coach)"}
-            </button>
-          ))}
-        </div>
+        {/* Bootcamp is offline-only at the Rebel centre. */}
+
 
         {/* CONDITIONS */}
         <Reveal>
@@ -284,22 +289,8 @@ function BootcampPage() {
           </div>
         </form>
 
-        {/* T&C */}
-        <Reveal>
-          <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 6 · The rules</p>
-            <h2 className="mt-1 text-2xl md:text-3xl font-black">Read every rule. Tick every box.</h2>
-            <p className="text-sm text-muted-foreground mt-1">This is a guaranteed program — only if you follow every single rule. No skipping.</p>
-          </div>
-        </Reveal>
-        <div className="mt-5 rounded-2xl border border-border bg-card p-5 space-y-3">
-          {TNC.map((t, i) => (
-            <label key={t.key} id={`tnc-${t.key}`} className={cn("scroll-mt-24 flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
-              <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
-              <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
-            </label>
-          ))}
-        </div>
+        {/* Terms appear AFTER payment, not before. */}
+
 
         {/* CTAS */}
         <div className="mt-8 grid sm:grid-cols-2 gap-3">

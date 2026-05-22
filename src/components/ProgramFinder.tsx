@@ -21,11 +21,11 @@ type Recommendation = {
 };
 
 const RECS: Record<Recommendation["key"], Recommendation> = {
-  longevity: { key: "longevity", title: "Bohofit at 50+", to: "/longevity", icon: HeartPulse, why: "Trainer-led, 1:1, machine-free — built specifically for the 50+ body." },
-  bootcamp: { key: "bootcamp", title: "Boho Bootcamp · 8 weeks", to: "/bootcamp", icon: Flame, why: "You want fast, visible results. Guaranteed program, full accountability." },
-  start: { key: "start", title: "Bohofit Start", to: "/bohofit", icon: Sparkles, why: "Safest re-entry to fitness. Yoga, Spin, Pilates, Zumba & beginner strength." },
-  strength: { key: "strength", title: "Boho Strength", to: "/bohofit", icon: Dumbbell, why: "Calisthenics, S&C, Boxing & Weightlifting — built for serious strength." },
-  boho_one: { key: "boho_one", title: "Boho One", to: "/bohofit", icon: Sparkles, why: "All 9 formats in one membership — strength, skills, cardio & flexibility." },
+  longevity: { key: "longevity", title: "Rebel at 50+", to: "/longevity", icon: HeartPulse, why: "Trainer-led, 1:1, machine-free — built specifically for the 50+ body." },
+  bootcamp: { key: "bootcamp", title: "Rebel Bootcamp · 8 weeks", to: "/bootcamp", icon: Flame, why: "You want fast, visible results. Guaranteed program, full accountability." },
+  start: { key: "start", title: "Rebel Start", to: "/bohofit", icon: Sparkles, why: "Safest re-entry to fitness. Yoga, Spin, Pilates, Zumba & beginner strength." },
+  strength: { key: "strength", title: "Rebel Strength", to: "/bohofit", icon: Dumbbell, why: "Calisthenics, S&C, Boxing & Weightlifting — built for serious strength." },
+  boho_one: { key: "boho_one", title: "Rebel One", to: "/bohofit", icon: Sparkles, why: "All 9 formats in one membership — strength, skills, cardio & flexibility." },
 };
 
 function recommend(a: Answers): Recommendation["key"] {

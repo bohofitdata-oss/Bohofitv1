@@ -13,8 +13,8 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Bohofit" },
-      { name: "description", content: "Sign in to your Bohofit account with Google, email or your mobile number." },
+      { title: "Sign in — Rebel" },
+      { name: "description", content: "Sign in to your Rebel account with Google, email or your mobile number." },
     ],
   }),
   component: AuthPage,
@@ -120,7 +120,7 @@ function AuthPage() {
         <div className="rounded-2xl border border-border bg-card p-7 shadow-card">
           <h1 className="text-2xl font-black">{mode === "signup" ? "Create your account" : "Welcome back"}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {mode === "signup" ? "Start your Bohofit journey." : "Sign in to your dashboard."}
+            {mode === "signup" ? "Start your Rebel journey." : "Sign in to your dashboard."}
           </p>
 
           {/* Google */}

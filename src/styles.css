@@ -47,7 +47,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* Bohofit brand — Matte Black + Red #89010A */
+  /* Rebel brand — Matte Black + Red #89010A */
   --background: oklch(0.09 0 0);                 /* matte black */
   --foreground: oklch(0.97 0 0);
   --card: oklch(0.13 0 0);

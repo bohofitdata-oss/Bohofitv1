@@ -10,7 +10,7 @@ import { Link } from "@tanstack/react-router";
  *           [Start Group] ────┘             ▲                     │
  *                                            ╰─── repeat ◄────────╯
  *
- *   [Bohofit 50+]  — separate 1:1 track
+ *   [Rebel 50+]  — separate 1:1 track
  */
 export function JourneyMap() {
   return (
@@ -41,7 +41,7 @@ export function JourneyMap() {
           {/* Strength node */}
           <div className="flex justify-center">
             <div className="w-full max-w-xs">
-              <FlowTile to="/bohofit" icon={Dumbbell} label="Boho Strength" tone="primary" big />
+              <FlowTile to="/bohofit" icon={Dumbbell} label="Rebel Strength" tone="primary" big />
             </div>
           </div>
 
@@ -66,7 +66,7 @@ export function JourneyMap() {
               <HeartPulse className="w-5 h-5 text-primary-foreground" />
             </div>
             <div className="flex-1">
-              <p className="font-black text-sm md:text-base">Bohofit 50+</p>
+              <p className="font-black text-sm md:text-base">Rebel 50+</p>
               <p className="text-xs text-muted-foreground">1:1 personal track</p>
             </div>
             <ArrowRight className="w-4 h-4 text-primary" />

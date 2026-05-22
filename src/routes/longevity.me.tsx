@@ -26,7 +26,7 @@ import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/longevity/me")({
-  head: () => ({ meta: [{ title: "My Bohofit at 50+ — Member" }] }),
+  head: () => ({ meta: [{ title: "My Rebel at 50+ — Member" }] }),
   component: MyLongevityPage,
 });
 
@@ -248,7 +248,7 @@ function MyLongevityPage() {
       <SiteShell>
         <section className="container mx-auto max-w-lg px-5 py-20 text-center">
           <Heart className="w-10 h-10 text-primary mx-auto" />
-          <h1 className="mt-4 text-2xl md:text-3xl font-black">You&rsquo;re not enrolled in Bohofit at 50+ yet</h1>
+          <h1 className="mt-4 text-2xl md:text-3xl font-black">You&rsquo;re not enrolled in Rebel at 50+ yet</h1>
           <p className="mt-3 text-muted-foreground">
             Members are enrolled by the trainer after an in-person assessment at our HSR Layout studio.
             Once enrolled, this page becomes your personal program home.
@@ -284,7 +284,7 @@ function MyLongevityPage() {
     // Header
     doc.setFont("helvetica", "bold");
     doc.setFontSize(20);
-    doc.text("Bohofit at 50+ — Progress Timeline", margin, y);
+    doc.text("Rebel at 50+ — Progress Timeline", margin, y);
     y += 24;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
@@ -408,10 +408,10 @@ function MyLongevityPage() {
       doc.setPage(i);
       doc.setFontSize(9);
       doc.setTextColor(150);
-      doc.text(`Bohofit  ·  Page ${i} of ${pageCount}`, margin, pageH - 20);
+      doc.text(`Rebel  ·  Page ${i} of ${pageCount}`, margin, pageH - 20);
     }
 
-    doc.save(`Bohofit-50plus-progress-${member.first_name}-${new Date().toISOString().slice(0, 10)}.pdf`);
+    doc.save(`Rebel-50plus-progress-${member.first_name}-${new Date().toISOString().slice(0, 10)}.pdf`);
   };
 
 
@@ -420,7 +420,7 @@ function MyLongevityPage() {
       <section className="container mx-auto px-5 py-8 md:py-12 max-w-3xl">
         {/* Hero */}
         <div className="rounded-2xl border border-border bg-card p-5 md:p-7">
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Bohofit at 50+</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel at 50+</p>
           <h1 className="mt-1 text-2xl md:text-3xl font-black">Welcome back, {member.first_name}.</h1>
           <div className="mt-5 grid grid-cols-3 gap-3">
             <div className="text-center rounded-xl border border-border/60 p-3">
@@ -636,7 +636,7 @@ function MyLongevityPage() {
               </Button>
               {member.family_phone && (
                 <a
-                  href={`https://wa.me/${member.family_phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi! Here's my Bohofit progress: ${familyUrl}`)}`}
+                  href={`https://wa.me/${member.family_phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi! Here's my Rebel progress: ${familyUrl}`)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-xs font-semibold text-primary"

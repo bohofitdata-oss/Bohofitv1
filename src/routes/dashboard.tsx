@@ -12,7 +12,7 @@ import { MedicalHistoryCard } from "@/components/MedicalHistoryCard";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Your dashboard — Bohofit" }] }),
+  head: () => ({ meta: [{ title: "Your dashboard — Rebel" }] }),
   component: DashboardPage,
 });
 

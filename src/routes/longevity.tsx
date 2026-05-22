@@ -22,9 +22,9 @@ import { PaymentScreen } from "@/components/PaymentScreen";
 export const Route = createFileRoute("/longevity")({
   head: () => ({
     meta: [
-      { title: "Boho at 50+ — 1:1 personal training, online or offline" },
-      { name: "description", content: "Extremely personal 1:1 training for 50+. Online or at a Bohofit centre. Pick your own hour, Mon–Sat. Free 30-min consult before you commit." },
-      { property: "og:title", content: "Boho at 50+ — 1:1 personal training" },
+      { title: "Rebel at 50+ — 1:1 personal training, online or offline" },
+      { name: "description", content: "Extremely personal 1:1 training for 50+. Online or at a Rebel centre. Pick your own hour, Mon–Sat. Free 30-min consult before you commit." },
+      { property: "og:title", content: "Rebel at 50+ — 1:1 personal training" },
     ],
   }),
   component: LongevityPage,
@@ -132,8 +132,8 @@ function LongevityPage() {
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
             <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it, {display.name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Bohofit centre" : "Online"}{slotLabel ? ` · ${slotLabel}` : ""}</p>
-            <p className="mt-2 text-sm font-semibold">Team Bohofit will contact you within 2 hours.</p>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Rebel centre" : "Online"}{slotLabel ? ` · ${slotLabel}` : ""}</p>
+            <p className="mt-2 text-sm font-semibold">Team Rebel will contact you within 2 hours.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
                 <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: display.name, program: PROGRAM_LABEL.fifty_plus, mode: mode === "offline" ? "Offline" : "Online", slot: slotLabel }))} target="_blank" rel="noopener noreferrer">
@@ -153,7 +153,7 @@ function LongevityPage() {
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="longevity" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Bohofit at 50+ · 1:1</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel at 50+ · 1:1</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Move pain-free. <span className="text-gradient-gold">Age strong.</span>
           </h1>
@@ -177,7 +177,7 @@ function LongevityPage() {
         <div className="mt-5 grid grid-cols-2 gap-3">
           {(["offline", "online"] as const).map((m) => (
             <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
-              {m === "offline" ? "Offline (Bohofit centre)" : "Online (Google Meet)"}
+              {m === "offline" ? "Offline (Rebel centre)" : "Online (Google Meet)"}
             </button>
           ))}
         </div>

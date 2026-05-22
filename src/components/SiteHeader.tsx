@@ -17,12 +17,12 @@ export function SiteHeader() {
       <div className="container mx-auto flex items-center justify-between h-16 px-5">
         <Link to="/" className="flex items-center gap-2">
           <span className="inline-block w-7 h-7 rounded-md bg-gradient-gold shadow-elegant" />
-          <span className="font-black tracking-tight text-lg">Bohofit</span>
+          <span className="font-black tracking-tight text-lg">Rebel</span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
           <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Group Classes</Link>
-          <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho Bootcamp</Link>
-          <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Boho at 50+</Link>
+          <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Rebel Bootcamp</Link>
+          <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Rebel at 50+</Link>
           
         </nav>
         <div className="flex items-center gap-2">

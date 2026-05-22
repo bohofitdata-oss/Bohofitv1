@@ -54,9 +54,8 @@ const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.Compone
 
 function BohofitPage() {
   const [tab, setTab] = useState<Tab>("start");
-  const [terms, setTerms] = useState<Record<string, boolean>>({});
   const meta = TAB_META[tab];
-  const accepted = allGeneralTermsAccepted(terms);
+
 
   return (
     <SiteShell>

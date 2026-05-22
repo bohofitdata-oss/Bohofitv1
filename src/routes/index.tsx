@@ -85,9 +85,9 @@ function Home() {
         </div>
       </section>
 
-      {/* PILL TABS */}
-      <section className="container mx-auto px-5">
-        <div className="flex gap-2 overflow-x-auto pb-3 -mx-1 px-1 snap-x snap-mandatory">
+      {/* PILL TABS — all 3 visible together, mobile-optimized */}
+      <section className="container mx-auto px-4">
+        <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
           {(Object.keys(TABS) as TabKey[]).map((key) => {
             const active = key === tab;
             return (
@@ -96,7 +96,7 @@ function Home() {
                 type="button"
                 onClick={() => setTab(key)}
                 className={cn(
-                  "snap-start shrink-0 rounded-md px-4 py-2.5 text-xs md:text-sm font-bold uppercase tracking-wider border transition-colors",
+                  "rounded-md px-2 py-2.5 text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-tight md:tracking-wider border transition-colors text-center leading-tight",
                   active
                     ? "bg-gradient-gold text-primary-foreground border-transparent shadow-elegant"
                     : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-primary/50",

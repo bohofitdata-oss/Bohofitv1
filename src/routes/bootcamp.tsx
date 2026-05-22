@@ -64,13 +64,13 @@ const conditionsList = [
 function BootcampPage() {
   const navigate = useNavigate();
   const [tier, setTier] = useState<"standard" | "intensive">("standard");
-  const [mode, setMode] = useState<"offline" | "online">("offline");
+  const mode: "offline" = "offline";
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
   const [conditions, setConditions] = useState<Record<string, boolean>>({});
   const [needsRehab, setNeedsRehab] = useState(false);
   const [tncChecked, setTncChecked] = useState<Record<string, boolean>>({});
-  const [phase, setPhase] = useState<"form" | "payment" | "confirmed">("form");
+  const [phase, setPhase] = useState<"form" | "payment" | "terms" | "confirmed">("form");
   const [pending, setPending] = useState<null | {
     bookingId: string;
     name: string;

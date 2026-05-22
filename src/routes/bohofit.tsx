@@ -137,38 +137,15 @@ function BohofitPage() {
                   </li>
                 ))}
               </ul>
-              {accepted ? (
-                <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-                  <Link to="/booking" search={{ path: "bohofit" }}>Start {p.months}</Link>
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={() => {
-                    toast.error("Please tick all terms below to continue");
-                    scrollToFirstUncheckedTerm(terms);
-                  }}
-                  className="mt-5 bg-muted text-foreground hover:bg-muted/80 border border-border"
-                >
-                  Accept terms to continue
-                </Button>
-              )}
+              <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
+                <Link to="/booking" search={{ path: "bohofit" }}>Pay &amp; book — {p.months}</Link>
+              </Button>
             </div>
           ))}
         </div>
+        <p className="text-center text-xs text-muted-foreground mt-6">You&rsquo;ll review and accept the membership terms right after payment.</p>
       </section>
 
-      {/* TERMS & CONDITIONS */}
-      <section className="container mx-auto px-5 pb-16">
-        <Reveal>
-          <div className="text-center mb-6">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Before you join</p>
-            <h2 className="text-2xl md:text-3xl font-black mt-2">Terms &amp; conditions</h2>
-            <p className="text-xs text-muted-foreground mt-2">Tick every box. Tap any rule to read the full version.</p>
-          </div>
-        </Reveal>
-        <GeneralFitnessTerms checked={terms} onChange={setTerms} />
-      </section>
 
       <section className="container mx-auto px-5 pb-20">
         <Reveal>

@@ -220,20 +220,8 @@ function BootcampPage() {
           </button>
         </div>
 
-        {/* MODE */}
-        <Reveal>
-          <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Online or offline</p>
-            <h2 className="mt-1 text-2xl md:text-3xl font-black">Where will you train?</h2>
-          </div>
-        </Reveal>
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          {(["offline", "online"] as const).map((m) => (
-            <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
-              {m === "offline" ? "Offline (Rebel centre)" : "Online (live with coach)"}
-            </button>
-          ))}
-        </div>
+        {/* Bootcamp is offline-only at the Rebel centre. */}
+
 
         {/* CONDITIONS */}
         <Reveal>

@@ -30,13 +30,13 @@ type Plan = { months: string; phase?: string; price: string; pause: string; perk
 
 // Per official pricing posters
 const startPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 5 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 5 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
+  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 4 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
 ];
 
 const strengthPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
+  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 3 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
   { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 4 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
   { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
   { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 4 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },

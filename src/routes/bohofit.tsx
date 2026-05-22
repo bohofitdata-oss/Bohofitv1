@@ -106,11 +106,8 @@ function BohofitPage() {
             <p className="mt-2 text-sm text-muted-foreground">{meta.sub}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               {meta.formats.map((f) => (
-                <span key={f} className="text-xs font-semibold rounded-full border border-border px-3 py-1.5">{f}</span>
+                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-white px-4 py-2">{f}</span>
               ))}
-            </div>
-            <div className="mt-5 flex items-center gap-2 text-xs text-muted-foreground">
-              <Home className="w-3.5 h-3.5 text-primary" /> Prefer to train at home? Speak with us — we tailor delivery to your setting.
             </div>
           </div>
         </Reveal>

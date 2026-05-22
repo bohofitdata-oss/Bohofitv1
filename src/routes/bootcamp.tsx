@@ -100,11 +100,8 @@ function BootcampPage() {
       toast.error("Pick a primary time slot");
       return;
     }
-    if (!allTncAccepted) {
-      toast.error("Please accept every term & condition");
-      scrollToFirstUncheckedTnc();
-      return;
-    }
+    // Terms moved to after payment — no pre-payment gate.
+
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) {

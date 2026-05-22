@@ -38,8 +38,8 @@ const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
   group: {
     label: "Group Classes",
     cards: [
-      { tag: "For Beginners", title: "Rebel Start", sub: "Yoga · Spin · Zumba · Pilates", image: imgStart, to: "/bohofit" },
-      { tag: "Intermediate & Advanced", title: "Rebel Strength", sub: "Calisthenics · S&C · Boxing", image: imgStrength, to: "/bohofit" },
+      { tag: "For Beginners", title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart, to: "/bohofit" },
+      { tag: "Intermediate & Advanced", title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength, to: "/bohofit" },
     ],
   },
   bootcamp: {

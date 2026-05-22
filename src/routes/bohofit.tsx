@@ -22,8 +22,8 @@ export const Route = createFileRoute("/bohofit")({
 
 type Tab = "start" | "strength" | "unlimited";
 
-const startFormats = ["Yoga", "Spin", "Zumba", "Mat Pilates", "Beginner Strength"];
-const strengthFormats = ["Calisthenics", "S&C", "Boxing / Kickboxing", "Weightlifting"];
+const startFormats = ["Yoga", "Zumba", "Beginner Strength", "Mat Pilates"];
+const strengthFormats = ["Calisthenics", "S&C", "Weightlifting"];
 const unlimitedFormats = [...startFormats, ...strengthFormats];
 
 type Plan = { months: string; phase?: string; price: string; pause: string; perks: string[]; best?: boolean };

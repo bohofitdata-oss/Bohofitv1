@@ -138,6 +138,8 @@ function BootcampPage() {
     setPhase(intent === "pay" ? "payment" : "confirmed");
   };
 
+  const allTncAcceptedNow = TNC.every((t) => tncChecked[t.key]);
+
   if (phase === "payment" && pending) {
     return (
       <SiteShell>
@@ -148,8 +150,38 @@ function BootcampPage() {
           planLabel={tier === "intensive" ? "Intensive" : "Standard"}
           slotLabel={pending.slot}
           customer={{ name: pending.name, email: pending.email, phone: pending.phone }}
-          onPaid={() => setPhase("confirmed")}
+          onPaid={() => setPhase("terms")}
         />
+      </SiteShell>
+    );
+  }
+
+  if (phase === "terms" && pending) {
+    return (
+      <SiteShell>
+        <section className="container mx-auto max-w-2xl px-5 py-16">
+          <Reveal>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary text-center">Payment received ✓</p>
+            <h1 className="mt-2 text-3xl md:text-5xl font-black tracking-tight text-center">Agree to the rules</h1>
+            <p className="mt-3 text-sm text-muted-foreground text-center">Tick every rule below to lock in your spot, {pending.name.split(" ")[0]}.</p>
+          </Reveal>
+          <div className="mt-8 rounded-2xl border border-border bg-card p-5 space-y-3">
+            {TNC.map((t, i) => (
+              <label key={t.key} className={cn("flex items-start gap-3 rounded-xl border p-4 cursor-pointer transition", tncChecked[t.key] ? "border-primary bg-primary/5" : "border-border hover:border-primary/40")}>
+                <Checkbox className="mt-0.5" checked={!!tncChecked[t.key]} onCheckedChange={(v) => setTncChecked({ ...tncChecked, [t.key]: !!v })} />
+                <span className="text-sm leading-relaxed"><span className="font-bold text-primary">Rule {i + 1}.</span> {t.text}</span>
+              </label>
+            ))}
+          </div>
+          <Button
+            size="lg"
+            disabled={!allTncAcceptedNow}
+            onClick={() => setPhase("confirmed")}
+            className="mt-6 w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90"
+          >
+            {allTncAcceptedNow ? "I agree — confirm my spot" : "Tick all rules to continue"}
+          </Button>
+        </section>
       </SiteShell>
     );
   }

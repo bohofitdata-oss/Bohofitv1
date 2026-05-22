@@ -4,10 +4,8 @@ import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Flame, Infinity as InfinityIcon, Home } from "lucide-react";
+import { Check, Sparkles, Flame, Infinity as InfinityIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { GeneralFitnessTerms, allGeneralTermsAccepted, scrollToFirstUncheckedTerm } from "@/components/GeneralFitnessTerms";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/bohofit")({
   head: () => ({

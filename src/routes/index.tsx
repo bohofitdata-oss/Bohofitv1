@@ -231,6 +231,8 @@ function Home() {
           </div>
         </Reveal>
       </section>
+
+      <StickyMobileCTA />
     </SiteShell>
   );
 }

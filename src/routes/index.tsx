@@ -6,6 +6,11 @@ import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { LocationBanner } from "@/components/LocationBanner";
+import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { RebelCafe } from "@/components/RebelCafe";
+import { FAQSection } from "@/components/FAQSection";
+import { ReferralSection } from "@/components/ReferralSection";
 
 import imgStart from "@/assets/program-start.jpg";
 import imgStrength from "@/assets/program-strength.jpg";

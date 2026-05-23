@@ -171,11 +171,29 @@ function Home() {
             </h2>
 
             <div className="mt-8 grid gap-3 md:gap-4">
-              <PathStep n={1} icon={Sparkles} title="Start or Bootcamp" sub="Learn the basics. Build the habit." image={imgStart} />
-              <ArrowDownBar />
-              <PathStep n={2} icon={Dumbbell} title="Rebel Strength" sub="Get strong. Get capable." image={imgStrength} />
-              <ArrowDownBar />
-              <PathStep n={3} icon={Flame} title="Repeat. Train for life." sub="Stay consistent. Stay fit." image={imgBootcamp} />
+              {(tab === "group"
+                ? [
+                    { n: 1, icon: Sparkles, title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart },
+                    { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength },
+                    { n: 3, icon: Flame, title: "Rebel One", sub: "All 7 formats — train for life.", image: imgBootcamp },
+                  ]
+                : tab === "bootcamp"
+                  ? [
+                      { n: 1, icon: Flame, title: "8-Week Transformation", sub: "Lose fat. Build strength. Diet plan included.", image: imgBootcamp },
+                      { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Lock in the results. Get stronger.", image: imgStrength },
+                      { n: 3, icon: Sparkles, title: "Train for life", sub: "Stay consistent. Stay fit.", image: imgStart },
+                    ]
+                  : [
+                      { n: 1, icon: HeartPulse, title: "Rebel 50+ (1:1)", sub: "Joint-safe · personal coach · 24 sessions", image: imgFifty },
+                      { n: 2, icon: Sparkles, title: "Rebel Start (group)", sub: "Graduate into mixed-age classes when ready.", image: imgStart },
+                      { n: 3, icon: Dumbbell, title: "Continuous progression", sub: "Move strong for the next 30 years.", image: imgStrength },
+                    ]
+              ).map((s, i, arr) => (
+                <div key={s.n}>
+                  <PathStep n={s.n} icon={s.icon} title={s.title} sub={s.sub} image={s.image} />
+                  {i < arr.length - 1 && <ArrowDownBar />}
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>

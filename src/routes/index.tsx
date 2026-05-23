@@ -90,6 +90,10 @@ function Home() {
         </div>
       </section>
 
+      {/* LOCATION TOGGLE */}
+      <LocationBanner />
+
+
       {/* PILL TABS — all 3 visible together, mobile-optimized */}
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">

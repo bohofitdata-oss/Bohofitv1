@@ -6,6 +6,11 @@ import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { LocationBanner } from "@/components/LocationBanner";
+import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { RebelCafe } from "@/components/RebelCafe";
+import { FAQSection } from "@/components/FAQSection";
+import { ReferralSection } from "@/components/ReferralSection";
 
 import imgStart from "@/assets/program-start.jpg";
 import imgStrength from "@/assets/program-strength.jpg";
@@ -85,6 +90,10 @@ function Home() {
         </div>
       </section>
 
+      {/* LOCATION TOGGLE */}
+      <LocationBanner />
+
+
       {/* PILL TABS — all 3 visible together, mobile-optimized */}
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
@@ -162,11 +171,29 @@ function Home() {
             </h2>
 
             <div className="mt-8 grid gap-3 md:gap-4">
-              <PathStep n={1} icon={Sparkles} title="Start or Bootcamp" sub="Learn the basics. Build the habit." image={imgStart} />
-              <ArrowDownBar />
-              <PathStep n={2} icon={Dumbbell} title="Rebel Strength" sub="Get strong. Get capable." image={imgStrength} />
-              <ArrowDownBar />
-              <PathStep n={3} icon={Flame} title="Repeat. Train for life." sub="Stay consistent. Stay fit." image={imgBootcamp} />
+              {(tab === "group"
+                ? [
+                    { n: 1, icon: Sparkles, title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart },
+                    { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength },
+                    { n: 3, icon: Flame, title: "Rebel One", sub: "All 7 formats — train for life.", image: imgBootcamp },
+                  ]
+                : tab === "bootcamp"
+                  ? [
+                      { n: 1, icon: Flame, title: "8-Week Transformation", sub: "Lose fat. Build strength. Diet plan included.", image: imgBootcamp },
+                      { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Lock in the results. Get stronger.", image: imgStrength },
+                      { n: 3, icon: Sparkles, title: "Train for life", sub: "Stay consistent. Stay fit.", image: imgStart },
+                    ]
+                  : [
+                      { n: 1, icon: HeartPulse, title: "Rebel 50+ (1:1)", sub: "Joint-safe · personal coach · 24 sessions", image: imgFifty },
+                      { n: 2, icon: Sparkles, title: "Rebel Start (group)", sub: "Graduate into mixed-age classes when ready.", image: imgStart },
+                      { n: 3, icon: Dumbbell, title: "Continuous progression", sub: "Move strong for the next 30 years.", image: imgStrength },
+                    ]
+              ).map((s, i, arr) => (
+                <div key={s.n}>
+                  <PathStep n={s.n} icon={s.icon} title={s.title} sub={s.sub} image={s.image} />
+                  {i < arr.length - 1 && <ArrowDownBar />}
+                </div>
+              ))}
             </div>
           </div>
         </Reveal>
@@ -177,6 +204,16 @@ function Home() {
 
       {/* SOCIAL PROOF */}
       <Testimonials />
+
+      {/* REBEL CAFÉ */}
+      <RebelCafe />
+
+      {/* REFERRAL */}
+      <ReferralSection />
+
+      {/* FAQ */}
+      <FAQSection />
+
 
       {/* CLOSING CTA */}
       <section className="container mx-auto px-5 py-16 md:py-20 text-center">
@@ -194,6 +231,8 @@ function Home() {
           </div>
         </Reveal>
       </section>
+
+      <StickyMobileCTA />
     </SiteShell>
   );
 }

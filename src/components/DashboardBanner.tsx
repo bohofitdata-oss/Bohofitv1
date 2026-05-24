@@ -31,12 +31,12 @@ export function DashboardBanner({ userId }: { userId: string }) {
         // try to read pause table
         const { data: p } = await supabase
           .from("membership_pauses")
-          .select("end_date")
+          .select("pause_end")
           .eq("membership_id", m.id)
-          .order("end_date", { ascending: false })
+          .order("pause_end", { ascending: false })
           .limit(1)
           .maybeSingle();
-        return setState({ kind: "paused", until: p?.end_date ?? m.end_date });
+        return setState({ kind: "paused", until: p?.pause_end ?? m.end_date });
       }
 
       // active — count sessions this month

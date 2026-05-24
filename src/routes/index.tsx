@@ -163,7 +163,7 @@ function Home() {
       <section className="container mx-auto px-5 py-10 md:py-16">
         <Reveal>
           <div className="rounded-3xl bg-gradient-to-br from-primary/10 via-card to-background border border-border p-5 md:p-10">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary font-bold">Build your program</p>
+            <p className="rebel-label">Build your program</p>
             <h2 className="text-2xl md:text-4xl font-black mt-2 max-w-2xl">
               Your path. Your pace. <span className="text-gradient-gold">Built for life.</span>
             </h2>

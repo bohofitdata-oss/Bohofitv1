@@ -10,6 +10,7 @@ import { Activity, CalendarCheck, Salad, Settings, ShieldCheck, Camera, Upload }
 import { MembershipCard } from "@/components/MembershipCard";
 import { MedicalHistoryCard } from "@/components/MedicalHistoryCard";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
+import { DashboardBanner } from "@/components/DashboardBanner";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Your dashboard — Rebel" }] }),
@@ -137,6 +138,7 @@ function DashboardPage() {
   return (
     <SiteShell>
       <section className="container mx-auto px-5 py-12 max-w-5xl">
+        {userId && <div className="mb-6"><DashboardBanner userId={userId} /></div>}
         <div className="flex items-start justify-between flex-wrap gap-3">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Your dashboard</p>

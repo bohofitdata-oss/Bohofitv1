@@ -6,11 +6,12 @@ import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LocationBanner } from "@/components/LocationBanner";
+import { LocationSection } from "@/components/LocationSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { RebelCafe } from "@/components/RebelCafe";
-import { FAQSection } from "@/components/FAQSection";
+import { CafeTeaser } from "@/components/CafeTeaser";
+import { FAQTeaser } from "@/components/FAQTeaser";
 import { ReferralSection } from "@/components/ReferralSection";
+import { RebelGallery } from "@/components/RebelGallery";
 
 import imgStart from "@/assets/program-start.jpg";
 import imgStrength from "@/assets/program-strength.jpg";
@@ -90,12 +91,9 @@ function Home() {
         </div>
       </section>
 
-      {/* LOCATION TOGGLE */}
-      <LocationBanner />
+      {/* PROGRAM SELECTION */}
+      <section id="program-section" className="container mx-auto px-4 scroll-mt-20">
 
-
-      {/* PILL TABS — all 3 visible together, mobile-optimized */}
-      <section className="container mx-auto px-4">
         <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
           {(Object.keys(TABS) as TabKey[]).map((key) => {
             const active = key === tab;
@@ -205,14 +203,21 @@ function Home() {
       {/* SOCIAL PROOF */}
       <Testimonials />
 
-      {/* REBEL CAFÉ */}
-      <RebelCafe />
+      {/* REBEL CAFÉ teaser */}
+      <CafeTeaser />
+
+      {/* LOCATION */}
+      <LocationSection />
+
+      {/* GALLERY */}
+      <RebelGallery />
 
       {/* REFERRAL */}
       <ReferralSection />
 
-      {/* FAQ */}
-      <FAQSection />
+      {/* FAQ teaser */}
+      <FAQTeaser />
+
 
 
       {/* CLOSING CTA */}

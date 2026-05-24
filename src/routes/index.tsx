@@ -6,11 +6,12 @@ import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { LocationBanner } from "@/components/LocationBanner";
+import { LocationSection } from "@/components/LocationSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
-import { RebelCafe } from "@/components/RebelCafe";
-import { FAQSection } from "@/components/FAQSection";
+import { CafeTeaser } from "@/components/CafeTeaser";
+import { FAQTeaser } from "@/components/FAQTeaser";
 import { ReferralSection } from "@/components/ReferralSection";
+import { RebelGallery } from "@/components/RebelGallery";
 
 import imgStart from "@/assets/program-start.jpg";
 import imgStrength from "@/assets/program-strength.jpg";
@@ -90,12 +91,9 @@ function Home() {
         </div>
       </section>
 
-      {/* LOCATION TOGGLE */}
-      <LocationBanner />
+      {/* PROGRAM SELECTION */}
+      <section id="program-section" className="container mx-auto px-4 scroll-mt-20">
 
-
-      {/* PILL TABS — all 3 visible together, mobile-optimized */}
-      <section className="container mx-auto px-4">
         <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
           {(Object.keys(TABS) as TabKey[]).map((key) => {
             const active = key === tab;
@@ -165,7 +163,7 @@ function Home() {
       <section className="container mx-auto px-5 py-10 md:py-16">
         <Reveal>
           <div className="rounded-3xl bg-gradient-to-br from-primary/10 via-card to-background border border-border p-5 md:p-10">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary font-bold">Build your program</p>
+            <p className="rebel-label">Build your program</p>
             <h2 className="text-2xl md:text-4xl font-black mt-2 max-w-2xl">
               Your path. Your pace. <span className="text-gradient-gold">Built for life.</span>
             </h2>
@@ -205,14 +203,21 @@ function Home() {
       {/* SOCIAL PROOF */}
       <Testimonials />
 
-      {/* REBEL CAFÉ */}
-      <RebelCafe />
+      {/* REBEL CAFÉ teaser */}
+      <CafeTeaser />
+
+      {/* LOCATION */}
+      <LocationSection />
+
+      {/* GALLERY */}
+      <RebelGallery />
 
       {/* REFERRAL */}
       <ReferralSection />
 
-      {/* FAQ */}
-      <FAQSection />
+      {/* FAQ teaser */}
+      <FAQTeaser />
+
 
 
       {/* CLOSING CTA */}
@@ -279,41 +284,47 @@ function ArrowDownBar() {
 
 /* ------------- Journey timeline ------------- */
 
-const JOURNEY: Record<"week" | "60" | "6mo", { label: string; heading: string; lines: string[] }> = {
-  week: {
-    label: "First Week",
+const JOURNEY: Record<"2w" | "2m" | "612", { label: string; heading: string; lines: string[] }> = {
+  "2w": {
+    label: "2 Weeks",
     heading: "Feel less stiff and sore.",
     lines: ["Wake up easier.", "Move through the day without tightness.", "Sleep better."],
   },
-  "60": {
-    label: "60 Days",
+  "2m": {
+    label: "2 Months",
     heading: "Stronger. Leaner. Confident.",
     lines: ["Visible body changes.", "Lifts and reps go up.", "Clothes fit better."],
   },
-  "6mo": {
-    label: "6 Months",
+  "612": {
+    label: "6–12 Months",
     heading: "A new normal.",
     lines: ["Energy you forgot you had.", "Pain-free joints.", "Fitness that sticks for life."],
   },
 };
 
+const BG_IMG = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600";
+
+function scrollToPrograms() {
+  document.getElementById("program-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function JourneyTimeline() {
-  const [stage, setStage] = useState<"week" | "60" | "6mo">("week");
+  const [stage, setStage] = useState<"2w" | "2m" | "612">("2w");
   const data = JOURNEY[stage];
 
   return (
     <section className="container mx-auto px-5 py-12 md:py-20">
       <Reveal>
-        <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary font-bold">The journey</p>
-        <h2 className="text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
-          What happens when you <span className="text-gradient-gold">keep showing up.</span>
+        <p className="rebel-label">The journey</p>
+        <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
+          What happens when you <span className="italic text-white">keep showing up.</span>
         </h2>
-        <p className="text-sm text-muted-foreground mt-3">Real results. No shortcuts.</p>
+        <p className="text-sm mt-3" style={{ color: "#CCCCCC" }}>Real results. No shortcuts.</p>
       </Reveal>
 
       {/* Stage tabs */}
-      <div className="mt-6 flex gap-5 md:gap-8 border-b border-border">
-        {(Object.keys(JOURNEY) as Array<"week" | "60" | "6mo">).map((k) => {
+      <div className="mt-6 flex gap-5 md:gap-8 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+        {(Object.keys(JOURNEY) as Array<"2w" | "2m" | "612">).map((k) => {
           const active = k === stage;
           return (
             <button
@@ -322,8 +333,9 @@ function JourneyTimeline() {
               onClick={() => setStage(k)}
               className={cn(
                 "pb-3 text-sm md:text-base font-black transition-colors border-b-2 -mb-px",
-                active ? "text-foreground border-primary" : "text-muted-foreground border-transparent hover:text-foreground",
+                active ? "text-white" : "text-muted-strong hover:text-white",
               )}
+              style={{ borderColor: active ? "#89010A" : "transparent" }}
             >
               {JOURNEY[k].label}
             </button>
@@ -331,24 +343,39 @@ function JourneyTimeline() {
         })}
       </div>
 
-      {/* Highlight panel — bright like pliability */}
+      {/* Highlight panel — full-bleed image with red overlay */}
       <Reveal key={stage}>
-        <div className="mt-6 rounded-3xl bg-gradient-gold text-primary-foreground p-6 md:p-10 min-h-[280px] md:min-h-[360px] flex flex-col">
-          <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold opacity-80">{data.label}</p>
-          <h3 className="mt-3 text-2xl md:text-4xl font-black leading-tight max-w-xl">
-            <span className="bg-background text-foreground px-2 rounded">{data.heading}</span>
-          </h3>
-          <ul className="mt-6 space-y-2 md:space-y-3 flex-1">
-            {data.lines.map((l) => (
-              <li key={l} className="flex items-start gap-2 text-sm md:text-base font-semibold">
-                <Check className="w-4 h-4 mt-1 shrink-0" /> {l}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">
-            <Button asChild className="bg-background text-foreground hover:bg-background/90">
-              <Link to="/booking">Start your journey <ArrowRight className="ml-1 w-4 h-4" /></Link>
-            </Button>
+        <div className="mt-6 rounded-3xl overflow-hidden relative min-h-[320px] md:min-h-[400px] flex flex-col">
+          <img
+            src={BG_IMG}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ background: "rgba(137,1,10,0.82)" }}
+          />
+          <div className="relative p-6 md:p-10 flex flex-col flex-1 text-white">
+            <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold opacity-90">{data.label}</p>
+            <h3 className="mt-3 text-2xl md:text-4xl font-black leading-tight max-w-xl text-white">
+              {data.heading}
+            </h3>
+            <ul className="mt-6 space-y-2 md:space-y-3 flex-1">
+              {data.lines.map((l) => (
+                <li key={l} className="flex items-start gap-2 text-sm md:text-base font-semibold text-white">
+                  <Check className="w-4 h-4 mt-1 shrink-0" /> {l}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6">
+              <button
+                onClick={scrollToPrograms}
+                className="inline-flex items-center gap-2 rounded-full bg-white text-black hover:bg-white/90 px-5 h-11 font-bold text-sm transition"
+              >
+                Start your journey <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </Reveal>

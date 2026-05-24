@@ -1,4 +1,3 @@
-import { Quote, Star } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 type Story = {
@@ -7,96 +6,77 @@ type Story = {
   program: string;
   result: string;
   quote: string;
-  duration: string;
 };
 
 const STORIES: Story[] = [
   {
     name: "Priya M.",
     age: 34,
-    program: "Rebel Bootcamp",
-    duration: "8 weeks",
-    result: "Lost 7.2 kg · PCOS markers improved",
+    program: "Rebel Bootcamp · 8 weeks",
+    result: "LOST 7.2 KG",
     quote:
-      "I had given up on losing weight after two pregnancies. The bootcamp was the first time a coach actually adjusted things for my PCOS. I lost 7 kg without crash dieting.",
+      "I had given up after two pregnancies. The bootcamp adjusted things for my PCOS. I lost 7 kg without crash dieting.",
   },
   {
     name: "Anand R.",
     age: 41,
-    program: "Rebel Strength",
-    duration: "6 months",
-    result: "First-ever pull-up · BP back to normal",
+    program: "Rebel Strength · 6 months",
+    result: "FIRST PULL-UP EVER",
     quote:
-      "I joined wanting to fix my back. Six months in, I'm doing pull-ups and my BP medication has been halved. Small batches and zero machines made it click.",
+      "I joined to fix my back. Six months in I'm doing pull-ups and my BP medication is halved. Small batches, zero machines.",
   },
   {
     name: "Lakshmi V.",
     age: 62,
-    program: "Rebel at 50+",
-    duration: "12 weeks",
-    result: "Climbing stairs pain-free · sleeping through the night",
+    program: "Rebel 50+ · 12 weeks",
+    result: "STAIRS — PAIN-FREE",
     quote:
-      "Knee pain stopped me from walking my dog. After 12 weeks of 1:1 with my coach, I climb two flights of stairs without holding the railing. My family can see the change.",
+      "Knee pain stopped me from walking my dog. After 12 weeks of 1:1, I climb two flights without holding the railing.",
   },
-];
-
-const STATS = [
-  { n: "500+", l: "Members trained" },
-  { n: "92%", l: "Renew or upgrade" },
-  { n: "4.9★", l: "Average rating" },
-  { n: "0", l: "Machines used" },
 ];
 
 export function Testimonials() {
   return (
-    <section id="results" className="container mx-auto px-5 py-16 md:py-24">
+    <section id="results" className="container mx-auto px-5 py-20 md:py-32">
       <Reveal>
-        <div className="text-center mb-10 md:mb-14">
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Real members · Real results</p>
-          <h2 className="text-3xl md:text-4xl font-black mt-2">Does this actually work?</h2>
-          <p className="text-muted-foreground mt-2 text-sm md:text-base max-w-xl mx-auto">
-            Three short stories from current Rebel members. We&rsquo;ll connect you with any of them on request.
-          </p>
+        <div className="max-w-3xl">
+          <p className="rebel-label">Social proof</p>
+          <h2 className="rebel-hero-title text-3xl md:text-5xl lg:text-6xl font-black mt-3 leading-[1.05]">
+            Inherited the legacy of Bohofit.
+            <br />
+            <span className="not-italic" style={{ fontStyle: "italic" }}>
+              4 years and{" "}
+              <span style={{ color: "#89010A" }}>2,000 people</span> later.
+            </span>
+          </h2>
         </div>
       </Reveal>
 
-      <div className="grid md:grid-cols-3 gap-4 md:gap-5">
+      <div className="mt-10 md:mt-14 grid md:grid-cols-3 gap-4 md:gap-5">
         {STORIES.map((s, i) => (
           <Reveal key={s.name} delay={i * 100}>
-            <article className="rounded-2xl border border-border bg-card p-6 h-full flex flex-col">
-              <div className="flex items-center gap-1 text-primary">
-                {Array.from({ length: 5 }).map((_, k) => (
-                  <Star key={k} className="w-3.5 h-3.5 fill-current" />
-                ))}
+            <article className="rebel-card rounded-3xl p-6 h-full flex flex-col">
+              <p
+                className="font-black tracking-tight leading-none"
+                style={{ color: "#FF2233", fontSize: "clamp(28px,5vw,40px)" }}
+              >
+                {s.result}
+              </p>
+              <div className="mt-4">
+                <p className="font-black text-white text-base">
+                  {s.name} · {s.age}
+                </p>
+                <p className="text-xs uppercase tracking-widest text-muted-strong mt-0.5">
+                  {s.program}
+                </p>
               </div>
-              <Quote className="w-5 h-5 text-primary mt-4" />
-              <p className="mt-2 text-sm md:text-base leading-relaxed text-foreground/90">
+              <p className="mt-4 text-sm leading-relaxed" style={{ color: "#CCCCCC" }}>
                 &ldquo;{s.quote}&rdquo;
               </p>
-              <div className="mt-5 pt-4 border-t border-border/60">
-                <div className="font-bold">{s.name} · {s.age}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{s.program} · {s.duration}</div>
-                <div className="mt-2 inline-block text-[11px] uppercase tracking-widest text-primary font-semibold">
-                  {s.result}
-                </div>
-              </div>
             </article>
           </Reveal>
         ))}
       </div>
-
-      <Reveal>
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-          {STATS.map((s) => (
-            <div key={s.l} className="rounded-xl border border-border bg-card p-4 text-center">
-              <div className="text-2xl md:text-3xl font-black text-gradient-gold">{s.n}</div>
-              <div className="text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                {s.l}
-              </div>
-            </div>
-          ))}
-        </div>
-      </Reveal>
     </section>
   );
 }

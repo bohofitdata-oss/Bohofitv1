@@ -265,7 +265,7 @@ function BootcampPage() {
           <div className="mt-10">
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · Pick your time</p>
             <h2 className="mt-1 text-2xl md:text-3xl font-black">Choose your hour, Mon–Sat</h2>
-            <p className="text-sm text-muted-foreground mt-1">5 spots per slot. A slot locks once 3 people confirm — others move to the next slot.</p>
+            <p className="text-sm text-muted-foreground mt-1">3 spots per slot. A slot locks once 3 people confirm — others move to the next slot.</p>
           </div>
         </Reveal>
         <div className="mt-5 rounded-2xl border border-border bg-card p-5">

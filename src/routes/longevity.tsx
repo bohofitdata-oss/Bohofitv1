@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { PaymentScreen } from "@/components/PaymentScreen";
+import heroLoop from "../../public/longevity-hero-loop.mp4.asset.json";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({
@@ -150,21 +151,47 @@ function LongevityPage() {
 
   return (
     <SiteShell>
-      <section className="container mx-auto px-5 pt-20 pb-10 text-center">
-        <Reveal>
-          <div className="flex justify-center mb-4"><ProgramSwitcher current="longevity" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel at 50+ · 1:1</p>
-          <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
-            Move pain-free. <span className="text-gradient-gold">Age strong.</span>
-          </h1>
-          <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            One coach. One client. Studio, online, or at home. Mon–Sat, 1 hour/day.
-          </p>
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm">
-            <HeartPulse className="w-4 h-4 text-primary" /> ₹29,999 / 12 weeks · 1:1
-          </div>
-        </Reveal>
+      <section className="relative overflow-hidden">
+        {/* Background loop video */}
+        <video
+          src={heroLoop.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          aria-hidden
+        />
+        {/* Dark gradient overlay for legibility */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.85) 100%)",
+          }}
+          aria-hidden
+        />
+        <div className="relative container mx-auto px-5 pt-20 pb-16 md:pt-28 md:pb-24 text-center">
+          <Reveal>
+            <div className="flex justify-center mb-4"><ProgramSwitcher current="longevity" /></div>
+            <p className="text-xs uppercase tracking-[0.18em]" style={{ color: "#FF2233" }}>Rebel at 50+ · 1:1</p>
+            <h1
+              className="mt-3 text-4xl md:text-7xl font-black tracking-tight leading-[1.02] text-white"
+              style={{ textShadow: "0 2px 30px rgba(0,0,0,0.7)" }}
+            >
+              Fitness that fits.<br />
+              <span className="italic" style={{ color: "#FF2233" }}>Not machines.</span>
+            </h1>
+            <p className="mt-5 max-w-xl mx-auto text-white/85" style={{ textShadow: "0 1px 12px rgba(0,0,0,0.7)" }}>
+              One coach. One client. Studio, online, or at home. Mon–Sat, 1 hour/day.
+            </p>
+            <div className="mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm text-white" style={{ borderColor: "rgba(255,255,255,0.25)", background: "rgba(0,0,0,0.4)" }}>
+              <HeartPulse className="w-4 h-4" style={{ color: "#FF2233" }} /> ₹29,999 / 12 weeks · 1:1
+            </div>
+          </Reveal>
+        </div>
       </section>
+
 
       <div className="container mx-auto max-w-3xl px-5 pb-20">
         {/* MODE */}

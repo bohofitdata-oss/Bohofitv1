@@ -22,9 +22,9 @@ import { PaymentScreen } from "@/components/PaymentScreen";
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
     meta: [
-      { title: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
-      { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 5 spots per slot. Pick your time, accept the rules, start 1st May." },
-      { property: "og:title", content: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { title: "Rebel 8 Weeks Transformation Program — Guaranteed results" },
+      { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 3 spots per slot. Pick your time, accept the rules, start 1st May." },
+      { property: "og:title", content: "Rebel 8 Weeks Transformation Program — Guaranteed results" },
     ],
   }),
   component: BootcampPage,

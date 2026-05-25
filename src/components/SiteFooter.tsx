@@ -17,7 +17,7 @@ export function SiteFooter() {
           <h4 className="text-sm font-semibold mb-3">Programs</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/bohofit" className="hover:text-foreground">Rebel Group Classes</Link></li>
-            <li><Link to="/bootcamp" className="hover:text-foreground">Rebel Bootcamp · 8 weeks</Link></li>
+            <li><Link to="/bootcamp" className="hover:text-foreground">8 Weeks Transformation Program</Link></li>
             <li><Link to="/longevity" className="hover:text-foreground">Rebel at 50+</Link></li>
           </ul>
         </div>

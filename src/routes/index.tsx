@@ -324,7 +324,7 @@ function JourneyTimeline() {
 
       {/* Stage tabs */}
       <div className="mt-6 flex gap-5 md:gap-8 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-        {(Object.keys(JOURNEY) as Array<"2w" | "2m" | "612">).map((k) => {
+        {(["2w", "2m", "612"] as Array<"2w" | "2m" | "612">).map((k) => {
           const active = k === stage;
           return (
             <button

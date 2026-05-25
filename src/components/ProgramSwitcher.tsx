@@ -6,7 +6,7 @@ type ProgramKey = "bohofit" | "bootcamp" | "longevity";
 
 const PROGRAMS: { key: ProgramKey; to: "/bohofit" | "/bootcamp" | "/longevity"; name: string; tag: string }[] = [
   { key: "bohofit", to: "/bohofit", name: "Rebel Group Classes", tag: "Start · Strength · Unlimited" },
-  { key: "bootcamp", to: "/bootcamp", name: "Rebel Bootcamp", tag: "8-week guaranteed" },
+  { key: "bootcamp", to: "/bootcamp", name: "8 Weeks Transformation Program", tag: "Guaranteed results" },
   { key: "longevity", to: "/longevity", name: "Rebel at 50+", tag: "Personal 1:1" },
 ];
 
@@ -32,7 +32,7 @@ export function ProgramSwitcher({ current }: { current?: ProgramKey }) {
         <ArrowLeftRight className="w-4 h-4 text-primary" /> Change Program
       </button>
       {open && (
-        <div className="absolute z-30 mt-2 w-72 rounded-xl border border-border bg-card shadow-elegant p-1.5">
+        <div className="absolute left-1/2 -translate-x-1/2 z-[100] mt-2 w-72 rounded-xl border border-border shadow-elegant p-1.5" style={{ background: "#0a0a0a" }}>
           {PROGRAMS.map((p) => {
             const active = p.key === current;
             return (

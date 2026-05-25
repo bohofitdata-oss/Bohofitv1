@@ -22,9 +22,9 @@ import { PaymentScreen } from "@/components/PaymentScreen";
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
     meta: [
-      { title: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
-      { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 5 spots per slot. Pick your time, accept the rules, start 1st May." },
-      { property: "og:title", content: "Rebel 8-Week Bootcamp — Visible transformation, guaranteed" },
+      { title: "Rebel 8 Weeks Transformation Program — Guaranteed results" },
+      { name: "description", content: "8-week guaranteed transformation. Online or offline. Mon–Sat, 1 hour/day. 3 spots per slot. Pick your time, accept the rules, start 1st May." },
+      { property: "og:title", content: "Rebel 8 Weeks Transformation Program — Guaranteed results" },
     ],
   }),
   component: BootcampPage,
@@ -206,12 +206,12 @@ function BootcampPage() {
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bootcamp" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Bootcamp — 8 weeks</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">8 Weeks Transformation Program</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Studio, online, or at home with a coach. Mon–Sat, 1 hour/day. 5 spots per time slot.
+            Studio, online, or at home with a coach. Mon–Sat, 1 hour/day. 3 spots per time slot.
           </p>
         </Reveal>
       </section>
@@ -265,7 +265,7 @@ function BootcampPage() {
           <div className="mt-10">
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · Pick your time</p>
             <h2 className="mt-1 text-2xl md:text-3xl font-black">Choose your hour, Mon–Sat</h2>
-            <p className="text-sm text-muted-foreground mt-1">5 spots per slot. A slot locks once 3 people confirm — others move to the next slot.</p>
+            <p className="text-sm text-muted-foreground mt-1">3 spots per slot. A slot locks once 3 people confirm — others move to the next slot.</p>
           </div>
         </Reveal>
         <div className="mt-5 rounded-2xl border border-border bg-card p-5">

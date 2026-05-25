@@ -206,12 +206,12 @@ function BootcampPage() {
       <section className="container mx-auto px-5 pt-20 pb-10 text-center">
         <Reveal>
           <div className="flex justify-center mb-4"><ProgramSwitcher current="bootcamp" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebel Bootcamp — 8 weeks</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">8 Weeks Transformation Program</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Guaranteed transformation in <span className="text-gradient-gold">8 weeks.</span>
           </h1>
           <p className="mt-5 text-muted-foreground max-w-xl mx-auto">
-            Studio, online, or at home with a coach. Mon–Sat, 1 hour/day. 5 spots per time slot.
+            Studio, online, or at home with a coach. Mon–Sat, 1 hour/day. 3 spots per time slot.
           </p>
         </Reveal>
       </section>

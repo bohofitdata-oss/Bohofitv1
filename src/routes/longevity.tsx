@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { PaymentScreen } from "@/components/PaymentScreen";
+import heroLoop from "../../public/longevity-hero-loop.mp4.asset.json";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({

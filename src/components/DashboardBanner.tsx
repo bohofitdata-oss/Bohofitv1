@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client.bohofit";
+import { supabase } from "@/integrations/supabase/client";
 
 type State =
   | { kind: "loading" }

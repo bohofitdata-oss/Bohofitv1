@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client.bohofit";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Check, MessageCircle } from "lucide-react";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
+import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 
 type PathChoice = "bohofit" | "bootcamp" | "longevity";
 const PATHS: PathChoice[] = ["bohofit", "bootcamp", "longevity"];
@@ -51,6 +52,8 @@ function BookingPage() {
   const [submitted, setSubmitted] = useState<null | { name: string }>(null);
   const [loading, setLoading] = useState(false);
   const meta = labels[path];
+  const prefill = useBookingPrefill();
+  const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -151,27 +154,27 @@ function BookingPage() {
         </Reveal>
 
         <Reveal delay={200}>
-          <form onSubmit={onSubmit} className="mt-8 rounded-2xl border border-border bg-card p-6 md:p-8 space-y-5">
+          <form key={formKey} onSubmit={onSubmit} className="mt-8 rounded-2xl border border-border bg-card p-6 md:p-8 space-y-5">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="full_name">Your name</Label>
-                <Input id="full_name" name="full_name" required maxLength={120} className="mt-1" />
+                <Input id="full_name" name="full_name" required maxLength={120} className="mt-1" defaultValue={prefill.full_name} />
               </div>
               <div>
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" name="phone" required maxLength={20} className="mt-1" />
+                <Input id="phone" name="phone" required maxLength={20} className="mt-1" defaultValue={prefill.phone} />
               </div>
               <div>
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" required maxLength={255} className="mt-1" />
+                <Input id="email" name="email" type="email" required maxLength={255} className="mt-1" defaultValue={prefill.email} />
               </div>
               <div>
                 <Label htmlFor="age">Age</Label>
-                <Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" />
+                <Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" defaultValue={prefill.age} />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="city">City</Label>
-                <Input id="city" name="city" required maxLength={80} className="mt-1" />
+                <Input id="city" name="city" required maxLength={80} className="mt-1" defaultValue={prefill.city} />
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="goal">What do you want to achieve?</Label>

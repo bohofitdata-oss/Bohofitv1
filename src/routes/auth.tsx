@@ -4,11 +4,10 @@ import { SiteShell } from "@/components/SiteShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client.bohofit";
+import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
-import { Mail, Phone } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Mail } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -20,11 +19,8 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-type Method = "email" | "phone";
-
 function AuthPage() {
   const navigate = useNavigate();
-  const [method, setMethod] = useState<Method>("email");
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -32,11 +28,6 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
-  // phone
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
@@ -82,38 +73,6 @@ function AuthPage() {
     }
   };
 
-  const formatPhone = (raw: string) => {
-    const digits = raw.replace(/\D/g, "");
-    if (raw.startsWith("+")) return "+" + digits;
-    if (digits.length === 10) return "+91" + digits;
-    return "+" + digits;
-  };
-
-  const sendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOtp({
-      phone: formatPhone(phone),
-      options: { channel: "sms" },
-    });
-    setLoading(false);
-    if (error) return toast.error(error.message);
-    setOtpSent(true);
-    toast.success("OTP sent — check your phone");
-  };
-
-  const verifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase.auth.verifyOtp({
-      phone: formatPhone(phone),
-      token: otp.trim(),
-      type: "sms",
-    });
-    setLoading(false);
-    if (error) return toast.error(error.message);
-  };
-
   return (
     <SiteShell>
       <section className="container mx-auto max-w-md px-5 py-16">
@@ -138,35 +97,11 @@ function AuthPage() {
             <span className="flex-1 h-px bg-border" /> or <span className="flex-1 h-px bg-border" />
           </div>
 
-          {/* Method toggle */}
-          <div className="grid grid-cols-2 gap-2">
-            {(
-              [
-                { k: "email" as const, label: "Email", icon: Mail },
-                { k: "phone" as const, label: "Phone OTP", icon: Phone },
-              ]
-            ).map((m) => (
-              <button
-                key={m.k}
-                type="button"
-                onClick={() => {
-                  setMethod(m.k);
-                  setOtpSent(false);
-                }}
-                className={cn(
-                  "rounded-lg border py-2 text-sm font-semibold inline-flex items-center justify-center gap-2 transition",
-                  method === m.k
-                    ? "border-primary bg-primary/10"
-                    : "border-border bg-card hover:border-primary/50",
-                )}
-              >
-                <m.icon className="w-4 h-4 text-primary" /> {m.label}
-              </button>
-            ))}
+          <div className="mt-5 rounded-lg border border-border bg-card px-3 py-2 text-sm text-muted-foreground inline-flex items-center gap-2">
+            <Mail className="w-4 h-4 text-primary" /> Email sign-in is enabled.
           </div>
 
-          {method === "email" ? (
-            <form onSubmit={onEmailSubmit} className="mt-5 space-y-4">
+          <form onSubmit={onEmailSubmit} className="mt-5 space-y-4">
               {mode === "signup" && (
                 <div>
                   <Label htmlFor="name">Full name</Label>
@@ -193,54 +128,6 @@ function AuthPage() {
                 {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
               </button>
             </form>
-          ) : (
-            <form onSubmit={otpSent ? verifyOtp : sendOtp} className="mt-5 space-y-4">
-              <div>
-                <Label htmlFor="phone">Mobile number</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+91 98XXXXXXXX"
-                  disabled={otpSent}
-                  className="mt-1"
-                />
-                <p className="mt-1 text-[11px] text-muted-foreground">We&rsquo;ll send a one-time code over SMS.</p>
-              </div>
-
-              {otpSent && (
-                <div>
-                  <Label htmlFor="otp">Enter OTP</Label>
-                  <Input
-                    id="otp"
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    required
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    maxLength={8}
-                    className="mt-1 tracking-[0.4em] text-center"
-                  />
-                </div>
-              )}
-
-              <Button type="submit" disabled={loading} className="w-full bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-                {loading ? "Please wait…" : otpSent ? "Verify & sign in" : "Send OTP"}
-              </Button>
-
-              {otpSent && (
-                <button
-                  type="button"
-                  onClick={() => setOtpSent(false)}
-                  className="text-sm text-muted-foreground hover:text-foreground w-full text-center"
-                >
-                  Use a different number
-                </button>
-              )}
-            </form>
-          )}
         </div>
       </section>
     </SiteShell>

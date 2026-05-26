@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteShell } from "@/components/SiteShell";
-import { supabase } from "@/integrations/supabase/client.bohofit";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { waLink, bookingConfirmationMessage } from "@/lib/whatsapp";

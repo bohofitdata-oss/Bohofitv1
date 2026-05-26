@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { PaymentScreen } from "@/components/PaymentScreen";
+import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 
 export const Route = createFileRoute("/bootcamp")({
   head: () => ({
@@ -80,6 +81,7 @@ function BootcampPage() {
     amount: number;
   }>(null);
   const [loading, setLoading] = useState(false);
+  const prefill = useBookingPrefill();
 
 
   const submit = async (intent: "pay" | "consult", e: React.FormEvent<HTMLFormElement>) => {
@@ -280,11 +282,11 @@ function BootcampPage() {
         </Reveal>
         <form onSubmit={(e) => submit("pay", e)} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5" id="bootcamp-form">
           <div className="grid sm:grid-cols-2 gap-4">
-            <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" /></div>
-            <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" /></div>
-            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" required maxLength={255} className="mt-1" /></div>
-            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" /></div>
-            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" required maxLength={80} className="mt-1" /></div>
+            <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" defaultValue={prefill.full_name} /></div>
+            <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" defaultValue={prefill.phone} /></div>
+            <div><Label htmlFor="email">Email</Label><Input id="email" name="email" type="email" required maxLength={255} className="mt-1" defaultValue={prefill.email} /></div>
+            <div><Label htmlFor="age">Age</Label><Input id="age" name="age" type="number" required min={10} max={100} className="mt-1" defaultValue={prefill.age} /></div>
+            <div className="sm:col-span-2"><Label htmlFor="city">City</Label><Input id="city" name="city" required maxLength={80} className="mt-1" defaultValue={prefill.city} /></div>
             <div className="sm:col-span-2"><Label htmlFor="goal">What do you want to achieve?</Label><Textarea id="goal" name="goal" required maxLength={500} rows={3} className="mt-1" /></div>
           </div>
         </form>

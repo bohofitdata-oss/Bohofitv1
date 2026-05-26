@@ -53,6 +53,7 @@ function BookingPage() {
   const [loading, setLoading] = useState(false);
   const meta = labels[path];
   const prefill = useBookingPrefill();
+  const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -153,7 +154,7 @@ function BookingPage() {
         </Reveal>
 
         <Reveal delay={200}>
-          <form onSubmit={onSubmit} className="mt-8 rounded-2xl border border-border bg-card p-6 md:p-8 space-y-5">
+          <form key={formKey} onSubmit={onSubmit} className="mt-8 rounded-2xl border border-border bg-card p-6 md:p-8 space-y-5">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="full_name">Your name</Label>

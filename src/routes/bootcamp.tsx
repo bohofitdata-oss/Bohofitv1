@@ -82,6 +82,7 @@ function BootcampPage() {
   }>(null);
   const [loading, setLoading] = useState(false);
   const prefill = useBookingPrefill();
+  const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
 
 
   const submit = async (intent: "pay" | "consult", e: React.FormEvent<HTMLFormElement>) => {
@@ -280,7 +281,7 @@ function BootcampPage() {
             <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 5 · Your details</p>
           </div>
         </Reveal>
-        <form onSubmit={(e) => submit("pay", e)} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5" id="bootcamp-form">
+        <form key={formKey} onSubmit={(e) => submit("pay", e)} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5" id="bootcamp-form">
           <div className="grid sm:grid-cols-2 gap-4">
             <div><Label htmlFor="full_name">Name</Label><Input id="full_name" name="full_name" required maxLength={120} className="mt-1" defaultValue={prefill.full_name} /></div>
             <div><Label htmlFor="phone">Phone</Label><Input id="phone" name="phone" required maxLength={20} className="mt-1" defaultValue={prefill.phone} /></div>

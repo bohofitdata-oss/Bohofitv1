@@ -7,8 +7,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
-import { Mail, Phone } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Mail } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -20,11 +19,8 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-type Method = "email";
-
 function AuthPage() {
   const navigate = useNavigate();
-  const [method] = useState<Method>("email");
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -105,8 +101,7 @@ function AuthPage() {
             <Mail className="w-4 h-4 text-primary" /> Email sign-in is enabled.
           </div>
 
-          {method === "email" ? (
-            <form onSubmit={onEmailSubmit} className="mt-5 space-y-4">
+          <form onSubmit={onEmailSubmit} className="mt-5 space-y-4">
               {mode === "signup" && (
                 <div>
                   <Label htmlFor="name">Full name</Label>
@@ -133,7 +128,6 @@ function AuthPage() {
                 {mode === "signin" ? "New here? Create an account" : "Already have an account? Sign in"}
               </button>
             </form>
-          ) : null}
         </div>
       </section>
     </SiteShell>

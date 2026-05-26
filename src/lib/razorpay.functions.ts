@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { createHmac } from "crypto";
-import { bohofitAdmin } from "@/integrations/supabase/client.bohofit.server";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 // Returns { orderId, keyId, amount } for Razorpay Checkout.
 export const createRazorpayOrder = createServerFn({ method: "POST" })
@@ -65,7 +65,7 @@ export const verifyRazorpayPayment = createServerFn({ method: "POST" })
       throw new Error("Invalid payment signature");
     }
 
-    const { error } = await bohofitAdmin.rpc("mark_booking_paid", {
+    const { error } = await supabaseAdmin.rpc("mark_booking_paid", {
       _booking_id: data.bookingId,
       _razorpay_payment_id: data.razorpay_payment_id,
     });

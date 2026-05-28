@@ -16,9 +16,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
       <div className="container mx-auto flex items-center justify-between h-16 px-5">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="inline-block w-7 h-7 rounded-md bg-gradient-gold shadow-elegant" />
-          <span className="font-black tracking-tight text-lg">Rebel</span>
+        <Link to="/" className="flex items-center" aria-label="Rebel home">
+          <img src={rebelLogo} alt="Rebel" className="h-7 md:h-8 w-auto" />
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
           <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Group Classes</Link>

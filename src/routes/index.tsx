@@ -1,11 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowRight, Star, Sparkles, Dumbbell, Flame, HeartPulse, Check } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
-import { Reveal } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { LocationSection } from "@/components/LocationSection";
 import { StickyMobileCTA } from "@/components/StickyMobileCTA";
 import { CafeTeaser } from "@/components/CafeTeaser";
@@ -14,7 +9,6 @@ import { ReferralSection } from "@/components/ReferralSection";
 import { RebelGallery } from "@/components/RebelGallery";
 
 import imgStart from "@/assets/program-start.jpg";
-import imgStrength from "@/assets/program-strength.jpg";
 import imgBootcamp from "@/assets/program-bootcamp.jpg";
 import imgFifty from "@/assets/program-fiftyplus.jpg";
 
@@ -22,219 +16,80 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Rebel — Machine-free fitness that fits your life" },
-      { name: "description", content: "Group Classes, 8-Week Transformation, or Rebel 50+. India's first machine-free fitness system." },
-      { property: "og:title", content: "Rebel — Machine-free fitness that fits your life" },
-      { property: "og:description", content: "Pick a path: Group Classes, 8-Week Transformation, or Rebel 50+." },
+      { name: "description", content: "India's first machine-free fitness system. Group Classes, 8 Weeks Challenge, and Rebel at 50+." },
+      { property: "og:title", content: "Rebel — Machine-free fitness" },
+      { property: "og:description", content: "Group Classes. 8 Weeks Challenge. Rebel at 50+." },
     ],
   }),
   component: Home,
 });
 
-type TabKey = "group" | "bootcamp" | "fifty";
-
-type Card = {
-  tag: string;
-  title: string;
-  sub: string;
-  image: string;
-  to: "/bohofit" | "/bootcamp" | "/longevity";
-};
-
-const TABS: Record<TabKey, { label: string; cards: Card[] }> = {
-  group: {
-    label: "Group Classes",
-    cards: [
-      { tag: "For Beginners", title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart, to: "/bohofit" },
-      { tag: "Intermediate & Advanced", title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength, to: "/bohofit" },
-    ],
-  },
-  bootcamp: {
-    label: "8-Week Transformation",
-    cards: [
-      { tag: "8 weeks · Fast results", title: "Lose fat. Build strength.", sub: "Coach-led · small group · diet plan", image: imgBootcamp, to: "/bootcamp" },
-      { tag: "Track everything", title: "Weekly check-ins", sub: "Measurements · photos · accountability", image: imgStrength, to: "/bootcamp" },
-    ],
-  },
-  fifty: {
-    label: "Rebel 50+",
-    cards: [
-      { tag: "Designed for 50+", title: "Move easy. Live long.", sub: "Joint-safe · 1:1 personal coach", image: imgFifty, to: "/longevity" },
-      { tag: "Family gift", title: "Gift it to a parent", sub: "We handle everything", image: imgFifty, to: "/longevity" },
-    ],
-  },
-};
-
 function Home() {
-  const [tab, setTab] = useState<TabKey>("group");
-  const cards = TABS[tab].cards;
-
   return (
     <SiteShell>
-      {/* HERO */}
-      <section className="relative">
-        <div className="container mx-auto px-5 pt-10 pb-4 md:pt-24 md:pb-12 text-center">
-          <Reveal>
-            <div className="inline-flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-[0.18em] text-muted-foreground border border-border rounded-full px-3 py-1">
-              <Star className="w-3 h-3 text-primary" /> Machine-free fitness
-            </div>
-          </Reveal>
-          <Reveal delay={120}>
-            <h1 className="mt-4 md:mt-6 text-3xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight max-w-4xl mx-auto">
-              Fitness that fits — <span className="text-gradient-gold">not machines.</span>
-            </h1>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="mt-4 text-sm md:text-base text-muted-foreground max-w-md mx-auto">
-              Pick your path. Start in days, not months.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      {/* HERO — full-bleed, minimal */}
+      <HeroPanel />
 
-      {/* PROGRAM SELECTION */}
-      <section id="program-section" className="container mx-auto px-4 scroll-mt-20">
+      {/* PROGRAM PANELS — one per screen, Superhealth style */}
+      <ProgramPanel
+        kind="group"
+        eyebrow=""
+        title="Rebel Group Classes"
+        titleSmall={null}
+        subtitle="Yoga. Pilates. Strength. Zumba. Train with people who show up."
+        image={imgStart}
+        to="/bohofit"
+        cta="Join a Class"
+        tone="light"
+      />
 
-        <div className="grid grid-cols-3 gap-1.5 md:gap-2 max-w-2xl mx-auto">
-          {(Object.keys(TABS) as TabKey[]).map((key) => {
-            const active = key === tab;
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setTab(key)}
-                className={cn(
-                  "rounded-md px-2 py-2.5 text-[10px] sm:text-xs md:text-sm font-black uppercase tracking-tight md:tracking-wider border transition-colors text-center leading-tight",
-                  active
-                    ? "bg-gradient-gold text-primary-foreground border-transparent shadow-elegant"
-                    : "bg-card text-muted-foreground border-border hover:text-foreground hover:border-primary/50",
-                )}
-              >
-                {TABS[key].label}
-              </button>
-            );
-          })}
-        </div>
-      </section>
+      <ProgramPanel
+        kind="bootcamp"
+        eyebrow=""
+        title="Rebel 8 Weeks Challenge"
+        titleSmall={null}
+        subtitle="Lose fat. Build strength. Eight weeks. Real results."
+        image={imgBootcamp}
+        to="/bootcamp"
+        cta="Start the Challenge"
+        tone="dark"
+      />
 
-      {/* SWIPEABLE IMAGE CARDS */}
-      <section className="pt-3 pb-12">
-        <div
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-5 pb-3
-                     [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {cards.map((c) => (
-            <Link
-              key={c.title}
-              to={c.to}
-              className="snap-center shrink-0 w-[78vw] sm:w-[60vw] md:w-[420px] aspect-[3/4] rounded-3xl overflow-hidden relative group"
-            >
-              <img
-                src={c.image}
-                alt={c.title}
-                loading="lazy"
-                width={768}
-                height={1024}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              {/* Top tag pill */}
-              <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-background/70 backdrop-blur px-3 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-wider text-foreground">
-                {c.tag}
-              </span>
-              {/* Top right + button */}
-              <span className="absolute top-4 right-4 w-9 h-9 rounded-full bg-background flex items-center justify-center text-foreground font-bold text-lg">
-                +
-              </span>
-              {/* Gradient + text */}
-              <div className="absolute inset-x-0 bottom-0 p-5 pt-16 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
-                <p className="text-white text-xl md:text-2xl font-black leading-tight">
-                  <span className="text-primary">{c.title.split(" ")[0]}</span>{" "}
-                  {c.title.split(" ").slice(1).join(" ")}
-                </p>
-                <p className="text-white/80 text-xs md:text-sm mt-1">{c.sub}</p>
-              </div>
-            </Link>
-          ))}
-          {/* swipe hint spacer */}
-          <div className="shrink-0 w-2" />
-        </div>
-      </section>
+      <ProgramPanel
+        kind="fifty"
+        eyebrow=""
+        title="Rebel at 50+"
+        titleSmall="Be a"
+        subtitle="Fitness that fits. Not machines. One coach. One you."
+        image={imgFifty}
+        to="/longevity"
+        cta="Learn More"
+        tone="light"
+      />
 
-      {/* BUILD YOUR PROGRAM (pathway) */}
-      <section className="container mx-auto px-5 py-10 md:py-16">
-        <Reveal>
-          <div className="rounded-3xl bg-gradient-to-br from-primary/10 via-card to-background border border-border p-5 md:p-10">
-            <p className="rebel-label">Build your program</p>
-            <h2 className="text-2xl md:text-4xl font-black mt-2 max-w-2xl">
-              Your path. Your pace. <span className="text-gradient-gold">Built for life.</span>
-            </h2>
-
-            <div className="mt-8 grid gap-3 md:gap-4">
-              {(tab === "group"
-                ? [
-                    { n: 1, icon: Sparkles, title: "Rebel Start", sub: "Yoga · Zumba · Mat Pilates · Beginner Strength", image: imgStart },
-                    { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Calisthenics · S&C · Weightlifting", image: imgStrength },
-                    { n: 3, icon: Flame, title: "Rebel One", sub: "All 7 formats — train for life.", image: imgBootcamp },
-                  ]
-                : tab === "bootcamp"
-                  ? [
-                      { n: 1, icon: Flame, title: "8-Week Transformation", sub: "Lose fat. Build strength. Diet plan included.", image: imgBootcamp },
-                      { n: 2, icon: Dumbbell, title: "Rebel Strength", sub: "Lock in the results. Get stronger.", image: imgStrength },
-                      { n: 3, icon: Sparkles, title: "Train for life", sub: "Stay consistent. Stay fit.", image: imgStart },
-                    ]
-                  : [
-                      { n: 1, icon: HeartPulse, title: "Rebel 50+ (1:1)", sub: "Joint-safe · personal coach · 24 sessions", image: imgFifty },
-                      { n: 2, icon: Sparkles, title: "Rebel Start (group)", sub: "Graduate into mixed-age classes when ready.", image: imgStart },
-                      { n: 3, icon: Dumbbell, title: "Continuous progression", sub: "Move strong for the next 30 years.", image: imgStrength },
-                    ]
-              ).map((s, i, arr) => (
-                <div key={s.n}>
-                  <PathStep n={s.n} icon={s.icon} title={s.title} sub={s.sub} image={s.image} />
-                  {i < arr.length - 1 && <ArrowDownBar />}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* WHAT HAPPENS WHEN YOU KEEP GOING */}
-      <JourneyTimeline />
-
-      {/* SOCIAL PROOF */}
+      {/* SUPPORTING SECTIONS */}
       <Testimonials />
-
-      {/* REBEL CAFÉ teaser */}
       <CafeTeaser />
-
-      {/* LOCATION */}
       <LocationSection />
-
-      {/* GALLERY */}
       <RebelGallery />
-
-      {/* REFERRAL */}
       <ReferralSection />
-
-      {/* FAQ teaser */}
       <FAQTeaser />
 
-
-
-      {/* CLOSING CTA */}
-      <section className="container mx-auto px-5 py-16 md:py-20 text-center">
-        <Reveal>
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight max-w-3xl mx-auto">
-            Train today. <span className="text-gradient-gold">Stay fit for life.</span>
+      {/* CLOSING */}
+      <section className="border-t border-border/40">
+        <div className="container mx-auto px-5 py-32 md:py-40 text-center">
+          <h2 className="font-black tracking-tight leading-[0.95] text-white" style={{ fontSize: "clamp(40px, 9vw, 96px)", letterSpacing: "-0.04em" }}>
+            Train today.<br />Stay fit for life.
           </h2>
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" className="bg-gradient-gold text-primary-foreground hover:opacity-90 border-0">
-              <Link to="/booking">Book your spot <ArrowRight className="ml-1 w-4 h-4" /></Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/booking">Speak with us</Link>
-            </Button>
+          <div className="mt-10">
+            <Link
+              to="/booking"
+              className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-8 h-14 font-bold text-base transition-colors"
+            >
+              Speak with us
+            </Link>
           </div>
-        </Reveal>
+        </div>
       </section>
 
       <StickyMobileCTA />
@@ -242,143 +97,120 @@ function Home() {
   );
 }
 
-function PathStep({
-  n,
-  icon: Icon,
-  title,
-  sub,
-  image,
-}: {
-  n: number;
-  icon: React.ComponentType<{ className?: string }>;
+/* ───────────────────────── HERO ───────────────────────── */
+
+function HeroPanel() {
+  return (
+    <section className="relative min-h-[92vh] flex flex-col items-center justify-between overflow-hidden bg-black">
+      {/* subtle radial heat */}
+      <div
+        aria-hidden
+        className="absolute inset-0"
+        style={{ background: "radial-gradient(60% 50% at 50% 30%, rgba(137,1,10,0.18), transparent 70%)" }}
+      />
+
+      <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-24 pb-12">
+        <h1
+          className="font-black text-white"
+          style={{
+            fontSize: "clamp(72px, 18vw, 220px)",
+            letterSpacing: "-0.05em",
+            lineHeight: "0.9",
+          }}
+        >
+          Rebel.
+        </h1>
+        <p
+          className="mt-6 text-white/85 font-medium"
+          style={{ fontSize: "clamp(18px, 2.4vw, 24px)", letterSpacing: "-0.01em" }}
+        >
+          Machine-free fitness. For life.
+        </p>
+      </div>
+
+      <div className="relative w-full px-5 pb-8 md:pb-12">
+        <Link
+          to="/booking"
+          className="block w-full max-w-md mx-auto rounded-2xl bg-white text-black text-center font-bold py-5 text-base hover:bg-white/90 transition-colors"
+        >
+          Speak with us
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+/* ───────────────────────── PROGRAM PANEL ───────────────────────── */
+
+type PanelProps = {
+  kind: "group" | "bootcamp" | "fifty";
+  eyebrow: string;
   title: string;
-  sub: string;
+  titleSmall: string | null;
+  subtitle: string;
   image: string;
-}) {
-  return (
-    <div className="flex items-center gap-3 md:gap-4 rounded-2xl border border-border bg-card p-3 md:p-4">
-      <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-xl overflow-hidden shrink-0">
-        <img src={image} alt="" loading="lazy" width={768} height={1024} className="w-full h-full object-cover" />
-        <span className="absolute top-1 left-1 text-[9px] font-bold bg-primary text-primary-foreground rounded-full w-4 h-4 flex items-center justify-center">
-          {n}
-        </span>
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <Icon className="w-4 h-4 text-primary" />
-          <p className="font-black text-sm md:text-base">{title}</p>
-        </div>
-        <p className="text-xs md:text-sm text-muted-foreground mt-0.5 truncate">{sub}</p>
-      </div>
-    </div>
-  );
-}
-
-function ArrowDownBar() {
-  return (
-    <div className="flex justify-center">
-      <div className="w-0.5 h-5 bg-gradient-to-b from-primary to-transparent" />
-    </div>
-  );
-}
-
-/* ------------- Journey timeline ------------- */
-
-const JOURNEY: Record<"2w" | "2m" | "612", { label: string; heading: string; lines: string[] }> = {
-  "2w": {
-    label: "2 Weeks",
-    heading: "Feel less stiff and sore.",
-    lines: ["Wake up easier.", "Move through the day without tightness.", "Sleep better."],
-  },
-  "2m": {
-    label: "2 Months",
-    heading: "Stronger. Leaner. Confident.",
-    lines: ["Visible body changes.", "Lifts and reps go up.", "Clothes fit better."],
-  },
-  "612": {
-    label: "6–12 Months",
-    heading: "A new normal.",
-    lines: ["Energy you forgot you had.", "Pain-free joints.", "Fitness that sticks for life."],
-  },
+  to: "/bohofit" | "/bootcamp" | "/longevity";
+  cta: string;
+  tone: "light" | "dark";
 };
 
-const BG_IMG = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600";
-
-function scrollToPrograms() {
-  document.getElementById("program-section")?.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function JourneyTimeline() {
-  const [stage, setStage] = useState<"2w" | "2m" | "612">("2w");
-  const data = JOURNEY[stage];
-
+function ProgramPanel({ title, titleSmall, subtitle, image, to, cta, tone }: PanelProps) {
+  const isLight = tone === "light";
   return (
-    <section className="container mx-auto px-5 py-12 md:py-20">
-      <Reveal>
-        <p className="rebel-label">The journey</p>
-        <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
-          What happens when you <span className="italic text-white">keep showing up.</span>
+    <section
+      className="relative min-h-[92vh] flex flex-col overflow-hidden border-t border-border/40"
+      style={{ background: isLight ? "#0a0a0a" : "#000000" }}
+    >
+      <div className="relative px-5 pt-20 md:pt-28 pb-8 text-center">
+        {titleSmall && (
+          <p
+            className="text-white/70 font-medium mb-1"
+            style={{ fontSize: "clamp(20px, 3vw, 28px)", letterSpacing: "-0.01em" }}
+          >
+            {titleSmall}
+          </p>
+        )}
+        <h2
+          className="font-black text-white"
+          style={{
+            fontSize: "clamp(44px, 9vw, 96px)",
+            letterSpacing: "-0.04em",
+            lineHeight: "0.95",
+          }}
+        >
+          {title}
         </h2>
-        <p className="text-sm mt-3" style={{ color: "#CCCCCC" }}>Real results. No shortcuts.</p>
-      </Reveal>
-
-      {/* Stage tabs */}
-      <div className="mt-6 flex gap-5 md:gap-8 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-        {(["2w", "2m", "612"] as Array<"2w" | "2m" | "612">).map((k) => {
-          const active = k === stage;
-          return (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setStage(k)}
-              className={cn(
-                "pb-3 text-sm md:text-base font-black transition-colors border-b-2 -mb-px",
-                active ? "text-white" : "text-muted-strong hover:text-white",
-              )}
-              style={{ borderColor: active ? "#89010A" : "transparent" }}
-            >
-              {JOURNEY[k].label}
-            </button>
-          );
-        })}
+        <p
+          className="mt-5 max-w-xl mx-auto text-white/75"
+          style={{ fontSize: "clamp(15px, 1.7vw, 18px)" }}
+        >
+          {subtitle}
+        </p>
       </div>
 
-      {/* Highlight panel — full-bleed image with red overlay */}
-      <Reveal key={stage}>
-        <div className="mt-6 rounded-3xl overflow-hidden relative min-h-[320px] md:min-h-[400px] flex flex-col">
-          <img
-            src={BG_IMG}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            loading="lazy"
-          />
-          <div
-            className="absolute inset-0"
-            style={{ background: "rgba(137,1,10,0.82)" }}
-          />
-          <div className="relative p-6 md:p-10 flex flex-col flex-1 text-white">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.25em] font-bold opacity-90">{data.label}</p>
-            <h3 className="mt-3 text-2xl md:text-4xl font-black leading-tight max-w-xl text-white">
-              {data.heading}
-            </h3>
-            <ul className="mt-6 space-y-2 md:space-y-3 flex-1">
-              {data.lines.map((l) => (
-                <li key={l} className="flex items-start gap-2 text-sm md:text-base font-semibold text-white">
-                  <Check className="w-4 h-4 mt-1 shrink-0" /> {l}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-6">
-              <button
-                onClick={scrollToPrograms}
-                className="inline-flex items-center gap-2 rounded-full bg-white text-black hover:bg-white/90 px-5 h-11 font-bold text-sm transition"
-              >
-                Start your journey <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </Reveal>
+      <div className="relative flex-1 mx-5 md:mx-12 rounded-3xl overflow-hidden min-h-[380px]">
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* subtle bottom gradient for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-1/3"
+          style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55), transparent)" }}
+        />
+      </div>
+
+      <div className="relative w-full px-5 py-8 md:py-12">
+        <Link
+          to={to}
+          className="block w-full max-w-md mx-auto rounded-2xl bg-white text-black text-center font-bold py-5 text-base hover:bg-white/90 transition-colors"
+        >
+          {cta}
+        </Link>
+      </div>
     </section>
   );
 }

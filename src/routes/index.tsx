@@ -111,21 +111,30 @@ function HeroPanel() {
       />
 
       <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-24 pb-12">
+        <p
+          className="text-white/60 font-semibold uppercase tracking-[0.2em] mb-6"
+          style={{ fontSize: "clamp(11px, 1.2vw, 13px)" }}
+        >
+          India&rsquo;s first machine-free fitness system
+        </p>
         <h1
           className="font-black text-white"
           style={{
-            fontSize: "clamp(72px, 18vw, 220px)",
-            letterSpacing: "-0.05em",
-            lineHeight: "0.9",
+            fontSize: "clamp(42px, 8.5vw, 112px)",
+            letterSpacing: "-0.04em",
+            lineHeight: "0.95",
           }}
         >
-          Rebel.
+          90% of people quit<br />
+          the gym in 90 days.
+          <br />
+          <span style={{ color: "#FF2233", fontStyle: "italic" }}>You won&rsquo;t quit Rebel.</span>
         </h1>
         <p
-          className="mt-6 text-white/85 font-medium"
-          style={{ fontSize: "clamp(18px, 2.4vw, 24px)", letterSpacing: "-0.01em" }}
+          className="mt-8 max-w-xl mx-auto text-white/80 font-medium"
+          style={{ fontSize: "clamp(16px, 2vw, 20px)", letterSpacing: "-0.01em" }}
         >
-          Machine-free fitness. For life.
+          Coach-led. Progression-based. Zero machines. 75% of our members are still training a year later — find out why.
         </p>
       </div>
 
@@ -134,9 +143,10 @@ function HeroPanel() {
           to="/booking"
           className="block w-full max-w-md mx-auto rounded-2xl bg-white text-black text-center font-bold py-5 text-base hover:bg-white/90 transition-colors"
         >
-          Speak with us
+          Book a Free Trial Class
         </Link>
       </div>
+
     </section>
   );
 }

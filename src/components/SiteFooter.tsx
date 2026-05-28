@@ -8,9 +8,8 @@ export function SiteFooter() {
     <footer className="border-t border-border/60 mt-24">
       <div className="container mx-auto px-5 py-12 grid md:grid-cols-4 gap-8">
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="inline-block w-6 h-6 rounded-md bg-gradient-gold" />
-            <span className="font-black tracking-tight">Rebel</span>
+          <div className="mb-3">
+            <img src={rebelLogo} alt="Rebel" className="h-8 w-auto" />
           </div>
           <p className="text-sm text-muted-foreground">India&rsquo;s first machine-free fitness system.</p>
         </div>

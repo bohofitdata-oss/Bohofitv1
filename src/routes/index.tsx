@@ -37,10 +37,10 @@ function Home() {
         eyebrow=""
         title="Rebel Group Classes"
         titleSmall={null}
-        subtitle="Yoga. Pilates. Strength. Zumba. Train with people who show up."
+        subtitle="Strength. Yoga. Pilates. Zumba. Coach-led sessions where someone notices when you don't show up."
         image={imgStart}
         to="/bohofit"
-        cta="Join a Class"
+        cta="See This Week's Classes"
         tone="light"
       />
 
@@ -49,10 +49,10 @@ function Home() {
         eyebrow=""
         title="Rebel 8 Weeks Challenge"
         titleSmall={null}
-        subtitle="Lose fat. Build strength. Eight weeks. Real results."
+        subtitle="Three slots. Eight weeks. One version of you that finally finishes what you started."
         image={imgBootcamp}
         to="/bootcamp"
-        cta="Start the Challenge"
+        cta="Claim a Slot"
         tone="dark"
       />
 
@@ -61,7 +61,7 @@ function Home() {
         eyebrow=""
         title="Rebel at 50+"
         titleSmall="Be a"
-        subtitle="Fitness that fits. Not machines. One coach. One you."
+        subtitle="Move pain-free. Stay independent. A dedicated 50+ batch — no mirrors, no machines, no judgment."
         image={imgFifty}
         to="/longevity"
         cta="Learn More"

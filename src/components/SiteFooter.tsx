@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 import { BOHOFIT_PHONE, BOHOFIT_PHONE_DISPLAY, BOHOFIT_EMAIL } from "@/components/EmergencyCTA";
+import rebelLogo from "@/assets/rebel-logo.png";
 
 export function SiteFooter() {
   return (

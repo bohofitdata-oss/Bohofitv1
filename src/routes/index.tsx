@@ -15,10 +15,11 @@ import imgFifty from "@/assets/program-fiftyplus.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Rebel — Machine-free fitness that fits your life" },
-      { name: "description", content: "India's first machine-free fitness system. Group Classes, 8 Weeks Challenge, and Rebel at 50+." },
-      { property: "og:title", content: "Rebel — Machine-free fitness" },
-      { property: "og:description", content: "Group Classes. 8 Weeks Challenge. Rebel at 50+." },
+      { title: "Rebel — The Fitness System People Actually Stick To" },
+      { name: "description", content: "75% of our members are still training after a year — because Rebel is built on structure, not machines. Group Classes, 8-Week Challenge, and Rebel at 50+ in HSR Layout, Bangalore." },
+      { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, 8 week transformation Bangalore, fitness for 50+, gym alternative" },
+      { property: "og:title", content: "Rebel — Fitness That Doesn't Quit on You" },
+      { property: "og:description", content: "Built for the 90% who quit gyms in 90 days. Coach-led. Progression-based. Zero machines. One Rebel community." },
     ],
   }),
   component: Home,
@@ -36,10 +37,10 @@ function Home() {
         eyebrow=""
         title="Rebel Group Classes"
         titleSmall={null}
-        subtitle="Yoga. Pilates. Strength. Zumba. Train with people who show up."
+        subtitle="Strength. Yoga. Pilates. Zumba. Coach-led sessions where someone notices when you don't show up."
         image={imgStart}
         to="/bohofit"
-        cta="Join a Class"
+        cta="See This Week's Classes"
         tone="light"
       />
 
@@ -48,10 +49,10 @@ function Home() {
         eyebrow=""
         title="Rebel 8 Weeks Challenge"
         titleSmall={null}
-        subtitle="Lose fat. Build strength. Eight weeks. Real results."
+        subtitle="Three slots. Eight weeks. One version of you that finally finishes what you started."
         image={imgBootcamp}
         to="/bootcamp"
-        cta="Start the Challenge"
+        cta="Claim a Slot"
         tone="dark"
       />
 
@@ -60,7 +61,7 @@ function Home() {
         eyebrow=""
         title="Rebel at 50+"
         titleSmall="Be a"
-        subtitle="Fitness that fits. Not machines. One coach. One you."
+        subtitle="Move pain-free. Stay independent. A dedicated 50+ batch — no mirrors, no machines, no judgment."
         image={imgFifty}
         to="/longevity"
         cta="Learn More"
@@ -110,21 +111,30 @@ function HeroPanel() {
       />
 
       <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-24 pb-12">
+        <p
+          className="text-white/60 font-semibold uppercase tracking-[0.2em] mb-6"
+          style={{ fontSize: "clamp(11px, 1.2vw, 13px)" }}
+        >
+          India&rsquo;s first machine-free fitness system
+        </p>
         <h1
           className="font-black text-white"
           style={{
-            fontSize: "clamp(72px, 18vw, 220px)",
-            letterSpacing: "-0.05em",
-            lineHeight: "0.9",
+            fontSize: "clamp(42px, 8.5vw, 112px)",
+            letterSpacing: "-0.04em",
+            lineHeight: "0.95",
           }}
         >
-          Rebel.
+          90% of people quit<br />
+          the gym in 90 days.
+          <br />
+          <span style={{ color: "#FF2233", fontStyle: "italic" }}>You won&rsquo;t quit Rebel.</span>
         </h1>
         <p
-          className="mt-6 text-white/85 font-medium"
-          style={{ fontSize: "clamp(18px, 2.4vw, 24px)", letterSpacing: "-0.01em" }}
+          className="mt-8 max-w-xl mx-auto text-white/80 font-medium"
+          style={{ fontSize: "clamp(16px, 2vw, 20px)", letterSpacing: "-0.01em" }}
         >
-          Machine-free fitness. For life.
+          Coach-led. Progression-based. Zero machines. 75% of our members are still training a year later — find out why.
         </p>
       </div>
 
@@ -133,9 +143,10 @@ function HeroPanel() {
           to="/booking"
           className="block w-full max-w-md mx-auto rounded-2xl bg-white text-black text-center font-bold py-5 text-base hover:bg-white/90 transition-colors"
         >
-          Speak with us
+          Book a Free Trial Class
         </Link>
       </div>
+
     </section>
   );
 }

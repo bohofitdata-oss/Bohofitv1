@@ -9,6 +9,7 @@ import { ReferralSection } from "@/components/ReferralSection";
 import { RebelGallery } from "@/components/RebelGallery";
 
 import imgStart from "@/assets/program-start.jpg";
+import imgStudio from "@/assets/rebel-studio-red.jpg";
 import imgBootcamp from "@/assets/program-bootcamp.jpg";
 import imgFifty from "@/assets/program-fiftyplus.jpg";
 

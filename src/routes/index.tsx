@@ -9,6 +9,7 @@ import { ReferralSection } from "@/components/ReferralSection";
 import { RebelGallery } from "@/components/RebelGallery";
 
 import imgStart from "@/assets/program-start.jpg";
+import imgStudio from "@/assets/rebel-studio-red.jpg";
 import imgBootcamp from "@/assets/program-bootcamp.jpg";
 import imgFifty from "@/assets/program-fiftyplus.jpg";
 
@@ -102,51 +103,71 @@ function Home() {
 
 function HeroPanel() {
   return (
-    <section className="relative min-h-[92vh] flex flex-col items-center justify-between overflow-hidden bg-black">
-      {/* subtle radial heat */}
+    <section className="relative min-h-[92vh] flex flex-col overflow-hidden">
+      {/* background image */}
+      <img
+        src={imgStudio}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+      {/* warm red wash + vignette for legibility */}
       <div
         aria-hidden
         className="absolute inset-0"
-        style={{ background: "radial-gradient(60% 50% at 50% 30%, rgba(137,1,10,0.18), transparent 70%)" }}
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(20,0,0,0.55) 0%, rgba(10,0,0,0.35) 40%, rgba(0,0,0,0.75) 100%)",
+        }}
       />
 
-      <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-24 pb-12">
-        <p
-          className="text-white/60 font-semibold uppercase tracking-[0.2em] mb-6"
-          style={{ fontSize: "clamp(11px, 1.2vw, 13px)" }}
-        >
-          India&rsquo;s first machine-free fitness system
-        </p>
-        <h1
-          className="font-black text-white"
+      {/* content */}
+      <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-28 pb-10">
+        {/* glass card */}
+        <div
+          className="max-w-2xl mx-auto rounded-3xl px-6 py-10 md:px-10 md:py-12 border border-white/15"
           style={{
-            fontSize: "clamp(42px, 8.5vw, 112px)",
-            letterSpacing: "-0.04em",
-            lineHeight: "0.95",
+            background: "rgba(255,255,255,0.06)",
+            backdropFilter: "blur(22px) saturate(140%)",
+            WebkitBackdropFilter: "blur(22px) saturate(140%)",
+            boxShadow: "0 30px 80px -20px rgba(0,0,0,0.6)",
           }}
         >
-          90% of people quit<br />
-          the gym in 90 days.
-          <br />
-          <span style={{ color: "#FF2233", fontStyle: "italic" }}>You won&rsquo;t quit Rebel.</span>
-        </h1>
-        <p
-          className="mt-8 max-w-xl mx-auto text-white/80 font-medium"
-          style={{ fontSize: "clamp(16px, 2vw, 20px)", letterSpacing: "-0.01em" }}
-        >
-          Coach-led. Progression-based. Zero machines. 75% of our members are still training a year later — find out why.
-        </p>
-      </div>
+          <p
+            className="text-white/70 font-semibold uppercase tracking-[0.22em] mb-5"
+            style={{ fontSize: "clamp(10px, 1.1vw, 12px)" }}
+          >
+            Machine-free · Coach-led · Bangalore
+          </p>
+          <h1
+            className="font-black text-white"
+            style={{
+              fontSize: "clamp(40px, 8vw, 96px)",
+              letterSpacing: "-0.04em",
+              lineHeight: "0.95",
+            }}
+          >
+            Fitness you
+            <br />
+            actually <span style={{ color: "#FF2233", fontStyle: "italic" }}>finish.</span>
+          </h1>
+          <p
+            className="mt-6 max-w-md mx-auto text-white/85 font-medium"
+            style={{ fontSize: "clamp(14px, 1.7vw, 17px)" }}
+          >
+            75% of our members are still training a year later.
+          </p>
 
-      <div className="relative w-full px-5 pb-8 md:pb-12">
-        <Link
-          to="/booking"
-          className="block w-full max-w-md mx-auto rounded-2xl bg-white text-black text-center font-bold py-5 text-base hover:bg-white/90 transition-colors"
-        >
-          Book a Free Trial Class
-        </Link>
+          <div className="mt-8">
+            <Link
+              to="/booking"
+              className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm md:text-base transition-colors"
+            >
+              Book a free trial →
+            </Link>
+          </div>
+        </div>
       </div>
-
     </section>
   );
 }

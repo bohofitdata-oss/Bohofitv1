@@ -118,6 +118,39 @@ export type Database = {
         }
         Relationships: []
       }
+      coach_interventions: {
+        Row: {
+          coach_user_id: string | null
+          created_at: string
+          id: string
+          member_user_id: string
+          notes: string | null
+          reason: string
+          resolved_at: string | null
+          status: string
+        }
+        Insert: {
+          coach_user_id?: string | null
+          created_at?: string
+          id?: string
+          member_user_id: string
+          notes?: string | null
+          reason: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Update: {
+          coach_user_id?: string | null
+          created_at?: string
+          id?: string
+          member_user_id?: string
+          notes?: string | null
+          reason?: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       diet_plans: {
         Row: {
           created_at: string
@@ -145,6 +178,42 @@ export type Database = {
           notes?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      family_invites: {
+        Row: {
+          created_at: string
+          id: string
+          invitee_email: string | null
+          invitee_name: string
+          invitee_phone: string | null
+          inviter_user_id: string
+          joined_user_id: string | null
+          relation: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          invitee_email?: string | null
+          invitee_name: string
+          invitee_phone?: string | null
+          inviter_user_id: string
+          joined_user_id?: string | null
+          relation: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          invitee_email?: string | null
+          invitee_name?: string
+          invitee_phone?: string | null
+          inviter_user_id?: string
+          joined_user_id?: string | null
+          relation?: string
+          status?: string
         }
         Relationships: []
       }
@@ -418,6 +487,104 @@ export type Database = {
         }
         Relationships: []
       }
+      member_milestones: {
+        Row: {
+          earned_at: string
+          id: string
+          milestone_id: string
+          user_id: string
+        }
+        Insert: {
+          earned_at?: string
+          id?: string
+          milestone_id: string
+          user_id: string
+        }
+        Update: {
+          earned_at?: string
+          id?: string
+          milestone_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_milestones_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "milestone_definitions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_progress: {
+        Row: {
+          attendance_score: number
+          coach_score: number
+          completion_score: number
+          milestone_score: number
+          next_milestone: string | null
+          next_step: string | null
+          progress_to_next_level: number
+          score: number
+          sessions_lifetime: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          attendance_score?: number
+          coach_score?: number
+          completion_score?: number
+          milestone_score?: number
+          next_milestone?: string | null
+          next_step?: string | null
+          progress_to_next_level?: number
+          score?: number
+          sessions_lifetime?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          attendance_score?: number
+          coach_score?: number
+          completion_score?: number
+          milestone_score?: number
+          next_milestone?: string | null
+          next_step?: string | null
+          progress_to_next_level?: number
+          score?: number
+          sessions_lifetime?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      member_streaks: {
+        Row: {
+          current_streak: number
+          last_attended_date: string | null
+          longest_streak: number
+          updated_at: string
+          user_id: string
+          weeks_consistent: number
+        }
+        Insert: {
+          current_streak?: number
+          last_attended_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id: string
+          weeks_consistent?: number
+        }
+        Update: {
+          current_streak?: number
+          last_attended_date?: string | null
+          longest_streak?: number
+          updated_at?: string
+          user_id?: string
+          weeks_consistent?: number
+        }
+        Relationships: []
+      }
       membership_pauses: {
         Row: {
           created_at: string
@@ -504,14 +671,76 @@ export type Database = {
         }
         Relationships: []
       }
+      milestone_definitions: {
+        Row: {
+          code: string
+          description: string | null
+          id: string
+          level_required: Database["public"]["Enums"]["rebel_level"] | null
+          points: number
+          sort_order: number
+          threshold_kind: string
+          threshold_value: number
+          title: string
+        }
+        Insert: {
+          code: string
+          description?: string | null
+          id?: string
+          level_required?: Database["public"]["Enums"]["rebel_level"] | null
+          points?: number
+          sort_order?: number
+          threshold_kind: string
+          threshold_value?: number
+          title: string
+        }
+        Update: {
+          code?: string
+          description?: string | null
+          id?: string
+          level_required?: Database["public"]["Enums"]["rebel_level"] | null
+          points?: number
+          sort_order?: number
+          threshold_kind?: string
+          threshold_value?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      nutrition_scores: {
+        Row: {
+          consistency_pct: number
+          hydration_pct: number
+          protein_pct: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          consistency_pct?: number
+          hydration_pct?: number
+          protein_pct?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          consistency_pct?: number
+          hydration_pct?: number
+          protein_pct?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           age: number | null
           city: string | null
           created_at: string
+          current_level: Database["public"]["Enums"]["rebel_level"]
           full_name: string | null
           goal_path: Database["public"]["Enums"]["path_choice"] | null
           id: string
+          level_started_at: string
           phone: string | null
           updated_at: string
         }
@@ -519,9 +748,11 @@ export type Database = {
           age?: number | null
           city?: string | null
           created_at?: string
+          current_level?: Database["public"]["Enums"]["rebel_level"]
           full_name?: string | null
           goal_path?: Database["public"]["Enums"]["path_choice"] | null
           id: string
+          level_started_at?: string
           phone?: string | null
           updated_at?: string
         }
@@ -529,9 +760,11 @@ export type Database = {
           age?: number | null
           city?: string | null
           created_at?: string
+          current_level?: Database["public"]["Enums"]["rebel_level"]
           full_name?: string | null
           goal_path?: Database["public"]["Enums"]["path_choice"] | null
           id?: string
+          level_started_at?: string
           phone?: string | null
           updated_at?: string
         }
@@ -788,6 +1021,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      compute_progress_score: {
+        Args: { _user_id: string }
+        Returns: {
+          attendance_score: number
+          coach_score: number
+          completion_score: number
+          milestone_score: number
+          next_milestone: string | null
+          next_step: string | null
+          progress_to_next_level: number
+          score: number
+          sessions_lifetime: number
+          updated_at: string
+          user_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "member_progress"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       get_family_progress: { Args: { _token: string }; Returns: Json }
       has_role: {
         Args: {
@@ -843,6 +1098,7 @@ export type Database = {
       booking_status: "pending" | "consult_requested" | "paid" | "cancelled"
       bootcamp_tier: "standard" | "intensive"
       path_choice: "bohofit" | "bootcamp" | "longevity"
+      rebel_level: "foundation" | "performance" | "longevity" | "fifty_plus"
       slot_mode: "online" | "offline"
       slot_program: "bootcamp" | "longevity" | "group_classes"
     }
@@ -976,6 +1232,7 @@ export const Constants = {
       booking_status: ["pending", "consult_requested", "paid", "cancelled"],
       bootcamp_tier: ["standard", "intensive"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
+      rebel_level: ["foundation", "performance", "longevity", "fifty_plus"],
       slot_mode: ["online", "offline"],
       slot_program: ["bootcamp", "longevity", "group_classes"],
     },

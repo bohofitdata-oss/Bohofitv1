@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { waLink, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { MessageCircle } from "lucide-react";
+import { AdminMetricsPanel } from "@/components/AdminMetricsPanel";
+import { CoachQueueCard } from "@/components/CoachQueueCard";
 
 // Hardcoded admin emails — edit this list to grant dashboard access.
 const ADMIN_EMAILS = ["admin@bohofit.com"];
@@ -136,6 +138,10 @@ function AdminPage() {
             </div>
           ))}
         </div>
+
+        <AdminMetricsPanel />
+
+        <div className="mt-10"><CoachQueueCard /></div>
 
         {/* BOOKINGS */}
         <div className="mt-10 rounded-2xl border border-border bg-card overflow-hidden">

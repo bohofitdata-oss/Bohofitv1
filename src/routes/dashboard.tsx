@@ -11,6 +11,12 @@ import { MembershipCard } from "@/components/MembershipCard";
 import { MedicalHistoryCard } from "@/components/MedicalHistoryCard";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { DashboardBanner } from "@/components/DashboardBanner";
+import { ProgressionCard } from "@/components/ProgressionCard";
+import { StreakCard } from "@/components/StreakCard";
+import { MilestonesCard } from "@/components/MilestonesCard";
+import { NutritionCard } from "@/components/NutritionCard";
+import { FamilyInvitesCard } from "@/components/FamilyInvitesCard";
+import { CoachQueueCard } from "@/components/CoachQueueCard";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Your dashboard — Rebel" }] }),
@@ -29,6 +35,7 @@ function DashboardPage() {
   const [logs, setLogs] = useState<ProgressLog[]>([]);
   const [weight, setWeight] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [foodLogs, setFoodLogs] = useState<FoodLog[]>([]);
   const [uploadingFood, setUploadingFood] = useState(false);
@@ -56,7 +63,7 @@ function DashboardPage() {
       ]);
       if (p) setProfile({ full_name: p.full_name ?? "", phone: p.phone ?? "", age: p.age, city: p.city ?? "" });
       if (l) setLogs(l);
-      if (r) setIsAdmin(r.some((x) => x.role === "admin"));
+      if (r) { setIsAdmin(r.some((x) => x.role === "admin")); setIsStaff(r.some((x) => x.role === "admin" || x.role === "coach")); }
       if (f && f.length) {
         const signed = await Promise.all(
           f.map(async (row) => {
@@ -161,23 +168,26 @@ function DashboardPage() {
           </div>
         )}
 
-        <div className="mt-8 grid md:grid-cols-3 gap-5">
-          <div className="rounded-2xl border border-border bg-card p-5 text-center">
-            <Activity className="w-5 h-5 mx-auto text-primary" />
-            <div className="text-3xl font-black mt-2">{logs.length}</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Logs (last 10)</div>
+        {userId && (
+          <div className="mt-8 grid lg:grid-cols-3 gap-5">
+            <div className="lg:col-span-2"><ProgressionCard userId={userId} /></div>
+            <StreakCard userId={userId} />
           </div>
-          <div className="rounded-2xl border border-border bg-card p-5 text-center">
-            <CalendarCheck className="w-5 h-5 mx-auto text-primary" />
-            <div className="text-3xl font-black mt-2">{logs.filter((l) => l.attended).length}</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Sessions attended</div>
+        )}
+
+        {userId && (
+          <div className="mt-5 grid md:grid-cols-2 gap-5">
+            <MilestonesCard userId={userId} />
+            <NutritionCard userId={userId} />
           </div>
-          <div className="rounded-2xl border border-border bg-card p-5 text-center">
-            <Salad className="w-5 h-5 mx-auto text-primary" />
-            <div className="text-3xl font-black mt-2">—</div>
-            <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">Diet plan</div>
+        )}
+
+        {userId && (
+          <div className="mt-5 grid md:grid-cols-2 gap-5">
+            <FamilyInvitesCard userId={userId} />
+            {isStaff && <CoachQueueCard />}
           </div>
-        </div>
+        )}
 
         <div className="mt-8 grid md:grid-cols-2 gap-5">
           <div className="rounded-2xl border border-border bg-card p-6">

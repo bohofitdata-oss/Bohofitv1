@@ -125,7 +125,7 @@ function HeroPanel() {
       />
 
       {/* content */}
-      <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-28 pb-10">
+      <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-20 md:pt-24 pb-10">
         {/* glass card */}
         <div
           className="max-w-2xl mx-auto rounded-3xl px-6 py-10 md:px-10 md:py-12 border border-white/15"

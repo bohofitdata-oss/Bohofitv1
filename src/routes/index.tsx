@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/SiteShell";
 import { Testimonials } from "@/components/Testimonials";
 import { LocationSection } from "@/components/LocationSection";
-import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { StickyProgramTabs } from "@/components/StickyProgramTabs";
 import { CafeTeaser } from "@/components/CafeTeaser";
 import { FAQTeaser } from "@/components/FAQTeaser";
 import { ReferralSection } from "@/components/ReferralSection";

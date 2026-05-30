@@ -169,8 +169,8 @@ function HeroPanel() {
               Book a free trial →
             </Link>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <ProgramTab targetId="group-classes">Group Classes</ProgramTab>
+            <div className="w-full grid grid-cols-3 gap-2 pt-2">
+              <ProgramTab targetId="group-classes">Group</ProgramTab>
               <ProgramTab targetId="eight-weeks">8 Weeks</ProgramTab>
               <ProgramTab targetId="fifty-plus">50+</ProgramTab>
             </div>

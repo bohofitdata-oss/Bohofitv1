@@ -128,7 +128,7 @@ function HeroPanel() {
       <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-20 md:pt-24 pb-10">
         {/* glass card */}
         <div
-          className="max-w-2xl mx-auto rounded-3xl px-6 py-10 md:px-10 md:py-12 border border-white/15"
+          className="max-w-md mx-auto rounded-3xl px-5 py-7 md:px-7 md:py-8 border border-white/15"
           style={{
             background: "rgba(255,255,255,0.06)",
             backdropFilter: "blur(22px) saturate(140%)",
@@ -137,15 +137,15 @@ function HeroPanel() {
           }}
         >
           <p
-            className="text-white/70 font-semibold uppercase tracking-[0.22em] mb-5"
-            style={{ fontSize: "clamp(10px, 1.1vw, 12px)" }}
+            className="text-white/70 font-semibold uppercase tracking-[0.22em] mb-3"
+            style={{ fontSize: "clamp(9px, 1vw, 11px)" }}
           >
             Machine-free · Coach-led · Bangalore
           </p>
           <h1
             className="font-black text-white"
             style={{
-              fontSize: "clamp(40px, 8vw, 96px)",
+              fontSize: "clamp(34px, 7vw, 64px)",
               letterSpacing: "-0.04em",
               lineHeight: "0.95",
             }}
@@ -155,25 +155,19 @@ function HeroPanel() {
             actually <span style={{ color: "#FF2233", fontStyle: "italic" }}>finish.</span>
           </h1>
           <p
-            className="mt-6 max-w-md mx-auto text-white/85 font-medium"
-            style={{ fontSize: "clamp(14px, 1.7vw, 17px)" }}
+            className="mt-4 max-w-sm mx-auto text-white/85 font-medium"
+            style={{ fontSize: "clamp(13px, 1.5vw, 15px)" }}
           >
             75% of our members are still training a year later.
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-4">
+          <div className="mt-6">
             <Link
               to="/booking"
-              className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm md:text-base transition-colors"
+              className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-6 h-11 font-bold text-sm transition-colors"
             >
               Book a free trial →
             </Link>
-
-            <div className="w-full grid grid-cols-3 gap-2 pt-2">
-              <ProgramTab targetId="group-classes">Group</ProgramTab>
-              <ProgramTab targetId="eight-weeks">8 Weeks</ProgramTab>
-              <ProgramTab targetId="fifty-plus">50+</ProgramTab>
-            </div>
           </div>
         </div>
       </div>

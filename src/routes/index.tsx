@@ -34,18 +34,20 @@ function Home() {
 
       {/* PROGRAM PANELS — one per screen, Superhealth style */}
       <ProgramPanel
+        id="group-classes"
         kind="group"
         eyebrow=""
         title="Rebel Group Classes"
         titleSmall={null}
-        subtitle="Strength. Yoga. Pilates. Zumba. Coach-led sessions where someone notices when you don't show up."
+        subtitle="Two paths, one studio. Rebel Start (Yoga · Zumba · Beginner Strength · Mat Pilates) for beginners. Rebel Strength (Calisthenics · S&C · Weightlifting) when you're ready to push. Or train all 7 with Rebel One."
         image={imgStart}
         to="/bohofit"
-        cta="See This Week's Classes"
+        cta="See Start, Strength & One"
         tone="light"
       />
 
       <ProgramPanel
+        id="eight-weeks"
         kind="bootcamp"
         eyebrow=""
         title="Rebel 8 Weeks Challenge"
@@ -58,6 +60,7 @@ function Home() {
       />
 
       <ProgramPanel
+        id="fifty-plus"
         kind="fifty"
         eyebrow=""
         title="Rebel at 50+"
@@ -158,13 +161,19 @@ function HeroPanel() {
             75% of our members are still training a year later.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <Link
               to="/booking"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm md:text-base transition-colors"
             >
               Book a free trial →
             </Link>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <ProgramTab targetId="group-classes">Group Classes</ProgramTab>
+              <ProgramTab targetId="eight-weeks">8 Weeks</ProgramTab>
+              <ProgramTab targetId="fifty-plus">50+</ProgramTab>
+            </div>
           </div>
         </div>
       </div>
@@ -175,6 +184,7 @@ function HeroPanel() {
 /* ───────────────────────── PROGRAM PANEL ───────────────────────── */
 
 type PanelProps = {
+  id: string;
   kind: "group" | "bootcamp" | "fifty";
   eyebrow: string;
   title: string;
@@ -186,11 +196,28 @@ type PanelProps = {
   tone: "light" | "dark";
 };
 
-function ProgramPanel({ title, titleSmall, subtitle, image, to, cta, tone }: PanelProps) {
+function ProgramTab({ targetId, children }: { targetId: string; children: React.ReactNode }) {
+  const onClick = () => {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center rounded-full border border-white/25 bg-white/5 hover:bg-white/15 backdrop-blur-md text-white/90 px-4 h-9 text-xs font-semibold tracking-wide transition-colors"
+    >
+      {children}
+    </button>
+  );
+}
+
+function ProgramPanel({ id, title, titleSmall, subtitle, image, to, cta, tone }: PanelProps) {
   const isLight = tone === "light";
   return (
     <section
-      className="relative min-h-[92vh] flex flex-col overflow-hidden border-t border-border/40"
+      id={id}
+      className="relative min-h-[92vh] flex flex-col overflow-hidden border-t border-border/40 scroll-mt-20"
       style={{ background: isLight ? "#0a0a0a" : "#000000" }}
     >
       <div className="relative px-5 pt-20 md:pt-28 pb-8 text-center">

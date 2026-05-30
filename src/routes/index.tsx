@@ -184,6 +184,7 @@ function HeroPanel() {
 /* ───────────────────────── PROGRAM PANEL ───────────────────────── */
 
 type PanelProps = {
+  id: string;
   kind: "group" | "bootcamp" | "fifty";
   eyebrow: string;
   title: string;
@@ -195,11 +196,28 @@ type PanelProps = {
   tone: "light" | "dark";
 };
 
-function ProgramPanel({ title, titleSmall, subtitle, image, to, cta, tone }: PanelProps) {
+function ProgramTab({ targetId, children }: { targetId: string; children: React.ReactNode }) {
+  const onClick = () => {
+    const el = document.getElementById(targetId);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center rounded-full border border-white/25 bg-white/5 hover:bg-white/15 backdrop-blur-md text-white/90 px-4 h-9 text-xs font-semibold tracking-wide transition-colors"
+    >
+      {children}
+    </button>
+  );
+}
+
+function ProgramPanel({ id, title, titleSmall, subtitle, image, to, cta, tone }: PanelProps) {
   const isLight = tone === "light";
   return (
     <section
-      className="relative min-h-[92vh] flex flex-col overflow-hidden border-t border-border/40"
+      id={id}
+      className="relative min-h-[92vh] flex flex-col overflow-hidden border-t border-border/40 scroll-mt-20"
       style={{ background: isLight ? "#0a0a0a" : "#000000" }}
     >
       <div className="relative px-5 pt-20 md:pt-28 pb-8 text-center">

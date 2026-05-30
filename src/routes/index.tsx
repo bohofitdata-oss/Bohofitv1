@@ -125,7 +125,7 @@ function HeroPanel() {
       />
 
       {/* content */}
-      <div className="relative flex-1 w-full flex flex-col items-center justify-center text-center px-5 pt-28 pb-10">
+      <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-20 md:pt-24 pb-10">
         {/* glass card */}
         <div
           className="max-w-2xl mx-auto rounded-3xl px-6 py-10 md:px-10 md:py-12 border border-white/15"
@@ -169,8 +169,8 @@ function HeroPanel() {
               Book a free trial →
             </Link>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-              <ProgramTab targetId="group-classes">Group Classes</ProgramTab>
+            <div className="w-full grid grid-cols-3 gap-2 pt-2">
+              <ProgramTab targetId="group-classes">Group</ProgramTab>
               <ProgramTab targetId="eight-weeks">8 Weeks</ProgramTab>
               <ProgramTab targetId="fifty-plus">50+</ProgramTab>
             </div>
@@ -205,7 +205,7 @@ function ProgramTab({ targetId, children }: { targetId: string; children: React.
     <button
       type="button"
       onClick={onClick}
-      className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 text-white/90 hover:text-white px-4 h-10 text-[12px] font-semibold tracking-[0.08em] uppercase transition-all"
+      className="group w-full inline-flex items-center justify-center gap-1.5 rounded-full border border-white/15 text-white/90 hover:text-white px-3 h-10 text-[11px] font-semibold tracking-[0.08em] uppercase transition-all"
       style={{
         background: "rgba(255,255,255,0.04)",
         backdropFilter: "blur(14px) saturate(140%)",

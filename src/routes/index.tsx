@@ -205,7 +205,7 @@ function ProgramTab({ targetId, children }: { targetId: string; children: React.
     <button
       type="button"
       onClick={onClick}
-      className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 text-white/90 hover:text-white px-4 h-10 text-[12px] font-semibold tracking-[0.08em] uppercase transition-all"
+      className="group w-full inline-flex items-center justify-center gap-1.5 rounded-full border border-white/15 text-white/90 hover:text-white px-3 h-10 text-[11px] font-semibold tracking-[0.08em] uppercase transition-all"
       style={{
         background: "rgba(255,255,255,0.04)",
         backdropFilter: "blur(14px) saturate(140%)",

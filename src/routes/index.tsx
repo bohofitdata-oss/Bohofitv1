@@ -97,7 +97,7 @@ function Home() {
         </div>
       </section>
 
-      <StickyMobileCTA />
+      <StickyProgramTabs />
     </SiteShell>
   );
 }

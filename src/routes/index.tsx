@@ -161,13 +161,19 @@ function HeroPanel() {
             75% of our members are still training a year later.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col items-center gap-4">
             <Link
               to="/booking"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm md:text-base transition-colors"
             >
               Book a free trial →
             </Link>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+              <ProgramTab targetId="group-classes">Group Classes</ProgramTab>
+              <ProgramTab targetId="eight-weeks">8 Weeks</ProgramTab>
+              <ProgramTab targetId="fifty-plus">50+</ProgramTab>
+            </div>
           </div>
         </div>
       </div>

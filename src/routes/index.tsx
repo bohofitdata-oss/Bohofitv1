@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell } from "@/components/SiteShell";
 import { Testimonials } from "@/components/Testimonials";
 import { LocationSection } from "@/components/LocationSection";
-import { StickyMobileCTA } from "@/components/StickyMobileCTA";
+import { StickyProgramTabs } from "@/components/StickyProgramTabs";
 import { CafeTeaser } from "@/components/CafeTeaser";
 import { FAQTeaser } from "@/components/FAQTeaser";
 import { ReferralSection } from "@/components/ReferralSection";
@@ -97,7 +97,7 @@ function Home() {
         </div>
       </section>
 
-      <StickyMobileCTA />
+      <StickyProgramTabs />
     </SiteShell>
   );
 }
@@ -205,9 +205,16 @@ function ProgramTab({ targetId, children }: { targetId: string; children: React.
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center rounded-full border border-white/25 bg-white/5 hover:bg-white/15 backdrop-blur-md text-white/90 px-4 h-9 text-xs font-semibold tracking-wide transition-colors"
+      className="group inline-flex items-center gap-1.5 rounded-full border border-white/15 text-white/90 hover:text-white px-4 h-10 text-[12px] font-semibold tracking-[0.08em] uppercase transition-all"
+      style={{
+        background: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(14px) saturate(140%)",
+        WebkitBackdropFilter: "blur(14px) saturate(140%)",
+        boxShadow: "0 1px 0 rgba(255,255,255,0.08) inset, 0 8px 24px -12px rgba(0,0,0,0.6)",
+      }}
     >
       {children}
+      <span className="text-white/50 group-hover:text-white/90 transition-colors" aria-hidden>↓</span>
     </button>
   );
 }

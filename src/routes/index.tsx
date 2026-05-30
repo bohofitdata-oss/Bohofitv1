@@ -34,18 +34,20 @@ function Home() {
 
       {/* PROGRAM PANELS — one per screen, Superhealth style */}
       <ProgramPanel
+        id="group-classes"
         kind="group"
         eyebrow=""
         title="Rebel Group Classes"
         titleSmall={null}
-        subtitle="Strength. Yoga. Pilates. Zumba. Coach-led sessions where someone notices when you don't show up."
+        subtitle="Two paths, one studio. Rebel Start (Yoga · Zumba · Beginner Strength · Mat Pilates) for beginners. Rebel Strength (Calisthenics · S&C · Weightlifting) when you're ready to push. Or train all 7 with Rebel One."
         image={imgStart}
         to="/bohofit"
-        cta="See This Week's Classes"
+        cta="See Start, Strength & One"
         tone="light"
       />
 
       <ProgramPanel
+        id="eight-weeks"
         kind="bootcamp"
         eyebrow=""
         title="Rebel 8 Weeks Challenge"
@@ -58,6 +60,7 @@ function Home() {
       />
 
       <ProgramPanel
+        id="fifty-plus"
         kind="fifty"
         eyebrow=""
         title="Rebel at 50+"

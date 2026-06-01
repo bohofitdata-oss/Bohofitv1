@@ -3,7 +3,7 @@ import { Reveal } from "@/components/Reveal";
 
 export function LocationSection() {
   return (
-    <section className="container mx-auto px-5 py-20 md:py-32">
+    <section className="container mx-auto px-5 py-12 md:py-16">
       <Reveal>
         <p className="rebel-label">Find us</p>
         <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-3 leading-[1.05]">

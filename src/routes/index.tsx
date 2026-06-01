@@ -59,7 +59,7 @@ function Home() {
 
 function HeroPanel() {
   return (
-    <section className="relative min-h-[68vh] md:min-h-[78vh] flex flex-col overflow-hidden">
+    <section className="relative flex flex-col overflow-hidden">
       <img
         src={imgStudio}
         alt=""
@@ -75,7 +75,7 @@ function HeroPanel() {
         }}
       />
 
-      <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-16 md:pt-20 pb-8">
+      <div className="relative w-full flex flex-col items-center justify-center text-center px-5 pt-16 md:pt-20 pb-16 md:pb-20">
         <div
           className="max-w-md mx-auto rounded-3xl px-5 py-6 md:px-7 md:py-7 border border-white/15"
           style={{

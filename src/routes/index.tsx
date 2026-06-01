@@ -75,7 +75,7 @@ function HeroPanel() {
         }}
       />
 
-      <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-16 md:pt-20 pb-8">
+      <div className="relative flex-1 w-full flex flex-col items-center justify-start text-center px-5 pt-16 md:pt-20 pb-4">
         <div
           className="max-w-md mx-auto rounded-3xl px-5 py-6 md:px-7 md:py-7 border border-white/15"
           style={{

@@ -68,7 +68,8 @@ export function ProgramCarousel() {
   const active = SLIDES[selected];
 
   return (
-    <section id="programs" className="relative bg-black border-t border-border/40 py-14 md:py-20">
+    <section id="programs" className="relative bg-black pt-4 pb-12 md:pt-6 md:pb-16">
+      <div aria-hidden className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-3/4 max-w-2xl" style={{ background: "linear-gradient(90deg, transparent, rgba(255,34,51,0.5), transparent)" }} />
       <div className="container mx-auto px-5">
         <h2
           className="font-black text-white text-center mb-2"

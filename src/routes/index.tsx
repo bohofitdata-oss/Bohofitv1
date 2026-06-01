@@ -59,7 +59,7 @@ function Home() {
 
 function HeroPanel() {
   return (
-    <section className="relative min-h-[68vh] md:min-h-[78vh] flex flex-col overflow-hidden">
+    <section className="relative flex flex-col overflow-hidden">
       <img
         src={imgStudio}
         alt=""

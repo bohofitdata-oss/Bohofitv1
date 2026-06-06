@@ -68,9 +68,11 @@ export function ProgramCarousel() {
   const active = SLIDES[selected];
 
   return (
-    <section id="programs" className="relative bg-black pt-4 pb-12 md:pt-6 md:pb-16">
-      <div aria-hidden className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-3/4 max-w-2xl" style={{ background: "linear-gradient(90deg, transparent, rgba(255,34,51,0.5), transparent)" }} />
-      <div className="container mx-auto px-5">
+    <section id="programs" className="relative pt-10 pb-12 md:pt-14 md:pb-16 overflow-hidden" style={{ background: "linear-gradient(180deg, #000 0%, #0a0405 40%, #000 100%)" }}>
+      {/* Cohesive divider: soft red glow + hairline */}
+      <div aria-hidden className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(255,34,51,0.18) 0%, transparent 60%)" }} />
+      <div aria-hidden className="absolute top-0 left-1/2 -translate-x-1/2 h-px w-full max-w-3xl" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(255,34,51,0.6) 50%, transparent 100%)" }} />
+      <div className="container mx-auto px-5 relative">
         <h2
           className="font-black text-white text-center mb-2"
           style={{ fontSize: "clamp(32px, 6vw, 56px)", letterSpacing: "-0.03em", lineHeight: "1" }}

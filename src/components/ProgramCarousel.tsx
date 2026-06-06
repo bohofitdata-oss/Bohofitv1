@@ -86,60 +86,68 @@ export function ProgramCarousel() {
 
       {/* Embla viewport — full bleed so neighbor cards peek */}
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-4 pl-5 pr-5 md:pl-12 md:pr-12 touch-pan-y">
-          {SLIDES.map((s) => (
-            <div
-              key={s.id}
-              className="relative shrink-0 grow-0 basis-[82%] sm:basis-[60%] md:basis-[44%] lg:basis-[32%]"
-            >
-              <Link
-                to={s.to}
-                className="block relative rounded-3xl overflow-hidden aspect-[3/4] group"
+        <div className="flex gap-3 sm:gap-4 md:gap-5 pl-5 pr-5 md:pl-12 md:pr-12 touch-pan-y">
+          {SLIDES.map((s, i) => {
+            const isActive = i === selected;
+            return (
+              <div
+                key={s.id}
+                className="relative shrink-0 grow-0 basis-[82%] sm:basis-[60%] md:basis-[44%] lg:basis-[32%] transition-[transform,opacity] duration-500"
+                style={{
+                  transform: isActive ? "scale(1)" : "scale(0.94)",
+                  opacity: isActive ? 1 : 0.6,
+                }}
               >
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div
-                  aria-hidden
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.75) 100%)",
-                  }}
-                />
-                {/* Centered title */}
-                <div className="absolute inset-0 flex items-center justify-center px-6">
-                  <h3
-                    className="text-white font-black text-center"
+                <Link
+                  to={s.to}
+                  className="block relative rounded-3xl overflow-hidden aspect-[3/4] group ring-1 ring-white/10 hover:ring-white/30 transition-all duration-500"
+                >
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.08]"
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 transition-opacity duration-500 group-hover:opacity-90"
                     style={{
-                      fontSize: "clamp(24px, 4.5vw, 36px)",
-                      letterSpacing: "-0.02em",
-                      lineHeight: "1.05",
-                      textShadow: "0 2px 24px rgba(0,0,0,0.55)",
+                      background:
+                        "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.85) 100%)",
                     }}
-                  >
-                    {s.title}
-                  </h3>
-                </div>
-                {/* More details pill */}
-                <div className="absolute bottom-5 left-0 right-0 flex justify-center">
-                  <span className="inline-flex items-center gap-2 text-white/90 text-[13px] font-medium">
-                    <span
-                      className="inline-block w-1.5 h-1.5 rounded-full"
-                      style={{ background: "#FF2233" }}
-                      aria-hidden
-                    />
-                    More details
-                  </span>
-                </div>
-              </Link>
-            </div>
-          ))}
+                  />
+                  {/* Centered title */}
+                  <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex items-center justify-center px-5">
+                    <h3
+                      className="text-white font-black text-center"
+                      style={{
+                        fontSize: "clamp(22px, 4vw, 34px)",
+                        letterSpacing: "-0.02em",
+                        lineHeight: "1.05",
+                        textShadow: "0 2px 24px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      {s.title}
+                    </h3>
+                  </div>
+                  {/* More details pill — consistent position */}
+                  <div className="absolute bottom-6 inset-x-0 flex justify-center">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 text-white text-[12px] font-semibold tracking-wide transition-all duration-300 group-hover:bg-white group-hover:text-black group-hover:border-white">
+                      <span
+                        className="inline-block w-1.5 h-1.5 rounded-full transition-colors"
+                        style={{ background: "#FF2233" }}
+                        aria-hidden
+                      />
+                      More details
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
+
 
       {/* Tagline + CTA for active slide */}
       <div className="container mx-auto px-5 mt-8">

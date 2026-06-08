@@ -71,7 +71,7 @@ export function ProgramCarousel() {
           Choose your <span style={{ color: "#FF2233", fontStyle: "italic" }}>Rebel</span>.
         </h2>
         <p className="text-center text-white/60 text-sm md:text-base mb-8">
-          Swipe through our three programs.
+          Swipe through our two programs.
         </p>
       </div>
 

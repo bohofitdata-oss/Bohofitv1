@@ -24,13 +24,21 @@ import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 export const Route = createFileRoute("/longevity")({
   head: () => ({
     meta: [
-      { title: "Rebel at 50+ — 1:1 personal training, online or offline" },
-      { name: "description", content: "Extremely personal 1:1 training for 50+. Online or at a Rebel centre. Pick your own hour, Mon–Sat. Free 30-min consult before you commit." },
-      { property: "og:title", content: "Rebel at 50+ — 1:1 personal training" },
+      { title: "Rebél Unpause — 1:1 personal training, online or offline" },
+      { name: "description", content: "Extremely personal 1:1 training, built around you. Online or at a Rebel centre. 3 sessions a week, 1 hour each. Free 30-min consult before you commit." },
+      { property: "og:title", content: "Rebél Unpause — 1:1 personal training" },
     ],
   }),
   component: LongevityPage,
 });
+
+const FOCUS_OPTIONS = [
+  { key: "perimenopause", title: "Perimenopause", sub: "40s — sleep, weight, mood" },
+  { key: "menopause", title: "Menopause & beyond", sub: "strength, bone density, energy" },
+  { key: "joints", title: "Joints & knees", sub: "train strong, train safe" },
+  { key: "bone_balance", title: "Bone strength & balance", sub: "stay steady, stay independent" },
+] as const;
+type FocusKey = typeof FOCUS_OPTIONS[number]["key"];
 
 const TNC = [
   { key: "duration", text: "I understand this is a 12-week 1:1 program." },
@@ -51,6 +59,7 @@ const schema = z.object({
 
 function LongevityPage() {
   const navigate = useNavigate();
+  const [focus, setFocus] = useState<FocusKey | null>(null);
   const [mode, setMode] = useState<"offline" | "online">("offline");
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
@@ -77,6 +86,7 @@ function LongevityPage() {
 
   const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!focus) return toast.error("Pick what's your focus right now");
     if (!primarySlot) return toast.error("Pick a primary time");
     if (!allTncAccepted) {
       toast.error("Please accept every term & condition");
@@ -88,6 +98,8 @@ function LongevityPage() {
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
+    const focusLabel = FOCUS_OPTIONS.find((f) => f.key === focus)?.title ?? focus;
+    const goalWithFocus = `Focus: ${focusLabel}. ${goal}`;
 
     const result = await saveBooking({
       name: full_name,
@@ -95,7 +107,7 @@ function LongevityPage() {
       email,
       age,
       city,
-      goal,
+      goal: goalWithFocus,
       program: "fifty_plus",
       mode,
       primary_slot_id: primarySlot,
@@ -115,7 +127,7 @@ function LongevityPage() {
       <SiteShell>
         <PaymentScreen
           bookingId={pending.bookingId}
-          amountInr={29999}
+          amountInr={30000}
           programLabel={PROGRAM_LABEL.fifty_plus}
           slotLabel={pending.slot}
           customer={{ name: pending.name, email: pending.email, phone: pending.phone }}
@@ -177,7 +189,7 @@ function LongevityPage() {
         <div className="relative container mx-auto px-5 pt-20 pb-16 md:pt-28 md:pb-24 text-center">
           <Reveal>
             <div className="flex justify-center mb-4"><ProgramSwitcher current="longevity" /></div>
-            <p className="text-xs uppercase tracking-[0.18em]" style={{ color: "#FF2233" }}>Rebel at 50+ · 1:1</p>
+            <p className="text-xs uppercase tracking-[0.18em]" style={{ color: "#FF2233" }}>REBÉL UNPAUSE · 1:1</p>
             <h1
               className="mt-3 text-4xl md:text-7xl font-black tracking-tight leading-[1.02] text-white"
               style={{ textShadow: "0 2px 30px rgba(0,0,0,0.7)" }}
@@ -186,11 +198,12 @@ function LongevityPage() {
               <span className="italic" style={{ color: "#FF2233" }}>Not machines.</span>
             </h1>
             <p className="mt-5 max-w-xl mx-auto text-white/85" style={{ textShadow: "0 1px 12px rgba(0,0,0,0.7)" }}>
-              One coach. One client. Studio, online, or at home. Mon–Sat, 1 hour/day.
+              One coach. One client. Studio, online, or at home. 3 sessions a week, 1 hour each.
             </p>
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm text-white" style={{ borderColor: "rgba(255,255,255,0.25)", background: "rgba(0,0,0,0.4)" }}>
-              <HeartPulse className="w-4 h-4" style={{ color: "#FF2233" }} /> ₹29,999 / 12 weeks · 1:1
+              <HeartPulse className="w-4 h-4" style={{ color: "#FF2233" }} /> ₹30,000 / 36 sessions · 1:1
             </div>
+            <p className="mt-3 text-xs text-white/70">Includes gynaecologist support (capped).</p>
           </Reveal>
         </div>
       </section>
@@ -200,7 +213,34 @@ function LongevityPage() {
         {/* MODE */}
         <Reveal>
           <div className="mt-8">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1 · Online or offline</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 1 · Your focus</p>
+            <h2 className="mt-1 text-2xl md:text-3xl font-black">What's your focus right now?</h2>
+          </div>
+        </Reveal>
+        <div className="mt-5 grid sm:grid-cols-2 gap-3">
+          {FOCUS_OPTIONS.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => setFocus(f.key)}
+              className={cn(
+                "text-left rounded-xl border bg-card p-4 transition",
+                focus === f.key ? "border-primary bg-primary/10" : "border-border hover:border-primary/60",
+              )}
+            >
+              <div className="font-semibold">{f.title}</div>
+              <div className="text-xs text-muted-foreground mt-1">{f.sub}</div>
+            </button>
+          ))}
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Already managing an injury or condition? We train around it, with your doctor's clearance.
+        </p>
+
+        {/* MODE */}
+        <Reveal>
+          <div className="mt-10">
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Online or offline</p>
             <h2 className="mt-1 text-2xl md:text-3xl font-black">Where will you train?</h2>
           </div>
         </Reveal>
@@ -215,7 +255,7 @@ function LongevityPage() {
         {/* SLOT */}
         <Reveal>
           <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 2 · Pick your hour</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 3 · Pick your hour</p>
             <h2 className="mt-1 text-2xl md:text-3xl font-black">Your dedicated time, Mon–Sat</h2>
             <p className="text-sm text-muted-foreground mt-1">1 spot per slot — it&rsquo;s 1:1, just you and your coach.</p>
           </div>
@@ -227,7 +267,7 @@ function LongevityPage() {
         {/* DETAILS */}
         <Reveal>
           <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 3 · Your details</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · Your details</p>
           </div>
         </Reveal>
         <form key={formKey} id="lon-form" onSubmit={(e) => e.preventDefault()} className="mt-5 rounded-2xl border border-border bg-card p-6 space-y-5">
@@ -244,7 +284,7 @@ function LongevityPage() {
         {/* T&C */}
         <Reveal>
           <div className="mt-10">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 4 · The rules</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-primary">Step 5 · The rules</p>
             <h2 className="mt-1 text-2xl md:text-3xl font-black">Tick every box.</h2>
           </div>
         </Reveal>

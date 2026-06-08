@@ -14,8 +14,8 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Rebel — The Fitness System People Actually Stick To" },
-      { name: "description", content: "75% of our members are still training after a year — because Rebel is built on structure, not machines. Group Classes, 8-Week Challenge, and Rebel at 50+ in HSR Layout, Bangalore." },
-      { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, 8 week transformation Bangalore, fitness for 50+, gym alternative" },
+      { name: "description", content: "75% of our members are still training after a year — because Rebel is built on structure, not machines. Group Classes and Rebél Unpause in HSR Layout, Bangalore." },
+      { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, Rebél Unpause, fitness 50+, gym alternative" },
       { property: "og:title", content: "Rebel — Fitness That Doesn't Quit on You" },
       { property: "og:description", content: "Built for the 90% who quit gyms in 90 days. Coach-led. Progression-based. Zero machines. One Rebel community." },
     ],

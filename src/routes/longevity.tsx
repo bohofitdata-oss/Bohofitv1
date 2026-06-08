@@ -107,7 +107,7 @@ function LongevityPage() {
       email,
       age,
       city,
-      goal,
+      goal: goalWithFocus,
       program: "fifty_plus",
       mode,
       primary_slot_id: primarySlot,

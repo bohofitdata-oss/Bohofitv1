@@ -3,7 +3,6 @@ import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 
 import imgStart from "@/assets/program-start.jpg";
-import imgBootcamp from "@/assets/program-bootcamp.jpg";
 import imgFifty from "@/assets/program-fiftyplus.jpg";
 
 type Slide = {
@@ -11,7 +10,7 @@ type Slide = {
   title: string;
   tagline: string;
   image: string;
-  to: "/bohofit" | "/bootcamp" | "/longevity";
+  to: "/bohofit" | "/longevity";
   cta: string;
 };
 
@@ -23,14 +22,6 @@ const SLIDES: Slide[] = [
     image: imgStart,
     to: "/bohofit",
     cta: "See Start, Strength & One",
-  },
-  {
-    id: "eight-weeks",
-    title: "Rebel 8 Weeks Challenge",
-    tagline: "Eight weeks. One version of you that finally finishes.",
-    image: imgBootcamp,
-    to: "/bootcamp",
-    cta: "Claim a Slot",
   },
   {
     id: "fifty-plus",

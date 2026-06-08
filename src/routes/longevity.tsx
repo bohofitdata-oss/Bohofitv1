@@ -24,13 +24,21 @@ import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 export const Route = createFileRoute("/longevity")({
   head: () => ({
     meta: [
-      { title: "Rebel at 50+ — 1:1 personal training, online or offline" },
-      { name: "description", content: "Extremely personal 1:1 training for 50+. Online or at a Rebel centre. Pick your own hour, Mon–Sat. Free 30-min consult before you commit." },
-      { property: "og:title", content: "Rebel at 50+ — 1:1 personal training" },
+      { title: "Rebél Unpause — 1:1 personal training, online or offline" },
+      { name: "description", content: "Extremely personal 1:1 training, built around you. Online or at a Rebel centre. 3 sessions a week, 1 hour each. Free 30-min consult before you commit." },
+      { property: "og:title", content: "Rebél Unpause — 1:1 personal training" },
     ],
   }),
   component: LongevityPage,
 });
+
+const FOCUS_OPTIONS = [
+  { key: "perimenopause", title: "Perimenopause", sub: "40s — sleep, weight, mood" },
+  { key: "menopause", title: "Menopause & beyond", sub: "strength, bone density, energy" },
+  { key: "joints", title: "Joints & knees", sub: "train strong, train safe" },
+  { key: "bone_balance", title: "Bone strength & balance", sub: "stay steady, stay independent" },
+] as const;
+type FocusKey = typeof FOCUS_OPTIONS[number]["key"];
 
 const TNC = [
   { key: "duration", text: "I understand this is a 12-week 1:1 program." },
@@ -51,6 +59,7 @@ const schema = z.object({
 
 function LongevityPage() {
   const navigate = useNavigate();
+  const [focus, setFocus] = useState<FocusKey | null>(null);
   const [mode, setMode] = useState<"offline" | "online">("offline");
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);

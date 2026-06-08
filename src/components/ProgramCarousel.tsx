@@ -25,7 +25,7 @@ const SLIDES: Slide[] = [
   },
   {
     id: "fifty-plus",
-    title: "Rebel at 50+",
+    title: "Rebél Unpause",
     tagline: "Move pain-free. Stay independent. No mirrors. No judgment.",
     image: imgFifty,
     to: "/longevity",

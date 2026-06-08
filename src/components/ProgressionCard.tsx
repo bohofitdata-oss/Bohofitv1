@@ -19,7 +19,7 @@ const LEVEL_LABEL: Record<string, string> = {
   foundation: "Foundation",
   performance: "Performance",
   longevity: "Longevity",
-  fifty_plus: "Rebel at 50+",
+  fifty_plus: "Rebél Unpause",
 };
 
 export function ProgressionCard({ userId }: { userId: string }) {

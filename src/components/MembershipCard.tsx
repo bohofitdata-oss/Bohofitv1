@@ -22,7 +22,7 @@ const PROGRAM_LABEL: Record<string, string> = {
   strength: "Rebel Strength",
   unlimited: "Rebel Unlimited",
   bootcamp: "Rebel Bootcamp",
-  longevity: "Rebel at 50+",
+  longevity: "Rebél Unpause",
 };
 
 export function MembershipCard({ userId }: { userId: string }) {

@@ -17,7 +17,7 @@ export function SiteFooter() {
           <h4 className="text-sm font-semibold mb-3">Programs</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><Link to="/bohofit" className="hover:text-foreground">Rebel Group Classes</Link></li>
-            <li><Link to="/longevity" className="hover:text-foreground">Rebel at 50+</Link></li>
+            <li><Link to="/longevity" className="hover:text-foreground">Rebél Unpause</Link></li>
           </ul>
         </div>
         <div>

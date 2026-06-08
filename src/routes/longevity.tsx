@@ -86,6 +86,7 @@ function LongevityPage() {
 
   const submit = async (intent: "consult" | "book", e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!focus) return toast.error("Pick what's your focus right now");
     if (!primarySlot) return toast.error("Pick a primary time");
     if (!allTncAccepted) {
       toast.error("Please accept every term & condition");
@@ -97,6 +98,8 @@ function LongevityPage() {
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
+    const focusLabel = FOCUS_OPTIONS.find((f) => f.key === focus)?.title ?? focus;
+    const goalWithFocus = `Focus: ${focusLabel}. ${goal}`;
 
     const result = await saveBooking({
       name: full_name,

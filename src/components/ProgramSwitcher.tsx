@@ -2,11 +2,10 @@ import { Link } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeftRight, Check } from "lucide-react";
 
-type ProgramKey = "bohofit" | "bootcamp" | "longevity";
+type ProgramKey = "bohofit" | "longevity";
 
-const PROGRAMS: { key: ProgramKey; to: "/bohofit" | "/bootcamp" | "/longevity"; name: string; tag: string }[] = [
+const PROGRAMS: { key: ProgramKey; to: "/bohofit" | "/longevity"; name: string; tag: string }[] = [
   { key: "bohofit", to: "/bohofit", name: "Rebel Group Classes", tag: "Start · Strength · Unlimited" },
-  { key: "bootcamp", to: "/bootcamp", name: "8 Weeks Transformation Program", tag: "Guaranteed results" },
   { key: "longevity", to: "/longevity", name: "Rebel at 50+", tag: "Personal 1:1" },
 ];
 

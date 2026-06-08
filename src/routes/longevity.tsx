@@ -127,7 +127,7 @@ function LongevityPage() {
       <SiteShell>
         <PaymentScreen
           bookingId={pending.bookingId}
-          amountInr={29999}
+          amountInr={30000}
           programLabel={PROGRAM_LABEL.fifty_plus}
           slotLabel={pending.slot}
           customer={{ name: pending.name, email: pending.email, phone: pending.phone }}

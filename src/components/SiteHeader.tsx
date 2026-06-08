@@ -21,8 +21,8 @@ export function SiteHeader() {
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-muted-foreground">
           <Link to="/bohofit" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Group Classes</Link>
-          <Link to="/bootcamp" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>8 Weeks Transformation</Link>
           <Link to="/longevity" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Rebel at 50+</Link>
+          
           
         </nav>
         <div className="flex items-center gap-2">

@@ -13,7 +13,6 @@ import { Route as LongevityRouteImport } from './routes/longevity'
 import { Route as DietRouteImport } from './routes/diet'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CafeRouteImport } from './routes/cafe'
-import { Route as BootcampRouteImport } from './routes/bootcamp'
 import { Route as BookingRouteImport } from './routes/booking'
 import { Route as BohofitRouteImport } from './routes/bohofit'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -40,11 +39,6 @@ const DashboardRoute = DashboardRouteImport.update({
 const CafeRoute = CafeRouteImport.update({
   id: '/cafe',
   path: '/cafe',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BootcampRoute = BootcampRouteImport.update({
-  id: '/bootcamp',
-  path: '/bootcamp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookingRoute = BookingRouteImport.update({
@@ -89,7 +83,6 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
-  '/bootcamp': typeof BootcampRoute
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
@@ -103,7 +96,6 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
-  '/bootcamp': typeof BootcampRoute
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
@@ -118,7 +110,6 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
-  '/bootcamp': typeof BootcampRoute
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
@@ -134,7 +125,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bohofit'
     | '/booking'
-    | '/bootcamp'
     | '/cafe'
     | '/dashboard'
     | '/diet'
@@ -148,7 +138,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bohofit'
     | '/booking'
-    | '/bootcamp'
     | '/cafe'
     | '/dashboard'
     | '/diet'
@@ -162,7 +151,6 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bohofit'
     | '/booking'
-    | '/bootcamp'
     | '/cafe'
     | '/dashboard'
     | '/diet'
@@ -177,7 +165,6 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BohofitRoute: typeof BohofitRoute
   BookingRoute: typeof BookingRoute
-  BootcampRoute: typeof BootcampRoute
   CafeRoute: typeof CafeRoute
   DashboardRoute: typeof DashboardRoute
   DietRoute: typeof DietRoute
@@ -213,13 +200,6 @@ declare module '@tanstack/react-router' {
       path: '/cafe'
       fullPath: '/cafe'
       preLoaderRoute: typeof CafeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bootcamp': {
-      id: '/bootcamp'
-      path: '/bootcamp'
-      fullPath: '/bootcamp'
-      preLoaderRoute: typeof BootcampRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/booking': {
@@ -292,7 +272,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BohofitRoute: BohofitRoute,
   BookingRoute: BookingRoute,
-  BootcampRoute: BootcampRoute,
   CafeRoute: CafeRoute,
   DashboardRoute: DashboardRoute,
   DietRoute: DietRoute,

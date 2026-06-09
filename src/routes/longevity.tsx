@@ -129,13 +129,13 @@ function LongevityPage() {
       const { data: sess } = await supabase.auth.getSession();
       const uid = sess.session?.user.id ?? null;
       setPersonId(uid);
-      await supabase.from("concern_intake").insert({
+      await supabase.from("concern_intake").insert([{
         person_id: uid,
         booking_id: result.bookingId,
         concern_selected: focus as FocusKey,
         symptom_chips_selected: intakeConsent ? chips : [],
         consent_given: intakeConsent,
-      });
+      }]);
     } catch { /* non-blocking */ }
 
     setSubmitted({ name: full_name, slot: result.primarySlotLabel });

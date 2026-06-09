@@ -144,6 +144,9 @@ function AdminPage() {
 
         <div className="mt-10"><CoachQueueCard /></div>
 
+        <div className="mt-10"><HealthDataAdminPanel /></div>
+
+
         {/* BOOKINGS */}
         <div className="mt-10 rounded-2xl border border-border bg-card overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between">

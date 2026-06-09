@@ -45,7 +45,11 @@ export function OutcomeCheckinForm({ personId, bookingId, checkinType, onDone }:
       booking_id: bookingId ?? null,
       checkin_type: checkinType,
       consent_given: true,
-      ...vals,
+      strength_capability: vals.strength_capability,
+      energy: vals.energy,
+      sleep_quality: vals.sleep_quality,
+      joint_comfort: vals.joint_comfort,
+      overall_wellbeing: vals.overall_wellbeing,
     });
     setLoading(false);
     if (error) return toast.error(error.message);

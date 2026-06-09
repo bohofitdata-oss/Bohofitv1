@@ -20,6 +20,8 @@ import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/what
 import { PaymentScreen } from "@/components/PaymentScreen";
 import heroLoop from "../../public/longevity-hero-loop.mp4.asset.json";
 import { useBookingPrefill } from "@/hooks/useBookingPrefill";
+import { SYMPTOM_CHIPS } from "@/lib/concerns";
+import { OutcomeCheckinForm } from "@/components/OutcomeCheckinForm";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({

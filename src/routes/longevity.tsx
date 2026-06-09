@@ -123,6 +123,21 @@ function LongevityPage() {
     });
     setLoading(false);
     if (!result.ok) return toast.error(result.error);
+
+    // Capture concern_intake (consent-gated for chips). concern_selected is always saved.
+    try {
+      const { data: sess } = await supabase.auth.getSession();
+      const uid = sess.session?.user.id ?? null;
+      setPersonId(uid);
+      await supabase.from("concern_intake").insert({
+        person_id: uid,
+        booking_id: result.bookingId,
+        concern_selected: focus,
+        symptom_chips_selected: intakeConsent ? chips : [],
+        consent_given: intakeConsent,
+      });
+    } catch { /* non-blocking */ }
+
     setSubmitted({ name: full_name, slot: result.primarySlotLabel });
     setPending({ bookingId: result.bookingId, name: full_name, email, phone, slot: result.primarySlotLabel });
     if (intent === "book") setPhase("payment"); else setPhase("confirmed");

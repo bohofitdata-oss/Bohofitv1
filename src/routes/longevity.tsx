@@ -62,6 +62,8 @@ const schema = z.object({
 function LongevityPage() {
   const navigate = useNavigate();
   const [focus, setFocus] = useState<FocusKey | null>(null);
+  const [chips, setChips] = useState<string[]>([]);
+  const [intakeConsent, setIntakeConsent] = useState(false);
   const [mode, setMode] = useState<"offline" | "online">("offline");
   const [primarySlot, setPrimarySlot] = useState<string | null>(null);
   const [secondarySlot, setSecondarySlot] = useState<string | null>(null);
@@ -70,8 +72,10 @@ function LongevityPage() {
   const [loading, setLoading] = useState(false);
   const [phase, setPhase] = useState<"form" | "payment" | "confirmed">("form");
   const [pending, setPending] = useState<null | { bookingId: string; name: string; email: string; phone: string; slot: string | null }>(null);
+  const [personId, setPersonId] = useState<string | null>(null);
   const prefill = useBookingPrefill();
   const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
+  const toggleChip = (c: string) => setChips((cs) => (cs.includes(c) ? cs.filter((x) => x !== c) : [...cs, c]));
 
   const allTncAccepted = TNC.every((t) => tncChecked[t.key]);
 

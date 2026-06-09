@@ -261,8 +261,40 @@ function LongevityPage() {
           ))}
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
-          Already managing an injury or condition? We train around it, with your doctor's clearance.
+          Already managing an injury or condition? We train around it, with your doctor&rsquo;s clearance.
         </p>
+
+        {/* Symptom chips — appear once a focus is chosen. Visual highlight always works; saving requires consent. */}
+        {focus && (() => {
+          const focusToConcern: Record<FocusKey, "perimenopause" | "menopause_beyond" | "joints_knees" | "bone_balance"> = {
+            perimenopause: "perimenopause", menopause: "menopause_beyond", joints: "joints_knees", bone_balance: "bone_balance",
+          };
+          const chipList = SYMPTOM_CHIPS[focusToConcern[focus]];
+          return (
+            <div className="mt-5 rounded-2xl border border-border bg-card p-5">
+              <p className="text-sm font-semibold">Tap what you&rsquo;re feeling. Optional — helps your coach.</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {chipList.map((c) => {
+                  const on = chips.includes(c);
+                  return (
+                    <button key={c} type="button" onClick={() => toggleChip(c)}
+                      className={cn("rounded-full border px-3 py-1.5 text-xs font-medium transition",
+                        on ? "border-primary bg-primary/15 text-primary" : "border-border hover:border-primary/60")}>
+                      {c}
+                    </button>
+                  );
+                })}
+              </div>
+              <label className="mt-4 flex items-start gap-2 text-xs text-muted-foreground cursor-pointer">
+                <Checkbox checked={intakeConsent} onCheckedChange={(v) => setIntakeConsent(!!v)} className="mt-0.5" />
+                <span>I agree to REBÉL storing my responses to personalise my coaching. See <Link to="/privacy" className="underline">Privacy Policy</Link>.</span>
+              </label>
+              {!intakeConsent && chips.length > 0 && (
+                <p className="mt-2 text-[11px] text-muted-foreground">Without consent, your selections won&rsquo;t be saved.</p>
+              )}
+            </div>
+          );
+        })()}
 
         {/* MODE */}
         <Reveal>

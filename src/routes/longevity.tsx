@@ -185,6 +185,11 @@ function LongevityPage() {
               </Button>
               <Button onClick={() => navigate({ to: "/" })} variant="outline">Back to home</Button>
             </div>
+            {personId && (
+              <div className="mt-10 text-left">
+                <OutcomeCheckinForm personId={personId} bookingId={pending?.bookingId ?? null} checkinType="baseline" />
+              </div>
+            )}
           </Reveal>
         </section>
       </SiteShell>

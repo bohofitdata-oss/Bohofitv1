@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.bump_longevity_sessions() FROM PUBLIC, anon, authenticated;

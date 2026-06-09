@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LongevityRouteImport } from './routes/longevity'
 import { Route as DietRouteImport } from './routes/diet'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -21,6 +22,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LongevityMeRouteImport } from './routes/longevity.me'
 import { Route as FamilyTokenRouteImport } from './routes/family.$token'
 
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LongevityRoute = LongevityRouteImport.update({
   id: '/longevity',
   path: '/longevity',
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
   '/longevity': typeof LongevityRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
   '/longevity': typeof LongevityRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
   '/longevity': typeof LongevityRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/privacy'
     | '/family/$token'
     | '/longevity/me'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/privacy'
     | '/family/$token'
     | '/longevity/me'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/diet'
     | '/longevity'
+    | '/privacy'
     | '/family/$token'
     | '/longevity/me'
   fileRoutesById: FileRoutesById
@@ -169,11 +181,19 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   DietRoute: typeof DietRoute
   LongevityRoute: typeof LongevityRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
   FamilyTokenRoute: typeof FamilyTokenRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/longevity': {
       id: '/longevity'
       path: '/longevity'
@@ -276,17 +296,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   DietRoute: DietRoute,
   LongevityRoute: LongevityRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
   FamilyTokenRoute: FamilyTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

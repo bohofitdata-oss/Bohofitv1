@@ -8,6 +8,7 @@ import { waLink, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { MessageCircle } from "lucide-react";
 import { AdminMetricsPanel } from "@/components/AdminMetricsPanel";
 import { CoachQueueCard } from "@/components/CoachQueueCard";
+import { HealthDataAdminPanel } from "@/components/HealthDataAdminPanel";
 
 // Hardcoded admin emails — edit this list to grant dashboard access.
 const ADMIN_EMAILS = ["admin@bohofit.com"];
@@ -142,6 +143,9 @@ function AdminPage() {
         <AdminMetricsPanel />
 
         <div className="mt-10"><CoachQueueCard /></div>
+
+        <div className="mt-10"><HealthDataAdminPanel /></div>
+
 
         {/* BOOKINGS */}
         <div className="mt-10 rounded-2xl border border-border bg-card overflow-hidden">

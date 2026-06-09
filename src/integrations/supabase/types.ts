@@ -151,6 +151,44 @@ export type Database = {
         }
         Relationships: []
       }
+      concern_intake: {
+        Row: {
+          booking_id: string | null
+          concern_selected: Database["public"]["Enums"]["concern_kind"]
+          consent_given: boolean
+          created_at: string
+          id: string
+          person_id: string | null
+          symptom_chips_selected: string[]
+        }
+        Insert: {
+          booking_id?: string | null
+          concern_selected: Database["public"]["Enums"]["concern_kind"]
+          consent_given?: boolean
+          created_at?: string
+          id?: string
+          person_id?: string | null
+          symptom_chips_selected?: string[]
+        }
+        Update: {
+          booking_id?: string | null
+          concern_selected?: Database["public"]["Enums"]["concern_kind"]
+          consent_given?: boolean
+          created_at?: string
+          id?: string
+          person_id?: string | null
+          symptom_chips_selected?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "concern_intake_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       diet_plans: {
         Row: {
           created_at: string
@@ -336,6 +374,8 @@ export type Database = {
           first_name: string
           id: string
           next_session_at: string | null
+          package_size: number
+          package_status: Database["public"]["Enums"]["package_status_kind"]
           program_name: string
           sessions_completed: number
           sessions_total: number
@@ -350,6 +390,8 @@ export type Database = {
           first_name: string
           id?: string
           next_session_at?: string | null
+          package_size?: number
+          package_status?: Database["public"]["Enums"]["package_status_kind"]
           program_name?: string
           sessions_completed?: number
           sessions_total?: number
@@ -364,6 +406,8 @@ export type Database = {
           first_name?: string
           id?: string
           next_session_at?: string | null
+          package_size?: number
+          package_status?: Database["public"]["Enums"]["package_status_kind"]
           program_name?: string
           sessions_completed?: number
           sessions_total?: number
@@ -731,6 +775,56 @@ export type Database = {
         }
         Relationships: []
       }
+      outcome_checkins: {
+        Row: {
+          booking_id: string | null
+          checkin_type: Database["public"]["Enums"]["checkin_kind"]
+          consent_given: boolean
+          created_at: string
+          energy: number
+          id: string
+          joint_comfort: number
+          overall_wellbeing: number
+          person_id: string
+          sleep_quality: number
+          strength_capability: number
+        }
+        Insert: {
+          booking_id?: string | null
+          checkin_type: Database["public"]["Enums"]["checkin_kind"]
+          consent_given?: boolean
+          created_at?: string
+          energy: number
+          id?: string
+          joint_comfort: number
+          overall_wellbeing: number
+          person_id: string
+          sleep_quality: number
+          strength_capability: number
+        }
+        Update: {
+          booking_id?: string | null
+          checkin_type?: Database["public"]["Enums"]["checkin_kind"]
+          consent_given?: boolean
+          created_at?: string
+          energy?: number
+          id?: string
+          joint_comfort?: number
+          overall_wellbeing?: number
+          person_id?: string
+          sleep_quality?: number
+          strength_capability?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outcome_checkins_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age: number | null
@@ -833,6 +927,42 @@ export type Database = {
           notes?: string | null
           user_id?: string
           weight_kg?: number | null
+        }
+        Relationships: []
+      }
+      session_logs: {
+        Row: {
+          attended: boolean
+          coach_id: string | null
+          created_at: string
+          id: string
+          key_work: string | null
+          milestone_flag: boolean
+          note: string | null
+          person_id: string
+          session_date: string
+        }
+        Insert: {
+          attended?: boolean
+          coach_id?: string | null
+          created_at?: string
+          id?: string
+          key_work?: string | null
+          milestone_flag?: boolean
+          note?: string | null
+          person_id: string
+          session_date?: string
+        }
+        Update: {
+          attended?: boolean
+          coach_id?: string | null
+          created_at?: string
+          id?: string
+          key_work?: string | null
+          milestone_flag?: boolean
+          note?: string | null
+          person_id?: string
+          session_date?: string
         }
         Relationships: []
       }
@@ -1097,6 +1227,13 @@ export type Database = {
       app_role: "admin" | "coach" | "member"
       booking_status: "pending" | "consult_requested" | "paid" | "cancelled"
       bootcamp_tier: "standard" | "intensive"
+      checkin_kind: "baseline" | "periodic"
+      concern_kind:
+        | "perimenopause"
+        | "menopause_beyond"
+        | "joints_knees"
+        | "bone_balance"
+      package_status_kind: "active" | "completed" | "renewed" | "lapsed"
       path_choice: "bohofit" | "bootcamp" | "longevity"
       rebel_level: "foundation" | "performance" | "longevity" | "fifty_plus"
       slot_mode: "online" | "offline"
@@ -1231,6 +1368,14 @@ export const Constants = {
       app_role: ["admin", "coach", "member"],
       booking_status: ["pending", "consult_requested", "paid", "cancelled"],
       bootcamp_tier: ["standard", "intensive"],
+      checkin_kind: ["baseline", "periodic"],
+      concern_kind: [
+        "perimenopause",
+        "menopause_beyond",
+        "joints_knees",
+        "bone_balance",
+      ],
+      package_status_kind: ["active", "completed", "renewed", "lapsed"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
       rebel_level: ["foundation", "performance", "longevity", "fifty_plus"],
       slot_mode: ["online", "offline"],

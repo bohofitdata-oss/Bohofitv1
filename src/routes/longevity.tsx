@@ -132,7 +132,7 @@ function LongevityPage() {
       await supabase.from("concern_intake").insert({
         person_id: uid,
         booking_id: result.bookingId,
-        concern_selected: focus,
+        concern_selected: focus as FocusKey,
         symptom_chips_selected: intakeConsent ? chips : [],
         consent_given: intakeConsent,
       });

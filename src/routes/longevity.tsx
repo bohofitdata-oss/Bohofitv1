@@ -129,10 +129,16 @@ function LongevityPage() {
       const { data: sess } = await supabase.auth.getSession();
       const uid = sess.session?.user.id ?? null;
       setPersonId(uid);
+      const concernMap: Record<FocusKey, "perimenopause" | "menopause_beyond" | "joints_knees" | "bone_balance"> = {
+        perimenopause: "perimenopause",
+        menopause: "menopause_beyond",
+        joints: "joints_knees",
+        bone_balance: "bone_balance",
+      };
       await supabase.from("concern_intake").insert([{
         person_id: uid,
         booking_id: result.bookingId,
-        concern_selected: focus as FocusKey,
+        concern_selected: concernMap[focus as FocusKey],
         symptom_chips_selected: intakeConsent ? chips : [],
         consent_given: intakeConsent,
       }]);

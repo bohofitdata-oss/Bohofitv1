@@ -766,3 +766,75 @@ function MyLongevityPage() {
     </SiteShell>
   );
 }
+
+function statusLabel(s: Consultation["status"]) {
+  switch (s) {
+    case "pending": return { label: "Pending confirmation", cls: "bg-muted text-muted-foreground" };
+    case "scheduled": return { label: "Scheduled", cls: "bg-primary/15 text-primary" };
+    case "completed": return { label: "Completed", cls: "bg-emerald-500/15 text-emerald-600" };
+    case "cancelled": return { label: "Cancelled", cls: "bg-destructive/15 text-destructive" };
+  }
+}
+
+function ConsultationRow({ c }: { c: Consultation }) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const s = statusLabel(c.status);
+
+  const openReport = async () => {
+    if (!c.report_path) return;
+    setLoading(true);
+    const { data, error } = await supabase.storage
+      .from("consultation-reports")
+      .createSignedUrl(c.report_path, 60 * 10);
+    setLoading(false);
+    if (error || !data) return toast.error(error?.message ?? "Could not open report");
+    setUrl(data.signedUrl);
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <div className="rounded-xl border border-border p-4">
+      <div className="flex flex-wrap items-center gap-2 justify-between">
+        <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium", s.cls)}>
+          {s.label}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          Requested {new Date(c.created_at).toLocaleDateString()}
+        </span>
+      </div>
+      {(c.preferred_date || c.preferred_time) && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Preferred: {c.preferred_date ?? "—"}{c.preferred_time ? ` · ${c.preferred_time}` : ""}
+        </p>
+      )}
+      {c.notes && <p className="mt-1 text-sm text-muted-foreground italic">&ldquo;{c.notes}&rdquo;</p>}
+
+      <div className="mt-4">
+        {c.report_path ? (
+          <div className="rounded-xl border border-border bg-muted/30 p-4 flex items-center gap-3">
+            <FileText className="w-6 h-6 text-primary shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold truncate">{c.report_filename ?? "Consultation report"}</p>
+              {c.report_uploaded_at && (
+                <p className="text-xs text-muted-foreground">
+                  Uploaded {new Date(c.report_uploaded_at).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+            <Button size="sm" variant="outline" onClick={openReport} disabled={loading}>
+              <Download className="w-4 h-4 mr-1.5" /> {loading ? "Opening…" : "View"}
+            </Button>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-border bg-muted/20 p-4 text-center">
+            <FileText className="w-6 h-6 text-muted-foreground mx-auto" />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Your report will appear here once your consultation is complete.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

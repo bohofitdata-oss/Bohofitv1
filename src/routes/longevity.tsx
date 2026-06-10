@@ -13,7 +13,7 @@ import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
-import { Check, HeartPulse, MessageCircle } from "lucide-react";
+import { Check, HeartPulse, MessageCircle, Stethoscope, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
@@ -242,6 +242,46 @@ function LongevityPage() {
 
 
       <div className="container mx-auto max-w-3xl px-5 pb-20">
+        {/* GYNEC CONSULTATION CARD */}
+        <Reveal>
+          <div
+            className="mt-8 rounded-2xl border bg-white p-6 shadow-lg"
+            style={{ borderColor: "rgba(224, 122, 95, 0.25)" }}
+          >
+            <div className="flex items-start gap-4">
+              <div
+                className="shrink-0 rounded-full p-3"
+                style={{ background: "rgba(224, 122, 95, 0.10)" }}
+              >
+                <Stethoscope className="w-6 h-6" style={{ color: "#E07A5F" }} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-lg font-bold text-gray-900">Start with a Gynec Consultation</h3>
+                <p className="mt-1 text-sm text-gray-600 leading-relaxed">
+                  Get a personalised assessment before your program begins. A certified gynaecologist will review your symptoms and upload a report directly to your profile.
+                </p>
+                <div
+                  className="mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{ background: "rgba(224, 122, 95, 0.10)", color: "#B85C4A" }}
+                >
+                  Included in your plan · ₹349 for first-time users
+                </div>
+                <div className="mt-4">
+                  <Button
+                    type="button"
+                    size="sm"
+                    className="font-semibold"
+                    style={{ background: "#E07A5F", color: "#FFFFFF", border: "none" }}
+                    onClick={() => toast("Consultation booking coming soon")}
+                  >
+                    Book My Consultation
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         {/* MODE */}
         <Reveal>
           <div className="mt-8">

@@ -21,6 +21,8 @@ import {
   Moon,
   Activity,
   Download,
+  Stethoscope,
+  FileText,
 } from "lucide-react";
 import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
@@ -454,6 +456,29 @@ function MyLongevityPage() {
             >
               <Download className="w-4 h-4 mr-1.5" /> Download progress PDF
             </Button>
+          </div>
+        </div>
+
+        {/* MY CONSULTATIONS */}
+        <div className="mt-6 rounded-2xl border border-border bg-card p-5 md:p-6">
+          <div className="flex items-center gap-2">
+            <Stethoscope className="w-5 h-5 text-primary" />
+            <h2 className="text-lg md:text-xl font-black">My Consultations</h2>
+          </div>
+          <div className="mt-4 flex items-center gap-2">
+            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
+              Consultation Pending
+            </span>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Your gynec will be assigned soon. You&rsquo;ll receive a slot confirmation here.
+          </p>
+          <div className="mt-5 rounded-xl border border-dashed border-border bg-muted/30 p-5 text-center">
+            <FileText className="w-8 h-8 text-muted-foreground mx-auto" />
+            <p className="mt-2 text-sm font-semibold text-muted-foreground">Consultation Report</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Your report will appear here once your consultation is complete.
+            </p>
           </div>
         </div>
 

@@ -112,6 +112,7 @@ function MyLongevityPage() {
     more_energy: false,
   });
   const [checkins, setCheckins] = useState<CheckIn[]>([]);
+  const [consultations, setConsultations] = useState<Consultation[]>([]);
 
   // family form state
   const [familyName, setFamilyName] = useState("");

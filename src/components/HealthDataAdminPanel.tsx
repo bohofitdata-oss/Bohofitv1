@@ -7,7 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { CONCERN_LABEL, type ConcernKey } from "@/lib/concerns";
-import { Trash2, Download } from "lucide-react";
+import { Trash2, Download, Upload, MessageCircle, FileText } from "lucide-react";
+import { waLink, BOHOFIT_WHATSAPP } from "@/lib/whatsapp";
 
 type Person = { id: string; full_name: string | null; phone: string | null };
 type Intake = {

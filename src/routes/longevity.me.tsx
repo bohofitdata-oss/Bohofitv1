@@ -69,6 +69,17 @@ type CheckIn = {
   note: string | null;
   created_at: string;
 };
+type Consultation = {
+  id: string;
+  status: "pending" | "scheduled" | "completed" | "cancelled";
+  preferred_date: string | null;
+  preferred_time: string | null;
+  notes: string | null;
+  report_path: string | null;
+  report_filename: string | null;
+  report_uploaded_at: string | null;
+  created_at: string;
+};
 
 const MILESTONE_LIST: { key: keyof Milestones; label: string }[] = [
   { key: "stairs", label: "I can climb stairs without discomfort" },

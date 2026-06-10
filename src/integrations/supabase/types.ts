@@ -282,6 +282,48 @@ export type Database = {
         }
         Relationships: []
       }
+      gynec_consultations: {
+        Row: {
+          created_at: string
+          id: string
+          notes: string | null
+          preferred_date: string | null
+          preferred_time: string | null
+          report_filename: string | null
+          report_path: string | null
+          report_uploaded_at: string | null
+          status: Database["public"]["Enums"]["consultation_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          report_filename?: string | null
+          report_path?: string | null
+          report_uploaded_at?: string | null
+          status?: Database["public"]["Enums"]["consultation_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          notes?: string | null
+          preferred_date?: string | null
+          preferred_time?: string | null
+          report_filename?: string | null
+          report_path?: string | null
+          report_uploaded_at?: string | null
+          status?: Database["public"]["Enums"]["consultation_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
           age: number | null
@@ -1233,6 +1275,7 @@ export type Database = {
         | "menopause_beyond"
         | "joints_knees"
         | "bone_balance"
+      consultation_status: "pending" | "scheduled" | "completed" | "cancelled"
       package_status_kind: "active" | "completed" | "renewed" | "lapsed"
       path_choice: "bohofit" | "bootcamp" | "longevity"
       rebel_level: "foundation" | "performance" | "longevity" | "fifty_plus"
@@ -1375,6 +1418,7 @@ export const Constants = {
         "joints_knees",
         "bone_balance",
       ],
+      consultation_status: ["pending", "scheduled", "completed", "cancelled"],
       package_status_kind: ["active", "completed", "renewed", "lapsed"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
       rebel_level: ["foundation", "performance", "longevity", "fifty_plus"],

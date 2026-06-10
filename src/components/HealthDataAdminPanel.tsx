@@ -75,18 +75,20 @@ export function HealthDataAdminPanel() {
   const [logNote, setLogNote] = useState("");
 
   const load = async () => {
-    const [{ data: pr }, { data: ci }, { data: oc }, { data: sl }, { data: lm }] = await Promise.all([
+    const [{ data: pr }, { data: ci }, { data: oc }, { data: sl }, { data: lm }, { data: gc }] = await Promise.all([
       supabase.from("profiles").select("id, full_name, phone").order("full_name"),
       supabase.from("concern_intake").select("*").order("created_at", { ascending: false }),
       supabase.from("outcome_checkins").select("*").order("created_at", { ascending: false }),
       supabase.from("session_logs").select("*").order("session_date", { ascending: false }),
       supabase.from("longevity_members").select("id, user_id, first_name, sessions_completed, sessions_total, package_size, package_status"),
+      supabase.from("gynec_consultations").select("*").order("created_at", { ascending: false }),
     ]);
     if (pr) setPeople(pr as Person[]);
     if (ci) setIntakes(ci as Intake[]);
     if (oc) setCheckins(oc as Checkin[]);
     if (sl) setLogs(sl as SessionLog[]);
     if (lm) setMembers(lm as LongevityMember[]);
+    if (gc) setConsultations(gc as Consultation[]);
   };
   useEffect(() => { void load(); }, []);
 

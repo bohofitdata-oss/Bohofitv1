@@ -29,6 +29,7 @@ type LongevityMember = {
   id: string; user_id: string | null; first_name: string | null;
   sessions_completed: number; sessions_total: number;
   package_size: number; package_status: "active" | "completed" | "renewed" | "lapsed";
+};
 type Consultation = {
   id: string; user_id: string;
   status: "pending" | "scheduled" | "completed" | "cancelled";

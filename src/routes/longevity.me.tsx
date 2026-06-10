@@ -777,7 +777,6 @@ function statusLabel(s: Consultation["status"]) {
 }
 
 function ConsultationRow({ c }: { c: Consultation }) {
-  const [url, setUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const s = statusLabel(c.status);
 

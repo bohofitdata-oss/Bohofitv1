@@ -106,6 +106,8 @@ export function HealthDataAdminPanel() {
   const personCheckins = selected ? checkins.filter((c) => c.person_id === selected) : [];
   const personLogs = selected ? logs.filter((l) => l.person_id === selected) : [];
   const personMember = selected ? members.find((m) => m.user_id === selected) : null;
+  const personConsultations = selected ? consultations.filter((c) => c.user_id === selected) : [];
+  const personProfile = selected ? people.find((p) => p.id === selected) : null;
   const baseline = personCheckins.find((c) => c.checkin_type === "baseline");
   const latest = personCheckins[0];
 

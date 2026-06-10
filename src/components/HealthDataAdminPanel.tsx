@@ -284,6 +284,73 @@ export function HealthDataAdminPanel() {
                 </table>
               </div>
             </div>
+
+            <div className="rounded-xl border border-border p-4 md:col-span-2">
+              <h4 className="font-bold text-sm flex items-center gap-2"><FileText className="w-4 h-4" /> Gynec consultations ({personConsultations.length})</h4>
+              {personConsultations.length === 0 ? (
+                <p className="text-xs text-muted-foreground mt-2">No consultations requested.</p>
+              ) : (
+                <div className="mt-3 space-y-3">
+                  {personConsultations.map((c) => (
+                    <div key={c.id} className="rounded-lg border border-border/60 p-3">
+                      <div className="flex flex-wrap items-center gap-2 justify-between">
+                        <div className="text-xs">
+                          <div className="font-semibold uppercase tracking-wide">{c.status}</div>
+                          <div className="text-muted-foreground">
+                            Preferred: {c.preferred_date ?? "—"}{c.preferred_time ? ` · ${c.preferred_time}` : ""} · Requested {new Date(c.created_at).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <select
+                          value={c.status}
+                          onChange={(e) => updateConsultationStatus(c.id, e.target.value as Consultation["status"])}
+                          className="bg-background border border-border rounded-md px-2 py-1 text-xs"
+                        >
+                          <option value="pending">pending</option>
+                          <option value="scheduled">scheduled</option>
+                          <option value="completed">completed</option>
+                          <option value="cancelled">cancelled</option>
+                        </select>
+                      </div>
+                      {c.notes && <p className="mt-2 text-xs text-muted-foreground italic">"{c.notes}"</p>}
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <label className="inline-flex items-center gap-2 text-xs cursor-pointer rounded-md border border-border px-3 py-1.5 hover:bg-muted/40">
+                          <Upload className="w-3.5 h-3.5" />
+                          {c.report_path ? "Replace report" : "Upload report"}
+                          <input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) void uploadReport(c, f);
+                              e.currentTarget.value = "";
+                            }}
+                          />
+                        </label>
+                        {c.report_filename && (
+                          <span className="text-xs text-muted-foreground truncate max-w-[200px]">
+                            {c.report_filename}{c.report_uploaded_at ? ` · ${new Date(c.report_uploaded_at).toLocaleDateString()}` : ""}
+                          </span>
+                        )}
+                        {personProfile?.phone && (
+                          <a
+                            href={waLink(
+                              personProfile.phone || BOHOFIT_WHATSAPP,
+                              `Hi ${personProfile.full_name?.split(" ")[0] ?? "there"}, your Rebél gynec consultation report is ready. View it in your member dashboard: ${typeof window !== "undefined" ? window.location.origin : ""}/longevity/me`
+                            )}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs rounded-md bg-[#25D366] text-white px-3 py-1.5 hover:opacity-90"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" /> Notify on WhatsApp
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

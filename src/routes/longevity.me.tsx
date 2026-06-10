@@ -788,7 +788,6 @@ function ConsultationRow({ c }: { c: Consultation }) {
       .createSignedUrl(c.report_path, 60 * 10);
     setLoading(false);
     if (error || !data) return toast.error(error?.message ?? "Could not open report");
-    setUrl(data.signedUrl);
     window.open(data.signedUrl, "_blank", "noopener,noreferrer");
   };
 

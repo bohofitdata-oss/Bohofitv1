@@ -29,6 +29,13 @@ type LongevityMember = {
   id: string; user_id: string | null; first_name: string | null;
   sessions_completed: number; sessions_total: number;
   package_size: number; package_status: "active" | "completed" | "renewed" | "lapsed";
+type Consultation = {
+  id: string; user_id: string;
+  status: "pending" | "scheduled" | "completed" | "cancelled";
+  preferred_date: string | null; preferred_time: string | null;
+  notes: string | null;
+  report_path: string | null; report_filename: string | null; report_uploaded_at: string | null;
+  created_at: string;
 };
 
 function toCSV(rows: Record<string, unknown>[]): string {

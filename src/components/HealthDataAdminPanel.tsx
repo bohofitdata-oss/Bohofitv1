@@ -64,6 +64,7 @@ export function HealthDataAdminPanel() {
   const [checkins, setCheckins] = useState<Checkin[]>([]);
   const [logs, setLogs] = useState<SessionLog[]>([]);
   const [members, setMembers] = useState<LongevityMember[]>([]);
+  const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
 
   // session log form

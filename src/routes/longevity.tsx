@@ -306,7 +306,7 @@ function LongevityPage() {
                     size="sm"
                     className="font-semibold"
                     style={{ background: "#E07A5F", color: "#FFFFFF", border: "none" }}
-                    onClick={() => toast("Consultation booking coming soon")}
+                    onClick={() => setConsultOpen(true)}
                   >
                     Book My Consultation
                   </Button>
@@ -315,6 +315,38 @@ function LongevityPage() {
             </div>
           </div>
         </Reveal>
+
+        <Dialog open={consultOpen} onOpenChange={setConsultOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Book your gynec consultation</DialogTitle>
+              <DialogDescription>
+                Pick a preferred time. Our gynec partner will confirm and call you. The report will appear in your member dashboard.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-3">
+              <div>
+                <Label htmlFor="consult-date">Preferred date</Label>
+                <Input id="consult-date" type="date" min={new Date().toISOString().slice(0,10)} value={consultDate} onChange={(e) => setConsultDate(e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="consult-time">Preferred time (optional)</Label>
+                <Input id="consult-time" type="time" value={consultTime} onChange={(e) => setConsultTime(e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="consult-notes">Anything we should know? (optional)</Label>
+                <Textarea id="consult-notes" rows={3} value={consultNotes} onChange={(e) => setConsultNotes(e.target.value)} placeholder="Current medication, recent reports, concerns…" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setConsultOpen(false)}>Cancel</Button>
+              <Button onClick={submitConsultation} disabled={consultSubmitting} style={{ background: "#E07A5F", color: "#FFFFFF", border: "none" }}>
+                {consultSubmitting ? "Sending…" : "Request consultation"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
 
         {/* MODE */}
         <Reveal>

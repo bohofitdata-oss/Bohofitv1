@@ -142,7 +142,36 @@ export function HealthDataAdminPanel() {
     download("outcome_checkins.csv", toCSV(checkins as unknown as Record<string, unknown>[]));
     download("session_logs.csv", toCSV(logs as unknown as Record<string, unknown>[]));
     download("longevity_packages.csv", toCSV(members as unknown as Record<string, unknown>[]));
+    download("gynec_consultations.csv", toCSV(consultations as unknown as Record<string, unknown>[]));
   };
+
+  const uploadReport = async (consultation: Consultation, file: File) => {
+    const path = `${consultation.user_id}/${consultation.id}/${Date.now()}-${file.name}`;
+    const { error: upErr } = await supabase.storage
+      .from("consultation-reports")
+      .upload(path, file, { upsert: true, contentType: file.type || "application/octet-stream" });
+    if (upErr) return toast.error(upErr.message);
+    const { error: updErr } = await supabase
+      .from("gynec_consultations")
+      .update({
+        report_path: path,
+        report_filename: file.name,
+        report_uploaded_at: new Date().toISOString(),
+        status: "completed",
+      })
+      .eq("id", consultation.id);
+    if (updErr) return toast.error(updErr.message);
+    toast.success("Report uploaded — share the WhatsApp note to notify the member.");
+    void load();
+  };
+
+  const updateConsultationStatus = async (id: string, status: Consultation["status"]) => {
+    const { error } = await supabase.from("gynec_consultations").update({ status }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Status updated");
+    void load();
+  };
+
 
   return (
     <div className="space-y-8">

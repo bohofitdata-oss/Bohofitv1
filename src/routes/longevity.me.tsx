@@ -173,6 +173,12 @@ function MyLongevityPage() {
         });
       }
       if (c) setCheckins(c as CheckIn[]);
+      const { data: cons } = await supabase
+        .from("gynec_consultations")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false });
+      if (cons) setConsultations(cons as Consultation[]);
       setLoading(false);
     })();
   }, [navigate]);

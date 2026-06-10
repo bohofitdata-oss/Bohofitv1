@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { SlotPicker } from "@/components/SlotPicker";
 import { EmergencyCTA } from "@/components/EmergencyCTA";
 import { supabase } from "@/integrations/supabase/client";
@@ -74,6 +75,39 @@ function LongevityPage() {
   const [pending, setPending] = useState<null | { bookingId: string; name: string; email: string; phone: string; slot: string | null }>(null);
   const [personId, setPersonId] = useState<string | null>(null);
   const prefill = useBookingPrefill();
+  // Gynec consultation booking
+  const [consultOpen, setConsultOpen] = useState(false);
+  const [consultDate, setConsultDate] = useState<string>("");
+  const [consultTime, setConsultTime] = useState<string>("");
+  const [consultNotes, setConsultNotes] = useState<string>("");
+  const [consultSubmitting, setConsultSubmitting] = useState(false);
+
+  const submitConsultation = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    if (!sess.session) {
+      toast.error("Please sign in to book a consultation");
+      navigate({ to: "/auth" });
+      return;
+    }
+    if (!consultDate) return toast.error("Pick a preferred date");
+    setConsultSubmitting(true);
+    const { error } = await supabase.from("gynec_consultations").insert({
+      user_id: sess.session.user.id,
+      preferred_date: consultDate,
+      preferred_time: consultTime || null,
+      notes: consultNotes || null,
+      status: "pending",
+    });
+    setConsultSubmitting(false);
+    if (error) return toast.error(error.message);
+    toast.success("Consultation requested — our gynec partner will confirm shortly.");
+    setConsultOpen(false);
+    // Open WhatsApp confirmation
+    const name = (sess.session.user.user_metadata?.full_name as string) || prefill.full_name || "there";
+    const msg = `Hi ${name.split(" ")[0]}, your Rebél gynec consultation request is received ✅\nPreferred: ${consultDate}${consultTime ? ` at ${consultTime}` : ""}\nOur partner will confirm within 24 hours.`;
+    window.open(waLink(BOHOFIT_WHATSAPP, msg), "_blank", "noopener,noreferrer");
+  };
+
   const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
   const toggleChip = (c: string) => setChips((cs) => (cs.includes(c) ? cs.filter((x) => x !== c) : [...cs, c]));
 
@@ -272,7 +306,7 @@ function LongevityPage() {
                     size="sm"
                     className="font-semibold"
                     style={{ background: "#E07A5F", color: "#FFFFFF", border: "none" }}
-                    onClick={() => toast("Consultation booking coming soon")}
+                    onClick={() => setConsultOpen(true)}
                   >
                     Book My Consultation
                   </Button>
@@ -281,6 +315,38 @@ function LongevityPage() {
             </div>
           </div>
         </Reveal>
+
+        <Dialog open={consultOpen} onOpenChange={setConsultOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Book your gynec consultation</DialogTitle>
+              <DialogDescription>
+                Pick a preferred time. Our gynec partner will confirm and call you. The report will appear in your member dashboard.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-3">
+              <div>
+                <Label htmlFor="consult-date">Preferred date</Label>
+                <Input id="consult-date" type="date" min={new Date().toISOString().slice(0,10)} value={consultDate} onChange={(e) => setConsultDate(e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="consult-time">Preferred time (optional)</Label>
+                <Input id="consult-time" type="time" value={consultTime} onChange={(e) => setConsultTime(e.target.value)} />
+              </div>
+              <div>
+                <Label htmlFor="consult-notes">Anything we should know? (optional)</Label>
+                <Textarea id="consult-notes" rows={3} value={consultNotes} onChange={(e) => setConsultNotes(e.target.value)} placeholder="Current medication, recent reports, concerns…" />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setConsultOpen(false)}>Cancel</Button>
+              <Button onClick={submitConsultation} disabled={consultSubmitting} style={{ background: "#E07A5F", color: "#FFFFFF", border: "none" }}>
+                {consultSubmitting ? "Sending…" : "Request consultation"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
 
         {/* MODE */}
         <Reveal>

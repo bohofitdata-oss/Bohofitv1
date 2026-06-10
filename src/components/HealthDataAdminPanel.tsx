@@ -7,7 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { CONCERN_LABEL, type ConcernKey } from "@/lib/concerns";
-import { Trash2, Download } from "lucide-react";
+import { Trash2, Download, Upload, MessageCircle, FileText } from "lucide-react";
+import { waLink, BOHOFIT_WHATSAPP } from "@/lib/whatsapp";
 
 type Person = { id: string; full_name: string | null; phone: string | null };
 type Intake = {
@@ -28,6 +29,14 @@ type LongevityMember = {
   id: string; user_id: string | null; first_name: string | null;
   sessions_completed: number; sessions_total: number;
   package_size: number; package_status: "active" | "completed" | "renewed" | "lapsed";
+};
+type Consultation = {
+  id: string; user_id: string;
+  status: "pending" | "scheduled" | "completed" | "cancelled";
+  preferred_date: string | null; preferred_time: string | null;
+  notes: string | null;
+  report_path: string | null; report_filename: string | null; report_uploaded_at: string | null;
+  created_at: string;
 };
 
 function toCSV(rows: Record<string, unknown>[]): string {
@@ -55,6 +64,7 @@ export function HealthDataAdminPanel() {
   const [checkins, setCheckins] = useState<Checkin[]>([]);
   const [logs, setLogs] = useState<SessionLog[]>([]);
   const [members, setMembers] = useState<LongevityMember[]>([]);
+  const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
 
   // session log form
@@ -65,18 +75,20 @@ export function HealthDataAdminPanel() {
   const [logNote, setLogNote] = useState("");
 
   const load = async () => {
-    const [{ data: pr }, { data: ci }, { data: oc }, { data: sl }, { data: lm }] = await Promise.all([
+    const [{ data: pr }, { data: ci }, { data: oc }, { data: sl }, { data: lm }, { data: gc }] = await Promise.all([
       supabase.from("profiles").select("id, full_name, phone").order("full_name"),
       supabase.from("concern_intake").select("*").order("created_at", { ascending: false }),
       supabase.from("outcome_checkins").select("*").order("created_at", { ascending: false }),
       supabase.from("session_logs").select("*").order("session_date", { ascending: false }),
       supabase.from("longevity_members").select("id, user_id, first_name, sessions_completed, sessions_total, package_size, package_status"),
+      supabase.from("gynec_consultations").select("*").order("created_at", { ascending: false }),
     ]);
     if (pr) setPeople(pr as Person[]);
     if (ci) setIntakes(ci as Intake[]);
     if (oc) setCheckins(oc as Checkin[]);
     if (sl) setLogs(sl as SessionLog[]);
     if (lm) setMembers(lm as LongevityMember[]);
+    if (gc) setConsultations(gc as Consultation[]);
   };
   useEffect(() => { void load(); }, []);
 
@@ -94,6 +106,8 @@ export function HealthDataAdminPanel() {
   const personCheckins = selected ? checkins.filter((c) => c.person_id === selected) : [];
   const personLogs = selected ? logs.filter((l) => l.person_id === selected) : [];
   const personMember = selected ? members.find((m) => m.user_id === selected) : null;
+  const personConsultations = selected ? consultations.filter((c) => c.user_id === selected) : [];
+  const personProfile = selected ? people.find((p) => p.id === selected) : null;
   const baseline = personCheckins.find((c) => c.checkin_type === "baseline");
   const latest = personCheckins[0];
 
@@ -128,7 +142,36 @@ export function HealthDataAdminPanel() {
     download("outcome_checkins.csv", toCSV(checkins as unknown as Record<string, unknown>[]));
     download("session_logs.csv", toCSV(logs as unknown as Record<string, unknown>[]));
     download("longevity_packages.csv", toCSV(members as unknown as Record<string, unknown>[]));
+    download("gynec_consultations.csv", toCSV(consultations as unknown as Record<string, unknown>[]));
   };
+
+  const uploadReport = async (consultation: Consultation, file: File) => {
+    const path = `${consultation.user_id}/${consultation.id}/${Date.now()}-${file.name}`;
+    const { error: upErr } = await supabase.storage
+      .from("consultation-reports")
+      .upload(path, file, { upsert: true, contentType: file.type || "application/octet-stream" });
+    if (upErr) return toast.error(upErr.message);
+    const { error: updErr } = await supabase
+      .from("gynec_consultations")
+      .update({
+        report_path: path,
+        report_filename: file.name,
+        report_uploaded_at: new Date().toISOString(),
+        status: "completed",
+      })
+      .eq("id", consultation.id);
+    if (updErr) return toast.error(updErr.message);
+    toast.success("Report uploaded — share the WhatsApp note to notify the member.");
+    void load();
+  };
+
+  const updateConsultationStatus = async (id: string, status: Consultation["status"]) => {
+    const { error } = await supabase.from("gynec_consultations").update({ status }).eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Status updated");
+    void load();
+  };
+
 
   return (
     <div className="space-y-8">
@@ -240,6 +283,73 @@ export function HealthDataAdminPanel() {
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            <div className="rounded-xl border border-border p-4 md:col-span-2">
+              <h4 className="font-bold text-sm flex items-center gap-2"><FileText className="w-4 h-4" /> Gynec consultations ({personConsultations.length})</h4>
+              {personConsultations.length === 0 ? (
+                <p className="text-xs text-muted-foreground mt-2">No consultations requested.</p>
+              ) : (
+                <div className="mt-3 space-y-3">
+                  {personConsultations.map((c) => (
+                    <div key={c.id} className="rounded-lg border border-border/60 p-3">
+                      <div className="flex flex-wrap items-center gap-2 justify-between">
+                        <div className="text-xs">
+                          <div className="font-semibold uppercase tracking-wide">{c.status}</div>
+                          <div className="text-muted-foreground">
+                            Preferred: {c.preferred_date ?? "—"}{c.preferred_time ? ` · ${c.preferred_time}` : ""} · Requested {new Date(c.created_at).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <select
+                          value={c.status}
+                          onChange={(e) => updateConsultationStatus(c.id, e.target.value as Consultation["status"])}
+                          className="bg-background border border-border rounded-md px-2 py-1 text-xs"
+                        >
+                          <option value="pending">pending</option>
+                          <option value="scheduled">scheduled</option>
+                          <option value="completed">completed</option>
+                          <option value="cancelled">cancelled</option>
+                        </select>
+                      </div>
+                      {c.notes && <p className="mt-2 text-xs text-muted-foreground italic">"{c.notes}"</p>}
+                      <div className="mt-3 flex flex-wrap items-center gap-2">
+                        <label className="inline-flex items-center gap-2 text-xs cursor-pointer rounded-md border border-border px-3 py-1.5 hover:bg-muted/40">
+                          <Upload className="w-3.5 h-3.5" />
+                          {c.report_path ? "Replace report" : "Upload report"}
+                          <input
+                            type="file"
+                            accept="application/pdf,image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const f = e.target.files?.[0];
+                              if (f) void uploadReport(c, f);
+                              e.currentTarget.value = "";
+                            }}
+                          />
+                        </label>
+                        {c.report_filename && (
+                          <span className="text-xs text-muted-foreground truncate max-w-[200px]">
+                            {c.report_filename}{c.report_uploaded_at ? ` · ${new Date(c.report_uploaded_at).toLocaleDateString()}` : ""}
+                          </span>
+                        )}
+                        {personProfile?.phone && (
+                          <a
+                            href={waLink(
+                              personProfile.phone || BOHOFIT_WHATSAPP,
+                              `Hi ${personProfile.full_name?.split(" ")[0] ?? "there"}, your Rebél gynec consultation report is ready. View it in your member dashboard: ${typeof window !== "undefined" ? window.location.origin : ""}/longevity/me`
+                            )}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 text-xs rounded-md bg-[#25D366] text-white px-3 py-1.5 hover:opacity-90"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" /> Notify on WhatsApp
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

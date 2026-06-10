@@ -69,6 +69,17 @@ type CheckIn = {
   note: string | null;
   created_at: string;
 };
+type Consultation = {
+  id: string;
+  status: "pending" | "scheduled" | "completed" | "cancelled";
+  preferred_date: string | null;
+  preferred_time: string | null;
+  notes: string | null;
+  report_path: string | null;
+  report_filename: string | null;
+  report_uploaded_at: string | null;
+  created_at: string;
+};
 
 const MILESTONE_LIST: { key: keyof Milestones; label: string }[] = [
   { key: "stairs", label: "I can climb stairs without discomfort" },
@@ -101,6 +112,7 @@ function MyLongevityPage() {
     more_energy: false,
   });
   const [checkins, setCheckins] = useState<CheckIn[]>([]);
+  const [consultations, setConsultations] = useState<Consultation[]>([]);
 
   // family form state
   const [familyName, setFamilyName] = useState("");
@@ -161,6 +173,12 @@ function MyLongevityPage() {
         });
       }
       if (c) setCheckins(c as CheckIn[]);
+      const { data: cons } = await supabase
+        .from("gynec_consultations")
+        .select("*")
+        .eq("user_id", uid)
+        .order("created_at", { ascending: false });
+      if (cons) setConsultations(cons as Consultation[]);
       setLoading(false);
     })();
   }, [navigate]);
@@ -460,27 +478,20 @@ function MyLongevityPage() {
         </div>
 
         {/* MY CONSULTATIONS */}
-        <div className="mt-6 rounded-2xl border border-border bg-card p-5 md:p-6">
-          <div className="flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-primary" />
-            <h2 className="text-lg md:text-xl font-black">My Consultations</h2>
+        {consultations.length > 0 && (
+          <div className="mt-6 rounded-2xl border border-border bg-card p-5 md:p-6">
+            <div className="flex items-center gap-2">
+              <Stethoscope className="w-5 h-5 text-primary" />
+              <h2 className="text-lg md:text-xl font-black">My Consultations</h2>
+            </div>
+            <div className="mt-4 space-y-4">
+              {consultations.map((c) => (
+                <ConsultationRow key={c.id} c={c} />
+              ))}
+            </div>
           </div>
-          <div className="mt-4 flex items-center gap-2">
-            <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
-              Consultation Pending
-            </span>
-          </div>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Your gynec will be assigned soon. You&rsquo;ll receive a slot confirmation here.
-          </p>
-          <div className="mt-5 rounded-xl border border-dashed border-border bg-muted/30 p-5 text-center">
-            <FileText className="w-8 h-8 text-muted-foreground mx-auto" />
-            <p className="mt-2 text-sm font-semibold text-muted-foreground">Consultation Report</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Your report will appear here once your consultation is complete.
-            </p>
-          </div>
-        </div>
+        )}
+
 
         {/* WEEKLY CHECK-IN NUDGE */}
         {showCheckinCard && (
@@ -753,5 +764,75 @@ function MyLongevityPage() {
         )}
       </section>
     </SiteShell>
+  );
+}
+
+function statusLabel(s: Consultation["status"]) {
+  switch (s) {
+    case "pending": return { label: "Pending confirmation", cls: "bg-muted text-muted-foreground" };
+    case "scheduled": return { label: "Scheduled", cls: "bg-primary/15 text-primary" };
+    case "completed": return { label: "Completed", cls: "bg-emerald-500/15 text-emerald-600" };
+    case "cancelled": return { label: "Cancelled", cls: "bg-destructive/15 text-destructive" };
+  }
+}
+
+function ConsultationRow({ c }: { c: Consultation }) {
+  const [loading, setLoading] = useState(false);
+  const s = statusLabel(c.status);
+
+  const openReport = async () => {
+    if (!c.report_path) return;
+    setLoading(true);
+    const { data, error } = await supabase.storage
+      .from("consultation-reports")
+      .createSignedUrl(c.report_path, 60 * 10);
+    setLoading(false);
+    if (error || !data) return toast.error(error?.message ?? "Could not open report");
+    window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <div className="rounded-xl border border-border p-4">
+      <div className="flex flex-wrap items-center gap-2 justify-between">
+        <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium", s.cls)}>
+          {s.label}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          Requested {new Date(c.created_at).toLocaleDateString()}
+        </span>
+      </div>
+      {(c.preferred_date || c.preferred_time) && (
+        <p className="mt-2 text-sm text-muted-foreground">
+          Preferred: {c.preferred_date ?? "—"}{c.preferred_time ? ` · ${c.preferred_time}` : ""}
+        </p>
+      )}
+      {c.notes && <p className="mt-1 text-sm text-muted-foreground italic">&ldquo;{c.notes}&rdquo;</p>}
+
+      <div className="mt-4">
+        {c.report_path ? (
+          <div className="rounded-xl border border-border bg-muted/30 p-4 flex items-center gap-3">
+            <FileText className="w-6 h-6 text-primary shrink-0" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold truncate">{c.report_filename ?? "Consultation report"}</p>
+              {c.report_uploaded_at && (
+                <p className="text-xs text-muted-foreground">
+                  Uploaded {new Date(c.report_uploaded_at).toLocaleDateString()}
+                </p>
+              )}
+            </div>
+            <Button size="sm" variant="outline" onClick={openReport} disabled={loading}>
+              <Download className="w-4 h-4 mr-1.5" /> {loading ? "Opening…" : "View"}
+            </Button>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-dashed border-border bg-muted/20 p-4 text-center">
+            <FileText className="w-6 h-6 text-muted-foreground mx-auto" />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Your report will appear here once your consultation is complete.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

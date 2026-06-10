@@ -75,6 +75,39 @@ function LongevityPage() {
   const [pending, setPending] = useState<null | { bookingId: string; name: string; email: string; phone: string; slot: string | null }>(null);
   const [personId, setPersonId] = useState<string | null>(null);
   const prefill = useBookingPrefill();
+  // Gynec consultation booking
+  const [consultOpen, setConsultOpen] = useState(false);
+  const [consultDate, setConsultDate] = useState<string>("");
+  const [consultTime, setConsultTime] = useState<string>("");
+  const [consultNotes, setConsultNotes] = useState<string>("");
+  const [consultSubmitting, setConsultSubmitting] = useState(false);
+
+  const submitConsultation = async () => {
+    const { data: sess } = await supabase.auth.getSession();
+    if (!sess.session) {
+      toast.error("Please sign in to book a consultation");
+      navigate({ to: "/auth" });
+      return;
+    }
+    if (!consultDate) return toast.error("Pick a preferred date");
+    setConsultSubmitting(true);
+    const { error } = await supabase.from("gynec_consultations").insert({
+      user_id: sess.session.user.id,
+      preferred_date: consultDate,
+      preferred_time: consultTime || null,
+      notes: consultNotes || null,
+      status: "pending",
+    });
+    setConsultSubmitting(false);
+    if (error) return toast.error(error.message);
+    toast.success("Consultation requested — our gynec partner will confirm shortly.");
+    setConsultOpen(false);
+    // Open WhatsApp confirmation
+    const name = (sess.session.user.user_metadata?.full_name as string) || prefill.full_name || "there";
+    const msg = `Hi ${name.split(" ")[0]}, your Rebél gynec consultation request is received ✅\nPreferred: ${consultDate}${consultTime ? ` at ${consultTime}` : ""}\nOur partner will confirm within 24 hours.`;
+    window.open(waLink(BOHOFIT_WHATSAPP, msg), "_blank", "noopener,noreferrer");
+  };
+
   const formKey = `${prefill.full_name}|${prefill.phone}|${prefill.email}|${prefill.age}|${prefill.city}`;
   const toggleChip = (c: string) => setChips((cs) => (cs.includes(c) ? cs.filter((x) => x !== c) : [...cs, c]));
 

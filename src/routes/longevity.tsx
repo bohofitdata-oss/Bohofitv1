@@ -341,6 +341,13 @@ function LongevityPage() {
           );
         })()}
 
+        {focus && (
+          <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+            Your selections are reviewed by our gynec partner before your program is confirmed.
+          </p>
+        )}
+
         {/* MODE */}
         <Reveal>
           <div className="mt-10">

@@ -20,6 +20,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as LongevityMeRouteImport } from './routes/longevity.me'
 import { Route as FamilyTokenRouteImport } from './routes/family.$token'
 
@@ -78,6 +79,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
 const LongevityMeRoute = LongevityMeRouteImport.update({
   id: '/me',
   path: '/me',
@@ -92,7 +98,7 @@ const FamilyTokenRoute = FamilyTokenRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
@@ -103,11 +109,11 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
@@ -118,12 +124,13 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/bohofit': typeof BohofitRoute
   '/booking': typeof BookingRoute
@@ -134,6 +141,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,11 +159,11 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/family/$token'
     | '/longevity/me'
+    | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
-    | '/app'
     | '/auth'
     | '/bohofit'
     | '/booking'
@@ -166,6 +174,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/family/$token'
     | '/longevity/me'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -181,12 +190,13 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/family/$token'
     | '/longevity/me'
+    | '/app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   BohofitRoute: typeof BohofitRoute
   BookingRoute: typeof BookingRoute
@@ -277,6 +287,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/longevity/me': {
       id: '/longevity/me'
       path: '/me'
@@ -294,6 +311,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 interface LongevityRouteChildren {
   LongevityMeRoute: typeof LongevityMeRoute
 }
@@ -309,7 +336,7 @@ const LongevityRouteWithChildren = LongevityRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   BohofitRoute: BohofitRoute,
   BookingRoute: BookingRoute,

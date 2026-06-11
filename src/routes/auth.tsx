@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { Mail } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>) => ({ next: typeof s.next === "string" ? s.next : undefined }),
   head: () => ({
     meta: [
       { title: "Sign in — Rebel" },
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const dest = next && next.startsWith("/") ? next : "/dashboard";
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -31,13 +34,13 @@ function AuthPage() {
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: "/dashboard" });
+      if (session) navigate({ to: dest });
     });
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard" });
+      if (data.session) navigate({ to: dest });
     });
     return () => sub.subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, dest]);
 
   const onGoogle = async () => {
     setLoading(true);

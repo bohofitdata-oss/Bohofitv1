@@ -151,6 +151,36 @@ export type Database = {
         }
         Relationships: []
       }
+      coaches: {
+        Row: {
+          band: string | null
+          bio: string | null
+          created_at: string
+          id: string
+          name: string
+          photo_url: string | null
+          user_id: string | null
+        }
+        Insert: {
+          band?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          photo_url?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          band?: string | null
+          bio?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          photo_url?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       concern_intake: {
         Row: {
           booking_id: string | null
@@ -189,6 +219,47 @@ export type Database = {
           },
         ]
       }
+      consents: {
+        Row: {
+          consented_at: string
+          created_at: string
+          health_data_opt_in: boolean
+          id: string
+          marketing_opt_in: boolean
+          member_id: string
+          version: string
+          waiver_accepted: boolean
+        }
+        Insert: {
+          consented_at?: string
+          created_at?: string
+          health_data_opt_in?: boolean
+          id?: string
+          marketing_opt_in?: boolean
+          member_id: string
+          version?: string
+          waiver_accepted?: boolean
+        }
+        Update: {
+          consented_at?: string
+          created_at?: string
+          health_data_opt_in?: boolean
+          id?: string
+          marketing_opt_in?: boolean
+          member_id?: string
+          version?: string
+          waiver_accepted?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consents_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       diet_plans: {
         Row: {
           created_at: string
@@ -218,6 +289,83 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      doctors: {
+        Row: {
+          clinic: string | null
+          created_at: string
+          id: string
+          name: string
+          photo_url: string | null
+          specialty: string | null
+        }
+        Insert: {
+          clinic?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          photo_url?: string | null
+          specialty?: string | null
+        }
+        Update: {
+          clinic?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          photo_url?: string | null
+          specialty?: string | null
+        }
+        Relationships: []
+      }
+      episodes: {
+        Row: {
+          block_number: number
+          created_at: string
+          end_date: string | null
+          id: string
+          member_id: string
+          program_track: Database["public"]["Enums"]["concern_kind"]
+          sessions_completed: number
+          sessions_total: number
+          start_date: string
+          status: Database["public"]["Enums"]["episode_status_kind"]
+          updated_at: string
+        }
+        Insert: {
+          block_number?: number
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          member_id: string
+          program_track: Database["public"]["Enums"]["concern_kind"]
+          sessions_completed?: number
+          sessions_total?: number
+          start_date?: string
+          status?: Database["public"]["Enums"]["episode_status_kind"]
+          updated_at?: string
+        }
+        Update: {
+          block_number?: number
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          member_id?: string
+          program_track?: Database["public"]["Enums"]["concern_kind"]
+          sessions_completed?: number
+          sessions_total?: number
+          start_date?: string
+          status?: Database["public"]["Enums"]["episode_status_kind"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "episodes_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       family_invites: {
         Row: {
@@ -282,6 +430,58 @@ export type Database = {
         }
         Relationships: []
       }
+      gynae_reports: {
+        Row: {
+          created_at: string
+          doctor_id: string | null
+          episode_id: string | null
+          file_url: string | null
+          id: string
+          member_id: string
+          summary: string | null
+        }
+        Insert: {
+          created_at?: string
+          doctor_id?: string | null
+          episode_id?: string | null
+          file_url?: string | null
+          id?: string
+          member_id: string
+          summary?: string | null
+        }
+        Update: {
+          created_at?: string
+          doctor_id?: string | null
+          episode_id?: string | null
+          file_url?: string | null
+          id?: string
+          member_id?: string
+          summary?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gynae_reports_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gynae_reports_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gynae_reports_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gynec_consultations: {
         Row: {
           created_at: string
@@ -323,6 +523,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      intake_responses: {
+        Row: {
+          clearance_required: boolean
+          concern: Database["public"]["Enums"]["concern_kind"]
+          created_at: string
+          goal_text: string | null
+          id: string
+          member_id: string
+          par_q: Json
+          responses: Json
+        }
+        Insert: {
+          clearance_required?: boolean
+          concern: Database["public"]["Enums"]["concern_kind"]
+          created_at?: string
+          goal_text?: string | null
+          id?: string
+          member_id: string
+          par_q?: Json
+          responses?: Json
+        }
+        Update: {
+          clearance_required?: boolean
+          concern?: Database["public"]["Enums"]["concern_kind"]
+          created_at?: string
+          goal_text?: string | null
+          id?: string
+          member_id?: string
+          par_q?: Json
+          responses?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "intake_responses_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       leads: {
         Row: {
@@ -543,6 +784,60 @@ export type Database = {
           },
         ]
       }
+      measures: {
+        Row: {
+          created_at: string
+          episode_id: string | null
+          id: string
+          measure_type: Database["public"]["Enums"]["measure_kind"]
+          member_id: string
+          metric_name: string
+          recorded_at: string
+          recorded_by: string | null
+          unit: string | null
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          episode_id?: string | null
+          id?: string
+          measure_type: Database["public"]["Enums"]["measure_kind"]
+          member_id: string
+          metric_name: string
+          recorded_at?: string
+          recorded_by?: string | null
+          unit?: string | null
+          value: number
+        }
+        Update: {
+          created_at?: string
+          episode_id?: string | null
+          id?: string
+          measure_type?: Database["public"]["Enums"]["measure_kind"]
+          member_id?: string
+          metric_name?: string
+          recorded_at?: string
+          recorded_by?: string | null
+          unit?: string | null
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "measures_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "measures_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       medical_history: {
         Row: {
           attachments: Json
@@ -644,6 +939,102 @@ export type Database = {
         }
         Relationships: []
       }
+      member_session_logs: {
+        Row: {
+          exercises: Json
+          flags: Json
+          id: string
+          logged_at: string
+          logged_by: string | null
+          notes: string | null
+          session_id: string
+        }
+        Insert: {
+          exercises?: Json
+          flags?: Json
+          id?: string
+          logged_at?: string
+          logged_by?: string | null
+          notes?: string | null
+          session_id: string
+        }
+        Update: {
+          exercises?: Json
+          flags?: Json
+          id?: string
+          logged_at?: string
+          logged_by?: string | null
+          notes?: string | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_session_logs_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "member_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      member_sessions: {
+        Row: {
+          coach_id: string | null
+          completed_at: string | null
+          created_at: string
+          episode_id: string
+          id: string
+          member_id: string
+          mode: Database["public"]["Enums"]["session_mode_kind"] | null
+          scheduled_at: string | null
+          status: Database["public"]["Enums"]["session_status_kind"]
+        }
+        Insert: {
+          coach_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          episode_id: string
+          id?: string
+          member_id: string
+          mode?: Database["public"]["Enums"]["session_mode_kind"] | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["session_status_kind"]
+        }
+        Update: {
+          coach_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          episode_id?: string
+          id?: string
+          member_id?: string
+          mode?: Database["public"]["Enums"]["session_mode_kind"] | null
+          scheduled_at?: string | null
+          status?: Database["public"]["Enums"]["session_status_kind"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "member_sessions_coach_id_fkey"
+            columns: ["coach_id"]
+            isOneToOne: false
+            referencedRelation: "coaches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_sessions_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "member_sessions_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       member_streaks: {
         Row: {
           current_streak: number
@@ -668,6 +1059,66 @@ export type Database = {
           updated_at?: string
           user_id?: string
           weeks_consistent?: number
+        }
+        Relationships: []
+      }
+      members: {
+        Row: {
+          age: number | null
+          city: string | null
+          created_at: string
+          dob: string | null
+          email: string | null
+          gender: Database["public"]["Enums"]["gender_kind"] | null
+          id: string
+          language: string | null
+          menopause_stage:
+            | Database["public"]["Enums"]["menopause_stage_kind"]
+            | null
+          name: string
+          phone: string | null
+          primary_concern: Database["public"]["Enums"]["concern_kind"] | null
+          source: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          dob?: string | null
+          email?: string | null
+          gender?: Database["public"]["Enums"]["gender_kind"] | null
+          id?: string
+          language?: string | null
+          menopause_stage?:
+            | Database["public"]["Enums"]["menopause_stage_kind"]
+            | null
+          name: string
+          phone?: string | null
+          primary_concern?: Database["public"]["Enums"]["concern_kind"] | null
+          source?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          age?: number | null
+          city?: string | null
+          created_at?: string
+          dob?: string | null
+          email?: string | null
+          gender?: Database["public"]["Enums"]["gender_kind"] | null
+          id?: string
+          language?: string | null
+          menopause_stage?:
+            | Database["public"]["Enums"]["menopause_stage_kind"]
+            | null
+          name?: string
+          phone?: string | null
+          primary_concern?: Database["public"]["Enums"]["concern_kind"] | null
+          source?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -867,6 +1318,54 @@ export type Database = {
           },
         ]
       }
+      outcome_reports: {
+        Row: {
+          created_at: string
+          doctor_pdf_url: string | null
+          episode_id: string | null
+          generated_at: string
+          id: string
+          member_id: string
+          member_pdf_url: string | null
+          snapshot: Json
+        }
+        Insert: {
+          created_at?: string
+          doctor_pdf_url?: string | null
+          episode_id?: string | null
+          generated_at?: string
+          id?: string
+          member_id: string
+          member_pdf_url?: string | null
+          snapshot?: Json
+        }
+        Update: {
+          created_at?: string
+          doctor_pdf_url?: string | null
+          episode_id?: string | null
+          generated_at?: string
+          id?: string
+          member_id?: string
+          member_pdf_url?: string | null
+          snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outcome_reports_episode_id_fkey"
+            columns: ["episode_id"]
+            isOneToOne: false
+            referencedRelation: "episodes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outcome_reports_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           age: number | null
@@ -971,6 +1470,45 @@ export type Database = {
           weight_kg?: number | null
         }
         Relationships: []
+      }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          member_id: string
+          referring_doctor_id: string | null
+          source_type: Database["public"]["Enums"]["referral_source_kind"]
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_id: string
+          referring_doctor_id?: string | null
+          source_type: Database["public"]["Enums"]["referral_source_kind"]
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_id?: string
+          referring_doctor_id?: string | null
+          source_type?: Database["public"]["Enums"]["referral_source_kind"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referrals_referring_doctor_id_fkey"
+            columns: ["referring_doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       session_logs: {
         Row: {
@@ -1167,6 +1705,44 @@ export type Database = {
           },
         ]
       }
+      symptom_checkins: {
+        Row: {
+          created_at: string
+          id: string
+          instrument: string
+          member_id: string
+          recorded_at: string
+          subscores: Json
+          total_score: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          instrument?: string
+          member_id: string
+          recorded_at?: string
+          subscores?: Json
+          total_score: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          instrument?: string
+          member_id?: string
+          recorded_at?: string
+          subscores?: Json
+          total_score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "symptom_checkins_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1224,6 +1800,7 @@ export type Database = {
         Returns: boolean
       }
       increment_slot_count: { Args: { _slot_id: string }; Returns: undefined }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
       mark_booking_paid: {
         Args: { _booking_id: string; _razorpay_payment_id: string }
         Returns: undefined
@@ -1275,10 +1852,18 @@ export type Database = {
         | "menopause_beyond"
         | "joints_knees"
         | "bone_balance"
+        | "general"
       consultation_status: "pending" | "scheduled" | "completed" | "cancelled"
+      episode_status_kind: "active" | "completed" | "paused"
+      gender_kind: "female" | "male" | "other" | "prefer_not"
+      measure_kind: "strength" | "balance" | "body_comp" | "dexa" | "functional"
+      menopause_stage_kind: "cycling" | "peri" | "post" | "surgical" | "na"
       package_status_kind: "active" | "completed" | "renewed" | "lapsed"
       path_choice: "bohofit" | "bootcamp" | "longevity"
       rebel_level: "foundation" | "performance" | "longevity" | "fifty_plus"
+      referral_source_kind: "doctor" | "group" | "self" | "web"
+      session_mode_kind: "studio" | "online" | "home"
+      session_status_kind: "scheduled" | "completed" | "missed" | "cancelled"
       slot_mode: "online" | "offline"
       slot_program: "bootcamp" | "longevity" | "group_classes"
     }
@@ -1417,11 +2002,19 @@ export const Constants = {
         "menopause_beyond",
         "joints_knees",
         "bone_balance",
+        "general",
       ],
       consultation_status: ["pending", "scheduled", "completed", "cancelled"],
+      episode_status_kind: ["active", "completed", "paused"],
+      gender_kind: ["female", "male", "other", "prefer_not"],
+      measure_kind: ["strength", "balance", "body_comp", "dexa", "functional"],
+      menopause_stage_kind: ["cycling", "peri", "post", "surgical", "na"],
       package_status_kind: ["active", "completed", "renewed", "lapsed"],
       path_choice: ["bohofit", "bootcamp", "longevity"],
       rebel_level: ["foundation", "performance", "longevity", "fifty_plus"],
+      referral_source_kind: ["doctor", "group", "self", "web"],
+      session_mode_kind: ["studio", "online", "home"],
+      session_status_kind: ["scheduled", "completed", "missed", "cancelled"],
       slot_mode: ["online", "offline"],
       slot_program: ["bootcamp", "longevity", "group_classes"],
     },

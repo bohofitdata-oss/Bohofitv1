@@ -71,6 +71,7 @@ export const SYMPTOM_CHIPS: Record<ConcernKey, string[]> = {
   meno: ["Low energy", "Strength loss", "Belly fat", "Hot flushes", "Sleep trouble", "Low mood"],
   joints: ["Knee pain", "Hip pain", "Back pain", "Stiff mornings", "Stairs are hard", "Old injury"],
   bone: ["Fear of falling", "Balance issues", "Low bone density", "Posture", "Weak grip", "Knee buckling"],
+  jb: ["Knee pain", "Hip pain", "Shoulder pain", "Back pain", "Stiff mornings", "Stairs are hard", "Fear of falling", "Balance issues", "Weak grip", "Posture"],
   general: ["Low energy", "Stiffness", "Weight gain", "Weak grip", "Poor posture", "Stress"],
 };
 

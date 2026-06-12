@@ -1853,6 +1853,7 @@ export type Database = {
         | "joints_knees"
         | "bone_balance"
         | "general"
+        | "joints_bones"
       consultation_status: "pending" | "scheduled" | "completed" | "cancelled"
       episode_status_kind: "active" | "completed" | "paused"
       gender_kind: "female" | "male" | "other" | "prefer_not"
@@ -2003,6 +2004,7 @@ export const Constants = {
         "joints_knees",
         "bone_balance",
         "general",
+        "joints_bones",
       ],
       consultation_status: ["pending", "scheduled", "completed", "cancelled"],
       episode_status_kind: ["active", "completed", "paused"],

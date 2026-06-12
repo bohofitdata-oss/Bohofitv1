@@ -328,6 +328,26 @@ function Step3({ draft, set }: { draft: IntakeDraft; set: (p: Partial<IntakeDraf
             <YesNo label="Doctor-cleared for resistance / impact?" value={draft.branch.cleared as boolean | undefined} onChange={(v) => setBranch("cleared", v)} />
           </>
         )}
+        {primary === "jb" && (
+          <>
+            <Field label="Which area?">
+              <Select value={(draft.branch.jb_area as string) ?? ""} onChange={(v) => setBranch("jb_area", v)}
+                options={[["knees","Knees"],["hips","Hips"],["shoulders","Shoulders"],["back","Back"],["general","General"]]} />
+            </Field>
+            <Field label="Pain right now (1 mild – 5 severe)">
+              <input type="range" min={1} max={5} value={(draft.branch.pain as number) ?? 3}
+                onChange={(e) => setBranch("pain", Number(e.target.value))} className="w-full accent-primary" />
+              <span className="text-sm text-muted-foreground">{(draft.branch.pain as number) ?? 3} / 5</span>
+            </Field>
+            <Field label="Diagnosis (if any)">
+              <Select value={(draft.branch.jb_dx as string) ?? ""} onChange={(v) => setBranch("jb_dx", v)}
+                options={[["none","None"],["osteoarthritis","Osteoarthritis"],["injury","Injury"],["post_surgery","Post-surgery"],["osteopenia","Osteopenia"],["osteoporosis","Osteoporosis"]]} />
+            </Field>
+            <YesNo label="Had a DEXA scan?" value={draft.branch.dexa as boolean | undefined} onChange={(v) => setBranch("dexa", v)} />
+            <YesNo label="Any falls in the last 12 months?" value={draft.branch.falls as boolean | undefined} onChange={(v) => setBranch("falls", v)} />
+            <YesNo label="Doctor-cleared to exercise?" value={draft.branch.cleared as boolean | undefined} onChange={(v) => setBranch("cleared", !!v)} />
+          </>
+        )}
       </div>
     </div>
   );

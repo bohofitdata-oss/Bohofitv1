@@ -73,6 +73,8 @@ function Onboarding() {
   const primary = draft.concerns[0];
   const isWomen = draft.about.gender === "female" || draft.about.gender === "";
   const showMrs = primary === "peri" || primary === "meno";
+  void isWomen;
+
 
   const set = (patch: Partial<IntakeDraft>) => setDraft((d) => ({ ...d, ...patch }));
   const setAbout = (patch: Partial<IntakeDraft["about"]>) => setDraft((d) => ({ ...d, about: { ...d.about, ...patch } }));

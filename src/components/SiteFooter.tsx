@@ -9,14 +9,14 @@ export function SiteFooter() {
       <div className="container mx-auto px-5 py-12 grid md:grid-cols-4 gap-8">
         <div>
           <div className="mb-3">
-            <img src={rebelLogo} alt="Rebel" className="h-8 w-auto" />
+            <img src={rebelLogo} alt="Rebél" className="h-8 w-auto" />
           </div>
           <p className="text-sm text-muted-foreground">India&rsquo;s first machine-free fitness system.</p>
         </div>
         <div>
           <h4 className="text-sm font-semibold mb-3">Programs</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/bohofit" className="hover:text-foreground">Rebel Group Classes</Link></li>
+            <li><Link to="/bohofit" className="hover:text-foreground">Rebél Group Classes</Link></li>
             <li><Link to="/longevity" className="hover:text-foreground">Rebél Unpause</Link></li>
           </ul>
         </div>
@@ -56,7 +56,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Rebel. Machine-free fitness for life.
+        &copy; {new Date().getFullYear()} Rebél. Machine-free fitness for life.
       </div>
     </footer>
   );

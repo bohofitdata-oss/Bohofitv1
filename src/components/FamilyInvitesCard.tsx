@@ -39,7 +39,7 @@ export function FamilyInvitesCard({ userId }: { userId: string }) {
     <div className="rounded-2xl border border-border bg-card p-6">
       <div className="flex items-center gap-2 text-primary"><Users className="w-4 h-4" /><span className="text-xs uppercase tracking-[0.18em]">Family</span></div>
       <h3 className="font-bold mt-1">Bring your people in</h3>
-      <p className="text-xs text-muted-foreground mt-1">Invite a parent, partner or sibling. We'll guide them to the right Rebel path.</p>
+      <p className="text-xs text-muted-foreground mt-1">Invite a parent, partner or sibling. We'll guide them to the right Rebél path.</p>
 
       <form onSubmit={submit} className="mt-4 grid grid-cols-2 gap-2">
         <div className="col-span-1"><Label className="text-xs">Name</Label><Input value={name} onChange={(e) => setName(e.target.value)} className="mt-1" maxLength={80} /></div>

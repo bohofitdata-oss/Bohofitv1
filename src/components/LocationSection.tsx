@@ -22,13 +22,13 @@ export function LocationSection() {
             <MapPin className="w-5 h-5 mt-1" style={{ color: "#FF2233" }} />
             <div className="flex-1">
               <p className="font-black text-white text-lg md:text-xl tracking-tight">
-                REBEL FITNESS — HSR LAYOUT
+                REBÉL FITNESS — HSR LAYOUT
               </p>
               <p className="mt-2 text-sm" style={{ color: "#CCCCCC" }}>
                 Hours: Mon–Sat, 6:30 AM – 9:00 PM
               </p>
               <a
-                href="https://maps.google.com/?q=Rebel+Fitness+HSR+Layout+Bangalore"
+                href="https://maps.google.com/?q=Rebél+Fitness+HSR+Layout+Bangalore"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rebel-btn-outline mt-5 inline-flex text-sm"

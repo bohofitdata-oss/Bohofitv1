@@ -46,7 +46,7 @@ type Booking = {
 };
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin — Rebel" }] }),
+  head: () => ({ meta: [{ title: "Admin — Rebél" }] }),
   component: AdminPage,
 });
 

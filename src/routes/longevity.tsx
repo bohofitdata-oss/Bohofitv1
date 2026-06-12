@@ -28,7 +28,7 @@ export const Route = createFileRoute("/longevity")({
   head: () => ({
     meta: [
       { title: "Rebél Unpause — 1:1 personal training, online or offline" },
-      { name: "description", content: "Extremely personal 1:1 training, built around you. Online or at a Rebel centre. 3 sessions a week, 1 hour each. Free 30-min consult before you commit." },
+      { name: "description", content: "Extremely personal 1:1 training, built around you. Online or at a Rebél centre. 3 sessions a week, 1 hour each. Free 30-min consult before you commit." },
       { property: "og:title", content: "Rebél Unpause — 1:1 personal training" },
     ],
   }),
@@ -209,8 +209,8 @@ function LongevityPage() {
               <Check className="w-7 h-7 text-primary-foreground" />
             </div>
             <h1 className="mt-6 text-3xl md:text-4xl font-black">Got it, {display.name.split(" ")[0]}.</h1>
-            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Rebel centre" : "Online"}{slotLabel ? ` · ${slotLabel}` : ""}</p>
-            <p className="mt-2 text-sm font-semibold">Team Rebel will contact you within 2 hours.</p>
+            <p className="mt-3 text-muted-foreground">{PROGRAM_LABEL.fifty_plus} · {mode === "offline" ? "At Rebél centre" : "Online"}{slotLabel ? ` · ${slotLabel}` : ""}</p>
+            <p className="mt-2 text-sm font-semibold">Team Rebél will contact you within 2 hours.</p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Button asChild className="bg-[#25D366] text-white border-0 hover:opacity-90">
                 <a href={waLink(BOHOFIT_WHATSAPP, bookingConfirmationMessage({ name: display.name, program: PROGRAM_LABEL.fifty_plus, mode: mode === "offline" ? "Offline" : "Online", slot: slotLabel }))} target="_blank" rel="noopener noreferrer">
@@ -424,7 +424,7 @@ function LongevityPage() {
         <div className="mt-5 grid grid-cols-2 gap-3">
           {(["offline", "online"] as const).map((m) => (
             <button key={m} type="button" onClick={() => setMode(m)} className={cn("rounded-xl border bg-card p-4 font-semibold transition", mode === m ? "border-primary bg-primary/10" : "border-border hover:border-primary/60")}>
-              {m === "offline" ? "Offline (Rebel centre)" : "Online (Google Meet)"}
+              {m === "offline" ? "Offline (Rebél centre)" : "Online (Google Meet)"}
             </button>
           ))}
         </div>

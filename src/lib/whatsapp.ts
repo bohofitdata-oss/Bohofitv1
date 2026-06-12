@@ -1,5 +1,5 @@
 // Click-to-send WhatsApp helpers (no API key required).
-// Rebel support number used as the recipient for confirmations.
+// Rebél support number used as the recipient for confirmations.
 export const BOHOFIT_WHATSAPP = "919999999999"; // TODO: replace with real number (country code, no +)
 
 export function waLink(phone: string, message: string) {
@@ -15,7 +15,7 @@ export function bookingConfirmationMessage(p: {
   slot?: string | null;
 }) {
   const lines = [
-    `Hi ${p.name.split(" ")[0]}, your Rebel booking is received ✅`,
+    `Hi ${p.name.split(" ")[0]}, your Rebél booking is received ✅`,
     `Program: ${p.program}`,
     p.plan ? `Plan: ${p.plan}` : null,
     p.mode ? `Mode: ${p.mode}` : null,

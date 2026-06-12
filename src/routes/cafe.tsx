@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/cafe")({
   head: () => ({
     meta: [
-      { title: "Rebel Café — Food that fuels your workouts" },
-      { name: "description", content: "Macro-tagged breakfast, lunch & dinner bowls plus monthly meal subscriptions at Rebel Café." },
+      { title: "Rebél Café — Food that fuels your workouts" },
+      { name: "description", content: "Macro-tagged breakfast, lunch & dinner bowls plus monthly meal subscriptions at Rebél Café." },
     ],
   }),
   component: CafePage,
@@ -39,7 +39,7 @@ type Tab = "breakfast" | "lunch" | "subs";
 
 const WHATSAPP =
   "https://wa.me/919999999999?text=" +
-  encodeURIComponent("Hi Rebel, I'd like a free dietitian consultation.");
+  encodeURIComponent("Hi Rebél, I'd like a free dietitian consultation.");
 
 function CafePage() {
   const [tab, setTab] = useState<Tab>("breakfast");
@@ -49,7 +49,7 @@ function CafePage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-12 md:pt-20 pb-6">
         <Reveal>
-          <p className="rebel-label">Rebel Café</p>
+          <p className="rebel-label">Rebél Café</p>
           <h1 className="rebel-hero-title text-4xl md:text-6xl font-black mt-3 leading-[0.95]">
             Food that <span style={{ fontStyle: "italic", color: "#FF2233" }}>fuels</span> the work.
           </h1>

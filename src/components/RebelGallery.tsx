@@ -14,7 +14,7 @@ export function RebelGallery() {
     <section className="py-12 md:py-20">
       <div className="container mx-auto px-5">
         <Reveal>
-          <p className="rebel-label">Rebel in action</p>
+          <p className="rebel-label">Rebél in action</p>
         </Reveal>
       </div>
       <div className="mt-5 md:mt-7">

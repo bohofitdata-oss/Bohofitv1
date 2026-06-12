@@ -7,9 +7,9 @@ import { Salad } from "lucide-react";
 export const Route = createFileRoute("/diet")({
   head: () => ({
     meta: [
-      { title: "Go Rebel Diet — Personalized nutrition that actually fits Indian life" },
-      { name: "description", content: "Goal-based diet plans, clean meals, smoothies and mocktails from Go Rebel. Pair with any Rebel path." },
-      { property: "og:title", content: "Go Rebel Diet — Personalized nutrition" },
+      { title: "Go Rebél Diet — Personalized nutrition that actually fits Indian life" },
+      { name: "description", content: "Goal-based diet plans, clean meals, smoothies and mocktails from Go Rebél. Pair with any Rebél path." },
+      { property: "og:title", content: "Go Rebél Diet — Personalized nutrition" },
     ],
   }),
   component: DietPage,
@@ -20,7 +20,7 @@ function DietPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-20 pb-12 text-center">
         <Reveal>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Diet · Go Rebel</p>
+          <p className="text-xs uppercase tracking-[0.18em] text-primary">Diet · Go Rebél</p>
           <h1 className="mt-3 text-4xl md:text-6xl font-black tracking-tight">
             Eat clean. <span className="text-gradient-gold">Without the chaos.</span>
           </h1>
@@ -34,7 +34,7 @@ function DietPage() {
         {[
           { t: "Goal-based plans", d: "Fat loss, strength, recovery — your plan, your goal." },
           { t: "Daily meal plan", d: "Breakfast, lunch, snack, dinner. With swaps." },
-          { t: "Go Rebel add-ons", d: "Cold-pressed juices, smoothies, mocktails, clean meals." },
+          { t: "Go Rebél add-ons", d: "Cold-pressed juices, smoothies, mocktails, clean meals." },
         ].map((b, i) => (
           <Reveal key={b.t} delay={i * 100}>
             <div className="rounded-2xl border border-border bg-card p-6 h-full">
@@ -54,14 +54,14 @@ function DietPage() {
           <div className="rounded-2xl border border-border bg-card p-7">
             <div className="text-sm text-muted-foreground">Fitness only</div>
             <div className="text-3xl font-black mt-1">From ₹4,999</div>
-            <p className="text-sm text-muted-foreground mt-2">Any Rebel path. No diet add-on.</p>
+            <p className="text-sm text-muted-foreground mt-2">Any Rebél path. No diet add-on.</p>
             <Button asChild variant="outline" className="mt-5"><Link to="/bohofit">See plans</Link></Button>
           </div>
           <div className="rounded-2xl border bg-card p-7 hairline shadow-elegant">
             <div className="text-sm text-primary uppercase tracking-widest text-xs">Most picked</div>
             <div className="text-sm text-muted-foreground mt-1">Fitness + Diet</div>
             <div className="text-3xl font-black mt-1">From ₹7,999</div>
-            <p className="text-sm text-muted-foreground mt-2">Rebel path + personalized Go Rebel diet plan.</p>
+            <p className="text-sm text-muted-foreground mt-2">Rebél path + personalized Go Rebél diet plan.</p>
             <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
               <Link to="/booking">Get started</Link>
             </Button>

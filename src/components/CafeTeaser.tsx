@@ -15,7 +15,7 @@ export function CafeTeaser() {
             Food that fuels your workouts.
           </p>
           <Link to="/cafe" className="rebel-btn-outline mt-6 inline-flex text-sm">
-            Explore Rebel Café →
+            Explore Rebél Café →
           </Link>
         </div>
       </Reveal>

@@ -109,7 +109,7 @@ export function DashboardBanner({ userId }: { userId: string }) {
         color: "#FFFFFF",
       }}
     >
-      Be a Rebel. Your first session is waiting.{" "}
+      Be a Rebél. Your first session is waiting.{" "}
       <Link to="/" className="ml-2 font-bold" style={{ color: "#FF2233" }}>
         Choose a programme →
       </Link>

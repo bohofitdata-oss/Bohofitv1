@@ -21,7 +21,7 @@ export function ReferralSection() {
           <div className="relative">
             <div className="flex items-center gap-2">
               <Gift className="w-4 h-4 text-primary" />
-              <p className="rebel-label">Make a Rebel</p>
+              <p className="rebel-label">Make a Rebél</p>
             </div>
             <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
               Bring a friend. <span className="text-gradient-gold italic">Both win.</span>
@@ -32,7 +32,7 @@ export function ReferralSection() {
 
             <div className="mt-6 grid md:grid-cols-3 gap-3">
               <Tier label="Refer 1" perk="10% off renewal · 10% off for them" />
-              <Tier label="Refer 2" perk="1 free Rebel Café meal + 10% off renewal" featured />
+              <Tier label="Refer 2" perk="1 free Rebél Café meal + 10% off renewal" featured />
               <Tier label="Join together" perk="Both get 10% off — no code needed" />
             </div>
 

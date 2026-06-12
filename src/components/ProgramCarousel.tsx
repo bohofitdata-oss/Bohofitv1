@@ -17,7 +17,7 @@ type Slide = {
 const SLIDES: Slide[] = [
   {
     id: "group-classes",
-    title: "Rebel Group Classes",
+    title: "Rebél Group Classes",
     tagline: "Two paths, one studio — Start soft, then go Strong.",
     image: imgStart,
     to: "/bohofit",
@@ -68,7 +68,7 @@ export function ProgramCarousel() {
           className="font-black text-white text-center mb-2"
           style={{ fontSize: "clamp(32px, 6vw, 56px)", letterSpacing: "-0.03em", lineHeight: "1" }}
         >
-          Choose your <span style={{ color: "#FF2233", fontStyle: "italic" }}>Rebel</span>.
+          Choose your <span style={{ color: "#FF2233", fontStyle: "italic" }}>Rebél</span>.
         </h2>
         <p className="text-center text-white/60 text-sm md:text-base mb-8">
           Swipe through our two programs.

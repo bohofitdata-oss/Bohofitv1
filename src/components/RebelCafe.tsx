@@ -76,7 +76,7 @@ export function RebelCafe() {
       <Reveal>
         <div className="flex items-center gap-2">
           <Coffee className="w-4 h-4 text-primary" />
-          <p className="rebel-label">Rebel Café</p>
+          <p className="rebel-label">Rebél Café</p>
         </div>
         <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
           Fuel that <span className="text-gradient-gold italic">matches the work.</span>

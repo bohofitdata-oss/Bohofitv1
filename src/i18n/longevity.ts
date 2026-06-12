@@ -1,4 +1,4 @@
-// Translation dictionary for /longevity (Rebel at 50+).
+// Translation dictionary for /longevity (Rebél at 50+).
 // Edit any string here to update what's shown on the page.
 // Languages: en (English), hi (Hindi), kn (Kannada), te (Telugu), ta (Tamil).
 
@@ -16,7 +16,7 @@ type Dict = Record<string, string>;
 
 export const DICT: Record<Lang, Dict> = {
   en: {
-    "hero.eyebrow": "Rebel at 50+ · Health-first",
+    "hero.eyebrow": "Rebél at 50+ · Health-first",
     "hero.title1": "Move pain-free.",
     "hero.title2": "Age strong.",
     "hero.sub": "Not a gym class. A health program for your knees, back, blood sugar and balance — built around you. Mon–Sat at our HSR Layout centre or online.",
@@ -142,7 +142,7 @@ export const DICT: Record<Lang, Dict> = {
     "cta.accept_rules": "Please accept every rule",
 
     "done.title": "Got it, {name}.",
-    "done.sub": "A coach from Team Rebel will call you within 2 hours.",
+    "done.sub": "A coach from Team Rebél will call you within 2 hours.",
     "done.wa": "Send confirmation on WhatsApp",
     "done.home": "Back to home",
 
@@ -150,7 +150,7 @@ export const DICT: Record<Lang, Dict> = {
   },
 
   hi: {
-    "hero.eyebrow": "Rebel 50+ · पहले स्वास्थ्य",
+    "hero.eyebrow": "Rebél 50+ · पहले स्वास्थ्य",
     "hero.title1": "बिना दर्द के चलें।",
     "hero.title2": "मज़बूती से उम्र बढ़ाएँ।",
     "hero.sub": "यह कोई जिम क्लास नहीं है। यह आपके घुटनों, पीठ, ब्लड शुगर और संतुलन के लिए एक स्वास्थ्य कार्यक्रम है — पूरी तरह आपके लिए बनाया गया। सोम–शनि, HSR लेआउट केंद्र में या ऑनलाइन।",
@@ -276,7 +276,7 @@ export const DICT: Record<Lang, Dict> = {
     "cta.accept_rules": "कृपया हर नियम स्वीकार करें",
 
     "done.title": "मिल गया, {name}।",
-    "done.sub": "Team Rebel का कोच 2 घंटे में आपको कॉल करेगा।",
+    "done.sub": "Team Rebél का कोच 2 घंटे में आपको कॉल करेगा।",
     "done.wa": "WhatsApp पर पुष्टि भेजें",
     "done.home": "होम पर वापस",
 
@@ -284,7 +284,7 @@ export const DICT: Record<Lang, Dict> = {
   },
 
   kn: {
-    "hero.eyebrow": "Rebel 50+ · ಆರೋಗ್ಯ ಮೊದಲು",
+    "hero.eyebrow": "Rebél 50+ · ಆರೋಗ್ಯ ಮೊದಲು",
     "hero.title1": "ನೋವಿಲ್ಲದೆ ಚಲಿಸಿ.",
     "hero.title2": "ಬಲವಾಗಿ ವಯಸ್ಸಾಗಿ.",
     "hero.sub": "ಇದು ಜಿಮ್ ಕ್ಲಾಸ್ ಅಲ್ಲ. ನಿಮ್ಮ ಮಂಡಿ, ಬೆನ್ನು, ಸಕ್ಕರೆ ಮತ್ತು ಸಮತೋಲನಕ್ಕಾಗಿ ಆರೋಗ್ಯ ಕಾರ್ಯಕ್ರಮ — ನಿಮಗಾಗಿ ರೂಪಿಸಲಾಗಿದೆ. ಸೋಮ–ಶನಿ, HSR ಲೇಔಟ್ ಕೇಂದ್ರದಲ್ಲಿ ಅಥವಾ ಆನ್‌ಲೈನ್.",
@@ -410,7 +410,7 @@ export const DICT: Record<Lang, Dict> = {
     "cta.accept_rules": "ದಯವಿಟ್ಟು ಪ್ರತಿ ನಿಯಮವನ್ನು ಸ್ವೀಕರಿಸಿ",
 
     "done.title": "ಸಿಕ್ಕಿತು, {name}.",
-    "done.sub": "Team Rebel ನ ಕೋಚ್ 2 ಗಂಟೆಗಳಲ್ಲಿ ಕರೆ ಮಾಡುತ್ತಾರೆ.",
+    "done.sub": "Team Rebél ನ ಕೋಚ್ 2 ಗಂಟೆಗಳಲ್ಲಿ ಕರೆ ಮಾಡುತ್ತಾರೆ.",
     "done.wa": "WhatsApp ನಲ್ಲಿ ದೃಢೀಕರಣ ಕಳುಹಿಸಿ",
     "done.home": "ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ",
 
@@ -418,7 +418,7 @@ export const DICT: Record<Lang, Dict> = {
   },
 
   te: {
-    "hero.eyebrow": "Rebel 50+ · ఆరోగ్యం మొదట",
+    "hero.eyebrow": "Rebél 50+ · ఆరోగ్యం మొదట",
     "hero.title1": "నొప్పి లేకుండా కదలండి.",
     "hero.title2": "బలంగా వయసు పెరగండి.",
     "hero.sub": "ఇది జిమ్ క్లాస్ కాదు. మీ మోకాళ్లు, వెన్ను, చక్కెర మరియు సమతుల్యత కోసం ఆరోగ్య కార్యక్రమం — మీ కోసం రూపొందించబడింది. సోమ–శని, HSR లేఔట్‌లో లేదా ఆన్‌లైన్.",
@@ -544,7 +544,7 @@ export const DICT: Record<Lang, Dict> = {
     "cta.accept_rules": "దయచేసి ప్రతి నియమాన్ని అంగీకరించండి",
 
     "done.title": "అందింది, {name}.",
-    "done.sub": "Team Rebel కోచ్ 2 గంటల్లో మీకు కాల్ చేస్తారు.",
+    "done.sub": "Team Rebél కోచ్ 2 గంటల్లో మీకు కాల్ చేస్తారు.",
     "done.wa": "WhatsApp లో నిర్ధారణ పంపండి",
     "done.home": "హోమ్‌కి తిరిగి వెళ్ళండి",
 
@@ -552,7 +552,7 @@ export const DICT: Record<Lang, Dict> = {
   },
 
   ta: {
-    "hero.eyebrow": "Rebel 50+ · ஆரோக்கியம் முதலில்",
+    "hero.eyebrow": "Rebél 50+ · ஆரோக்கியம் முதலில்",
     "hero.title1": "வலியின்றி நகருங்கள்.",
     "hero.title2": "வலிமையாக வயதாகுங்கள்.",
     "hero.sub": "இது ஜிம் வகுப்பு அல்ல. உங்கள் முழங்கால், முதுகு, சர்க்கரை மற்றும் சமநிலைக்கான ஆரோக்கிய திட்டம் — உங்களுக்காக வடிவமைக்கப்பட்டது. திங்கள்–சனி, HSR லேஅவுட் மையத்தில் அல்லது ஆன்லைனில்.",
@@ -678,7 +678,7 @@ export const DICT: Record<Lang, Dict> = {
     "cta.accept_rules": "தயவுசெய்து ஒவ்வொரு விதியையும் ஏற்றுக்கொள்ளுங்கள்",
 
     "done.title": "கிடைத்தது, {name}.",
-    "done.sub": "Team Rebel-ன் பயிற்சியாளர் 2 மணி நேரத்தில் உங்களை அழைப்பார்.",
+    "done.sub": "Team Rebél-ன் பயிற்சியாளர் 2 மணி நேரத்தில் உங்களை அழைப்பார்.",
     "done.wa": "WhatsApp-ல் உறுதிப்படுத்தலை அனுப்பு",
     "done.home": "முகப்புக்குத் திரும்பு",
 

@@ -6,14 +6,14 @@ import { cn } from "@/lib/utils";
 
 const FAQS: { q: string; a: string }[] = [
   { q: "What does machine-free mean?", a: "We train using bodyweight, resistance bands, kettlebells, and functional movement. No treadmills. No machines. Just you, your coach, and real effort." },
-  { q: "What if I have never exercised before?", a: "Start with Rebel Start — built for absolute beginners and comeback journeys." },
+  { q: "What if I have never exercised before?", a: "Start with Rebél Start — built for absolute beginners and comeback journeys." },
   { q: "What is the Bootcamp guarantee?", a: "Follow all 10 rules and you will see results. If you do not, we work with you for free until you do." },
   { q: "Can I train from home?", a: "Yes. Bootcamp and 50+ offer online and at-home options with a live coach." },
   { q: "How does the membership pause work?", a: "Minimum 2 days. Your end date extends automatically. Bootcamp cannot be paused." },
-  { q: "Is there a free trial?", a: "One free class for Rebel Start and Rebel Group Training before you commit." },
+  { q: "Is there a free trial?", a: "One free class for Rebél Start and Rebél Group Training before you commit." },
   { q: "Do I have to upload meal photos?", a: "Bootcamp and 50+ members must upload every meal. Part of the guarantee." },
   { q: "How quickly will I see results?", a: "Most members feel different in 2 weeks. Visible changes by week 6–8." },
-  { q: "Is Rebel only in Bangalore?", a: "Studio is in HSR Layout, Bangalore. Online programs available anywhere in India." },
+  { q: "Is Rebél only in Bangalore?", a: "Studio is in HSR Layout, Bangalore. Online programs available anywhere in India." },
   { q: "How do I speak to someone?", a: "Tap “Speak with us” anywhere. We respond within 2 hours." },
 ];
 

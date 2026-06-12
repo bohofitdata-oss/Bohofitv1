@@ -148,7 +148,7 @@ function Onboarding() {
         </div>
 
         <div className="mt-8">
-          {step === 1 && <Step1 draft={draft} setConcerns={(c) => set({ concerns: c })} />}
+          {step === 1 && <Step1 draft={draft} setConcerns={(c) => set({ concerns: c })} setGender={(g) => setDraft((d) => ({ ...d, about: { ...d.about, gender: g } }))} />}
           {step === 2 && <Step2 draft={draft} setAbout={setAbout} />}
           {step === 3 && <Step3 draft={draft} set={set} />}
           {step === 4 && showMrs && <Step4 draft={draft} set={set} />}

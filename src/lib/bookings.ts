@@ -123,8 +123,8 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
 }
 
 export const PROGRAM_LABEL: Record<BookingProgram, string> = {
-  bootcamp: "Rebel Bootcamp · 8 weeks",
-  group_classes: "Rebel Group Classes",
+  bootcamp: "Rebél Bootcamp · 8 weeks",
+  group_classes: "Rebél Group Classes",
   fifty_plus: "Rebél Unpause · 1:1",
 };
 

@@ -18,10 +18,10 @@ type Membership = {
 };
 
 const PROGRAM_LABEL: Record<string, string> = {
-  start: "Rebel Start",
-  strength: "Rebel Strength",
-  unlimited: "Rebel Unlimited",
-  bootcamp: "Rebel Bootcamp",
+  start: "Rebél Start",
+  strength: "Rebél Strength",
+  unlimited: "Rebél Unlimited",
+  bootcamp: "Rebél Bootcamp",
   longevity: "Rebél Unpause",
 };
 

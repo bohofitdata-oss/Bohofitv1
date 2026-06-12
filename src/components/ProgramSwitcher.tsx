@@ -5,7 +5,7 @@ import { ArrowLeftRight, Check } from "lucide-react";
 type ProgramKey = "bohofit" | "longevity";
 
 const PROGRAMS: { key: ProgramKey; to: "/bohofit" | "/longevity"; name: string; tag: string }[] = [
-  { key: "bohofit", to: "/bohofit", name: "Rebel Group Classes", tag: "Start · Strength · Unlimited" },
+  { key: "bohofit", to: "/bohofit", name: "Rebél Group Classes", tag: "Start · Strength · Unlimited" },
   { key: "longevity", to: "/longevity", name: "Rebél Unpause", tag: "Personal 1:1" },
 ];
 

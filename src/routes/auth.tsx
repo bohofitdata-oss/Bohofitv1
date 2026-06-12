@@ -13,8 +13,8 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({ next: typeof s.next === "string" ? s.next : undefined }),
   head: () => ({
     meta: [
-      { title: "Sign in — Rebel" },
-      { name: "description", content: "Sign in to your Rebel account with Google, email or your mobile number." },
+      { title: "Sign in — Rebél" },
+      { name: "description", content: "Sign in to your Rebél account with Google, email or your mobile number." },
     ],
   }),
   component: AuthPage,
@@ -82,7 +82,7 @@ function AuthPage() {
         <div className="rounded-2xl border border-border bg-card p-7 shadow-card">
           <h1 className="text-2xl font-black">{mode === "signup" ? "Create your account" : "Welcome back"}</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            {mode === "signup" ? "Start your Rebel journey." : "Sign in to your dashboard."}
+            {mode === "signup" ? "Start your Rebél journey." : "Sign in to your dashboard."}
           </p>
 
           {/* Google */}

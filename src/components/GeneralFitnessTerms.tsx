@@ -9,17 +9,17 @@ export const GENERAL_FITNESS_TERMS: GeneralTerm[] = [
   {
     key: "responsibility",
     title: "I am responsible for my own training & body.",
-    full: "I understand that physical training carries risks. I take full responsibility for how I train, push myself, and recover. Rebel and its trainers are not liable for any injury that occurs because I ignored instructions, hid information, or trained beyond what was prescribed.",
+    full: "I understand that physical training carries risks. I take full responsibility for how I train, push myself, and recover. Rebél and its trainers are not liable for any injury that occurs because I ignored instructions, hid information, or trained beyond what was prescribed.",
   },
   {
     key: "medical_clearance",
     title: "I have shared all medical conditions honestly.",
-    full: "I have disclosed any pre-existing medical condition (heart, BP, diabetes, thyroid, PCOS, surgeries, pregnancy, joint pain, injuries, mental health, medication). If my doctor has restricted certain movements, I have informed Rebel in writing. If anything changes during my membership, I will inform my coach immediately.",
+    full: "I have disclosed any pre-existing medical condition (heart, BP, diabetes, thyroid, PCOS, surgeries, pregnancy, joint pain, injuries, mental health, medication). If my doctor has restricted certain movements, I have informed Rebél in writing. If anything changes during my membership, I will inform my coach immediately.",
   },
   {
     key: "injury_risk",
     title: "I understand fitness training carries risk of injury.",
-    full: "Even with the best coaching, injuries can occur. By participating, I accept this risk. I agree not to hold Rebel, its trainers, or its centre liable for any injury that may occur during training, except in cases of proven gross negligence by Rebel staff.",
+    full: "Even with the best coaching, injuries can occur. By participating, I accept this risk. I agree not to hold Rebél, its trainers, or its centre liable for any injury that may occur during training, except in cases of proven gross negligence by Rebél staff.",
   },
   {
     key: "follow_instructions",
@@ -39,17 +39,17 @@ export const GENERAL_FITNESS_TERMS: GeneralTerm[] = [
   {
     key: "code_of_conduct",
     title: "I will respect coaches and other members.",
-    full: "Rebel is a zero-tolerance space for harassment, body-shaming, casteist, religious, or sexist remarks. Any such behaviour will result in immediate termination of membership without refund.",
+    full: "Rebél is a zero-tolerance space for harassment, body-shaming, casteist, religious, or sexist remarks. Any such behaviour will result in immediate termination of membership without refund.",
   },
   {
     key: "media",
     title: "Photo / video on the floor.",
-    full: "Rebel may occasionally photograph / film classes for marketing. If I do not want to be featured, I will tell the coach in writing and we will exclude me. I will not film other members without consent.",
+    full: "Rebél may occasionally photograph / film classes for marketing. If I do not want to be featured, I will tell the coach in writing and we will exclude me. I will not film other members without consent.",
   },
   {
     key: "payment",
     title: "Payment, refund & transfer policy.",
-    full: "All fees are GST inclusive. Refunds are not provided once the program starts, except where Rebel is unable to deliver. Transfers (where allowed) carry an ERP fee of ₹599. Pause balance is fixed per plan and cannot be carried over.",
+    full: "All fees are GST inclusive. Refunds are not provided once the program starts, except where Rebél is unable to deliver. Transfers (where allowed) carry an ERP fee of ₹599. Pause balance is fixed per plan and cannot be carried over.",
   },
   {
     key: "data_privacy",
@@ -58,8 +58,8 @@ export const GENERAL_FITNESS_TERMS: GeneralTerm[] = [
   },
   {
     key: "contact_consent",
-    title: "I agree to be contacted by Rebel.",
-    full: "Rebel may reach me on call, WhatsApp or email regarding my program, schedule, payments and important updates. I can opt out of marketing messages at any time.",
+    title: "I agree to be contacted by Rebél.",
+    full: "Rebél may reach me on call, WhatsApp or email regarding my program, schedule, payments and important updates. I can opt out of marketing messages at any time.",
   },
 ];
 

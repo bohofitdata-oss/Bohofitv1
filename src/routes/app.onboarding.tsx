@@ -73,6 +73,8 @@ function Onboarding() {
   const primary = draft.concerns[0];
   const isWomen = draft.about.gender === "female" || draft.about.gender === "";
   const showMrs = primary === "peri" || primary === "meno";
+  void isWomen;
+
 
   const set = (patch: Partial<IntakeDraft>) => setDraft((d) => ({ ...d, ...patch }));
   const setAbout = (patch: Partial<IntakeDraft["about"]>) => setDraft((d) => ({ ...d, about: { ...d.about, ...patch } }));
@@ -146,7 +148,7 @@ function Onboarding() {
         </div>
 
         <div className="mt-8">
-          {step === 1 && <Step1 draft={draft} setConcerns={(c) => set({ concerns: c })} />}
+          {step === 1 && <Step1 draft={draft} setConcerns={(c) => set({ concerns: c })} setGender={(g) => setDraft((d) => ({ ...d, about: { ...d.about, gender: g } }))} />}
           {step === 2 && <Step2 draft={draft} setAbout={setAbout} />}
           {step === 3 && <Step3 draft={draft} set={set} />}
           {step === 4 && showMrs && <Step4 draft={draft} set={set} />}
@@ -191,18 +193,31 @@ function Sub({ children }: { children: React.ReactNode }) {
   return <p className="text-sm text-muted-foreground mt-2">{children}</p>;
 }
 
-function Step1({ draft, setConcerns }: { draft: IntakeDraft; setConcerns: (c: ConcernKey[]) => void }) {
+function Step1({ draft, setConcerns, setGender }: { draft: IntakeDraft; setConcerns: (c: ConcernKey[]) => void; setGender: (g: IntakeDraft["about"]["gender"]) => void }) {
+  const gender = draft.about.gender || "female";
   const toggle = (k: ConcernKey) => {
     const exists = draft.concerns.includes(k);
     const next = exists ? draft.concerns.filter((x) => x !== k) : [k, ...draft.concerns.filter((x) => x !== k)];
     setConcerns(next);
   };
-  const keys: ConcernKey[] = ["peri", "meno", "joints", "bone"];
+  // Male: only Joints & Bones. Female (and unspecified): all three top doors.
+  const keys: ConcernKey[] = gender === "male" ? ["jb"] : ["peri", "meno", "jb"];
   return (
     <div>
       <Kicker>Welcome</Kicker>
       <H>What brings you here?</H>
       <Sub>Pick the one that fits best. You can choose more than one — the first you pick becomes your focus.</Sub>
+
+      {/* Gender toggle — determines which concern doors are shown */}
+      <div className="mt-5 inline-flex rounded-full border border-border bg-card p-1 text-sm">
+        {(["female", "male"] as const).map((g) => (
+          <button key={g} type="button" onClick={() => { setGender(g); if (g === "male") setConcerns(draft.concerns.filter((c) => c === "jb")); }}
+            className={`px-4 py-1.5 rounded-full transition ${gender === g ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            {g === "female" ? "I am a woman" : "I am a man"}
+          </button>
+        ))}
+      </div>
+
       <div className="mt-6 grid sm:grid-cols-2 gap-3">
         {keys.map((k) => {
           const selected = draft.concerns.includes(k);
@@ -311,6 +326,26 @@ function Step3({ draft, set }: { draft: IntakeDraft; set: (p: Partial<IntakeDraf
             <YesNo label="Any falls in the last 12 months?" value={draft.branch.falls as boolean | undefined} onChange={(v) => setBranch("falls", v)} />
             <YesNo label="On bone-density medication?" value={draft.branch.bone_meds as boolean | undefined} onChange={(v) => setBranch("bone_meds", v)} />
             <YesNo label="Doctor-cleared for resistance / impact?" value={draft.branch.cleared as boolean | undefined} onChange={(v) => setBranch("cleared", v)} />
+          </>
+        )}
+        {primary === "jb" && (
+          <>
+            <Field label="Which area?">
+              <Select value={(draft.branch.jb_area as string) ?? ""} onChange={(v) => setBranch("jb_area", v)}
+                options={[["knees","Knees"],["hips","Hips"],["shoulders","Shoulders"],["back","Back"],["general","General"]]} />
+            </Field>
+            <Field label="Pain right now (1 mild – 5 severe)">
+              <input type="range" min={1} max={5} value={(draft.branch.pain as number) ?? 3}
+                onChange={(e) => setBranch("pain", Number(e.target.value))} className="w-full accent-primary" />
+              <span className="text-sm text-muted-foreground">{(draft.branch.pain as number) ?? 3} / 5</span>
+            </Field>
+            <Field label="Diagnosis (if any)">
+              <Select value={(draft.branch.jb_dx as string) ?? ""} onChange={(v) => setBranch("jb_dx", v)}
+                options={[["none","None"],["osteoarthritis","Osteoarthritis"],["injury","Injury"],["post_surgery","Post-surgery"],["osteopenia","Osteopenia"],["osteoporosis","Osteoporosis"]]} />
+            </Field>
+            <YesNo label="Had a DEXA scan?" value={draft.branch.dexa as boolean | undefined} onChange={(v) => setBranch("dexa", v)} />
+            <YesNo label="Any falls in the last 12 months?" value={draft.branch.falls as boolean | undefined} onChange={(v) => setBranch("falls", v)} />
+            <YesNo label="Doctor-cleared to exercise?" value={draft.branch.cleared as boolean | undefined} onChange={(v) => setBranch("cleared", !!v)} />
           </>
         )}
       </div>

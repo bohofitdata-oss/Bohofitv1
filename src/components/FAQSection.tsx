@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "I'm a complete beginner. Where do I start?",
-    a: "Rebel Start. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Rebel Strength.",
+    a: "Rebél Start. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Rebél Strength.",
   },
   {
     q: "Can I pause my membership?",
@@ -22,7 +22,7 @@ const FAQS = [
   },
   {
     q: "What if I have an injury or medical condition?",
-    a: "Tell us at booking. Coaches modify every movement. For 50+ or rehab-heavy cases, our 1:1 Rebel 50+ track is the right fit.",
+    a: "Tell us at booking. Coaches modify every movement. For 50+ or rehab-heavy cases, our 1:1 Rebél 50+ track is the right fit.",
   },
   {
     q: "Is the diet plan included?",
@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     q: "Can I switch between programs?",
-    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Start to Strength or into Rebel One anytime.",
+    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Start to Strength or into Rebél One anytime.",
   },
   {
     q: "Where are you located?",

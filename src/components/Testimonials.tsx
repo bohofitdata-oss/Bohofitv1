@@ -12,7 +12,7 @@ const STORIES: Story[] = [
   {
     name: "Priya M.",
     age: 34,
-    program: "Rebel Bootcamp · 8 weeks",
+    program: "Rebél Bootcamp · 8 weeks",
     result: "LOST 7.2 KG",
     quote:
       "I had given up after two pregnancies. The bootcamp adjusted things for my PCOS. I lost 7 kg without crash dieting.",
@@ -20,7 +20,7 @@ const STORIES: Story[] = [
   {
     name: "Anand R.",
     age: 41,
-    program: "Rebel Strength · 6 months",
+    program: "Rebél Strength · 6 months",
     result: "FIRST PULL-UP EVER",
     quote:
       "I joined to fix my back. Six months in I'm doing pull-ups and my BP medication is halved. Small batches, zero machines.",
@@ -28,7 +28,7 @@ const STORIES: Story[] = [
   {
     name: "Lakshmi V.",
     age: 62,
-    program: "Rebel 50+ · 12 weeks",
+    program: "Rebél 50+ · 12 weeks",
     result: "STAIRS — PAIN-FREE",
     quote:
       "Knee pain stopped me from walking my dog. After 12 weeks of 1:1, I climb two flights without holding the railing.",

@@ -19,7 +19,7 @@ import { FamilyInvitesCard } from "@/components/FamilyInvitesCard";
 import { CoachQueueCard } from "@/components/CoachQueueCard";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Your dashboard — Rebel" }] }),
+  head: () => ({ meta: [{ title: "Your dashboard — Rebél" }] }),
   component: DashboardPage,
 });
 

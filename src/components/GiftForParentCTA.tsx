@@ -22,7 +22,7 @@ export function GiftForParentCTA() {
             <a
               href={waLink(
                 BOHOFIT_WHATSAPP,
-                "Hi Rebel, I want to gift the 12-week Rebel at 50+ program to my parent. Please share next steps.",
+                "Hi Rebél, I want to gift the 12-week Rebél at 50+ program to my parent. Please share next steps.",
               )}
               target="_blank"
               rel="noopener noreferrer"

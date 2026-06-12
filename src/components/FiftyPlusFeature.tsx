@@ -15,7 +15,7 @@ export function FiftyPlusFeature() {
                 <HeartPulse className="w-3 h-3" /> Our flagship 1:1 program
               </div>
               <h2 className="mt-4 text-3xl md:text-5xl font-black tracking-tight leading-[1.05]">
-                Rebel at <span className="text-gradient-gold">50+</span>
+                Rebél at <span className="text-gradient-gold">50+</span>
               </h2>
               <p className="mt-3 text-muted-foreground md:text-lg max-w-xl">
                 Twelve weeks of fully personal training, designed for adults 50 and above.

@@ -1,14 +1,15 @@
 // Intake state, MRS scoring, localStorage draft + persistence.
 import { supabase } from "@/integrations/supabase/client";
 
-export type ConcernKey = "peri" | "meno" | "joints" | "bone" | "general";
+export type ConcernKey = "peri" | "meno" | "joints" | "bone" | "jb" | "general";
 
-// Map UI key → DB enum value (existing concern_kind in DB).
-export const CONCERN_DB: Record<ConcernKey, "perimenopause" | "menopause_beyond" | "joints_knees" | "bone_balance" | "general"> = {
+// Map UI key → DB enum value.
+export const CONCERN_DB: Record<ConcernKey, "perimenopause" | "menopause_beyond" | "joints_knees" | "bone_balance" | "joints_bones" | "general"> = {
   peri: "perimenopause",
   meno: "menopause_beyond",
   joints: "joints_knees",
   bone: "bone_balance",
+  jb: "joints_bones",
   general: "general",
 };
 
@@ -17,6 +18,7 @@ export const CONCERN_LABEL: Record<ConcernKey, string> = {
   meno: "Menopause & beyond",
   joints: "Joints & knees",
   bone: "Bone strength & balance",
+  jb: "Joints & Bones",
   general: "General strength",
 };
 
@@ -25,6 +27,7 @@ export const CONCERN_BLURB: Record<ConcernKey, string> = {
   meno: "Hormone protection is gone — we train the body it used to protect.",
   joints: "Knees, hips, back. Pain mapped, strength rebuilt, function tracked.",
   bone: "Bone density, balance, falls. The protocol that proves you're safer.",
+  jb: "Stay strong, mobile and independent — for knees, joints, bone density and balance.",
   general: "Strength as a health asset — measured monthly, never aesthetic.",
 };
 

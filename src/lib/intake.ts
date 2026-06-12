@@ -187,7 +187,7 @@ export async function persistIntake(draft: IntakeDraft): Promise<{ memberId: str
       concern: CONCERN_DB[primary] as never,
       responses: { branch: draft.branch, symptom_chips: draft.symptom_chips, concerns: draft.concerns } as never,
       par_q: draft.parq as never,
-      clearance_required: parqClearanceRequired(draft.parq),
+      clearance_required: parqClearanceRequired(draft.parq) || (primary === "jb" && draft.branch.cleared === false),
       goal_text: draft.goal_text || null,
     });
 

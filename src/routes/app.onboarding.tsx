@@ -193,18 +193,31 @@ function Sub({ children }: { children: React.ReactNode }) {
   return <p className="text-sm text-muted-foreground mt-2">{children}</p>;
 }
 
-function Step1({ draft, setConcerns }: { draft: IntakeDraft; setConcerns: (c: ConcernKey[]) => void }) {
+function Step1({ draft, setConcerns, setGender }: { draft: IntakeDraft; setConcerns: (c: ConcernKey[]) => void; setGender: (g: IntakeDraft["about"]["gender"]) => void }) {
+  const gender = draft.about.gender || "female";
   const toggle = (k: ConcernKey) => {
     const exists = draft.concerns.includes(k);
     const next = exists ? draft.concerns.filter((x) => x !== k) : [k, ...draft.concerns.filter((x) => x !== k)];
     setConcerns(next);
   };
-  const keys: ConcernKey[] = ["peri", "meno", "joints", "bone"];
+  // Male: only Joints & Bones. Female (and unspecified): all three top doors.
+  const keys: ConcernKey[] = gender === "male" ? ["jb"] : ["peri", "meno", "jb"];
   return (
     <div>
       <Kicker>Welcome</Kicker>
       <H>What brings you here?</H>
       <Sub>Pick the one that fits best. You can choose more than one — the first you pick becomes your focus.</Sub>
+
+      {/* Gender toggle — determines which concern doors are shown */}
+      <div className="mt-5 inline-flex rounded-full border border-border bg-card p-1 text-sm">
+        {(["female", "male"] as const).map((g) => (
+          <button key={g} type="button" onClick={() => { setGender(g); if (g === "male") setConcerns(draft.concerns.filter((c) => c === "jb")); }}
+            className={`px-4 py-1.5 rounded-full transition ${gender === g ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            {g === "female" ? "I am a woman" : "I am a man"}
+          </button>
+        ))}
+      </div>
+
       <div className="mt-6 grid sm:grid-cols-2 gap-3">
         {keys.map((k) => {
           const selected = draft.concerns.includes(k);

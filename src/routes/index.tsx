@@ -7,6 +7,7 @@ import { FAQTeaser } from "@/components/FAQTeaser";
 import { ReferralSection } from "@/components/ReferralSection";
 import { RebelGallery } from "@/components/RebelGallery";
 import { ProgramCarousel } from "@/components/ProgramCarousel";
+import { UnpauseMethod } from "@/components/UnpauseMethod";
 
 import imgStudio from "@/assets/rebel-studio-red.jpg";
 
@@ -28,6 +29,7 @@ function Home() {
     <SiteShell>
       <HeroPanel />
       <ProgramCarousel />
+      <UnpauseMethod />
 
       <Testimonials />
       <CafeTeaser />

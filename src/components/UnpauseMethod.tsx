@@ -181,7 +181,7 @@ function UnpauseTracks() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid md:grid-cols-3 gap-4 md:gap-5">
+        <div className="mt-10 grid md:grid-cols-2 gap-4 md:gap-5">
           {tracks.map((t, i) => (
             <Reveal key={t.title} delay={i * 90}>
               <article className={CARD_CLS}>
@@ -194,11 +194,6 @@ function UnpauseTracks() {
                 >
                   {t.title}
                 </h3>
-                {t.sub && (
-                  <p className="mt-1 text-xs uppercase tracking-widest text-white/40">
-                    ({t.sub})
-                  </p>
-                )}
                 <p className="mt-4 text-sm md:text-[15px] leading-relaxed" style={{ color: "#CCCCCC" }}>
                   {t.line}
                 </p>

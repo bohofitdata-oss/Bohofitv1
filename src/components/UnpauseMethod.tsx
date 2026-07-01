@@ -58,7 +58,7 @@ function PositioningBand() {
   );
 }
 
-/* --------- 2. What We Offer --------- */
+/* --------- 2. What We Offer — three peer cards --------- */
 function WhatWeOffer() {
   const pillars = [
     {
@@ -72,10 +72,18 @@ function WhatWeOffer() {
     {
       label: "02 · Unpause",
       title: "UNPAUSE",
-      line: "Our flagship. 1:1 strength for the menopause transition and beyond.",
-      body: "One programme, three concern tracks. Gynae-informed, measured, in person.",
+      line: "Our flagship. 1:1 strength for the perimenopause & menopause transition.",
+      body: "Two tracks. Gynae-informed, measured, in person. 36 sessions · 3×/week.",
       to: "/longevity" as const,
       cta: "Explore Unpause",
+    },
+    {
+      label: "03 · Rebél at 50+",
+      title: "UNREAL STRENGTH AT 50+",
+      line: "Strength for your joints, bones and balance — stay mobile, steady and independent.",
+      body: "1:1 or small group. Doctor-cleared where needed. Measured at the start, re-measured at the end.",
+      to: "/booking" as const,
+      cta: "Explore Rebél at 50+",
     },
   ];
 
@@ -87,15 +95,15 @@ function WhatWeOffer() {
           className="mt-3 font-black text-white max-w-3xl"
           style={{ fontSize: "clamp(30px, 5.5vw, 56px)", letterSpacing: "-0.03em", lineHeight: "1" }}
         >
-          Two pillars.
+          Three ways to train.
           <br />
           <span style={{ fontStyle: "italic" }}>
-            One <span style={{ color: "#FF2233" }}>Rebél</span> community.
+            One <span style={{ color: "#FF2233" }}>standard.</span>
           </span>
         </h2>
       </Reveal>
 
-      <div className="mt-10 grid md:grid-cols-2 gap-4 md:gap-5">
+      <div className="mt-10 grid md:grid-cols-3 gap-4 md:gap-5">
         {pillars.map((p, i) => (
           <Reveal key={p.title} delay={i * 100}>
             <article className={CARD_CLS}>
@@ -104,12 +112,12 @@ function WhatWeOffer() {
               </p>
               <h3
                 className="mt-4 font-black text-white"
-                style={{ fontSize: "clamp(28px, 4.5vw, 44px)", letterSpacing: "-0.03em", lineHeight: "1" }}
+                style={{ fontSize: "clamp(24px, 3.2vw, 34px)", letterSpacing: "-0.03em", lineHeight: "1" }}
               >
                 {p.title}
               </h3>
               <p
-                className="mt-3 text-lg md:text-xl"
+                className="mt-3 text-base md:text-lg"
                 style={{ color: "#FF2233", fontStyle: "italic" }}
               >
                 {p.line}
@@ -117,7 +125,7 @@ function WhatWeOffer() {
               <p className="mt-4 text-sm md:text-[15px] leading-relaxed" style={{ color: "#CCCCCC" }}>
                 {p.body}
               </p>
-              <div className="mt-6 pt-6 border-t border-white/10">
+              <div className="mt-6 pt-6 border-t border-white/10 mt-auto">
                 <Link
                   to={p.to}
                   className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-white/70 transition-colors"
@@ -146,12 +154,6 @@ function UnpauseTracks() {
       title: "Menopause & beyond",
       line: "Rebuild the muscle, bone and metabolism the hormone used to protect.",
     },
-    {
-      n: "Track 03",
-      title: "Joints & Bones",
-      sub: "for the body at 40, 50, 60+",
-      line: "Stay strong, mobile and independent. Knees, joints, bone strength, balance.",
-    },
   ];
 
   return (
@@ -179,7 +181,7 @@ function UnpauseTracks() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid md:grid-cols-3 gap-4 md:gap-5">
+        <div className="mt-10 grid md:grid-cols-2 gap-4 md:gap-5">
           {tracks.map((t, i) => (
             <Reveal key={t.title} delay={i * 90}>
               <article className={CARD_CLS}>
@@ -192,11 +194,6 @@ function UnpauseTracks() {
                 >
                   {t.title}
                 </h3>
-                {t.sub && (
-                  <p className="mt-1 text-xs uppercase tracking-widest text-white/40">
-                    ({t.sub})
-                  </p>
-                )}
                 <p className="mt-4 text-sm md:text-[15px] leading-relaxed" style={{ color: "#CCCCCC" }}>
                   {t.line}
                 </p>

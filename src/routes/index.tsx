@@ -8,6 +8,7 @@ import { ReferralSection } from "@/components/ReferralSection";
 import { RebelGallery } from "@/components/RebelGallery";
 import { ProgramCarousel } from "@/components/ProgramCarousel";
 import { UnpauseMethod } from "@/components/UnpauseMethod";
+import { WhatYouGet } from "@/components/WhatYouGet";
 
 import imgStudio from "@/assets/rebel-studio-red.jpg";
 

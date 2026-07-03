@@ -30,7 +30,9 @@ function Home() {
     <SiteShell>
       <HeroPanel />
       <ProgramCarousel />
+      <WhatYouGet />
       <UnpauseMethod />
+
 
       <Testimonials />
       <CafeTeaser />

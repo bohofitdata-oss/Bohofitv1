@@ -4,13 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 
 import imgStart from "@/assets/program-start.jpg";
 import imgFifty from "@/assets/program-fiftyplus.jpg";
+import imgFiftyNeutral from "@/assets/program-fiftyplus-neutral.jpg";
 
 type Slide = {
   id: string;
   title: string;
   tagline: string;
   image: string;
-  to: "/bohofit" | "/longevity";
+  to: "/bohofit" | "/longevity" | "/booking";
   cta: string;
 };
 
@@ -24,12 +25,20 @@ const SLIDES: Slide[] = [
     cta: "See Start, Strength & One",
   },
   {
-    id: "fifty-plus",
+    id: "unpause",
     title: "Rebél Unpause",
-    tagline: "Move pain-free. Stay independent. No mirrors. No judgment.",
+    tagline: "1:1 strength for perimenopause and menopause — gynae-informed, measured.",
     image: imgFifty,
     to: "/longevity",
-    cta: "Learn More",
+    cta: "Explore Unpause",
+  },
+  {
+    id: "fifty-plus",
+    title: "Rebél at 50+",
+    tagline: "Strong, mobile, independent — for joints, bones and balance.",
+    image: imgFiftyNeutral,
+    to: "/booking",
+    cta: "Explore Rebél at 50+",
   },
 ];
 
@@ -71,7 +80,7 @@ export function ProgramCarousel() {
           Choose your <span style={{ color: "#FF2233", fontStyle: "italic" }}>Rebél</span>.
         </h2>
         <p className="text-center text-white/60 text-sm md:text-base mb-8">
-          Swipe through our two programs.
+          Three ways to train. One standard.
         </p>
       </div>
 

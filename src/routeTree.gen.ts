@@ -21,6 +21,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as MethodSlugRouteImport } from './routes/method.$slug'
 import { Route as LongevityMeRouteImport } from './routes/longevity.me'
 import { Route as FamilyTokenRouteImport } from './routes/family.$token'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
@@ -85,6 +86,11 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const MethodSlugRoute = MethodSlugRouteImport.update({
+  id: '/method/$slug',
+  path: '/method/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LongevityMeRoute = LongevityMeRouteImport.update({
   id: '/me',
   path: '/me',
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/app/onboarding': typeof AppOnboardingRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/method/$slug': typeof MethodSlugRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/app/onboarding': typeof AppOnboardingRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/method/$slug': typeof MethodSlugRoute
   '/app': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/app/onboarding': typeof AppOnboardingRoute
   '/family/$token': typeof FamilyTokenRoute
   '/longevity/me': typeof LongevityMeRoute
+  '/method/$slug': typeof MethodSlugRoute
   '/app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/family/$token'
     | '/longevity/me'
+    | '/method/$slug'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/family/$token'
     | '/longevity/me'
+    | '/method/$slug'
     | '/app'
   id:
     | '__root__'
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/app/onboarding'
     | '/family/$token'
     | '/longevity/me'
+    | '/method/$slug'
     | '/app/'
   fileRoutesById: FileRoutesById
 }
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   LongevityRoute: typeof LongevityRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   FamilyTokenRoute: typeof FamilyTokenRoute
+  MethodSlugRoute: typeof MethodSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -306,6 +319,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/method/$slug': {
+      id: '/method/$slug'
+      path: '/method/$slug'
+      fullPath: '/method/$slug'
+      preLoaderRoute: typeof MethodSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/longevity/me': {
       id: '/longevity/me'
       path: '/me'
@@ -367,6 +387,7 @@ const rootRouteChildren: RootRouteChildren = {
   LongevityRoute: LongevityRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   FamilyTokenRoute: FamilyTokenRoute,
+  MethodSlugRoute: MethodSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

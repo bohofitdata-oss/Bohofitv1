@@ -34,6 +34,10 @@ function Home() {
       <ProgramCarousel />
       <WhatYouGet />
       <UnpauseMethod />
+      <div id="method"><RebelMethod /></div>
+      <RebelJourney />
+
+
 
 
       <Testimonials />

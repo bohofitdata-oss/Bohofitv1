@@ -9,6 +9,8 @@ import { RebelGallery } from "@/components/RebelGallery";
 import { ProgramCarousel } from "@/components/ProgramCarousel";
 import { UnpauseMethod } from "@/components/UnpauseMethod";
 import { WhatYouGet } from "@/components/WhatYouGet";
+import { RebelMethod } from "@/components/RebelMethod";
+import { RebelJourney } from "@/components/RebelJourney";
 
 import imgStudio from "@/assets/rebel-studio-red.jpg";
 
@@ -32,6 +34,10 @@ function Home() {
       <ProgramCarousel />
       <WhatYouGet />
       <UnpauseMethod />
+      <div id="method"><RebelMethod /></div>
+      <RebelJourney />
+
+
 
 
       <Testimonials />

@@ -33,7 +33,7 @@ function Home() {
       <HeroPanel />
       <div id="group-classes"><ProgramCarousel /></div>
       <WhatYouGet />
-      <div id="unpause"><UnpauseMethod /></div>
+      <div id="unpause" className="rebel-glow"><UnpauseMethod /></div>
       <div id="fifty-plus" />
       <div id="method"><RebelMethod /></div>
       <RebelJourney />

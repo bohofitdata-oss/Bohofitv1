@@ -31,9 +31,10 @@ function Home() {
   return (
     <SiteShell>
       <HeroPanel />
-      <ProgramCarousel />
+      <div id="group-classes"><ProgramCarousel /></div>
       <WhatYouGet />
-      <UnpauseMethod />
+      <div id="unpause"><UnpauseMethod /></div>
+      <div id="fifty-plus" />
       <div id="method"><RebelMethod /></div>
       <RebelJourney />
 

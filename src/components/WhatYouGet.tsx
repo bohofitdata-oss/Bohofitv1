@@ -40,8 +40,8 @@ const CARDS: Card[] = [
   {
     icon: Layers,
     title: "Small Batches",
-    subtitle: "Max 3 per slot in Bootcamp, 1:1 in 50+",
-    body: "You are never lost in a crowd. Our formats are deliberately small so every rep gets seen.",
+    subtitle: "Group classes as the default. 1:1 for Unpause and 50+",
+    body: "Unpause and 50+ are 1:1 with a coach. If a family trains together — a parent and child, or partners bringing a buddy — we run those as small 2 or 3 person sessions. Everything else is group classes, capped so every rep gets seen.",
   },
   {
     icon: Home,
@@ -52,15 +52,16 @@ const CARDS: Card[] = [
   {
     icon: HeartPulse,
     title: "Built for Real Bodies",
-    subtitle: "Thyroid, PCOS, back and knee, post-injury",
-    body: "We screen your body before we build your plan. Your programme accounts for what you are actually working with.",
+    subtitle: "PCOD, PCOS, thyroid, perimenopause, menopause, back and knee, post-injury",
+    body: "We screen your body before we build your plan. Your programme accounts for what you are actually working with — hormonal shifts, joint history, recovery capacity — not a generic template.",
   },
   {
     icon: Award,
     title: "Four Years of Proof",
-    subtitle: "2,000+ people, since Bohofit",
+    subtitle: "3,000+ people trained, since Bohofit",
     body: "This is not a new experiment. We have refined this system across four and a half years and thousands of members.",
   },
+
 ];
 
 function AccordionCard({ card, isOpen, onToggle }: { card: Card; isOpen: boolean; onToggle: () => void }) {

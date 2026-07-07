@@ -48,7 +48,7 @@ function Home() {
       <ReferralSection />
       <FAQTeaser />
 
-      <section className="border-t border-border/40">
+      <section className="border-t border-border/40 rebel-glow">
         <div className="container mx-auto px-5 py-32 md:py-40 text-center">
           <h2 className="font-black tracking-tight leading-[0.95] text-white" style={{ fontSize: "clamp(40px, 9vw, 96px)", letterSpacing: "-0.04em" }}>
             Train today.<br />Stay fit for life.

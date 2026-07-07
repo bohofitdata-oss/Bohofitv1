@@ -159,10 +159,11 @@ type Stat = {
 
 const STATS: Stat[] = [
   { icon: Calendar, number: 4.5, display: (v) => v.toFixed(1), label: "Years of coaching" },
-  { icon: UsersRound, number: 2000, display: (v) => `${Math.round(v).toLocaleString()}+`, label: "People trained" },
-  { icon: Dumbbell, number: 6, display: (v) => Math.round(v).toString(), label: "Training programmes" },
+  { icon: UsersRound, number: 3000, display: (v) => `${Math.round(v).toLocaleString()}+`, label: "People trained" },
+  { icon: Dumbbell, number: 8, display: (v) => Math.round(v).toString(), label: "Training formats" },
   { icon: Ban, number: 0, display: () => "0", label: "Machines" },
 ];
+
 
 function StatTile({ stat, delay }: { stat: Stat; delay: number }) {
   const Icon = stat.icon;

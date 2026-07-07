@@ -20,7 +20,12 @@ export function SiteShell({ children }: { children: ReactNode }) {
       { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
     );
     targets.forEach((el) => {
-      // Start hidden, then observer flips to .in
+      const rect = el.getBoundingClientRect();
+      // Skip elements already in the initial viewport to avoid a hidden flash.
+      if (rect.top < window.innerHeight * 0.9) {
+        el.classList.add("reveal", "in");
+        return;
+      }
       el.classList.add("reveal");
       io.observe(el);
     });

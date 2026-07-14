@@ -123,13 +123,12 @@ export async function saveBooking(input: SaveBookingInput): Promise<SaveBookingR
 }
 
 export const PROGRAM_LABEL: Record<BookingProgram, string> = {
-  bootcamp: "Rebél Bootcamp · 8 weeks",
   group_classes: "Rebél Group Classes",
-  fifty_plus: "Rebél Unpause · 1:1",
+  fifty_plus: "Rebél 1:1",
 };
 
 // Reschedule fee logic (front-end only):
-// - Bootcamp / 1:1 (fifty_plus): 1 free reschedule, then ₹499 each.
+// - 1:1 (fifty_plus / unpause): 1 free reschedule, then ₹499 each.
 // - Group classes: trial day is free; 2nd trial day onwards ₹499 (max 2 trial days, then membership required).
 export function rescheduleFeeInfo(program: BookingProgram, prevCount: number) {
   if (program === "group_classes") {

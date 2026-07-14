@@ -13,7 +13,7 @@ type Slot = {
 };
 
 interface Props {
-  program: "bootcamp" | "longevity" | "group_classes";
+  program: "longevity" | "group_classes";
   primaryId: string | null;
   secondaryId: string | null;
   onPrimary: (id: string) => void;

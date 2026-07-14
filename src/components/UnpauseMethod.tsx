@@ -46,10 +46,10 @@ function PositioningBand() {
           </p>
           <div className="mt-8">
             <Link
-              to="/booking"
+              to="/longevity"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm transition-colors"
             >
-              Book a free strength assessment →
+              Book my free consultation →
             </Link>
           </div>
         </Reveal>
@@ -82,7 +82,7 @@ function WhatWeOffer() {
       title: "UNREAL STRENGTH AT 50+",
       line: "Strength for your joints, bones and balance — stay mobile, steady and independent.",
       body: "1:1 or small group. Doctor-cleared where needed. Measured at the start, re-measured at the end.",
-      to: "/booking" as const,
+      to: "/fiftyplus" as const,
       cta: "Explore Rebél at 50+",
     },
   ];
@@ -411,10 +411,10 @@ function DifferenceBand() {
           </p>
           <div className="mt-8">
             <Link
-              to="/booking"
+              to="/longevity"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm transition-colors"
             >
-              Book a free strength assessment →
+              Book my free consultation →
             </Link>
           </div>
         </Reveal>

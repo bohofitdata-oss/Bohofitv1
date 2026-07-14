@@ -12,10 +12,10 @@ const STORIES: Story[] = [
   {
     name: "Priya M.",
     age: 34,
-    program: "Rebél Bootcamp · 8 weeks",
+    program: "Rebél Unpause · 1:1",
     result: "LOST 7.2 KG",
     quote:
-      "I had given up after two pregnancies. The bootcamp adjusted things for my PCOS. I lost 7 kg without crash dieting.",
+      "I had given up after two pregnancies. Unpause adjusted things for my PCOS. I lost 7 kg without crash dieting.",
   },
   {
     name: "Anand R.",

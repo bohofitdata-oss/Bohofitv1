@@ -21,7 +21,7 @@ const PROGRAM_LABEL: Record<string, string> = {
   start: "Rebél Start",
   strength: "Rebél Strength",
   unlimited: "Rebél Unlimited",
-  bootcamp: "Rebél Bootcamp",
+  group_classes: "Rebél 1:1",
   longevity: "Rebél Unpause",
 };
 

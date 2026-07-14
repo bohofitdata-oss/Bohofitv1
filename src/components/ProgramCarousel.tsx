@@ -11,7 +11,7 @@ type Slide = {
   title: string;
   tagline: string;
   image: string;
-  to: "/bohofit" | "/longevity" | "/booking";
+  to: "/bohofit" | "/longevity" | "/fiftyplus";
   cta: string;
 };
 
@@ -37,7 +37,7 @@ const SLIDES: Slide[] = [
     title: "Rebél at 50+",
     tagline: "Strong, mobile, independent — for joints, bones and balance.",
     image: imgFiftyNeutral,
-    to: "/booking",
+    to: "/fiftyplus",
     cta: "Explore Rebél at 50+",
   },
 ];

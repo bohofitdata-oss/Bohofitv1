@@ -260,6 +260,57 @@ export type Database = {
           },
         ]
       }
+      consultations: {
+        Row: {
+          age: number | null
+          consult_date: string
+          consult_time: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          notes: string | null
+          notified_at: string | null
+          phone: string
+          problem_areas: string[]
+          program: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          age?: number | null
+          consult_date: string
+          consult_time: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          phone: string
+          problem_areas?: string[]
+          program: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          age?: number | null
+          consult_date?: string
+          consult_time?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          notified_at?: string | null
+          phone?: string
+          problem_areas?: string[]
+          program?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       diet_plans: {
         Row: {
           created_at: string
@@ -1790,6 +1841,12 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      consultation_taken_slots: {
+        Args: { _date: string; _program: string }
+        Returns: {
+          consult_time: string
+        }[]
       }
       get_family_progress: { Args: { _token: string }; Returns: Json }
       has_role: {

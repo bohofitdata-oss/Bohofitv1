@@ -49,7 +49,7 @@ function PositioningBand() {
               to="/longevity"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm transition-colors"
             >
-              Book a free strength assessment →
+              Book my free consultation →
             </Link>
           </div>
         </Reveal>
@@ -414,7 +414,7 @@ function DifferenceBand() {
               to="/longevity"
               className="inline-flex items-center justify-center rounded-full bg-white text-black hover:bg-white/90 px-7 h-12 font-bold text-sm transition-colors"
             >
-              Book a free strength assessment →
+              Book my free consultation →
             </Link>
           </div>
         </Reveal>

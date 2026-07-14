@@ -82,7 +82,7 @@ function WhatWeOffer() {
       title: "UNREAL STRENGTH AT 50+",
       line: "Strength for your joints, bones and balance — stay mobile, steady and independent.",
       body: "1:1 or small group. Doctor-cleared where needed. Measured at the start, re-measured at the end.",
-      to: "/booking" as const,
+      to: "/fiftyplus" as const,
       cta: "Explore Rebél at 50+",
     },
   ];

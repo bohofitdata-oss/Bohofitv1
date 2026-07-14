@@ -34,7 +34,7 @@ function Home() {
       <div id="group-classes"><ProgramCarousel /></div>
       <WhatYouGet />
       <div id="unpause" className="rebel-glow"><UnpauseMethod /></div>
-      <div id="fifty-plus" />
+      <FiftyPlusFlagship />
       <div id="method"><RebelMethod /></div>
       <RebelJourney />
 

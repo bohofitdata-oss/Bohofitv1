@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: "Is the diet plan included?",
-    a: "6-month, 12-month and Bootcamp plans include the full diet consultation. Shorter plans can add it for ₹1,000.",
+    a: "6-month and 12-month plans include the full diet consultation. Shorter plans can add it for ₹1,000.",
   },
   {
     q: "Can I switch between programs?",

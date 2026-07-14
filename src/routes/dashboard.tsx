@@ -246,7 +246,7 @@ function DashboardPage() {
               <Camera className="w-5 h-5 text-primary" />
               <h3 className="font-bold">Daily food log</h3>
             </div>
-            <p className="text-xs text-muted-foreground">Bootcamp members: upload a photo of every meal you eat.</p>
+            <p className="text-xs text-muted-foreground">Members on 1:1 plans: upload a photo of every meal you eat.</p>
           </div>
           <div className="mt-4 grid sm:grid-cols-[1fr_auto] gap-2 items-end">
             <div>

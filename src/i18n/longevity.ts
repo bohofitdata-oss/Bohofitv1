@@ -73,7 +73,7 @@ export const DICT: Record<Lang, Dict> = {
 
     "batch.eyebrow": "Same space. Your people.",
     "batch.title": "Dedicated 50+ batch timings.",
-    "batch.sub": "Mornings 6:30 to 9:30, evenings 4:30 to 8:30. Separate from the bootcamp crowd — same studio, your own community.",
+    "batch.sub": "Mornings 6:30 to 9:30, evenings 4:30 to 8:30. In your own dedicated slot, in your own community.",
 
     "slots.eyebrow": "Step 3 · Pick your hour",
     "slots.title": "Your dedicated time, Mon–Sat.",

@@ -11,7 +11,7 @@ type Slide = {
   title: string;
   tagline: string;
   image: string;
-  to: "/bohofit" | "/longevity" | "/booking";
+  to: "/bohofit" | "/longevity" | "/fiftyplus";
   cta: string;
 };
 

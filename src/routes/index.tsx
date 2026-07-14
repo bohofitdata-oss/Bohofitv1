@@ -135,3 +135,61 @@ function HeroPanel() {
     </section>
   );
 }
+
+/* ───────────────────────── 50+ FLAGSHIP ───────────────────────── */
+
+function FiftyPlusFlagship() {
+  return (
+    <section id="fifty-plus" className="relative rebel-glow border-t border-white/5">
+      <div className="container mx-auto px-5 py-20 md:py-28">
+        <div className="max-w-3xl">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "#89010A" }}>
+            Rebél at 50+ · 1:1
+          </p>
+          <h2
+            className="mt-4 font-black text-white"
+            style={{ fontSize: "clamp(32px, 6vw, 64px)", letterSpacing: "-0.03em", lineHeight: "1" }}
+          >
+            Strong.
+            <br />
+            <span className="italic" style={{ color: "#FF2233" }}>Steady. Independent.</span>
+          </h2>
+          <p className="mt-5 text-[15px] md:text-lg" style={{ color: "#CCCCCC" }}>
+            Our second flagship 1:1 programme — for people 50+ dealing with disc bulge,
+            knee, hip, shoulder, elbow or back pain, and post-injury recovery.
+            Doctor-cleared, machine-free, built around your body.
+          </p>
+        </div>
+
+        <div className="mt-8 grid md:grid-cols-3 gap-3 md:gap-4">
+          {[
+            { t: "Doctor-cleared", b: "Trained around your medical history and pain points." },
+            { t: "1:1 supervision", b: "One coach, one client — every session, every rep." },
+            { t: "No machines", b: "Joint-friendly strength you can carry into daily life." },
+          ].map((p) => (
+            <div key={p.t} className="rebel-card rounded-2xl p-5">
+              <p className="text-[11px] uppercase tracking-[0.22em] font-semibold" style={{ color: "#FF2233" }}>{p.t}</p>
+              <p className="mt-3 text-sm md:text-[15px]" style={{ color: "#CCCCCC" }}>{p.b}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 flex flex-wrap gap-3">
+          <Link
+            to="/fiftyplus"
+            className="inline-flex items-center justify-center rounded-full px-7 h-12 font-bold text-sm text-white transition-colors hover:opacity-90"
+            style={{ background: "#89010A" }}
+          >
+            Book my free consultation →
+          </Link>
+          <Link
+            to="/fiftyplus"
+            className="inline-flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/[0.06] px-6 h-12 font-bold text-sm transition-colors"
+          >
+            Explore Rebél at 50+
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}

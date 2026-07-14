@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LongevityRouteImport } from './routes/longevity'
+import { Route as FiftyplusRouteImport } from './routes/fiftyplus'
 import { Route as DietRouteImport } from './routes/diet'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CafeRouteImport } from './routes/cafe'
@@ -34,6 +35,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const LongevityRoute = LongevityRouteImport.update({
   id: '/longevity',
   path: '/longevity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FiftyplusRoute = FiftyplusRouteImport.update({
+  id: '/fiftyplus',
+  path: '/fiftyplus',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DietRoute = DietRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
+  '/fiftyplus': typeof FiftyplusRoute
   '/longevity': typeof LongevityRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/app/onboarding': typeof AppOnboardingRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
+  '/fiftyplus': typeof FiftyplusRoute
   '/longevity': typeof LongevityRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/app/onboarding': typeof AppOnboardingRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/cafe': typeof CafeRoute
   '/dashboard': typeof DashboardRoute
   '/diet': typeof DietRoute
+  '/fiftyplus': typeof FiftyplusRoute
   '/longevity': typeof LongevityRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/app/onboarding': typeof AppOnboardingRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/cafe'
     | '/dashboard'
     | '/diet'
+    | '/fiftyplus'
     | '/longevity'
     | '/privacy'
     | '/app/onboarding'
@@ -190,6 +200,7 @@ export interface FileRouteTypes {
     | '/cafe'
     | '/dashboard'
     | '/diet'
+    | '/fiftyplus'
     | '/longevity'
     | '/privacy'
     | '/app/onboarding'
@@ -208,6 +219,7 @@ export interface FileRouteTypes {
     | '/cafe'
     | '/dashboard'
     | '/diet'
+    | '/fiftyplus'
     | '/longevity'
     | '/privacy'
     | '/app/onboarding'
@@ -227,6 +239,7 @@ export interface RootRouteChildren {
   CafeRoute: typeof CafeRoute
   DashboardRoute: typeof DashboardRoute
   DietRoute: typeof DietRoute
+  FiftyplusRoute: typeof FiftyplusRoute
   LongevityRoute: typeof LongevityRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   FamilyTokenRoute: typeof FamilyTokenRoute
@@ -247,6 +260,13 @@ declare module '@tanstack/react-router' {
       path: '/longevity'
       fullPath: '/longevity'
       preLoaderRoute: typeof LongevityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fiftyplus': {
+      id: '/fiftyplus'
+      path: '/fiftyplus'
+      fullPath: '/fiftyplus'
+      preLoaderRoute: typeof FiftyplusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diet': {
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   CafeRoute: CafeRoute,
   DashboardRoute: DashboardRoute,
   DietRoute: DietRoute,
+  FiftyplusRoute: FiftyplusRoute,
   LongevityRoute: LongevityRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   FamilyTokenRoute: FamilyTokenRoute,

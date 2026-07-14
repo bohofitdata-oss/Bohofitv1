@@ -1,6 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export type BookingProgram = "bootcamp" | "group_classes" | "fifty_plus";
+export type BookingProgram = "group_classes" | "fifty_plus";
 
 export type SaveBookingInput = {
   name: string;

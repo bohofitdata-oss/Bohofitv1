@@ -61,7 +61,7 @@ function BohofitPage() {
     <SiteShell>
       <section className="container mx-auto px-5 pt-12 md:pt-20 pb-6 text-center">
         <Reveal>
-          <div className="flex justify-center mb-4"><ProgramSwitcher current="bohofit" /></div>
+          <div className="flex justify-center mb-4"><ProgramSwitcher current="group_classes" /></div>
           <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebél Group Classes · HSR Layout, Bangalore</p>
           <h1 className="mt-3 text-3xl md:text-6xl font-black tracking-tight">
             India's first <span className="text-gradient-gold">machine-free</span> fitness center.

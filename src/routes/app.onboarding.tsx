@@ -28,7 +28,8 @@ import {
 } from "@/lib/intake";
 
 export const Route = createFileRoute("/app/onboarding")({
-  validateSearch: (s: Record<string, unknown>) => ({ resume: s.resume === "1" || s.resume === "true" }),
+  validateSearch: (s: Record<string, unknown>): { resume?: boolean } =>
+    s.resume === "1" || s.resume === "true" ? { resume: true } : {},
   head: () => ({ meta: [{ title: "Start — REBÉL" }] }),
   component: Onboarding,
 });

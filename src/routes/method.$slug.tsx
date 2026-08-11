@@ -17,7 +17,7 @@ export const Route = createFileRoute("/method/$slug")({
       ],
     };
   },
-  loader: ({ params }) => {
+  loader: ({ params }): { chapter: (typeof METHOD_CHAPTERS)[number] } => {
     const chapter = METHOD_CHAPTERS.find((c) => c.slug === params.slug);
     if (!chapter) throw notFound();
     return { chapter };

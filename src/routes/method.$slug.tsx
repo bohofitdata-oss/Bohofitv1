@@ -17,10 +17,10 @@ export const Route = createFileRoute("/method/$slug")({
       ],
     };
   },
-  loader: ({ params }): { chapter: (typeof METHOD_CHAPTERS)[number] } => {
+  loader: ({ params }) => {
     const chapter = METHOD_CHAPTERS.find((c) => c.slug === params.slug);
     if (!chapter) throw notFound();
-    return { chapter };
+    return { slug: chapter.slug };
   },
   notFoundComponent: () => (
     <SiteShell>
@@ -34,8 +34,9 @@ export const Route = createFileRoute("/method/$slug")({
 });
 
 function ChapterPage() {
-  const { chapter } = Route.useLoaderData();
-  const idx = METHOD_CHAPTERS.findIndex((c) => c.slug === chapter.slug);
+  const { slug } = Route.useLoaderData() as { slug: string };
+  const idx = METHOD_CHAPTERS.findIndex((c) => c.slug === slug);
+  const chapter = METHOD_CHAPTERS[idx]!;
   const prev = idx > 0 ? METHOD_CHAPTERS[idx - 1] : null;
   const next = idx < METHOD_CHAPTERS.length - 1 ? METHOD_CHAPTERS[idx + 1] : null;
 

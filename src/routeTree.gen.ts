@@ -9,72 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as LongevityRouteImport } from './routes/longevity'
-import { Route as FiftyplusRouteImport } from './routes/fiftyplus'
-import { Route as DietRouteImport } from './routes/diet'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CafeRouteImport } from './routes/cafe'
-import { Route as BookingRouteImport } from './routes/booking'
-import { Route as BohofitRouteImport } from './routes/bohofit'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AppRouteImport } from './routes/app'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BohofitRouteImport } from './routes/bohofit'
+import { Route as BookingRouteImport } from './routes/booking'
+import { Route as CafeRouteImport } from './routes/cafe'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DietRouteImport } from './routes/diet'
+import { Route as FiftyplusRouteImport } from './routes/fiftyplus'
+import { Route as LongevityRouteImport } from './routes/longevity'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as MethodSlugRouteImport } from './routes/method.$slug'
-import { Route as LongevityMeRouteImport } from './routes/longevity.me'
-import { Route as FamilyTokenRouteImport } from './routes/family.$token'
 import { Route as AppOnboardingRouteImport } from './routes/app.onboarding'
+import { Route as FamilyTokenRouteImport } from './routes/family.$token'
+import { Route as LongevityMeRouteImport } from './routes/longevity.me'
+import { Route as MethodSlugRouteImport } from './routes/method.$slug'
 
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LongevityRoute = LongevityRouteImport.update({
-  id: '/longevity',
-  path: '/longevity',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FiftyplusRoute = FiftyplusRouteImport.update({
-  id: '/fiftyplus',
-  path: '/fiftyplus',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DietRoute = DietRouteImport.update({
-  id: '/diet',
-  path: '/diet',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CafeRoute = CafeRouteImport.update({
-  id: '/cafe',
-  path: '/cafe',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookingRoute = BookingRouteImport.update({
-  id: '/booking',
-  path: '/booking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BohofitRoute = BohofitRouteImport.update({
-  id: '/bohofit',
-  path: '/bohofit',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -82,9 +37,54 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BohofitRoute = BohofitRouteImport.update({
+  id: '/bohofit',
+  path: '/bohofit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingRoute = BookingRouteImport.update({
+  id: '/booking',
+  path: '/booking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CafeRoute = CafeRouteImport.update({
+  id: '/cafe',
+  path: '/cafe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DietRoute = DietRouteImport.update({
+  id: '/diet',
+  path: '/diet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FiftyplusRoute = FiftyplusRouteImport.update({
+  id: '/fiftyplus',
+  path: '/fiftyplus',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LongevityRoute = LongevityRouteImport.update({
+  id: '/longevity',
+  path: '/longevity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -92,9 +92,14 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
-const MethodSlugRoute = MethodSlugRouteImport.update({
-  id: '/method/$slug',
-  path: '/method/$slug',
+const AppOnboardingRoute = AppOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AppRoute,
+} as any)
+const FamilyTokenRoute = FamilyTokenRouteImport.update({
+  id: '/family/$token',
+  path: '/family/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LongevityMeRoute = LongevityMeRouteImport.update({
@@ -102,15 +107,10 @@ const LongevityMeRoute = LongevityMeRouteImport.update({
   path: '/me',
   getParentRoute: () => LongevityRoute,
 } as any)
-const FamilyTokenRoute = FamilyTokenRouteImport.update({
-  id: '/family/$token',
-  path: '/family/$token',
+const MethodSlugRoute = MethodSlugRouteImport.update({
+  id: '/method/$slug',
+  path: '/method/$slug',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppOnboardingRoute = AppOnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -248,74 +248,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/longevity': {
-      id: '/longevity'
-      path: '/longevity'
-      fullPath: '/longevity'
-      preLoaderRoute: typeof LongevityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/fiftyplus': {
-      id: '/fiftyplus'
-      path: '/fiftyplus'
-      fullPath: '/fiftyplus'
-      preLoaderRoute: typeof FiftyplusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/diet': {
-      id: '/diet'
-      path: '/diet'
-      fullPath: '/diet'
-      preLoaderRoute: typeof DietRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cafe': {
-      id: '/cafe'
-      path: '/cafe'
-      fullPath: '/cafe'
-      preLoaderRoute: typeof CafeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/booking': {
-      id: '/booking'
-      path: '/booking'
-      fullPath: '/booking'
-      preLoaderRoute: typeof BookingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bohofit': {
-      id: '/bohofit'
-      path: '/bohofit'
-      fullPath: '/bohofit'
-      preLoaderRoute: typeof BohofitRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -325,11 +262,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bohofit': {
+      id: '/bohofit'
+      path: '/bohofit'
+      fullPath: '/bohofit'
+      preLoaderRoute: typeof BohofitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/booking': {
+      id: '/booking'
+      path: '/booking'
+      fullPath: '/booking'
+      preLoaderRoute: typeof BookingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cafe': {
+      id: '/cafe'
+      path: '/cafe'
+      fullPath: '/cafe'
+      preLoaderRoute: typeof CafeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diet': {
+      id: '/diet'
+      path: '/diet'
+      fullPath: '/diet'
+      preLoaderRoute: typeof DietRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fiftyplus': {
+      id: '/fiftyplus'
+      path: '/fiftyplus'
+      fullPath: '/fiftyplus'
+      preLoaderRoute: typeof FiftyplusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/longevity': {
+      id: '/longevity'
+      path: '/longevity'
+      fullPath: '/longevity'
+      preLoaderRoute: typeof LongevityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -339,11 +339,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
-    '/method/$slug': {
-      id: '/method/$slug'
-      path: '/method/$slug'
-      fullPath: '/method/$slug'
-      preLoaderRoute: typeof MethodSlugRouteImport
+    '/app/onboarding': {
+      id: '/app/onboarding'
+      path: '/onboarding'
+      fullPath: '/app/onboarding'
+      preLoaderRoute: typeof AppOnboardingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/family/$token': {
+      id: '/family/$token'
+      path: '/family/$token'
+      fullPath: '/family/$token'
+      preLoaderRoute: typeof FamilyTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/longevity/me': {
@@ -353,19 +360,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LongevityMeRouteImport
       parentRoute: typeof LongevityRoute
     }
-    '/family/$token': {
-      id: '/family/$token'
-      path: '/family/$token'
-      fullPath: '/family/$token'
-      preLoaderRoute: typeof FamilyTokenRouteImport
+    '/method/$slug': {
+      id: '/method/$slug'
+      path: '/method/$slug'
+      fullPath: '/method/$slug'
+      preLoaderRoute: typeof MethodSlugRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/app/onboarding': {
-      id: '/app/onboarding'
-      path: '/onboarding'
-      fullPath: '/app/onboarding'
-      preLoaderRoute: typeof AppOnboardingRouteImport
-      parentRoute: typeof AppRoute
     }
   }
 }

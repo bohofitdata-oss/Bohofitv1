@@ -276,6 +276,7 @@ export type Database = {
           program: string
           status: string
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           age?: number | null
@@ -292,6 +293,7 @@ export type Database = {
           program: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           age?: number | null
@@ -308,6 +310,7 @@ export type Database = {
           program?: string
           status?: string
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }

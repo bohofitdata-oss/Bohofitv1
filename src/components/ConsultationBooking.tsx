@@ -98,9 +98,13 @@ export function ConsultationBooking({ program, problemAreas = [], eyebrow, headl
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
     const notes = (fd.get("notes") as string) || null;
     setLoading(true);
+    // Bind the request to the signed-in user (RLS allows only auth.uid() or NULL).
+    const { data: sessionData } = await supabase.auth.getSession();
+    const userId = sessionData.session?.user.id ?? null;
     const { data, error } = await supabase
       .from("consultations")
       .insert({
+        user_id: userId,
         program,
         full_name: parsed.data.full_name,
         phone: parsed.data.phone,

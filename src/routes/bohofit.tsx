@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
     meta: [
-      { title: "Rebél Group Classes — Start, Strength & Unlimited" },
-      { name: "description", content: "Three offline programs at HSR Bangalore. Rebél Start (beginners), Rebél Strength (advanced), and Rebél Unlimited (everything)." },
-      { property: "og:title", content: "Rebél Group Classes — Start, Strength & Unlimited" },
+      { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
+      { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 (Start) for beginners and comebacks, Level 2 (Strength) for trained bodies, Level 3 (Rebél One) for everything." },
+      { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
+
     ],
   }),
   component: BohofitPage,

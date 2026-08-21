@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "I'm a complete beginner. Where do I start?",
-    a: "Rebél Start. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Rebél Strength.",
+    a: "Level 1 (Rebél Start). Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Level 2 (Rebél Strength).",
   },
   {
     q: "Can I pause my membership?",

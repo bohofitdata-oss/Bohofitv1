@@ -19,10 +19,11 @@ const SLIDES: Slide[] = [
   {
     id: "group-classes",
     title: "Rebél Group Classes",
-    tagline: "Two paths, one studio — Start soft, then go Strong.",
+    tagline: "Three levels, one studio — start at Level 1, build to Level 3.",
     image: imgStart,
     to: "/bohofit",
-    cta: "See Start, Strength & One",
+    cta: "See Level 1, 2 & 3",
+
   },
   {
     id: "unpause",

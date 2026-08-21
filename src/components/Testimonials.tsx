@@ -20,7 +20,7 @@ const STORIES: Story[] = [
   {
     name: "Anand R.",
     age: 41,
-    program: "Rebél Strength · 6 months",
+    program: "Level 2 (Rebél Strength) · 6 months",
     result: "FIRST PULL-UP EVER",
     quote:
       "I joined to fix my back. Six months in I'm doing pull-ups and my BP medication is halved. Small batches, zero machines.",

@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "I'm a complete beginner. Where do I start?",
-    a: "Rebél Start. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Rebél Strength.",
+    a: "Level 1 (Rebél Start). Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Level 2 (Rebél Strength).",
   },
   {
     q: "Can I pause my membership?",
@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     q: "Can I switch between programs?",
-    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Start to Strength or into Rebél One anytime.",
+    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Level 1 to Level 2, or into Level 3 (Rebél One), anytime.",
   },
   {
     q: "Where are you located?",

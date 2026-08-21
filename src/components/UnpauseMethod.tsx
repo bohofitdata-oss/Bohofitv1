@@ -65,7 +65,7 @@ function WhatWeOffer() {
       label: "01 · Group Classes",
       title: "GROUP CLASSES",
       line: "Where strength becomes a habit.",
-      body: "Small-group, machine-free, coach-led. Rebél Start → Rebél Strength.",
+      body: "Small-group, machine-free, coach-led. Level 1 (Start) → Level 2 (Strength) → Level 3 (Rebél One).",
       to: "/bohofit" as const,
       cta: "See group classes",
     },

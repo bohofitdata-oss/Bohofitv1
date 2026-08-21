@@ -17,7 +17,7 @@ export const Route = createFileRoute("/booking")({
   head: () => ({
     meta: [
       { title: "Join Rebél Group Classes" },
-      { name: "description", content: "Book your spot in Rebél Group Classes — Start, Group Training, Strength." },
+      { name: "description", content: "Book your spot in Rebél Group Classes — Level 1 (Start), Level 2 (Strength), Level 3 (Rebél One)." },
     ],
   }),
   component: BookingPage,

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const FAQS: { q: string; a: string }[] = [
   { q: "What does machine-free mean?", a: "We train using bodyweight, resistance bands, kettlebells, and functional movement. No treadmills. No machines. Just you, your coach, and real effort." },
-  { q: "What if I have never exercised before?", a: "Start with Rebél Start — built for absolute beginners and comeback journeys." },
+  { q: "What if I have never exercised before?", a: "Start at Level 1 (Rebél Start) — built for absolute beginners and comeback journeys." },
   { q: "What is the Rebél guarantee?", a: "Follow the plan and you will see results. If you don't, we work with you for free until you do." },
   { q: "Can I train from home?", a: "Yes. Unpause and Rebél at 50+ 1:1 sessions can run online or at home with a live coach." },
   { q: "How does the membership pause work?", a: "Minimum 2 days. Your end date extends automatically." },

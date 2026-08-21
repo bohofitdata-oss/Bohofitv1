@@ -30,7 +30,7 @@ const FAQS = [
   },
   {
     q: "Can I switch between programs?",
-    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Start to Strength or into Rebél One anytime.",
+    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Level 1 to Level 2, or into Level 3 (Rebél One), anytime.",
   },
   {
     q: "Where are you located?",

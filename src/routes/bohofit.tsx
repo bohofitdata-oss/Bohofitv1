@@ -10,9 +10,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
     meta: [
-      { title: "Rebél Group Classes — Start, Strength & Unlimited" },
-      { name: "description", content: "Three offline programs at HSR Bangalore. Rebél Start (beginners), Rebél Strength (advanced), and Rebél Unlimited (everything)." },
-      { property: "og:title", content: "Rebél Group Classes — Start, Strength & Unlimited" },
+      { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
+      { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 (Start) for beginners and comebacks, Level 2 (Strength) for trained bodies, Level 3 (Rebél One) for everything." },
+      { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
+
     ],
   }),
   component: BohofitPage,
@@ -47,9 +48,10 @@ const unlimitedPlans: Plan[] = [
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: "Rebél Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Rebél Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Rebél One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  start: { name: "Level 1 (Rebél Start)", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
+  strength: { name: "Level 2 (Rebél Strength)", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats. Not suitable for beginners.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Level 3 (Rebél One)", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Level 1 + Level 2, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+
 };
 
 function BohofitPage() {

@@ -10,7 +10,7 @@ const FAQS: { q: string; a: string }[] = [
   { q: "What is the Rebél guarantee?", a: "Follow the plan and you will see results. If you don't, we work with you for free until you do." },
   { q: "Can I train from home?", a: "Yes. Unpause and Rebél at 50+ 1:1 sessions can run online or at home with a live coach." },
   { q: "How does the membership pause work?", a: "Minimum 2 days. Your end date extends automatically." },
-  { q: "Is there a free trial?", a: "One free class for Rebél Start and Rebél Group Training. Unpause and Rebél at 50+ start with a free 30-minute 1:1 consultation." },
+  { q: "Is there a free trial?", a: "One free class at Level 1 (Rebél Start). Unpause and Rebél at 50+ start with a free 30-minute 1:1 consultation." },
   { q: "Do I have to upload meal photos?", a: "Unpause and Rebél at 50+ members upload meal photos so their coach can adjust nutrition." },
   { q: "How quickly will I see results?", a: "Most members feel different in 2 weeks. Visible changes by week 6–8." },
   { q: "Is Rebél only in Bangalore?", a: "Studio is in HSR Layout, Bangalore. Online programs available anywhere in India." },

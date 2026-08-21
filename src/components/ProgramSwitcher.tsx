@@ -7,7 +7,7 @@ type ProgramKey = "unpause" | "fifty_plus" | "group_classes";
 const PROGRAMS: { key: ProgramKey; to: "/longevity" | "/fiftyplus" | "/bohofit"; name: string; tag: string }[] = [
   { key: "unpause", to: "/longevity", name: "Rebél Unpause", tag: "1:1 · Perimenopause & menopause" },
   { key: "fifty_plus", to: "/fiftyplus", name: "Rebél at 50+", tag: "1:1 · Joints, mobility, recovery" },
-  { key: "group_classes", to: "/bohofit", name: "Group Classes", tag: "Start · Group Training · Strength" },
+  { key: "group_classes", to: "/bohofit", name: "Group Classes", tag: "Level 1 · Level 2 · Level 3" },
 ];
 
 export function ProgramSwitcher({ current }: { current?: ProgramKey }) {

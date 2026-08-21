@@ -48,9 +48,10 @@ const unlimitedPlans: Plan[] = [
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: "Rebél Start", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Rebél Strength", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Rebél One", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Start + Strength, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  start: { name: "Level 1 (Rebél Start)", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
+  strength: { name: "Level 2 (Rebél Strength)", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats. Not suitable for beginners.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: "Level 3 (Rebél One)", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Level 1 + Level 2, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+
 };
 
 function BohofitPage() {

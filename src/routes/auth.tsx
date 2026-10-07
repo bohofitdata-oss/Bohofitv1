@@ -24,7 +24,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const dest = next && next.startsWith("/") ? next : "/dashboard";
+  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +46,7 @@ function AuthPage() {
   const onGoogle = async () => {
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/dashboard",
+      redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
     });
     if (result.error) {
       setLoading(false);
@@ -63,7 +63,7 @@ function AuthPage() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          emailRedirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
           data: { full_name: name },
         },
       });

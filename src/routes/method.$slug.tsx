@@ -10,10 +10,12 @@ export const Route = createFileRoute("/method/$slug")({
     const desc = chapter?.subtitle ?? "The Rebél training method.";
     return {
       meta: [
-        { title },
+        { title: title },
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:type", content: "article" },
+        { name: "twitter:card", content: "summary" },
       ],
     };
   },

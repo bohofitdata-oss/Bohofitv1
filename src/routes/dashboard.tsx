@@ -19,7 +19,16 @@ import { FamilyInvitesCard } from "@/components/FamilyInvitesCard";
 import { CoachQueueCard } from "@/components/CoachQueueCard";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Your dashboard — Rebél" }] }),
+  head: () => ({
+    meta: [
+      { title: "Your dashboard — Rebél" },
+      { name: "description", content: "Review your Rebél membership, training progress, and next steps." },
+      { property: "og:title", content: "Your dashboard — Rebél" },
+      { property: "og:description", content: "Review your Rebél membership, training progress, and next steps." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: DashboardPage,
 });
 

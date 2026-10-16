@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { flushSync } from "react-dom";
 import { useState } from "react";
+import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Flame, Infinity as InfinityIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/bohofit")({
   head: () => ({
@@ -13,7 +16,9 @@ export const Route = createFileRoute("/bohofit")({
       { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
       { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 (Start) for beginners and comebacks, Level 2 (Strength) for trained bodies, Level 3 (Rebél One) for everything." },
       { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-
+      { property: "og:description", content: "Three levels of machine-free group training at HSR Bangalore. Choose Level 1 (Start), Level 2 (Strength), or Level 3 (Rebél One)." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: BohofitPage,
@@ -57,6 +62,37 @@ const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.Compone
 function BohofitPage() {
   const [tab, setTab] = useState<Tab>("start");
   const meta = TAB_META[tab];
+  const selectTab = (next: Tab) => {
+    if (!Object.hasOwn(TAB_META, next)) throw new Error("Choose one of the available Rebél class levels.");
+    setTab(next);
+  };
+
+  useWebMCP({
+    name: "get_class_level_details",
+    description: "Read the class level, formats, and package prices currently shown.",
+    annotations: { readOnlyHint: true },
+    execute: (_args: Record<string, never>, { signal }) => runWebMCPTool("get_class_level_details", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
+      return `${meta.name}: ${meta.tagline} Formats: ${meta.formats.join(", ")}. Packages: ${meta.plans.map((plan) => `${plan.months} ${plan.price}`).join(", ")}.`;
+    }),
+  });
+
+  useWebMCP({
+    name: "select_class_level",
+    description: "Show the selected Rebél group class level and its available formats and prices.",
+    inputSchema: {
+      type: "object",
+      properties: { level: { type: "string", enum: Object.keys(TAB_META), description: "Level key: start, strength, or unlimited." } },
+      required: ["level"],
+    },
+    execute: ({ level }: { level: string }, { signal }) => runWebMCPTool("select_class_level", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
+      if (typeof level !== "string" || !Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
+      flushSync(() => selectTab(level as Tab));
+      const selected = TAB_META[level as Tab];
+      return `Showing ${selected.name}. Formats: ${selected.formats.join(", ")}.`;
+    }),
+  });
 
 
   return (
@@ -83,7 +119,8 @@ function BohofitPage() {
             return (
               <button
                 key={t}
-                onClick={() => setTab(t)}
+                onClick={() => selectTab(t)}
+                aria-pressed={active}
                 className={cn(
                   "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold border transition-colors",
                   active ? "bg-gradient-gold text-primary-foreground border-transparent" : "border-border bg-card hover:border-primary",

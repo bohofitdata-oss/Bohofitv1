@@ -9,7 +9,7 @@ export default defineTool({
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) throw new ToolError("Sign in to browse Rebél programs.");
-    const { data, error } = await supabaseForUser(ctx)
+    const { data, error } = await (await supabaseForUser(ctx))
       .from("programs")
       .select("slug, title, description, duration_weeks, path")
       .eq("active", true)
@@ -22,8 +22,13 @@ export default defineTool({
       durationWeeks: program.duration_weeks,
       path: program.path,
     }));
+    const summary = programs.length
+      ? programs.map(({ title, durationWeeks, description }) =>
+          `${title}${durationWeeks ? ` · ${durationWeeks} weeks` : ""}${description ? ` — ${description}` : ""}`,
+        ).join("\n")
+      : "No active Rebél programs are listed right now.";
     return {
-      content: [{ type: "text", text: JSON.stringify({ programs }) }],
+      content: [{ type: "text", text: summary }],
       structuredContent: { programs },
     };
   },

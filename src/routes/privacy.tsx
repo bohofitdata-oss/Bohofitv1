@@ -6,6 +6,10 @@ export const Route = createFileRoute("/privacy")({
     meta: [
       { title: "Privacy — REBÉL" },
       { name: "description", content: "How REBÉL handles your personal and health data." },
+      { property: "og:title", content: "Privacy — REBÉL" },
+      { property: "og:description", content: "How REBÉL handles your personal and health data." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PrivacyPage,

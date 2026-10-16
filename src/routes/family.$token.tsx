@@ -7,6 +7,11 @@ export const Route = createFileRoute("/family/$token")({
   head: () => ({
     meta: [
       { title: "Rebél — Family progress" },
+      { name: "description", content: "View the family progress shared with you by Rebél." },
+      { property: "og:title", content: "Rebél — Family progress" },
+      { property: "og:description", content: "View the family progress shared with you by Rebél." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

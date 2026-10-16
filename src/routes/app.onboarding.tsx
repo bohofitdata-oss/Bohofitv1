@@ -30,7 +30,16 @@ import {
 export const Route = createFileRoute("/app/onboarding")({
   validateSearch: (s: Record<string, unknown>): { resume?: boolean } =>
     s.resume === "1" || s.resume === "true" ? { resume: true } : {},
-  head: () => ({ meta: [{ title: "Start — REBÉL" }] }),
+  head: () => ({
+    meta: [
+      { title: "Start — REBÉL" },
+      { name: "description", content: "Share your goals and training needs to shape your Rebél member plan." },
+      { property: "og:title", content: "Start — REBÉL" },
+      { property: "og:description", content: "Share your goals and training needs to shape your Rebél member plan." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Onboarding,
 });
 

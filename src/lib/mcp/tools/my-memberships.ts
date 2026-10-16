@@ -10,7 +10,7 @@ export default defineTool({
   handler: async (_input, ctx) => {
     const userId = ctx.getUserId();
     if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your memberships.");
-    const { data, error } = await supabaseForUser(ctx)
+    const { data, error } = await (await supabaseForUser(ctx))
       .from("memberships")
       .select("program, tier, delivery, start_date, end_date, status, pause_balance_days")
       .eq("user_id", userId)
@@ -25,8 +25,13 @@ export default defineTool({
       status: membership.status,
       pauseBalanceDays: membership.pause_balance_days,
     }));
+    const summary = memberships.length
+      ? memberships.map(({ program, tier, status, startDate, endDate }) =>
+          `${program}${tier ? ` · ${tier}` : ""} · ${status}${startDate ? ` · started ${startDate}` : ""}${endDate ? ` · ends ${endDate}` : ""}`,
+        ).join("\n")
+      : "No Rebél memberships found.";
     return {
-      content: [{ type: "text", text: JSON.stringify({ memberships }) }],
+      content: [{ type: "text", text: summary }],
       structuredContent: { memberships },
     };
   },

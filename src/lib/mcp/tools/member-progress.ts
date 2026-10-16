@@ -8,11 +8,11 @@ export default defineTool({
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {
-    if (!ctx.isAuthenticated() || !ctx.getUserId()) throw new ToolError("Sign in to view your progress.");
     const userId = ctx.getUserId();
-    const supabase = supabaseForUser(ctx);
+    if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your progress.");
+    const supabase = await supabaseForUser(ctx);
     const [profileResult, progressResult, streakResult, milestonesResult] = await Promise.all([
-      supabase.from("profiles").select("full_name, current_level").eq("id", userId).maybeSingle(),
+      supabase.from("profiles").select("current_level").eq("id", userId).maybeSingle(),
       supabase.from("member_progress").select("score, sessions_lifetime, next_step, next_milestone, progress_to_next_level").eq("user_id", userId).maybeSingle(),
       supabase.from("member_streaks").select("current_streak, longest_streak, weeks_consistent, last_attended_date").eq("user_id", userId).maybeSingle(),
       supabase.from("member_milestones").select("milestone_id, earned_at").eq("user_id", userId).order("earned_at", { ascending: false }),
@@ -27,7 +27,7 @@ export default defineTool({
     const titlesById = new Map((milestoneResult.data ?? []).map((item) => [item.id, item]));
     const result = {
       profile: profileResult.data
-        ? { name: profileResult.data.full_name, level: profileResult.data.current_level }
+        ? { level: profileResult.data.current_level }
         : null,
       progress: progressResult.data
         ? {
@@ -51,8 +51,19 @@ export default defineTool({
         return definition ? [{ title: definition.title, description: definition.description, earnedAt: item.earned_at }] : [];
       }),
     };
+    const summary = [
+      result.profile?.level ? `Rebél level: ${result.profile.level}.` : null,
+      result.progress?.score !== null && result.progress?.score !== undefined
+        ? `Progress score: ${result.progress.score}.`
+        : null,
+      result.progress?.nextStep ? `Next step: ${result.progress.nextStep}.` : null,
+      result.streak ? `Current training streak: ${result.streak.current}.` : null,
+      result.milestones.length
+        ? `Earned milestones: ${result.milestones.map(({ title }) => title).join(", ")}.`
+        : "No earned milestones yet.",
+    ].filter(Boolean).join(" ");
     return {
-      content: [{ type: "text", text: JSON.stringify(result) }],
+      content: [{ type: "text", text: summary || "Your progress details are not available yet." }],
       structuredContent: result,
     };
   },

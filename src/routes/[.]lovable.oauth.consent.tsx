@@ -2,7 +2,6 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/.lovable/oauth/consent")({
   ssr: false,
@@ -13,7 +12,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     if (!search.authorization_id) throw new Error("This connection request is missing its authorization details.");
     const { data } = await supabase.auth.getSession();
     if (!data.session) {
-      const next = `${location.pathname}${location.searchStr}`;
+      const next = `${location.pathname}${location.searchStr}${location.hash}`;
       throw redirect({ to: "/auth", search: { next } });
     }
   },
@@ -26,6 +25,16 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     return data;
   },
   component: ConsentPage,
+  errorComponent: ({ error }) => (
+    <main className="min-h-screen bg-background px-5 py-16 text-foreground">
+      <section className="mx-auto max-w-lg rounded-xl border border-border bg-card p-7">
+        <h1 className="text-2xl font-bold">Could not load this connection request</h1>
+        <p className="mt-3 text-sm text-muted-foreground" role="alert">
+          {error instanceof Error ? error.message : "This request may have expired. Start the connection again from the app."}
+        </p>
+      </section>
+    </main>
+  ),
   head: () => ({
     meta: [
       { title: "Connect an app — Rebél" },
@@ -49,15 +58,24 @@ function ConsentPage() {
   const decide = async (approve: boolean) => {
     setBusy(true);
     setError(null);
-    const result = approve
-      ? await supabase.auth.oauth.approveAuthorization(authorizationId, { skipBrowserRedirect: true })
-      : await supabase.auth.oauth.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
-    setBusy(false);
-    if (result.error) {
-      setError(result.error.message);
-      return;
+    try {
+      const result = approve
+        ? await supabase.auth.oauth.approveAuthorization(authorizationId, { skipBrowserRedirect: true })
+        : await supabase.auth.oauth.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
+      if (result.error) {
+        setError(result.error.message);
+        return;
+      }
+      if (!result.data.redirect_url) {
+        setError("The authorization server did not return a destination. Start the connection again.");
+        return;
+      }
+      window.location.assign(result.data.redirect_url);
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : "Could not update this connection request.");
+    } finally {
+      setBusy(false);
     }
-    window.location.assign(result.data.redirect_url);
   };
 
   return (

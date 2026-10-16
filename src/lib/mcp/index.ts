@@ -6,7 +6,7 @@ import myMembershipsTool from "./tools/my-memberships";
 const projectRef = import.meta.env["VITE_SUPABASE_PROJECT_ID"] ?? "project-ref-unset";
 
 export default defineMcp({
-  name: "rebél-wellness-club",
+  name: "reb-l-wellness-club",
   title: "REBÉL Wellness Club",
   version: "0.1.0",
   instructions:

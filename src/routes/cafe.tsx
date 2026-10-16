@@ -9,6 +9,10 @@ export const Route = createFileRoute("/cafe")({
     meta: [
       { title: "Rebél Café — Food that fuels your workouts" },
       { name: "description", content: "Macro-tagged breakfast, lunch & dinner bowls plus monthly meal subscriptions at Rebél Café." },
+      { property: "og:title", content: "Rebél Café — Food that fuels your workouts" },
+      { property: "og:description", content: "Macro-tagged breakfast, lunch & dinner bowls plus monthly meal subscriptions at Rebél Café." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: CafePage,

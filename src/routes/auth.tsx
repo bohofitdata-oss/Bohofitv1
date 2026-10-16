@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { Mail } from "lucide-react";
+import { oauthReturnPath } from "@/lib/oauth-return-path";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): { next?: string } =>
@@ -16,6 +17,10 @@ export const Route = createFileRoute("/auth")({
     meta: [
       { title: "Sign in — Rebél" },
       { name: "description", content: "Sign in to your Rebél account with Google, email or your mobile number." },
+      { property: "og:title", content: "Sign in — Rebél" },
+      { property: "og:description", content: "Sign in to your Rebél account with Google, email or your mobile number." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,
@@ -24,7 +29,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+  const dest = oauthReturnPath(next);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -35,22 +40,27 @@ function AuthPage() {
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: dest });
+      if (session) navigate({ href: dest });
     });
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: dest });
+      if (data.session) navigate({ href: dest });
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate, dest]);
 
   const onGoogle = async () => {
     setLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
-    });
-    if (result.error) {
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: new URL(dest, window.location.origin).href,
+      });
+      if (result.error) {
+        setLoading(false);
+        toast.error(result.error.message ?? "Could not sign in with Google");
+      }
+    } catch (failure) {
       setLoading(false);
-      toast.error(result.error.message ?? "Could not sign in with Google");
+      toast.error(failure instanceof Error ? failure.message : "Could not sign in with Google");
     }
     // if redirected, browser navigates away
   };
@@ -63,7 +73,7 @@ function AuthPage() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
+          emailRedirectTo: new URL(dest, window.location.origin).href,
           data: { full_name: name },
         },
       });
@@ -74,6 +84,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
       if (error) return toast.error(error.message);
+      await navigate({ href: dest });
     }
   };
 

@@ -32,7 +32,7 @@ function UnpausePage() {
   useWebMCP({
     name: "open_unpause_consultation",
     description: "Move to the Rebél Unpause free consultation booking section.",
-    annotations: { readOnlyHint: false, idempotentHint: true },
+    annotations: { readOnlyHint: false },
     execute: (_args: Record<string, never>, { signal }) => runWebMCPTool("open_unpause_consultation", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
       const bookingSection = document.getElementById("book");

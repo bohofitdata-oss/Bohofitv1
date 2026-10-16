@@ -5,14 +5,14 @@ export function oauthReturnPath(value: unknown): string {
     value.startsWith("//") ||
     /[\\\u0000-\u001f\u007f]/.test(value)
   ) {
-    return "/dashboard";
+    return "/";
   }
   const origin = "https://app.invalid";
   try {
     const target = new URL(value, origin);
-    if (target.origin !== origin || target.pathname.startsWith("//")) return "/dashboard";
+    if (target.origin !== origin || target.pathname.startsWith("//")) return "/";
     return target.pathname + target.search + target.hash;
   } catch {
-    return "/dashboard";
+    return "/";
   }
 }

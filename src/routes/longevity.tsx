@@ -15,6 +15,8 @@ export const Route = createFileRoute("/longevity")({
       { name: "description", content: "Doctor-cleared 1:1 strength training built for perimenopause and menopause. Free 30-min consultation — no payment required." },
       { property: "og:title", content: "Rebél Unpause — 1:1 for the hormonal transition" },
       { property: "og:description", content: "Doctor-cleared strength training for the perimenopause & menopause transition. Free consultation." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: UnpausePage,

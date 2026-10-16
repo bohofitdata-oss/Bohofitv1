@@ -5,7 +5,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/app/")({
-  head: () => ({ meta: [{ title: "Today — REBÉL" }] }),
+  head: () => ({
+    meta: [
+      { title: "Today — REBÉL" },
+      { name: "description", content: "Your Rebél member home and next training step." },
+      { property: "og:title", content: "Today — REBÉL" },
+      { property: "og:description", content: "Your Rebél member home and next training step." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AppHome,
 });
 

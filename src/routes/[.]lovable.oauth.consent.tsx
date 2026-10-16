@@ -2,7 +2,6 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 
 export const Route = createFileRoute("/.lovable/oauth/consent")({
   ssr: false,
@@ -59,15 +58,24 @@ function ConsentPage() {
   const decide = async (approve: boolean) => {
     setBusy(true);
     setError(null);
-    const result = approve
-      ? await supabase.auth.oauth.approveAuthorization(authorizationId, { skipBrowserRedirect: true })
-      : await supabase.auth.oauth.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
-    setBusy(false);
-    if (result.error) {
-      setError(result.error.message);
-      return;
+    try {
+      const result = approve
+        ? await supabase.auth.oauth.approveAuthorization(authorizationId, { skipBrowserRedirect: true })
+        : await supabase.auth.oauth.denyAuthorization(authorizationId, { skipBrowserRedirect: true });
+      if (result.error) {
+        setError(result.error.message);
+        return;
+      }
+      if (!result.data.redirect_url) {
+        setError("The authorization server did not return a destination. Start the connection again.");
+        return;
+      }
+      window.location.assign(result.data.redirect_url);
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : "Could not update this connection request.");
+    } finally {
+      setBusy(false);
     }
-    window.location.assign(result.data.redirect_url);
   };
 
   return (

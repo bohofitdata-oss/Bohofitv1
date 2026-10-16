@@ -24,6 +24,8 @@ export const Route = createFileRoute("/")({
       { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, Rebél Unpause, fitness 50+, gym alternative" },
       { property: "og:title", content: "Rebél — Fitness That Doesn't Quit on You" },
       { property: "og:description", content: "Built for the 90% who quit gyms in 90 days. Coach-led. Progression-based. Zero machines. One Rebél community." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Home,
@@ -41,17 +43,18 @@ function Home() {
       },
       required: ["offering"],
     },
-    execute: ({ offering }: { offering: string }) =>
+    execute: ({ offering }: { offering: string }, { signal }) =>
       runWebMCPTool("open_rebel_offering", async () => {
+        if (signal.aborted) throw new Error("Request cancelled.");
         if (!["group_classes", "unpause", "fifty_plus"].includes(offering)) {
           throw new Error("Choose one of the Rebél offerings shown on this page.");
         }
-        const route = {
+        const route: Record<string, string> = {
           group_classes: "/bohofit",
           unpause: "/longevity",
           fifty_plus: "/fiftyplus",
-        } as const;
-        await navigate({ to: route[offering as keyof typeof route] });
+        };
+        await navigate({ href: route[offering] });
         return `Opened ${offering.replaceAll("_", " ")}.`;
       }),
   });

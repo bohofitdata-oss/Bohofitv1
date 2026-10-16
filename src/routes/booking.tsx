@@ -18,6 +18,10 @@ export const Route = createFileRoute("/booking")({
     meta: [
       { title: "Join Rebél Group Classes" },
       { name: "description", content: "Book your spot in Rebél Group Classes — Level 1 (Start), Level 2 (Strength), Level 3 (Rebél One)." },
+      { property: "og:title", content: "Join Rebél Group Classes" },
+      { property: "og:description", content: "Book your spot in Rebél Group Classes — Level 1 (Start), Level 2 (Strength), Level 3 (Rebél One)." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: BookingPage,

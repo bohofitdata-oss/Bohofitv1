@@ -15,7 +15,9 @@ export const Route = createFileRoute("/bohofit")({
       { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
       { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 (Start) for beginners and comebacks, Level 2 (Strength) for trained bodies, Level 3 (Rebél One) for everything." },
       { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-
+      { property: "og:description", content: "Three levels of machine-free group training at HSR Bangalore. Choose Level 1 (Start), Level 2 (Strength), or Level 3 (Rebél One)." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: BohofitPage,
@@ -82,7 +84,8 @@ function BohofitPage() {
       properties: { level: { type: "string", enum: Object.keys(TAB_META), description: "Level key: start, strength, or unlimited." } },
       required: ["level"],
     },
-    execute: ({ level }: { level: string }) => runWebMCPTool("select_class_level", () => {
+    execute: ({ level }: { level: string }, { signal }) => runWebMCPTool("select_class_level", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
       if (typeof level !== "string" || !Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
       selectTab(level as Tab);
       const selected = TAB_META[level as Tab];

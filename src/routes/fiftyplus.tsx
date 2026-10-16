@@ -16,6 +16,8 @@ export const Route = createFileRoute("/fiftyplus")({
       { name: "description", content: "1:1 machine-free strength training for people 50+ dealing with back, knee, hip, shoulder pain or post-injury recovery. Free consultation." },
       { property: "og:title", content: "Rebél at 50+ — Built around your body" },
       { property: "og:description", content: "1:1 training for joint pain, mobility limits and post-injury recovery. Doctor-cleared. Free consultation." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: FiftyPlusPage,

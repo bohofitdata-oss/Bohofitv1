@@ -28,7 +28,16 @@ import jsPDF from "jspdf";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/longevity/me")({
-  head: () => ({ meta: [{ title: "My Rebél at 50+ — Member" }] }),
+  head: () => ({
+    meta: [
+      { title: "My Rebél at 50+ — Member" },
+      { name: "description", content: "Review your Rebél at 50+ training plan, progress, and care details." },
+      { property: "og:title", content: "My Rebél at 50+ — Member" },
+      { property: "og:description", content: "Review your Rebél at 50+ training plan, progress, and care details." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: MyLongevityPage,
 });
 

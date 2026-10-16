@@ -17,6 +17,10 @@ export const Route = createFileRoute("/auth")({
     meta: [
       { title: "Sign in — Rebél" },
       { name: "description", content: "Sign in to your Rebél account with Google, email or your mobile number." },
+      { property: "og:title", content: "Sign in — Rebél" },
+      { property: "og:description", content: "Sign in to your Rebél account with Google, email or your mobile number." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,

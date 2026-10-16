@@ -83,7 +83,7 @@ function BohofitPage() {
       required: ["level"],
     },
     execute: ({ level }: { level: string }) => runWebMCPTool("select_class_level", () => {
-      if (!Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
+      if (typeof level !== "string" || !Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
       selectTab(level as Tab);
       const selected = TAB_META[level as Tab];
       return `Showing ${selected.name}. Formats: ${selected.formats.join(", ")}.`;

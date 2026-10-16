@@ -41,14 +41,17 @@ function Home() {
       },
       required: ["offering"],
     },
-    execute: ({ offering }: { offering: "group_classes" | "unpause" | "fifty_plus" }) =>
+    execute: ({ offering }: { offering: string }) =>
       runWebMCPTool("open_rebel_offering", async () => {
+        if (!["group_classes", "unpause", "fifty_plus"].includes(offering)) {
+          throw new Error("Choose one of the Rebél offerings shown on this page.");
+        }
         const route = {
           group_classes: "/bohofit",
           unpause: "/longevity",
           fifty_plus: "/fiftyplus",
         } as const;
-        await navigate({ to: route[offering] });
+        await navigate({ to: route[offering as keyof typeof route] });
         return `Opened ${offering.replaceAll("_", " ")}.`;
       }),
   });

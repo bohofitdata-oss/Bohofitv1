@@ -8,8 +8,8 @@ export default defineTool({
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {
-    if (!ctx.isAuthenticated() || !ctx.getUserId()) throw new ToolError("Sign in to view your progress.");
     const userId = ctx.getUserId();
+    if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your progress.");
     const supabase = supabaseForUser(ctx);
     const [profileResult, progressResult, streakResult, milestonesResult] = await Promise.all([
       supabase.from("profiles").select("full_name, current_level").eq("id", userId).maybeSingle(),

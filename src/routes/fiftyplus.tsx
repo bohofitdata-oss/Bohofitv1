@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/fiftyplus")({
   head: () => ({
@@ -43,6 +45,31 @@ function FiftyPlusPage() {
 
   const toggle = (p: string) =>
     setSelected((s) => (s.includes(p) ? s.filter((x) => x !== p) : [...s, p]));
+
+  useWebMCP({
+    name: "get_50plus_focus",
+    description: "Read the currently selected Rebél at 50+ training focus areas.",
+    annotations: { readOnlyHint: true },
+    execute: (_args: Record<string, never>, { signal }) => runWebMCPTool("get_50plus_focus", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
+      return selected.length ? `Selected focus areas: ${selected.join(", ")}.` : "No focus areas selected.";
+    }),
+  });
+
+  useWebMCP({
+    name: "toggle_50plus_focus",
+    description: "Select or clear one of the visible Rebél at 50+ focus areas.",
+    inputSchema: {
+      type: "object",
+      properties: { problem: { type: "string", enum: PROBLEMS, description: "Focus area to toggle." } },
+      required: ["problem"],
+    },
+    execute: ({ problem }: { problem: string }) => runWebMCPTool("toggle_50plus_focus", () => {
+      if (!PROBLEMS.includes(problem)) throw new Error("Choose one of the focus areas shown on this page.");
+      toggle(problem);
+      return `Updated focus area: ${problem}.`;
+    }),
+  });
 
   return (
     <SiteShell>

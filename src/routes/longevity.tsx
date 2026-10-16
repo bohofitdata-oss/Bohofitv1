@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
 import { HeartPulse, Check } from "lucide-react";
 import heroLoop from "../../public/longevity-hero-loop.mp4.asset.json";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/longevity")({
   head: () => ({
@@ -27,6 +29,18 @@ const INCLUSIONS = [
 ];
 
 function UnpausePage() {
+  useWebMCP({
+    name: "open_unpause_consultation",
+    description: "Move to the Rebél Unpause free consultation booking section.",
+    annotations: { readOnlyHint: false, idempotentHint: true },
+    execute: (_args: Record<string, never>, { signal }) => runWebMCPTool("open_unpause_consultation", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
+      const bookingSection = document.getElementById("book");
+      if (!bookingSection) throw new Error("The consultation section is unavailable.");
+      bookingSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      return "Moved to the Rebél Unpause consultation booking section.";
+    }),
+  });
   return (
     <SiteShell>
       {/* HERO */}

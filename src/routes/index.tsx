@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
 import { Testimonials } from "@/components/Testimonials";
 import { LocationSection } from "@/components/LocationSection";
@@ -13,6 +14,7 @@ import { RebelMethod } from "@/components/RebelMethod";
 import { RebelJourney } from "@/components/RebelJourney";
 
 import imgStudio from "@/assets/rebel-studio-red.jpg";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,6 +30,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const navigate = useNavigate();
+  useWebMCP({
+    name: "open_rebel_offering",
+    description: "Open one of the Rebél offerings shown on this page.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        offering: { type: "string", enum: ["group_classes", "unpause", "fifty_plus"], description: "The offering to open." },
+      },
+      required: ["offering"],
+    },
+    execute: ({ offering }: { offering: "group_classes" | "unpause" | "fifty_plus" }) =>
+      runWebMCPTool("open_rebel_offering", async () => {
+        const route = {
+          group_classes: "/bohofit",
+          unpause: "/longevity",
+          fifty_plus: "/fiftyplus",
+        } as const;
+        await navigate({ to: route[offering] });
+        return `Opened ${offering.replaceAll("_", " ")}.`;
+      }),
+  });
   return (
     <SiteShell>
       <HeroPanel />

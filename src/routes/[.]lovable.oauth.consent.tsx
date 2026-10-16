@@ -26,6 +26,16 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     return data;
   },
   component: ConsentPage,
+  errorComponent: ({ error }) => (
+    <main className="min-h-screen bg-background px-5 py-16 text-foreground">
+      <section className="mx-auto max-w-lg rounded-xl border border-border bg-card p-7">
+        <h1 className="text-2xl font-bold">Could not load this connection request</h1>
+        <p className="mt-3 text-sm text-muted-foreground" role="alert">
+          {error instanceof Error ? error.message : "This request may have expired. Start the connection again from the app."}
+        </p>
+      </section>
+    </main>
+  ),
   head: () => ({
     meta: [
       { title: "Connect an app — Rebél" },

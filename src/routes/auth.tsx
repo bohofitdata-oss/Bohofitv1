@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { Mail } from "lucide-react";
+import { oauthReturnPath } from "@/lib/oauth-return-path";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): { next?: string } =>
@@ -24,7 +25,7 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { next } = Route.useSearch();
-  const dest = next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard";
+  const dest = oauthReturnPath(next);
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
@@ -46,7 +47,7 @@ function AuthPage() {
   const onGoogle = async () => {
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
+      redirect_uri: new URL(`/auth?next=${encodeURIComponent(dest)}`, window.location.origin).href,
     });
     if (result.error) {
       setLoading(false);
@@ -63,7 +64,7 @@ function AuthPage() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth?next=${encodeURIComponent(dest)}`,
+          emailRedirectTo: new URL(`/auth?next=${encodeURIComponent(dest)}`, window.location.origin).href,
           data: { full_name: name },
         },
       });
@@ -74,6 +75,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       setLoading(false);
       if (error) return toast.error(error.message);
+      await navigate({ href: dest });
     }
   };
 

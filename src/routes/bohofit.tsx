@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { flushSync } from "react-dom";
 import { useState } from "react";
 import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
@@ -87,7 +88,7 @@ function BohofitPage() {
     execute: ({ level }: { level: string }, { signal }) => runWebMCPTool("select_class_level", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
       if (typeof level !== "string" || !Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
-      selectTab(level as Tab);
+      flushSync(() => selectTab(level as Tab));
       const selected = TAB_META[level as Tab];
       return `Showing ${selected.name}. Formats: ${selected.formats.join(", ")}.`;
     }),

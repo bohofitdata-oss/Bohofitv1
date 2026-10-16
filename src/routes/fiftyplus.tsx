@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { flushSync } from "react-dom";
 import { useState } from "react";
 import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
@@ -69,7 +70,7 @@ function FiftyPlusPage() {
     execute: ({ problem }: { problem: string }, { signal }) => runWebMCPTool("toggle_50plus_focus", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
       if (typeof problem !== "string" || !PROBLEMS.includes(problem)) throw new Error("Choose one of the focus areas shown on this page.");
-      toggle(problem);
+      flushSync(() => toggle(problem));
       return `Updated focus area: ${problem}.`;
     }),
   });

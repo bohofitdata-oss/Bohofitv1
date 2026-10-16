@@ -120,6 +120,7 @@ function BohofitPage() {
               <button
                 key={t}
                 onClick={() => selectTab(t)}
+                aria-pressed={active}
                 className={cn(
                   "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold border transition-colors",
                   active ? "bg-gradient-gold text-primary-foreground border-transparent" : "border-border bg-card hover:border-primary",

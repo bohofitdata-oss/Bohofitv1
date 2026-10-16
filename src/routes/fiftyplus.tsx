@@ -70,8 +70,9 @@ function FiftyPlusPage() {
     execute: ({ problem }: { problem: string }, { signal }) => runWebMCPTool("toggle_50plus_focus", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
       if (typeof problem !== "string" || !PROBLEMS.includes(problem)) throw new Error("Choose one of the focus areas shown on this page.");
+      const wasSelected = selected.includes(problem);
       flushSync(() => toggle(problem));
-      return `Updated focus area: ${problem}.`;
+      return `${wasSelected ? "Cleared" : "Selected"} ${problem}.`;
     }),
   });
 
@@ -141,6 +142,7 @@ function FiftyPlusPage() {
               <button
                 key={p}
                 type="button"
+                aria-pressed={on}
                 onClick={() => toggle(p)}
                 className={cn(
                   "text-left rounded-xl border p-4 transition-colors min-h-[76px]",

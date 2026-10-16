@@ -12,7 +12,7 @@ export default defineTool({
     if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your progress.");
     const supabase = await supabaseForUser(ctx);
     const [profileResult, progressResult, streakResult, milestonesResult] = await Promise.all([
-      supabase.from("profiles").select("full_name, current_level").eq("id", userId).maybeSingle(),
+      supabase.from("profiles").select("current_level").eq("id", userId).maybeSingle(),
       supabase.from("member_progress").select("score, sessions_lifetime, next_step, next_milestone, progress_to_next_level").eq("user_id", userId).maybeSingle(),
       supabase.from("member_streaks").select("current_streak, longest_streak, weeks_consistent, last_attended_date").eq("user_id", userId).maybeSingle(),
       supabase.from("member_milestones").select("milestone_id, earned_at").eq("user_id", userId).order("earned_at", { ascending: false }),
@@ -27,7 +27,7 @@ export default defineTool({
     const titlesById = new Map((milestoneResult.data ?? []).map((item) => [item.id, item]));
     const result = {
       profile: profileResult.data
-        ? { name: profileResult.data.full_name, level: profileResult.data.current_level }
+        ? { level: profileResult.data.current_level }
         : null,
       progress: progressResult.data
         ? {

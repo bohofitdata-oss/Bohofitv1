@@ -12,7 +12,7 @@ export const Route = createFileRoute("/.lovable/oauth/consent")({
     if (!search.authorization_id) throw new Error("This connection request is missing its authorization details.");
     const { data } = await supabase.auth.getSession();
     if (!data.session) {
-      const next = `${location.pathname}${location.searchStr}`;
+      const next = `${location.pathname}${location.searchStr}${location.hash}`;
       throw redirect({ to: "/auth", search: { next } });
     }
   },

@@ -25,8 +25,13 @@ export default defineTool({
       status: membership.status,
       pauseBalanceDays: membership.pause_balance_days,
     }));
+    const summary = memberships.length
+      ? memberships.map(({ program, tier, status, startDate, endDate }) =>
+          `${program}${tier ? ` · ${tier}` : ""} · ${status}${startDate ? ` · started ${startDate}` : ""}${endDate ? ` · ends ${endDate}` : ""}`,
+        ).join("\n")
+      : "No Rebél memberships found.";
     return {
-      content: [{ type: "text", text: JSON.stringify({ memberships }) }],
+      content: [{ type: "text", text: summary }],
       structuredContent: { memberships },
     };
   },

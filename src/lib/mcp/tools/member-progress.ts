@@ -51,8 +51,19 @@ export default defineTool({
         return definition ? [{ title: definition.title, description: definition.description, earnedAt: item.earned_at }] : [];
       }),
     };
+    const summary = [
+      result.profile?.level ? `Rebél level: ${result.profile.level}.` : null,
+      result.progress?.score !== null && result.progress?.score !== undefined
+        ? `Progress score: ${result.progress.score}.`
+        : null,
+      result.progress?.nextStep ? `Next step: ${result.progress.nextStep}.` : null,
+      result.streak ? `Current training streak: ${result.streak.current}.` : null,
+      result.milestones.length
+        ? `Earned milestones: ${result.milestones.map(({ title }) => title).join(", ")}.`
+        : "No earned milestones yet.",
+    ].filter(Boolean).join(" ");
     return {
-      content: [{ type: "text", text: JSON.stringify(result) }],
+      content: [{ type: "text", text: summary || "Your progress details are not available yet." }],
       structuredContent: result,
     };
   },

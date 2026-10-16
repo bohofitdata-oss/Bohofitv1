@@ -22,8 +22,13 @@ export default defineTool({
       durationWeeks: program.duration_weeks,
       path: program.path,
     }));
+    const summary = programs.length
+      ? programs.map(({ title, durationWeeks, description }) =>
+          `${title}${durationWeeks ? ` · ${durationWeeks} weeks` : ""}${description ? ` — ${description}` : ""}`,
+        ).join("\n")
+      : "No active Rebél programs are listed right now.";
     return {
-      content: [{ type: "text", text: JSON.stringify({ programs }) }],
+      content: [{ type: "text", text: summary }],
       structuredContent: { programs },
     };
   },

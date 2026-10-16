@@ -10,7 +10,7 @@ export default defineTool({
   handler: async (_input, ctx) => {
     const userId = ctx.getUserId();
     if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your memberships.");
-    const { data, error } = await supabaseForUser(ctx)
+    const { data, error } = await (await supabaseForUser(ctx))
       .from("memberships")
       .select("program, tier, delivery, start_date, end_date, status, pause_balance_days")
       .eq("user_id", userId)

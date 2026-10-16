@@ -66,8 +66,9 @@ function FiftyPlusPage() {
       properties: { problem: { type: "string", enum: PROBLEMS, description: "Focus area to toggle." } },
       required: ["problem"],
     },
-    execute: ({ problem }: { problem: string }) => runWebMCPTool("toggle_50plus_focus", () => {
-      if (!PROBLEMS.includes(problem)) throw new Error("Choose one of the focus areas shown on this page.");
+    execute: ({ problem }: { problem: string }, { signal }) => runWebMCPTool("toggle_50plus_focus", () => {
+      if (signal.aborted) throw new Error("Request cancelled.");
+      if (typeof problem !== "string" || !PROBLEMS.includes(problem)) throw new Error("Choose one of the focus areas shown on this page.");
       toggle(problem);
       return `Updated focus area: ${problem}.`;
     }),

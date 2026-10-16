@@ -51,7 +51,7 @@ function AuthPage() {
   const onGoogle = async () => {
     setLoading(true);
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: new URL(`/auth?next=${encodeURIComponent(dest)}`, window.location.origin).href,
+      redirect_uri: new URL(dest, window.location.origin).href,
     });
     if (result.error) {
       setLoading(false);
@@ -68,7 +68,7 @@ function AuthPage() {
         email,
         password,
         options: {
-          emailRedirectTo: new URL(`/auth?next=${encodeURIComponent(dest)}`, window.location.origin).href,
+          emailRedirectTo: new URL(dest, window.location.origin).href,
           data: { full_name: name },
         },
       });

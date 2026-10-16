@@ -9,7 +9,7 @@ export default defineTool({
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {
     if (!ctx.isAuthenticated()) throw new ToolError("Sign in to browse Rebél programs.");
-    const { data, error } = await supabaseForUser(ctx)
+    const { data, error } = await (await supabaseForUser(ctx))
       .from("programs")
       .select("slug, title, description, duration_weeks, path")
       .eq("active", true)

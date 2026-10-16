@@ -10,7 +10,7 @@ export default defineTool({
   handler: async (_input, ctx) => {
     const userId = ctx.getUserId();
     if (!ctx.isAuthenticated() || !userId) throw new ToolError("Sign in to view your progress.");
-    const supabase = supabaseForUser(ctx);
+    const supabase = await supabaseForUser(ctx);
     const [profileResult, progressResult, streakResult, milestonesResult] = await Promise.all([
       supabase.from("profiles").select("full_name, current_level").eq("id", userId).maybeSingle(),
       supabase.from("member_progress").select("score, sessions_lifetime, next_step, next_milestone, progress_to_next_level").eq("user_id", userId).maybeSingle(),

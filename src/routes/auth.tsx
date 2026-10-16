@@ -40,10 +40,10 @@ function AuthPage() {
 
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) navigate({ to: dest });
+      if (session) navigate({ href: dest });
     });
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: dest });
+      if (data.session) navigate({ href: dest });
     });
     return () => sub.subscription.unsubscribe();
   }, [navigate, dest]);

@@ -14,3 +14,9 @@
 - [x] Update studio facts, class names and training count across public copy.
 - [x] Remove café links and simplify homepage offering and referral sections.
 - [x] Verify desktop/mobile navigation and presentation without changing booking or payment logic.
+
+# UnPause page redesign
+
+- [ ] Redesign only the existing UnPause page with gold accents, concerns, expert diagram, timeline and photos.
+- [ ] Preserve consultation fields and submission flow; add page-specific slot times and concern notes.
+- [ ] Test slot rules and concern notes, then verify desktop/mobile booking interactions.

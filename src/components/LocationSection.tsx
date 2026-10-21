@@ -1,44 +1,10 @@
-import { MapPin, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-
+import { Button } from "@/components/ui/button";
+import { STUDIO_ADDRESS, STUDIO_HOURS, APPOINTMENT_NOTE } from "@/lib/site-facts";
 export function LocationSection() {
-  return (
-    <section className="container mx-auto px-5 py-12 md:py-16">
-      <Reveal>
-        <p className="rebel-label">Find us</p>
-        <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-3 leading-[1.05]">
-          Train with us in person.
-        </h2>
-        <p className="mt-4 text-base" style={{ color: "#CCCCCC" }}>
-          HSR Layout, Bangalore — our flagship studio.
-        </p>
-      </Reveal>
-
-      <Reveal delay={120}>
-        <div
-          className="rebel-card rebel-card-featured mt-8 rounded-3xl p-6 md:p-8 max-w-xl"
-        >
-          <div className="flex items-start gap-3">
-            <MapPin className="w-5 h-5 mt-1" style={{ color: "#FF2233" }} />
-            <div className="flex-1">
-              <p className="font-black text-white text-lg md:text-xl tracking-tight">
-                REBÉL FITNESS — HSR LAYOUT
-              </p>
-              <p className="mt-2 text-sm" style={{ color: "#CCCCCC" }}>
-                Hours: Mon–Sat, 6:30 AM – 9:00 PM
-              </p>
-              <a
-                href="https://maps.google.com/?q=Rebél+Fitness+HSR+Layout+Bangalore"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rebel-btn-outline mt-5 inline-flex text-sm"
-              >
-                Get Directions <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-    </section>
-  );
+  return <section className="editorial-section"><div className="container mx-auto px-5 md:px-8 grid md:grid-cols-2 gap-12 md:gap-20">
+    <Reveal><p className="rebel-label mb-5">Find us | Bengaluru</p><h2 className="editorial-title">Your studio.<br />Your people.</h2><address className="not-italic text-muted-foreground text-sm leading-relaxed mt-7 max-w-xs">{STUDIO_ADDRESS}.</address><Button variant="outline" asChild className="rounded-full mt-7"><a href={`https://maps.google.com/?q=${encodeURIComponent(STUDIO_ADDRESS)}`} target="_blank" rel="noopener noreferrer">Get directions <ArrowUpRight className="size-4" /></a></Button></Reveal>
+    <Reveal delay={100}><p className="rebel-label mb-5">Group class routine</p><dl className="space-y-5">{STUDIO_HOURS.map(row => <div key={row.day} className="member-row pb-5"><dt className="text-foreground text-sm mb-2">{row.day}</dt><dd className="text-muted-foreground text-sm">{row.hours}</dd></div>)}</dl><p className="text-muted-foreground text-xs mt-6">{APPOINTMENT_NOTE}</p></Reveal>
+  </div></section>;
 }

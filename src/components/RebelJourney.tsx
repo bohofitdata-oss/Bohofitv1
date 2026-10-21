@@ -8,8 +8,8 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
-const CRIMSON = "#89010A";
-const GREY = "#CCCCCC";
+const CRIMSON = "var(--primary)";
+const GREY = "var(--muted-foreground)";
 
 type Phase = {
   n: number;
@@ -29,19 +29,19 @@ const PHASES: Phase[] = [
 
 export function RebelJourney() {
   return (
-    <section className="bg-black border-t border-white/5">
-      <div className="container mx-auto px-5 py-20 md:py-28">
+    <section className="bg-background border-t border-foreground/5">
+      <div className="container mx-auto px-5 md:px-8 editorial-section">
         <Reveal>
           <div className="max-w-3xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/60">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/60">
               The path
             </p>
             <h2
-              className="mt-3 font-black text-white"
-              style={{ fontSize: "clamp(32px, 6vw, 60px)", letterSpacing: "-0.03em", lineHeight: "1" }}
+              className="mt-3 font-black text-foreground"
+              style={{ fontSize: "var(--editorial-heading-size)", letterSpacing: "0", lineHeight: "1" }}
             >
               Your Rebél{" "}
-              <span style={{ color: "#FF2233", fontStyle: "italic" }}>journey.</span>
+              <span style={{ color: "var(--storefront)", fontStyle: "italic" }}>journey.</span>
             </h2>
             <p className="mt-4 text-[15px] md:text-lg" style={{ color: GREY }}>
               Every member moves through phases. Skip nothing.
@@ -49,32 +49,28 @@ export function RebelJourney() {
           </div>
         </Reveal>
 
-        <div className="mt-10 max-w-3xl flex flex-col gap-4">
+        <div className="mt-10 max-w-3xl grid md:grid-cols-2 gap-x-12 gap-y-6">
           {PHASES.map((p, i) => {
             const Icon = p.icon;
             return (
               <Reveal key={p.n} delay={i * 100}>
                 <article
-                  className="flex items-center gap-4 md:gap-5 rounded-2xl px-5 py-5 md:px-6 md:py-6"
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                  }}
+                  className="flex items-center gap-4 md:gap-5 border-t border-border py-6"
+                  
                 >
                   <span
                     className="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center"
-                    style={{ background: "rgba(137,1,10,0.15)" }}
+                    
                   >
                     <Icon size={24} color={CRIMSON} strokeWidth={2} />
                   </span>
                   <div className="flex-1 min-w-0">
                     <p
-                      className="text-[11px] font-semibold uppercase tracking-[0.22em]"
-                      style={{ color: CRIMSON }}
+                      className="font-mono text-[11px] text-muted-foreground"
                     >
                       Phase {p.n}
                     </p>
-                    <h3 className="mt-1 font-bold text-white text-lg md:text-xl leading-tight">
+                    <h3 className="mt-1 font-bold text-foreground text-lg md:text-xl leading-tight">
                       {p.name}
                     </h3>
                     <p className="mt-1 text-[13px] md:text-sm" style={{ color: GREY }}>

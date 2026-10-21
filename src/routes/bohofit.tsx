@@ -144,7 +144,7 @@ function BohofitPage() {
             <p className="mt-2 text-sm text-muted-foreground">{meta.sub}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               {meta.formats.map((f) => (
-                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-white px-4 py-2">{f}</span>
+                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-foreground px-4 py-2">{f}</span>
               ))}
             </div>
           </div>

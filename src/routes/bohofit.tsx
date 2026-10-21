@@ -1,203 +1,95 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { flushSync } from "react-dom";
 import { useState } from "react";
 import { useWebMCP } from "use-webmcp-tool";
+import { Play, ArrowUpRight } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
-import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { TM } from "@/components/TM";
-import { CLASS_LEVEL_NAMES } from "@/lib/site-facts";
 import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Flame, Infinity as InfinityIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { ClassLevelLadder } from "@/components/ClassLevelLadder";
+import { GroupPlanCheckout } from "@/components/GroupPlanCheckout";
+import { GROUP_PLANS, JOINING_RULES, requiresLevelWarning, type ClassLevel, type GroupPlan } from "@/lib/group-plans";
+import { LEVEL_FORMATS, type TrainingFormat } from "@/lib/group-formats";
+import { STUDIO_HOURS } from "@/lib/site-facts";
 import { cn } from "@/lib/utils";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
+import startImage from "@/assets/program-start.jpg";
+import strengthImage from "@/assets/program-strength.jpg";
 
 export const Route = createFileRoute("/bohofit")({
-  head: () => ({
-    meta: [
-      { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-      { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 START for beginners and comebacks, Level 2 STRENGTH for trained bodies, Level 3 REBEL UNLIMITED for everything." },
-      { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-      { property: "og:description", content: "Three levels of machine-free group training at HSR Bangalore. Choose Level 1 START, Level 2 STRENGTH, or Level 3 REBEL UNLIMITED." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: BohofitPage,
+  head: () => ({ meta: [
+    { title: "REBÉL Group Classes — START, STRENGTH & REBEL UNLIMITED" },
+    { name: "description", content: "Choose your level at REBÉL HSR Layout: START for beginners, STRENGTH for intermediate and advanced training, or all-access REBEL UNLIMITED. Plans from ₹5,999." },
+    { property: "og:title", content: "REBÉL Group Classes — Start where you are" },
+    { property: "og:description", content: "Six START formats. Four STRENGTH formats. All ten with REBEL UNLIMITED. Machine-free coaching, unlimited classes and all-inclusive membership plans." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
+  component: GroupClassesPage,
 });
 
-type Tab = "start" | "strength" | "unlimited";
-
-const startFormats = ["Yoga", "Zumba", "Beginner Strength", "Mat Pilates"];
-const strengthFormats = ["Calisthenics", "S&C", "Weightlifting"];
-const unlimitedFormats = [...startFormats, ...strengthFormats];
-
-type Plan = { months: string; phase?: string; price: string; pause: string; perks: string[]; best?: boolean };
-
-// Per official pricing posters
-const startPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Learn Movement", price: "₹5,744", pause: "7 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "3 Months", phase: "Phase 2 · Build Consistency", price: "₹8,499", pause: "15 days", perks: ["Unlimited classes (all 4 Start formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Phase 3 · Graduate", price: "₹11,999", pause: "30 days", perks: ["Unlimited classes (all 4 Start formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-];
-
-const strengthPlans: Plan[] = [
-  { months: "2 Months", phase: "Phase 1 · Controlled Intensity", price: "₹5,999", pause: "7 days", perks: ["Unlimited classes (all 3 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "3 Months", phase: "Phase 2 · Progress Tracking", price: "₹8,999", pause: "15 days", perks: ["Unlimited classes (all 3 Strength formats)", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Phase 3 · Performance", price: "₹12,999", pause: "30 days", perks: ["Unlimited classes (all 3 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "12 Months", phase: "Phase 4 · Ultimate", price: "₹16,999", pause: "45 days", perks: ["Unlimited classes (all 3 Strength formats)", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-];
-
-const unlimitedPlans: Plan[] = [
-  { months: "3 Months", phase: "Option 1", price: "₹10,499", pause: "15 days", perks: ["Unlimited classes — all 7 formats", "Diet consultation +₹1,000", "Transfer not available"] },
-  { months: "6 Months", phase: "Option 2", price: "₹14,999", pause: "30 days", perks: ["Unlimited classes — all 7 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"] },
-  { months: "12 Months", phase: "Option 3", price: "₹18,499", pause: "60 days", perks: ["Unlimited classes — all 7 formats", "Full diet consultation included", "Transfer available (₹599 ERP fee)", "Smart switch available"], best: true },
-];
-
-const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: CLASS_LEVEL_NAMES.start, tagline: "Built for beginners and comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: CLASS_LEVEL_NAMES.strength, tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats. Not suitable for beginners.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: CLASS_LEVEL_NAMES.unlimited, tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Level 1 + Level 2, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
-
+const LEVELS: Record<ClassLevel, { name: string; level: string; tagline: string; sub: string; count: number; footer: string; image: string }> = {
+  start: { name: "START", level: "LEVEL 1", tagline: "India's safest start to fitness.", sub: "For beginners & comeback journeys.", count: 6, footer: "From beginner → consistent & confident", image: startImage },
+  strength: { name: "STRENGTH", level: "LEVEL 2", tagline: "Strength without limits.", sub: "For serious training & performance.", count: 4, footer: "From trained → strong & performance-driven", image: strengthImage },
+  unlimited: { name: "REBEL UNLIMITED", level: "LEVEL 3 • ALL-ACCESS", tagline: "Train everything. One membership.", sub: "Every format, ground floor + fifth floor, together.", count: 10, footer: "Transfer on 6 & 12-month (outsider only, ₹599 ERP) • Smart Switch across formats", image: strengthImage },
 };
+const HOW = ["Book a free trial class", "Pick your plan", "Walk in to your level's routine — no booking needed", "Move up when your coach says you're ready"];
 
-function BohofitPage() {
-  const [tab, setTab] = useState<Tab>("start");
-  const meta = TAB_META[tab];
-  const selectTab = (next: Tab) => {
-    if (!Object.hasOwn(TAB_META, next)) throw new Error("Choose one of the available Rebél class levels.");
-    setTab(next);
+function GroupClassesPage() {
+  const navigate = useNavigate();
+  const [tab, setTab] = useState<ClassLevel>("start");
+  const [format, setFormat] = useState<TrainingFormat | null>(null);
+  const [pending, setPending] = useState<{ type: "trial" } | { type: "plan"; plan: GroupPlan } | null>(null);
+  const [checkout, setCheckout] = useState<GroupPlan | null>(null);
+  const meta = LEVELS[tab];
+  const selectTab = (next: ClassLevel) => { setTab(next); setPending(null); };
+  const perform = (action: { type: "trial" } | { type: "plan"; plan: GroupPlan }) => {
+    if (action.type === "trial") void navigate({ to: "/booking" });
+    else setCheckout(action.plan);
   };
-
+  const enter = (action: { type: "trial" } | { type: "plan"; plan: GroupPlan }) => {
+    if (requiresLevelWarning(tab)) setPending(action); else perform(action);
+  };
   useWebMCP({
-    name: "get_class_level_details",
-    description: "Read the class level, formats, and package prices currently shown.",
-    annotations: { readOnlyHint: true },
+    name: "get_class_level_details", description: "Read the class level, formats, and package prices currently shown.", annotations: { readOnlyHint: true },
     execute: (_args: Record<string, never>, { signal }) => runWebMCPTool("get_class_level_details", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
-      return `${meta.name}: ${meta.tagline} Formats: ${meta.formats.join(", ")}. Packages: ${meta.plans.map((plan) => `${plan.months} ${plan.price}`).join(", ")}.`;
+      return `${meta.level} ${meta.name}: ${meta.tagline} Formats: ${LEVEL_FORMATS[tab].flatMap(group => group.formats.map(item => item.name)).join(", ")}. Packages: ${GROUP_PLANS[tab].map(plan => `${plan.months} months ₹${plan.price}`).join(", ")}.`;
     }),
   });
-
   useWebMCP({
-    name: "select_class_level",
-    description: "Show the selected Rebél group class level and its available formats and prices.",
-    inputSchema: {
-      type: "object",
-      properties: { level: { type: "string", enum: Object.keys(TAB_META), description: "Level key: start, strength, or unlimited." } },
-      required: ["level"],
-    },
+    name: "select_class_level", description: "Show the selected REBÉL group class level and its formats and prices.",
+    inputSchema: { type: "object", properties: { level: { type: "string", enum: Object.keys(LEVELS) } }, required: ["level"] },
     execute: ({ level }: { level: string }, { signal }) => runWebMCPTool("select_class_level", () => {
       if (signal.aborted) throw new Error("Request cancelled.");
-      if (typeof level !== "string" || !Object.hasOwn(TAB_META, level)) throw new Error("Choose start, strength, or unlimited.");
-      flushSync(() => selectTab(level as Tab));
-      const selected = TAB_META[level as Tab];
-      return `Showing ${selected.name}. Formats: ${selected.formats.join(", ")}.`;
+      if (level !== "start" && level !== "strength" && level !== "unlimited") throw new Error("Choose start, strength, or unlimited.");
+      flushSync(() => selectTab(level));
+      return `Showing ${LEVELS[level].level} ${LEVELS[level].name}.`;
     }),
   });
-
-
-  return (
-    <SiteShell>
-      <section className="container mx-auto px-5 pt-12 md:pt-20 pb-6 text-center">
-        <Reveal>
-          <div className="flex justify-center mb-4"><ProgramSwitcher current="group_classes" /></div>
-          <p className="text-xs uppercase tracking-[0.18em] text-primary">Rebél Group Classes · HSR Layout, Bangalore</p>
-          <h1 className="mt-3 text-3xl md:text-6xl font-black tracking-tight">
-            India's first <span className="text-gradient-gold">machine-free</span> fitness center.
-          </h1>
-          <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Three levels. Pick where you are. Move when you're ready.
-          </p>
-        </Reveal>
+  return <SiteShell><div className="group-page">
+    <section className="container mx-auto px-5 md:px-8 pt-12 md:pt-16 pb-8">
+      <p className="font-mono text-[10px] text-muted-foreground text-center mb-3">REBÉL<TM /> GROUP CLASSES | HSR LAYOUT</p>
+      <ClassLevelLadder active={tab} />
+      <p className="text-sm text-muted-foreground text-center">Start where you are. Move up when you're ready.</p>
+    </section>
+    <div className="container mx-auto px-5 md:px-8"><div className="group-tabs grid grid-cols-3 border-b border-border" role="tablist" aria-label="Class levels">{(Object.keys(LEVELS) as ClassLevel[]).map((level,index) => <Button key={level} id={`tab-${level}`} role="tab" aria-selected={tab === level} aria-pressed={tab === level} aria-controls="class-level-panel" variant="ghost" onClick={() => selectTab(level)} className={cn("rounded-none h-auto min-h-16 py-4 px-2 whitespace-normal text-center flex-col gap-1 border-b-2", tab === level ? "border-primary text-foreground bg-primary/10 hover:bg-primary/15" : "border-transparent text-muted-foreground hover:bg-card")}><span className="font-mono text-[10px]">LEVEL {index+1} ·</span><span className="text-xs md:text-sm font-medium">{LEVELS[level].name}<TM /></span></Button>)}</div></div>
+    <div id="class-level-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
+      <section className={cn("group-level-hero relative overflow-hidden mt-7", tab === "unlimited" && "all-access")}>
+        <img src={meta.image} alt={`${meta.name} machine-free group training`} width={1536} height={1024} className="absolute inset-0 size-full object-cover opacity-30" />
+        <div className="group-hero-shade absolute inset-0" aria-hidden />
+        <div className="container mx-auto relative px-5 md:px-8 py-16 md:py-20"><div className="flex justify-between items-start gap-4"><p className="group-eyebrow font-mono text-xs text-foreground/80">{meta.level}</p><span className="shrink-0 rounded-full border border-foreground/25 px-3 py-2 text-[10px] md:text-xs text-foreground">{meta.count} Training Formats</span></div><h1 className={cn("group-level-name font-medium mt-8",tab === "unlimited" && "unlimited-name")}>{meta.name}<TM /></h1><p className="text-foreground font-bold italic text-xl md:text-3xl mt-7 max-w-2xl">{meta.tagline}</p><p className="text-foreground/70 text-sm md:text-base mt-3">{meta.sub}</p>{tab === "strength" && <p className="inline-block font-mono text-[10px] rounded-full border border-foreground/30 px-4 py-2 mt-6 text-foreground">INTERMEDIATE &amp; ADVANCED ONLY</p>}<div className="mt-9"><Button onClick={() => enter({ type: "trial" })} className="rounded-full bg-foreground text-background hover:bg-foreground/90 h-12 px-6">Book a free trial →</Button></div></div>
       </section>
-
-      {/* TAB SELECTOR */}
-      <section className="container mx-auto px-5 pt-2">
-        <div className="flex gap-2 overflow-x-auto pb-2 sm:justify-center">
-          {(Object.keys(TAB_META) as Tab[]).map((t) => {
-            const Icon = TAB_META[t].icon;
-            const active = t === tab;
-            return (
-              <Button variant="outline"
-                key={t}
-                onClick={() => selectTab(t)}
-                aria-pressed={active}
-                className={cn(
-                  "shrink-0 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold border transition-colors",
-                  active ? "bg-gradient-gold text-primary-foreground border-transparent" : "border-border bg-card hover:border-primary",
-                )}
-              >
-                <Icon className="w-4 h-4" /> {TAB_META[t].name}<TM />
-              </Button>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* PROGRAM DETAIL */}
-      <section className="container mx-auto px-5 py-8">
-        <Reveal>
-          <div className="rounded-2xl border border-border bg-card p-6 md:p-8">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">{meta.name}</p>
-            <h2 className="mt-2 text-2xl md:text-3xl font-black">{meta.tagline}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{meta.sub}</p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {meta.formats.map((f) => (
-                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-foreground px-4 py-2">{f}</span>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* PRICING */}
-      <section className="container mx-auto px-5 pb-16">
-        <Reveal>
-          <div className="text-center mb-8">
-            <p className="text-xs uppercase tracking-[0.18em] text-primary">Membership pricing</p>
-            <h2 className="text-2xl md:text-3xl font-black mt-2">Pick your timeline</h2>
-            <p className="text-xs text-muted-foreground mt-2">All prices GST inclusive · No refund unless we cannot deliver.</p>
-          </div>
-        </Reveal>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {meta.plans.map((p) => (
-            <div key={p.months} className={cn("rounded-2xl border bg-card p-5 flex flex-col", p.best ? "hairline shadow-elegant" : "border-border")}>
-              {p.best && <span className="text-[10px] uppercase tracking-widest text-primary font-semibold">Most popular</span>}
-              {p.phase && <div className="text-[10px] uppercase tracking-widest text-primary/80 mt-1">{p.phase}</div>}
-              <div className="text-sm text-muted-foreground mt-1">{p.months}</div>
-              <div className="mt-1 text-3xl font-black">{p.price}</div>
-              <div className="text-[11px] text-muted-foreground">All inclusive · Pause {p.pause}</div>
-              <ul className="mt-4 space-y-2 flex-1">
-                {p.perks.map((perk) => (
-                  <li key={perk} className="flex items-start gap-2 text-xs">
-                    <Check className="w-3.5 h-3.5 text-primary mt-0.5 shrink-0" /> {perk}
-                  </li>
-                ))}
-              </ul>
-              <Button asChild className="mt-5 bg-gradient-gold text-primary-foreground border-0 hover:opacity-90">
-                <Link to="/booking" search={{ path: "bohofit" }}>Pay &amp; book — {p.months}</Link>
-              </Button>
-            </div>
-          ))}
-        </div>
-        <p className="text-center text-xs text-muted-foreground mt-6">You&rsquo;ll review and accept the membership terms right after payment.</p>
-      </section>
-
-
-      <section className="container mx-auto px-5 pb-20">
-        <Reveal>
-          <h2 className="text-2xl md:text-3xl font-black mb-6 text-center">Why Rebél works</h2>
-        </Reveal>
-        <div className="grid md:grid-cols-3 gap-4">
-          {["Machine-free, joint-friendly", "Real coaches, small batches", "Pause anytime · transfer where allowed"].map((p) => (
-            <div key={p} className="rounded-xl border border-border bg-card p-5 flex items-start gap-3">
-              <Check className="w-5 h-5 text-primary mt-0.5" />
-              <span className="font-semibold">{p}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-    </SiteShell>
-  );
+      <section className="editorial-section"><div className="container mx-auto px-5 md:px-8"><Reveal><h2 className="font-mono text-xs text-muted-foreground mb-9">WHAT YOU CAN TRAIN</h2><div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-9">{LEVEL_FORMATS[tab].map(group => <div key={group.category}><p className="font-mono text-[10px] text-storefront mb-5">{group.category}</p><div className="flex flex-wrap gap-3">{group.formats.map(item => <Button key={item.name} variant="outline" onClick={() => setFormat(item)} className="rounded-full bg-foreground text-background border-foreground hover:bg-foreground/85 hover:text-background h-auto min-h-11 px-4 py-3 text-sm whitespace-normal"><Play className="size-3 shrink-0" />{item.name}</Button>)}</div></div>)}</div></Reveal></div></section>
+      <section className="editorial-section"><div className="container mx-auto px-5 md:px-8"><Reveal><h2 className="font-mono text-xs text-muted-foreground mb-10">HOW IT WORKS</h2><ol className="grid md:grid-cols-4 gap-7 md:gap-8">{HOW.map((line,index) => <li key={line} className="border-t border-border pt-5"><span className="font-mono text-storefront text-xs">0{index+1}</span><p className="text-foreground text-base leading-relaxed mt-4 max-w-[26ch]">{line}</p></li>)}</ol></Reveal></div></section>
+      <section className="editorial-section"><div className="container mx-auto px-5 md:px-8"><Reveal><div className="mb-12"><p className="font-mono text-xs text-storefront mb-5">YOUR MEMBERSHIP</p><h2 className="editorial-title">Pick your plan.</h2></div></Reveal><div className={cn("grid sm:grid-cols-2 gap-5",tab === "unlimited" ? "lg:grid-cols-3" : "lg:grid-cols-4")}>{GROUP_PLANS[tab].map(plan => <article key={plan.id} className={cn("group-plan border rounded-lg bg-background p-6 flex flex-col",plan.badge ? "border-primary" : "border-border")}><div className="min-h-7">{plan.badge && <span className="font-mono text-[10px] text-storefront">{plan.badge}</span>}</div><h3 className="font-sans text-sm font-medium">{plan.months} months</h3><p className="group-plan-price text-foreground font-bold mt-5">₹{plan.price.toLocaleString("en-IN")}<span className="text-lg">/-</span></p><p className="text-xs text-muted-foreground mt-2">All inclusive</p><p className="text-sm text-foreground/85 leading-relaxed mt-7 min-h-16">{plan.line}</p><p className="font-mono text-[10px] text-muted-foreground leading-loose mt-5 flex-1">{plan.detail}</p><Button onClick={() => enter({ type: "plan", plan })} className="rounded-full mt-8 h-11">Join this plan<ArrowUpRight className="size-4" /></Button></article>)}</div><p className="font-mono text-[11px] text-muted-foreground mt-8">{meta.footer}</p></div></section>
+      <section className="editorial-section"><div className="container mx-auto max-w-4xl px-5 md:px-8"><Reveal><div className="border border-border rounded-lg p-6 md:p-10"><h2 className="font-mono text-xs text-storefront">BEFORE YOU JOIN — PLEASE READ</h2><ol className="mt-8 space-y-7">{JOINING_RULES.map((rule,index) => <li key={rule} className="flex items-start gap-5"><span className="text-storefront font-mono text-xs pt-1">0{index+1}</span><p className="text-sm text-muted-foreground leading-relaxed">{rule}</p></li>)}</ol></div><p className="text-xs text-muted-foreground leading-relaxed mt-7">Renew on or before your last day = 10% off. Every successful referral = an extra 10% off. No other offers apply.</p><div className="mt-10 border-y border-border py-6"><p className="font-mono text-[10px] text-storefront mb-3">CLASS HOURS</p><p className="text-xs text-muted-foreground leading-loose">{STUDIO_HOURS.map(day => `${day.day === "Saturday" ? "Sat" : day.day === "Sunday" ? "Sun" : day.day} ${day.hours}`).join(" · ")}</p></div><div className="mt-8"><Button onClick={() => enter({ type: "trial" })} variant="outline" className="rounded-full h-12 px-6">Book a free trial →</Button></div></Reveal></div></section>
+    </div>
+    <Sheet open={!!format} onOpenChange={open => { if (!open) setFormat(null); }}><SheetContent side="bottom" className="rounded-t-lg max-w-2xl mx-auto max-h-[85dvh] overflow-y-auto"><SheetTitle className="text-xl">{format?.name}</SheetTitle><SheetDescription className="mt-3">{format?.line}</SheetDescription><div className="mt-6 aspect-video bg-card rounded-lg overflow-hidden border border-border">{format?.videoUrl ? <iframe src={format.videoUrl} title={`${format.name} class video`} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen className="size-full" /> : <div className="size-full flex flex-col justify-center items-center gap-3 text-muted-foreground"><Play className="size-8 text-storefront" strokeWidth={1} /><span className="font-mono text-xs">Class film coming soon</span></div>}</div></SheetContent></Sheet>
+    <Dialog open={!!pending} onOpenChange={open => { if (!open) setPending(null); }}><DialogContent className="w-[calc(100%-32px)] rounded-lg"><DialogTitle className="text-xl leading-relaxed">Level 2 | STRENGTH<TM /></DialogTitle><DialogDescription className="text-base leading-relaxed">Level 2 is for intermediate and advanced members only. Please choose the level that matches where you are today.</DialogDescription><div className="flex flex-col gap-3 mt-4"><Button className="rounded-full" onClick={() => { if (!pending) return; const action = pending; setPending(null); perform(action); }}>I'm ready, continue</Button><Button variant="outline" className="rounded-full" onClick={() => selectTab("start")}>Switch to Level 1</Button></div></DialogContent></Dialog>
+    {checkout && <GroupPlanCheckout key={checkout.id} plan={checkout} levelName={meta.name} onClose={() => setCheckout(null)} />}
+  </div></SiteShell>;
 }

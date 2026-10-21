@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -57,6 +57,7 @@ export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, s
   const verifyPayment = useServerFn(verifyRazorpayPayment);
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
+  const opened = useRef(false);
 
   const startCheckout = async () => {
     setBusy(true);
@@ -114,6 +115,8 @@ export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, s
 
   // Auto-open checkout once on mount.
   useEffect(() => {
+    if (opened.current) return;
+    opened.current = true;
     startCheckout();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

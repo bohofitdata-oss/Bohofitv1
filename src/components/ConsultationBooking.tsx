@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Check, MessageCircle } from "lucide-react";
 import { waLink, BOHOFIT_WHATSAPP } from "@/lib/whatsapp";
+import { consultationNotes } from "@/lib/unpause-booking";
 
 type Program = "unpause" | "fifty_plus";
 
@@ -66,9 +67,13 @@ interface Props {
   eyebrow?: string;
   headline?: string;
   subtext?: string;
+  /** Page-specific presentation configuration; defaults preserve other pages. */
+  timeSlots?: string[];
+  selectedConcerns?: string[];
+  slotDescription?: string;
 }
 
-export function ConsultationBooking({ program, problemAreas = [], eyebrow, headline, subtext }: Props) {
+export function ConsultationBooking({ program, problemAreas = [], eyebrow, headline, subtext, timeSlots = TIME_SLOTS, selectedConcerns = [], slotDescription }: Props) {
   const days = useMemo(() => nextDays(10), []);
   const [date, setDate] = useState<string>(days[0]?.iso ?? "");
   const [time, setTime] = useState<string | null>(null);
@@ -96,7 +101,7 @@ export function ConsultationBooking({ program, problemAreas = [], eyebrow, headl
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse(Object.fromEntries(fd));
     if (!parsed.success) return toast.error(parsed.error.issues[0]?.message ?? "Check the form");
-    const notes = (fd.get("notes") as string) || null;
+    const notes = consultationNotes((fd.get("notes") as string) || null, selectedConcerns);
     setLoading(true);
     // Bind the request to the signed-in user (RLS allows only auth.uid() or NULL).
     const { data: sessionData } = await supabase.auth.getSession();
@@ -233,10 +238,10 @@ export function ConsultationBooking({ program, problemAreas = [], eyebrow, headl
       <div>
         <p className="text-sm font-semibold text-white">Pick a time slot</p>
         <p className="text-xs mt-1" style={{ color: "#CCCCCC" }}>
-          1:1 slots — one person per slot. Greyed slots are taken.
+          {slotDescription ?? "1:1 slots — one person per slot. Greyed slots are taken."}
         </p>
         <div className="mt-3 grid grid-cols-3 sm:grid-cols-5 gap-2">
-          {TIME_SLOTS.map((t) => {
+          {timeSlots.map((t) => {
             const isTaken = taken.includes(t);
             const active = t === time;
             return (
@@ -291,6 +296,12 @@ export function ConsultationBooking({ program, problemAreas = [], eyebrow, headl
           Selected concerns carried into your booking:{" "}
           <span className="text-white font-semibold">{problemAreas.join(", ")}</span>
         </div>
+      )}
+
+      {selectedConcerns.length > 0 && (
+        <p className="text-xs text-muted-foreground" aria-live="polite">
+          Your booking note: {selectedConcerns.join(" · ")}
+        </p>
       )}
 
       <Button

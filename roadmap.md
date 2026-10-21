@@ -6,11 +6,11 @@
 - [x] Generate and verify the MCP catalogue.
 - [x] Verify the final app build and page flows.
 - [x] Apply the required TanStack package security update and verify the app again.
-- [ ] Ask the owner to republish the app.
+- [x] Ask the owner to republish the app.
 
 # Site-wide polish
 
-- [ ] Refine global typography, palette, trademarks and shared presentation.
-- [ ] Update studio facts, class names and training count across public copy.
-- [ ] Remove café links and simplify homepage offering and referral sections.
-- [ ] Verify desktop/mobile navigation and presentation without changing booking or payment logic.
+- [x] Refine global typography, palette, trademarks and shared presentation.
+- [x] Update studio facts, class names and training count across public copy.
+- [x] Remove café links and simplify homepage offering and referral sections.
+- [x] Verify desktop/mobile navigation and presentation without changing booking or payment logic.

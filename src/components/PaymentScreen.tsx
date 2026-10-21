@@ -49,9 +49,10 @@ export interface PaymentScreenProps {
   slotLabel?: string | null;
   customer: { name: string; email: string; phone: string };
   onPaid: () => void;
+  groupPlanId?: string;
 }
 
-export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, slotLabel, customer, onPaid }: PaymentScreenProps) {
+export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, slotLabel, customer, onPaid, groupPlanId }: PaymentScreenProps) {
   const createOrder = useServerFn(createRazorpayOrder);
   const verifyPayment = useServerFn(verifyRazorpayPayment);
   const [busy, setBusy] = useState(false);
@@ -63,8 +64,10 @@ export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, s
     try {
       const ok = await loadRazorpay();
       if (!ok) throw new Error("Could not load Razorpay");
-      const order = await createOrder({ data: { bookingId, amountPaise: amountInr * 100 } });
-      const rzp = new window.Razorpay!({
+      const order = await createOrder({ data: { bookingId, amountPaise: amountInr * 100, groupPlanId } });
+      const Razorpay = window.Razorpay;
+      if (!Razorpay) throw new Error("Could not load Razorpay");
+      const rzp = new Razorpay({
         key: order.keyId,
         amount: order.amount,
         currency: order.currency,
@@ -72,7 +75,7 @@ export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, s
         description: programLabel,
         order_id: order.orderId,
         prefill: { name: customer.name, email: customer.email, contact: customer.phone },
-        theme: { color: "#D4AF37" },
+        theme: { color: getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() },
         handler: async (response) => {
           try {
             await verifyPayment({

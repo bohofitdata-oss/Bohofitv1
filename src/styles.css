@@ -40,7 +40,11 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-display: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Unbounded", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+  --color-storefront: var(--storefront);
+  --color-warm-gold: var(--warm-gold);
 }
 
 /* =====================================================================
@@ -67,9 +71,14 @@
   --secondary-foreground: #FFFFFF;
 
   --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: #CCCCCC;        /* body text */
-  --muted-strong: #888888;            /* subtle/secondary */
-  --accent-bright: #FF2233;           /* readable red on dark */
+  --muted-foreground: oklch(0.653 0 0);        /* body text */
+  --muted-strong: oklch(0.653 0 0);            /* subtle/secondary */
+  --accent-bright: oklch(0.588 0.212 29);
+  --storefront: oklch(0.588 0.212 29);
+  --warm-gold: oklch(0.738 0.088 77);
+  --hero-overlay: linear-gradient(180deg, color-mix(in oklab, var(--background) 30%, transparent), color-mix(in oklab, var(--background) 60%, transparent));
+  --image-overlay: linear-gradient(180deg, transparent 20%, color-mix(in oklab, var(--background) 75%, transparent));
+  --header-glass: color-mix(in oklab, var(--background) 85%, transparent);           /* readable red on dark */
 
   --accent: #89010A;
   --accent-foreground: #FFFFFF;
@@ -116,15 +125,15 @@
   html, body { background-color: #000000; color: #FFFFFF; }
   * { border-color: var(--color-border); }
   body {
-    font-family: var(--font-display);
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     background-color: #000000;
     background-image: var(--gradient-hero);
     background-attachment: fixed;
   }
-  h1, h2, h3, h4 { letter-spacing: -0.02em; color: #FFFFFF; }
-  h1 { letter-spacing: -0.03em; line-height: 0.95; }
-  p { color: #CCCCCC; }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: 0; color: var(--foreground); }
+  h1 { line-height: 1.12; }
+  p { color: var(--muted-foreground); }
 }
 
 @layer utilities {
@@ -145,7 +154,7 @@
   .rebel-card {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 8px;
     backdrop-filter: blur(16px) saturate(140%);
     padding: clamp(24px, 3vw, 36px);
     transition: transform 0.3s var(--ease-rebel),
@@ -185,14 +194,14 @@
     border: 0;
   }
   .rebel-label {
-    color: #FF2233;
+    color: var(--storefront);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
   }
-  .text-accent-bright { color: #FF2233; }
-  .text-muted-strong { color: #888888; }
+  .text-accent-bright { color: var(--storefront); }
+  .text-muted-strong { color: var(--muted-foreground); }
 
   /* Hero with red heat-glow + subtle grain */
   .rebel-hero {
@@ -335,10 +344,45 @@
 
 /* Hero typography — premium oversized headlines */
 .rebel-hero-title {
-  font-size: clamp(48px, 9vw, 80px);
-  letter-spacing: -0.03em;
+  font-size: 48px;
+  letter-spacing: 0;
   line-height: 0.95;
   font-weight: 900;
-  font-style: italic;
+  font-style: normal;
   color: #FFFFFF;
 }
+
+/* Members' club editorial system */
+.brand-tm { font-family: var(--font-sans); font-size: 0.45em; vertical-align: super; position: relative; top: -0.12em; margin-left: 0.08em; font-weight: 400; line-height: 0; }
+.rebel-label { font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; color: var(--muted-foreground); }
+.editorial-section { padding-block: 88px; border-top: 1px solid var(--border); }
+.editorial-title { font-size: 32px; font-weight: 500; line-height: 1.22; letter-spacing: 0; }
+.editorial-copy { font-size: 15px; line-height: 1.6; max-width: 40ch; }
+.editorial-header { margin-bottom: 40px; }
+.editorial-header .rebel-label { margin-bottom: 18px; }
+.editorial-header .editorial-copy { margin-top: 22px; }
+.brand-nav { border-bottom: 1px solid transparent; }
+.brand-nav.is-scrolled { background: var(--header-glass); backdrop-filter: blur(20px); border-color: var(--border); }
+.nav-underline { position: relative; }
+.nav-underline::after { content: ""; position: absolute; left: 0; bottom: -6px; height: 1px; width: 0; background: var(--storefront); transition: width 250ms ease; }
+.nav-underline:hover::after { width: 100%; }
+.hero-shade { background: var(--hero-overlay); }
+.image-shade { background: var(--image-overlay); }
+.member-hero { min-height: 470px; }
+.member-hero h1 { font-size: 38px; line-height: 1.2; max-width: 14ch; }
+.offering-title { font-size: 24px; line-height: 1.25; }
+.offering-image { aspect-ratio: 4 / 5; }
+.member-row { border-bottom: 1px solid var(--border); }
+.member-row:last-child { border-bottom: 0; }
+.rebel-btn { background: var(--primary); box-shadow: none; }
+.rebel-btn:hover { box-shadow: none; }
+.rebel-hero-title { font-size: 32px; line-height: 1.2; font-weight: 500; }
+@media (min-width: 768px) {
+  .editorial-section { padding-block: 128px; }
+  .editorial-title, .rebel-hero-title { font-size: 48px; }
+  .member-hero { min-height: 580px; }
+  .member-hero h1 { font-size: 64px; }
+  .offering-title { font-size: 26px; }
+  .editorial-copy { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }

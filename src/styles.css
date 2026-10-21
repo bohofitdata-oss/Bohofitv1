@@ -437,3 +437,20 @@
 .map-knee { left: 43%; top: 69%; }
 .map-ankle { left: 56%; top: 87%; }
 .fiftyplus-venn-centre { font-family: var(--font-mono); font-size: 12px; }
+
+/* Group Classes: a crimson editorial level system, scoped to its own page. */
+.group-page { --group-hero-panel: linear-gradient(110deg, var(--primary), color-mix(in oklab, var(--primary) 60%, var(--background))); --group-all-access-panel: linear-gradient(110deg, var(--background) 12%, color-mix(in oklab, var(--primary) 35%, var(--background))); }
+.group-page .grid > * { min-width: 0; }
+.group-level-hero { background: var(--group-hero-panel); }
+.group-hero-shade { background: var(--group-hero-panel); opacity: 0.78; }
+.group-level-hero.all-access, .group-level-hero.all-access .group-hero-shade { background: var(--group-all-access-panel); }
+.group-level-name { font-size: 44px; line-height: 1.1; }
+.group-level-name.unlimited-name { font-size: 32px; max-width: 12ch; }
+.group-plan-price { font-size: 30px; line-height: 1.2; }
+.group-plan { transition: border-color 300ms ease, transform 300ms ease; }
+.group-plan:hover { border-color: var(--primary); transform: translateY(-3px); }
+.ladder-step { font-family: var(--font-display); font-size: 18px; transition: color 300ms ease, filter 300ms ease; }
+.ladder-step.is-active { filter: drop-shadow(0 0 8px color-mix(in oklab, var(--primary) 80%, transparent)); }
+.group-eyebrow { letter-spacing: 0; }
+@media (min-width: 768px) { .group-level-name { font-size: 88px; } .group-level-name.unlimited-name { font-size: 66px; max-width: none; } }
+@media (max-width: 359px) { .group-level-name { font-size: 36px; } .group-level-name.unlimited-name { font-size: 27px; } .group-tabs button { font-size: 10px; } }

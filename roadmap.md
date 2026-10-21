@@ -26,3 +26,9 @@
 - [x] Redesign the existing 50+ page with body map, gold diagrams, timeline and older-adult photos.
 - [x] Keep selected problem areas and notes in existing booking; reuse UnPause slot configuration.
 - [x] Test concerns and slots; verify desktop/mobile booking without live reservations or notifications (simulated success and slot conflict).
+
+# Group Classes page redesign
+
+- [x] Replace the existing group page with level ladder, format sheets, plan cards and joining rules.
+- [x] Apply exact authoritative membership prices and connect existing Razorpay checkout and terms.
+- [x] Verify Level 2 entry guard, trial navigation, plan amounts and mobile layouts without real payments (27 tests passed; checkout and confirmation simulated).

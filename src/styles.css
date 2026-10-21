@@ -416,3 +416,24 @@
 .unpause-booking [style*="clamp"] { letter-spacing: 0 !important; }
 @media (min-width: 768px) { .unpause-hero { min-height: 660px; } .unpause-heading { font-size: 60px; } .unpause-section-heading, .unpause-booking h3 { font-size: 40px !important; } }
 @media (max-width: 359px) { .unpause-heading { font-size: 30px; } .unpause-section-heading { font-size: 26px; } }
+
+/* 50+ reuses the gold editorial patterns without changing other pages. */
+.fiftyplus-body-map { width: 100%; max-width: 320px; aspect-ratio: 4 / 7; }
+.fiftyplus-page .grid > * { min-width: 0; }
+.fiftyplus-page .rebel-label { color: var(--warm-gold); }
+.fiftyplus-hero-image { object-position: 66% center; }
+.fiftyplus-page .unpause-booking .rebel-card > div:first-child { background: var(--warm-gold) !important; color: var(--background); }
+.fiftyplus-page .unpause-booking .rebel-card > div:first-child svg { color: var(--background); }
+.fiftyplus-page .unpause-booking a { background: var(--warm-gold); color: var(--background); }
+@media (min-width: 768px) { .fiftyplus-hero-image { object-position: center 52%; } }
+.fiftyplus-map-dot { transform: translate(-50%, -50%); }
+.fiftyplus-map-dot.is-selected { background: color-mix(in oklab, var(--warm-gold) 18%, transparent); box-shadow: 0 0 0 1px var(--warm-gold); }
+.map-neck { left: 50%; top: 17%; }
+.map-shoulder { left: 34%; top: 23%; }
+.map-elbow { left: 72%; top: 39%; }
+.map-upper-back { left: 50%; top: 30%; }
+.map-lower-back { left: 50%; top: 44%; }
+.map-hip { left: 61%; top: 51%; }
+.map-knee { left: 43%; top: 69%; }
+.map-ankle { left: 56%; top: 87%; }
+.fiftyplus-venn-centre { font-family: var(--font-mono); font-size: 12px; }

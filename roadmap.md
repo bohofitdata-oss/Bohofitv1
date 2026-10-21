@@ -20,3 +20,9 @@
 - [x] Redesign only the existing UnPause page with gold accents, concerns, expert diagram, timeline and photos.
 - [x] Preserve consultation fields and submission flow; add page-specific slot times and concern notes.
 - [x] Test slot rules and concern notes, then verify desktop/mobile booking interactions (isolated submission; no live reservation created).
+
+# 50+ page redesign
+
+- [x] Redesign the existing 50+ page with body map, gold diagrams, timeline and older-adult photos.
+- [x] Keep selected problem areas and notes in existing booking; reuse UnPause slot configuration.
+- [x] Test concerns and slots; verify desktop/mobile booking without live reservations or notifications (simulated success and slot conflict).

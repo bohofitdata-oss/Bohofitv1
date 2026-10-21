@@ -17,6 +17,6 @@
 
 # UnPause page redesign
 
-- [ ] Redesign only the existing UnPause page with gold accents, concerns, expert diagram, timeline and photos.
-- [ ] Preserve consultation fields and submission flow; add page-specific slot times and concern notes.
-- [ ] Test slot rules and concern notes, then verify desktop/mobile booking interactions.
+- [x] Redesign only the existing UnPause page with gold accents, concerns, expert diagram, timeline and photos.
+- [x] Preserve consultation fields and submission flow; add page-specific slot times and concern notes.
+- [x] Test slot rules and concern notes, then verify desktop/mobile booking interactions (isolated submission; no live reservation created).

@@ -23,6 +23,6 @@
 
 # 50+ page redesign
 
-- [ ] Redesign the existing 50+ page with body map, gold diagrams, timeline and older-adult photos.
-- [ ] Keep selected problem areas and notes in existing booking; reuse UnPause slot configuration.
-- [ ] Test concerns and slots; verify desktop/mobile booking without live reservations or notifications.
+- [x] Redesign the existing 50+ page with body map, gold diagrams, timeline and older-adult photos.
+- [x] Keep selected problem areas and notes in existing booking; reuse UnPause slot configuration.
+- [x] Test concerns and slots; verify desktop/mobile booking without live reservations or notifications (simulated success and slot conflict).

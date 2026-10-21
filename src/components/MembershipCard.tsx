@@ -18,9 +18,9 @@ type Membership = {
 };
 
 const PROGRAM_LABEL: Record<string, string> = {
-  start: "Level 1 (Rebél Start)",
-  strength: "Level 2 (Rebél Strength)",
-  unlimited: "Level 3 (Rebél One)",
+  start: "Level 1 START",
+  strength: "Level 2 STRENGTH",
+  unlimited: "Level 3 REBEL UNLIMITED",
 
   group_classes: "Rebél 1:1",
   longevity: "Rebél Unpause",

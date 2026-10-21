@@ -4,3 +4,4 @@
 - Protect MCP with the app's OAuth issuer and forward each verified caller token through the existing user-scoped data helper; this preserves per-member RLS boundaries.
 - Keep public studio facts and class display names in `src/lib/site-facts.ts`, separate from booking schedules and payment identifiers; presentation updates must not change transactional logic.
 - Use the shared `TM` component for prominent trademark treatments; consistent superscripts avoid repeated inline styling.
+- Pass page-specific consultation times and concern notes as optional booking props, with defaults unchanged; this isolates UnPause configuration from other programs and retains the existing insert and notification flow.

@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "75% of our members are still training after a year — because Rebél is built on structure, not machines. Group Classes, UnPause and 50+ by REBÉL in HSR Layout, Bengaluru." },
       { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, Rebél Unpause, fitness 50+, gym alternative" },
       { property: "og:title", content: "Rebél — Fitness That Doesn't Quit on You" },
-      { property: "og:description", content: "Built for the 90% who quit gyms in 90 days. Coach-led. Progression-based. Zero machines. One Rebél community." },
+      { property: "og:description", content: "Group Classes, UnPause and 50+ by REBÉL. Coach-led, machine-free strength in HSR Layout, Bengaluru." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -62,9 +62,9 @@ function Home() {
   return (
     <SiteShell>
       <HeroPanel />
-      <div id="group-classes"><ProgramCarousel /></div>
+      <div id="group-classes" className="scroll-mt-20"><ProgramCarousel /></div>
       <WhatYouGet />
-      <div id="unpause" className="rebel-glow"><UnpauseMethod /></div>
+      <div id="unpause" className="scroll-mt-20"><UnpauseMethod /></div>
       <FiftyPlusFlagship />
       <div id="method"><RebelMethod /></div>
       <RebelJourney />

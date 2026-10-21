@@ -85,8 +85,8 @@ function UnpausePage() {
               1:1 strength for perimenopause and menopause.
               A REBÉL Defined Coach, clinical dietitian and doctor-guided support.
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm text-foreground"
-                 style={{ borderColor: "rgba(255,255,255,0.25)", background: "rgba(0,0,0,0.4)" }}>
+            <div className="mt-6 inline-flex items-center justify-center flex-wrap gap-2 text-xs text-foreground"
+                 >
               <HeartPulse className="w-4 h-4" style={{ color: "var(--storefront)" }} /> Free 30-min consultation | No card required
             </div>
             <div className="mt-8">

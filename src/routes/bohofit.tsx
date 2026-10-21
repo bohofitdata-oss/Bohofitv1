@@ -119,7 +119,7 @@ function BohofitPage() {
             const Icon = TAB_META[t].icon;
             const active = t === tab;
             return (
-              <button
+              <Button variant="outline"
                 key={t}
                 onClick={() => selectTab(t)}
                 aria-pressed={active}
@@ -129,7 +129,7 @@ function BohofitPage() {
                 )}
               >
                 <Icon className="w-4 h-4" /> {TAB_META[t].name}<TM />
-              </button>
+              </Button>
             );
           })}
         </div>

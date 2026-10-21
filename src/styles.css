@@ -55,15 +55,15 @@
 :root {
   --radius: 0.75rem;
 
-  --background: #000000;
-  --foreground: #FFFFFF;
+  --background: oklch(0 0 0);
+  --foreground: oklch(1 0 0);
 
   --card: rgba(255, 255, 255, 0.03);
   --card-foreground: #FFFFFF;
   --popover: #0a0a0a;
   --popover-foreground: #FFFFFF;
 
-  --primary: #89010A;                 /* deep crimson */
+  --primary: oklch(0.39673384 0.16111356 27.200304);                 /* deep crimson */
   --primary-foreground: #FFFFFF;
   --primary-bright: #A50010;          /* hover / glow */
 
@@ -71,11 +71,11 @@
   --secondary-foreground: #FFFFFF;
 
   --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: oklch(0.653 0 0);        /* body text */
-  --muted-strong: oklch(0.653 0 0);            /* subtle/secondary */
-  --accent-bright: oklch(0.588 0.212 29);
-  --storefront: oklch(0.588 0.212 29);
-  --warm-gold: oklch(0.738 0.088 77);
+  --muted-foreground: oklch(0.65335095 0.00000002 89.875563);        /* body text */
+  --muted-strong: oklch(0.65335095 0.00000002 89.875563);            /* subtle/secondary */
+  --accent-bright: oklch(0.58632721 0.20925991 29.178137);
+  --storefront: oklch(0.58632721 0.20925991 29.178137);
+  --warm-gold: oklch(0.73918667 0.08720510 78.022597);
   --hero-overlay: linear-gradient(180deg, color-mix(in oklab, var(--background) 30%, transparent), color-mix(in oklab, var(--background) 60%, transparent));
   --image-overlay: linear-gradient(180deg, transparent 20%, color-mix(in oklab, var(--background) 75%, transparent));
   --header-glass: color-mix(in oklab, var(--background) 85%, transparent);           /* readable red on dark */
@@ -119,7 +119,7 @@
 }
 
 .dark { color-scheme: dark; }
-:root { color-scheme: dark; }
+:root { color-scheme: dark; --editorial-heading-size: 32px; --page-heading-size: 38px; }
 
 @layer base {
   html, body { background-color: #000000; color: #FFFFFF; }
@@ -378,6 +378,7 @@
 .rebel-btn:hover { box-shadow: none; }
 .rebel-hero-title { font-size: 32px; line-height: 1.2; font-weight: 500; }
 @media (min-width: 768px) {
+  :root { --editorial-heading-size: 48px; --page-heading-size: 64px; }
   .editorial-section { padding-block: 128px; }
   .editorial-title, .rebel-hero-title { font-size: 48px; }
   .member-hero { min-height: 580px; }
@@ -386,3 +387,5 @@
   .editorial-copy { font-size: 17px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+@media (max-width: 359px) { .member-hero h1 { font-size: 30px; } .editorial-title { font-size: 28px; } .editorial-header { align-items: start; } }

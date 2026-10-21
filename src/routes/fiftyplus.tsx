@@ -140,29 +140,28 @@ function FiftyPlusPage() {
           {PROBLEMS.map((p) => {
             const on = selected.includes(p);
             return (
-              <button
+              <Button variant="outline"
                 key={p}
                 type="button"
                 aria-pressed={on}
                 onClick={() => toggle(p)}
                 className={cn(
-                  "text-left rounded-xl border p-4 transition-colors min-h-[76px]",
+                  "text-left rounded-lg border p-4 transition-colors min-h-[76px] h-auto whitespace-normal justify-start",
                   on
-                    ? "text-foreground"
-                    : "border-foreground/10 bg-foreground/[0.03] text-foreground/85 hover:border-foreground/30",
+                    ? "border-primary bg-primary/15 text-foreground"
+                    : "border-border bg-card text-foreground/85 hover:border-primary/50",
                 )}
-                style={on ? { borderColor: "var(--primary)", background: "rgba(137,1,10,0.18)" } : undefined}
               >
                 <div className="flex items-start gap-2">
                   {on && <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "var(--storefront)" }} />}
                   <span className="text-sm font-semibold">{p}</span>
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>
         <p className="mt-4 text-xs" style={{ color: "var(--muted-foreground)" }}>
-          Multi-select. Your selection carries into your consultation booking so your coach is ready.
+          Your concerns shape your consultation.
         </p>
       </section>
 

@@ -29,6 +29,6 @@
 
 # Group Classes page redesign
 
-- [ ] Replace the existing group page with level ladder, format sheets, plan cards and joining rules.
-- [ ] Apply exact authoritative membership prices and connect existing Razorpay checkout and terms.
-- [ ] Verify Level 2 entry guard, trial navigation, plan amounts and mobile layouts without real payments.
+- [x] Replace the existing group page with level ladder, format sheets, plan cards and joining rules.
+- [x] Apply exact authoritative membership prices and connect existing Razorpay checkout and terms.
+- [x] Verify Level 2 entry guard, trial navigation, plan amounts and mobile layouts without real payments (27 tests passed; checkout and confirmation simulated).

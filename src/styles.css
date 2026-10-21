@@ -418,7 +418,14 @@
 @media (max-width: 359px) { .unpause-heading { font-size: 30px; } .unpause-section-heading { font-size: 26px; } }
 
 /* 50+ reuses the gold editorial patterns without changing other pages. */
-.fiftyplus-body-map { width: 320px; max-width: 100%; aspect-ratio: 4 / 7; }
+.fiftyplus-body-map { width: 100%; max-width: 320px; aspect-ratio: 4 / 7; }
+.fiftyplus-page .grid > * { min-width: 0; }
+.fiftyplus-page .rebel-label { color: var(--warm-gold); }
+.fiftyplus-hero-image { object-position: 66% center; }
+.fiftyplus-page .unpause-booking .rebel-card > div:first-child { background: var(--warm-gold) !important; color: var(--background); }
+.fiftyplus-page .unpause-booking .rebel-card > div:first-child svg { color: var(--background); }
+.fiftyplus-page .unpause-booking a { background: var(--warm-gold); color: var(--background); }
+@media (min-width: 768px) { .fiftyplus-hero-image { object-position: center 52%; } }
 .fiftyplus-map-dot { transform: translate(-50%, -50%); }
 .fiftyplus-map-dot.is-selected { background: color-mix(in oklab, var(--warm-gold) 18%, transparent); box-shadow: 0 0 0 1px var(--warm-gold); }
 .map-neck { left: 50%; top: 17%; }

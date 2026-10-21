@@ -1,3 +1,5 @@
+import { STUDIO_ADDRESS } from "@/lib/site-facts";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
@@ -10,7 +12,7 @@ const FAQS = [
   },
   {
     q: "I'm a complete beginner. Where do I start?",
-    a: "Level 1 (Rebél Start). Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Level 2 (Rebél Strength).",
+    a: "Level 1 START. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Level 2 STRENGTH.",
   },
   {
     q: "Can I pause my membership?",
@@ -30,11 +32,11 @@ const FAQS = [
   },
   {
     q: "Can I switch between programs?",
-    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Level 1 to Level 2, or into Level 3 (Rebél One), anytime.",
+    a: "Yes — 6+ month memberships include Smart Switch (₹599 ERP fee for plan transfers). Switch from Level 1 to Level 2, or into Level 3 REBEL UNLIMITED, anytime.",
   },
   {
     q: "Where are you located?",
-    a: "HSR Layout, Bangalore. Whitefield and Indiranagar centres open soon — join the waitlist on the booking page.",
+    a: STUDIO_ADDRESS + ".",
   },
 ];
 
@@ -45,7 +47,7 @@ export function FAQSection() {
       <Reveal>
         <p className="rebel-label">FAQ</p>
         <h2 className="rebel-hero-title text-3xl md:text-5xl font-black mt-2 leading-[1.05] max-w-2xl">
-          The honest <span className="text-gradient-gold italic">answers.</span>
+          The honest <span className="text-foreground">answers.</span>
         </h2>
       </Reveal>
       <div className="mt-8 max-w-3xl mx-auto space-y-2">
@@ -53,13 +55,13 @@ export function FAQSection() {
           const isOpen = open === i;
           return (
             <div key={f.q} className={cn("rebel-card rounded-2xl overflow-hidden transition", isOpen && "border-primary/50")}>
-              <button
+              <Button variant="ghost"
                 onClick={() => setOpen(isOpen ? null : i)}
                 className="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left"
               >
                 <span className="font-black text-sm md:text-base">{f.q}</span>
                 {isOpen ? <Minus className="w-4 h-4 text-primary shrink-0" /> : <Plus className="w-4 h-4 text-primary shrink-0" />}
-              </button>
+              </Button>
               {isOpen && (
                 <div className="px-4 md:px-5 pb-4 md:pb-5 text-sm text-muted-foreground leading-relaxed">{f.a}</div>
               )}

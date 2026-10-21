@@ -6,6 +6,8 @@ import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
 import { ConsultationBooking } from "@/components/ConsultationBooking";
+import { TM } from "@/components/TM";
+import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
@@ -13,10 +15,10 @@ import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 export const Route = createFileRoute("/fiftyplus")({
   head: () => ({
     meta: [
-      { title: "Rebél at 50+ — 1:1 training for joints, mobility & recovery" },
+      { title: "50+ by REBÉL — 1:1 training for joints, mobility & recovery" },
       { name: "description", content: "1:1 machine-free strength training for people 50+ dealing with back, knee, hip, shoulder pain or post-injury recovery. Free consultation." },
-      { property: "og:title", content: "Rebél at 50+ — Built around your body" },
-      { property: "og:description", content: "1:1 training for joint pain, mobility limits and post-injury recovery. Doctor-cleared. Free consultation." },
+      { property: "og:title", content: "50+ by REBÉL — Built around your body" },
+      { property: "og:description", content: "1:1 training for joint pain, mobility limits and post-injury recovery. Coach-led. Free consultation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -36,9 +38,9 @@ const PROBLEMS = [
 ];
 
 const INCLUSIONS = [
-  "True 1:1 — one coach, one client",
+  "1:1 with a REBÉL Defined Coach",
   "Machine-free, joint-friendly programming",
-  "Trainer-prescribed, doctor-cleared where needed",
+  "REBÉL Defined Coach — trained to the REBÉL Standard",
   "Built around your specific problem areas",
   "Mon–Sat, one hour at your chosen time",
 ];
@@ -83,7 +85,7 @@ function FiftyPlusPage() {
         className="relative overflow-hidden"
         style={{
           background:
-            "radial-gradient(70% 60% at 50% 0%, rgba(137,1,10,0.28) 0%, transparent 65%), #000",
+            "var(--background)",
         }}
       >
         <div className="container mx-auto px-5 pt-20 pb-16 md:pt-28 md:pb-24 text-center">
@@ -91,29 +93,28 @@ function FiftyPlusPage() {
             <div className="flex justify-center mb-4">
               <ProgramSwitcher current="fifty_plus" />
             </div>
-            <p className="text-xs uppercase tracking-[0.18em]" style={{ color: "#FF2233" }}>
-              REBÉL AT 50+ · 1:1
+            <p className="text-xs uppercase tracking-[0.18em]" style={{ color: "var(--storefront)" }}>
+              50+ by REBÉL<TM /> | 1:1
             </p>
             <h1
-              className="mt-3 font-black tracking-tight leading-[1.02] text-white"
-              style={{ fontSize: "clamp(38px, 7vw, 78px)", letterSpacing: "-0.04em" }}
+              className="mt-3 font-black tracking-tight leading-[1.02] text-foreground"
+              style={{ fontSize: "var(--page-heading-size)", letterSpacing: "0" }}
             >
               Strong.
               <br />
-              <span className="italic" style={{ color: "#FF2233" }}>Steady. Independent.</span>
+              <span className="italic" style={{ color: "var(--storefront)" }}>Steady. Independent.</span>
             </h1>
-            <p className="mt-5 max-w-xl mx-auto text-white/85 text-[15px] md:text-lg">
-              1:1 machine-free training for people 50+ dealing with joint pain,
-              mobility limits or post-injury recovery. Built around your body — not the other way around.
+            <p className="mt-5 max-w-xl mx-auto text-foreground/85 text-[15px] md:text-lg">
+              1:1 with a REBÉL Defined Coach · Joint-friendly · Machine-free
             </p>
             <div className="mt-8">
-              <a
+              <Button asChild><a
                 href="#problem"
-                className="inline-flex items-center justify-center rounded-full px-7 h-12 font-bold text-sm text-white transition-colors hover:opacity-90"
-                style={{ background: "#89010A" }}
+                className="inline-flex items-center justify-center rounded-full px-7 h-12 font-bold text-sm text-foreground transition-colors hover:opacity-90"
+                style={{ background: "var(--primary)" }}
               >
                 Book my free consultation →
-              </a>
+              </a></Button>
             </div>
           </Reveal>
         </div>
@@ -122,16 +123,16 @@ function FiftyPlusPage() {
       {/* PROBLEM SELECTOR */}
       <section id="problem" className="container mx-auto max-w-4xl px-5 py-16 md:py-20">
         <Reveal>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "#89010A" }}>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--primary)" }}>
             Step 1 · Where it hurts
           </p>
           <h2
-            className="mt-3 font-black text-white"
-            style={{ fontSize: "clamp(28px, 5vw, 48px)", letterSpacing: "-0.03em", lineHeight: "1.05" }}
+            className="mt-3 font-black text-foreground"
+            style={{ fontSize: "var(--editorial-heading-size)", letterSpacing: "0", lineHeight: "1.05" }}
           >
-            Where does it <span className="italic" style={{ color: "#FF2233" }}>hurt?</span>
+            Where does it <span className="italic" style={{ color: "var(--storefront)" }}>hurt?</span>
           </h2>
-          <p className="mt-3 text-[15px]" style={{ color: "#CCCCCC" }}>
+          <p className="mt-3 text-[15px]" style={{ color: "var(--muted-foreground)" }}>
             Select what you're dealing with — we build your program around it.
           </p>
         </Reveal>
@@ -139,44 +140,43 @@ function FiftyPlusPage() {
           {PROBLEMS.map((p) => {
             const on = selected.includes(p);
             return (
-              <button
+              <Button variant="outline"
                 key={p}
                 type="button"
                 aria-pressed={on}
                 onClick={() => toggle(p)}
                 className={cn(
-                  "text-left rounded-xl border p-4 transition-colors min-h-[76px]",
+                  "text-left rounded-lg border p-4 transition-colors min-h-[76px] h-auto whitespace-normal justify-start",
                   on
-                    ? "text-white"
-                    : "border-white/10 bg-white/[0.03] text-white/85 hover:border-white/30",
+                    ? "border-primary bg-primary/15 text-foreground"
+                    : "border-border bg-card text-foreground/85 hover:border-primary/50",
                 )}
-                style={on ? { borderColor: "#89010A", background: "rgba(137,1,10,0.18)" } : undefined}
               >
                 <div className="flex items-start gap-2">
-                  {on && <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "#FF2233" }} />}
+                  {on && <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: "var(--storefront)" }} />}
                   <span className="text-sm font-semibold">{p}</span>
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>
-        <p className="mt-4 text-xs" style={{ color: "#CCCCCC" }}>
-          Multi-select. Your selection carries into your consultation booking so your coach is ready.
+        <p className="mt-4 text-xs" style={{ color: "var(--muted-foreground)" }}>
+          Your concerns shape your consultation.
         </p>
       </section>
 
       {/* WHAT'S INSIDE */}
       <section className="container mx-auto max-w-4xl px-5 pb-4">
         <Reveal>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "#89010A" }}>
-            What's inside Rebél at 50+
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em]" style={{ color: "var(--primary)" }}>
+            What's inside 50+ by REBÉL
           </p>
         </Reveal>
         <ul className="mt-6 grid sm:grid-cols-2 gap-3">
           {INCLUSIONS.map((b) => (
             <li key={b} className="rebel-card rounded-xl p-4 flex items-start gap-3">
-              <Check className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "#89010A" }} />
-              <span className="text-[15px]" style={{ color: "#CCCCCC" }}>{b}</span>
+              <Check className="w-5 h-5 mt-0.5 shrink-0" style={{ color: "var(--primary)" }} />
+              <span className="text-[15px]" style={{ color: "var(--muted-foreground)" }}>{b}</span>
             </li>
           ))}
         </ul>

@@ -1,63 +1,17 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MessageCircle } from "lucide-react";
 import { BOHOFIT_PHONE, BOHOFIT_PHONE_DISPLAY, BOHOFIT_EMAIL } from "@/components/EmergencyCTA";
+import { STUDIO_ADDRESS, STUDIO_HOURS, APPOINTMENT_NOTE, PEOPLE_TRAINED } from "@/lib/site-facts";
+import { TM } from "@/components/TM";
 import rebelLogo from "@/assets/rebel-logo.png";
-
 export function SiteFooter() {
-  return (
-    <footer className="border-t border-border/60 mt-24">
-      <div className="container mx-auto px-5 py-12 grid md:grid-cols-4 gap-8">
-        <div>
-          <div className="mb-3">
-            <img src={rebelLogo} alt="Rebél" className="h-8 w-auto" />
-          </div>
-          <p className="text-sm text-muted-foreground">India&rsquo;s first machine-free fitness system.</p>
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Programs</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><Link to="/bohofit" className="hover:text-foreground">Rebél Group Classes</Link></li>
-            <li><Link to="/longevity" className="hover:text-foreground">Rebél Unpause</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Company</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            
-            <li><Link to="/booking" className="hover:text-foreground">Speak with us</Link></li>
-            <li><Link to="/auth" className="hover:text-foreground">Member login</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Get in touch</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>
-              <a href={`tel:${BOHOFIT_PHONE}`} className="inline-flex items-center gap-2 hover:text-foreground">
-                <Phone className="w-3.5 h-3.5 text-primary" /> {BOHOFIT_PHONE_DISPLAY}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`https://wa.me/${BOHOFIT_PHONE.replace("+", "")}`}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 hover:text-foreground"
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-primary" /> WhatsApp us
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${BOHOFIT_EMAIL}`} className="inline-flex items-center gap-2 hover:text-foreground">
-                <Mail className="w-3.5 h-3.5 text-primary" /> {BOHOFIT_EMAIL}
-              </a>
-            </li>
-            <li className="text-xs pt-1">HSR Layout, Bangalore</li>
-          </ul>
-        </div>
-      </div>
-      <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Rebél. Machine-free fitness for life.
-      </div>
-    </footer>
-  );
+  return <footer className="border-t border-border">
+    <div className="container mx-auto px-5 md:px-8 py-20 grid md:grid-cols-[1.3fr_1fr_1fr] gap-12">
+      <div><div className="flex items-start mb-6"><img src={rebelLogo} alt="REBÉL" className="h-8 w-auto" /><TM /></div><p className="text-sm text-muted-foreground">Machine-free. Coach-led. For life.</p><p className="text-xs text-muted-foreground mt-5">{PEOPLE_TRAINED}.</p></div>
+      <div><h4 className="rebel-label mb-6">Programs</h4><ul className="space-y-4 text-sm"><li><Link to="/bohofit" className="hover:text-storefront">REBÉL<TM /> Group Classes</Link></li><li><Link to="/longevity" className="hover:text-storefront">UnPause<TM /></Link></li><li><Link to="/fiftyplus" className="hover:text-storefront">50+ by REBÉL<TM /></Link></li></ul><div className="mt-8 flex flex-wrap gap-5 text-xs text-muted-foreground"><Link to="/booking">Speak with us</Link><Link to="/auth">Member login</Link></div></div>
+      <div><h4 className="rebel-label mb-6">Get in touch</h4><ul className="space-y-4 text-sm text-muted-foreground"><li><a href={`tel:${BOHOFIT_PHONE}`} className="inline-flex items-center gap-3 hover:text-foreground"><Phone className="size-4" />{BOHOFIT_PHONE_DISPLAY}</a></li><li><a href={`https://wa.me/${BOHOFIT_PHONE.replace("+", "")}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-3 hover:text-foreground"><MessageCircle className="size-4" />WhatsApp us</a></li><li><a href={`mailto:${BOHOFIT_EMAIL}`} className="inline-flex items-center gap-3 hover:text-foreground break-all"><Mail className="size-4 shrink-0" />{BOHOFIT_EMAIL}</a></li></ul></div>
+    </div>
+    <div className="container mx-auto px-5 md:px-8 pb-12 grid md:grid-cols-2 gap-8 text-xs text-muted-foreground border-t border-border pt-8"><address className="not-italic leading-relaxed max-w-sm">{STUDIO_ADDRESS}.</address><div className="space-y-2">{STUDIO_HOURS.map(row => <p key={row.day}>{row.day} {row.hours}</p>)}<p className="pt-2">{APPOINTMENT_NOTE}</p></div></div>
+    <div className="border-t border-border py-6 container mx-auto px-5 md:px-8 text-xs text-muted-foreground">© {new Date().getFullYear()} REBÉL<TM />. Machine-free fitness for life.</div>
+  </footer>;
 }

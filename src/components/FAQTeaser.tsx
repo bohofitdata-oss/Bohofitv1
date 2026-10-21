@@ -1,82 +1,21 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
-
-const FAQS: { q: string; a: string }[] = [
-  { q: "What does machine-free mean?", a: "We train using bodyweight, resistance bands, kettlebells, and functional movement. No treadmills. No machines. Just you, your coach, and real effort." },
-  { q: "What if I have never exercised before?", a: "Start at Level 1 (Rebél Start) — built for absolute beginners and comeback journeys." },
-  { q: "What is the Rebél guarantee?", a: "Follow the plan and you will see results. If you don't, we work with you for free until you do." },
-  { q: "Can I train from home?", a: "Yes. Unpause and Rebél at 50+ 1:1 sessions can run online or at home with a live coach." },
-  { q: "How does the membership pause work?", a: "Minimum 2 days. Your end date extends automatically." },
-  { q: "Is there a free trial?", a: "One free class at Level 1 (Rebél Start). Unpause and Rebél at 50+ start with a free 30-minute 1:1 consultation." },
-  { q: "Do I have to upload meal photos?", a: "Unpause and Rebél at 50+ members upload meal photos so their coach can adjust nutrition." },
-  { q: "How quickly will I see results?", a: "Most members feel different in 2 weeks. Visible changes by week 6–8." },
-  { q: "Is Rebél only in Bangalore?", a: "Studio is in HSR Layout, Bangalore. Online programs available anywhere in India." },
-  { q: "How do I speak to someone?", a: "Tap “Speak with us” anywhere. We respond within 2 hours." },
+import { STUDIO_ADDRESS, STUDIO_HOURS, APPOINTMENT_NOTE } from "@/lib/site-facts";
+const FAQS = [
+  { q: "What does machine-free mean?", a: "Bodyweight, free weights, kettlebells and resistance bands. Real movement, with a coach beside you." },
+  { q: "Where should a beginner start?", a: "Level 1 START™. Built for beginners and comeback journeys." },
+  { q: "Can I train from home?", a: "Yes. UnPause and 50+ offer live 1:1 training online or at home." },
+  { q: "Is there a free trial?", a: "One free class at Level 1 START™. UnPause and 50+ begin with a free consultation." },
+  { q: "How does a membership pause work?", a: "Minimum two days. Your membership end date extends automatically." },
+  { q: "Where are you located?", a: STUDIO_ADDRESS + "." },
 ];
-
 export function FAQTeaser() {
-  return (
-    <section className="container mx-auto px-5 py-20 md:py-32">
-      <Reveal>
-        <div className="max-w-2xl">
-          <h2 className="rebel-hero-title text-3xl md:text-5xl font-black leading-[1.05]">
-            Got questions?
-          </h2>
-          <p className="mt-4 text-base" style={{ color: "#CCCCCC" }}>
-            Everything you need to know before you start.
-          </p>
-          <Sheet>
-            <SheetTrigger asChild>
-              <button className="rebel-btn-outline mt-6 text-sm">Read FAQ →</button>
-            </SheetTrigger>
-            <SheetContent side="bottom" className="bg-black border-t border-white/10 h-[85vh] overflow-y-auto p-0">
-              <SheetHeader className="px-5 pt-6 pb-2 text-left">
-                <p className="rebel-label">FAQ</p>
-                <SheetTitle className="text-white text-2xl md:text-3xl font-black">The honest answers.</SheetTitle>
-              </SheetHeader>
-              <div className="px-5 pb-10 mt-2">
-                {FAQS.map((f, i) => (
-                  <FAQItem key={i} q={f.q} a={f.a} />
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </Reveal>
-    </section>
-  );
+  return <section className="editorial-section"><div className="container mx-auto px-5 md:px-8"><Reveal><p className="rebel-label mb-6">Before you begin</p><h2 className="editorial-title">Got questions?</h2><Sheet><SheetTrigger asChild><Button variant="outline" className="rounded-full mt-8">Read FAQ →</Button></SheetTrigger><SheetContent side="bottom" className="bg-background border-border h-[85vh] overflow-y-auto"><div className="max-w-3xl mx-auto"><SheetHeader className="text-left py-6"><p className="rebel-label">FAQ</p><SheetTitle className="text-foreground text-2xl font-medium">The honest answers.</SheetTitle></SheetHeader>{FAQS.map(f => <FAQItem key={f.q} {...f} />)}<div className="py-8"><p className="rebel-label mb-5">Group class routine</p>{STUDIO_HOURS.map(row => <p key={row.day} className="text-sm text-muted-foreground mb-3">{row.day} {row.hours}</p>)}<p className="text-xs text-muted-foreground mt-5">{APPOINTMENT_NOTE}</p></div></div></SheetContent></Sheet></Reveal></div></section>;
 }
-
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
-  return (
-    <div className="border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between gap-4 py-4 text-left"
-      >
-        <span
-          className={cn("font-bold text-[15px] md:text-base transition-colors")}
-          style={{ color: open ? "#FF2233" : "#FFFFFF" }}
-        >
-          {q}
-        </span>
-        <ChevronDown
-          className="w-4 h-4 shrink-0 transition-transform duration-300"
-          style={{
-            color: "#89010A",
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          }}
-        />
-      </button>
-      {open && (
-        <p className="pb-4 text-sm leading-relaxed" style={{ color: "#CCCCCC" }}>
-          {a}
-        </p>
-      )}
-    </div>
-  );
+  return <div className="member-row"><Button variant="ghost" onClick={() => setOpen(v => !v)} aria-expanded={open} className="w-full h-auto py-5 px-0 justify-between text-left whitespace-normal hover:bg-transparent"><span className="text-sm font-medium">{q}</span><ChevronDown className={`shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} /></Button>{open && <p className="text-sm text-muted-foreground pb-5 max-w-sm">{a}</p>}</div>;
 }

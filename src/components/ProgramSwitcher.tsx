@@ -1,62 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeftRight, Check } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
 type ProgramKey = "unpause" | "fifty_plus" | "group_classes";
-
-const PROGRAMS: { key: ProgramKey; to: "/longevity" | "/fiftyplus" | "/bohofit"; name: string; tag: string }[] = [
-  { key: "unpause", to: "/longevity", name: "Rebél Unpause", tag: "1:1 · Perimenopause & menopause" },
-  { key: "fifty_plus", to: "/fiftyplus", name: "Rebél at 50+", tag: "1:1 · Joints, mobility, recovery" },
-  { key: "group_classes", to: "/bohofit", name: "Group Classes", tag: "Level 1 · Level 2 · Level 3" },
+const PROGRAMS = [
+  { key: "unpause", to: "/longevity" as const, name: "UnPause", tag: "1:1 | Perimenopause & menopause" },
+  { key: "fifty_plus", to: "/fiftyplus" as const, name: "50+ by REBÉL", tag: "1:1 | Joints, mobility, balance" },
+  { key: "group_classes", to: "/bohofit" as const, name: "Group Classes", tag: "Levels 1–3" },
 ];
-
 export function ProgramSwitcher({ current }: { current?: ProgramKey }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
-
-  return (
-    <div className="relative inline-block" ref={ref}>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white hover:border-white/30 transition-colors"
-      >
-        <ArrowLeftRight className="w-4 h-4" style={{ color: "#FF2233" }} /> Change Program
-      </button>
-      {open && (
-        <div
-          className="absolute left-1/2 -translate-x-1/2 z-[100] mt-2 w-80 rounded-xl border border-white/10 shadow-elegant p-1.5"
-          style={{ background: "#0a0a0a" }}
-        >
-          {PROGRAMS.map((p) => {
-            const active = p.key === current;
-            return (
-              <Link
-                key={p.key}
-                to={p.to}
-                onClick={() => setOpen(false)}
-                className={`flex items-start gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
-                  active ? "bg-white/[0.06]" : "hover:bg-white/[0.04]"
-                }`}
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-bold text-white">{p.name}</div>
-                  <div className="text-xs" style={{ color: "#CCCCCC" }}>{p.tag}</div>
-                </div>
-                {active && <Check className="w-4 h-4 mt-1" style={{ color: "#FF2233" }} />}
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
+  useEffect(() => { const close = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); }; const escape = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); }; document.addEventListener("mousedown", close); document.addEventListener("keydown", escape); return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", escape); }; }, []);
+  return <div className="relative inline-block" ref={ref}><Button variant="outline" size="icon" className="rounded-full" onClick={() => setOpen(v => !v)} aria-label="Choose program" title="Choose program" aria-expanded={open}><ArrowLeftRight /></Button>{open && <div className="absolute left-1/2 -translate-x-1/2 z-[100] mt-3 w-72 max-w-[calc(100vw-2rem)] rounded-lg border border-border bg-popover p-2">{PROGRAMS.map(p => <Link key={p.key} to={p.to} onClick={() => setOpen(false)} className="flex gap-3 rounded-md px-3 py-4 hover:bg-secondary"><span className="flex-1"><span className="block text-sm font-medium text-foreground">{p.name}</span><span className="block text-xs text-muted-foreground mt-2">{p.tag}</span></span>{p.key === current && <Check className="size-4 text-storefront" />}</Link>)}</div>}</div>;
 }

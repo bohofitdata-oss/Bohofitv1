@@ -5,6 +5,8 @@ import { useWebMCP } from "use-webmcp-tool";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
 import { ProgramSwitcher } from "@/components/ProgramSwitcher";
+import { TM } from "@/components/TM";
+import { CLASS_LEVEL_NAMES } from "@/lib/site-facts";
 import { Button } from "@/components/ui/button";
 import { Check, Sparkles, Flame, Infinity as InfinityIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,9 +16,9 @@ export const Route = createFileRoute("/bohofit")({
   head: () => ({
     meta: [
       { title: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-      { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 (Start) for beginners and comebacks, Level 2 (Strength) for trained bodies, Level 3 (Rebél One) for everything." },
+      { name: "description", content: "Three levels of machine-free group training at HSR Bangalore. Level 1 START for beginners and comebacks, Level 2 STRENGTH for trained bodies, Level 3 REBEL UNLIMITED for everything." },
       { property: "og:title", content: "Rebél Group Classes — Level 1, Level 2 & Level 3" },
-      { property: "og:description", content: "Three levels of machine-free group training at HSR Bangalore. Choose Level 1 (Start), Level 2 (Strength), or Level 3 (Rebél One)." },
+      { property: "og:description", content: "Three levels of machine-free group training at HSR Bangalore. Choose Level 1 START, Level 2 STRENGTH, or Level 3 REBEL UNLIMITED." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -53,9 +55,9 @@ const unlimitedPlans: Plan[] = [
 ];
 
 const TAB_META: Record<Tab, { name: string; tagline: string; icon: React.ComponentType<{ className?: string }>; sub: string; formats: string[]; plans: Plan[] }> = {
-  start: { name: "Level 1 (Rebél Start)", tagline: "India's safest start to fitness — beginners & comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
-  strength: { name: "Level 2 (Rebél Strength)", tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats. Not suitable for beginners.", formats: strengthFormats, plans: strengthPlans },
-  unlimited: { name: "Level 3 (Rebél One)", tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Level 1 + Level 2, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
+  start: { name: CLASS_LEVEL_NAMES.start, tagline: "Built for beginners and comeback journeys.", icon: Sparkles, sub: "Unlimited classes across 4 beginner-friendly formats.", formats: startFormats, plans: startPlans },
+  strength: { name: CLASS_LEVEL_NAMES.strength, tagline: "Strength without limits.", icon: Flame, sub: "Unlimited classes across 3 strength formats. Not suitable for beginners.", formats: strengthFormats, plans: strengthPlans },
+  unlimited: { name: CLASS_LEVEL_NAMES.unlimited, tagline: "Train everything. One membership.", icon: InfinityIcon, sub: "All 7 formats — Level 1 + Level 2, no class limits.", formats: unlimitedFormats, plans: unlimitedPlans },
 
 };
 
@@ -105,7 +107,7 @@ function BohofitPage() {
             India's first <span className="text-gradient-gold">machine-free</span> fitness center.
           </h1>
           <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-            Three programs. Pick where you are. Move when you're ready.
+            Three levels. Pick where you are. Move when you're ready.
           </p>
         </Reveal>
       </section>
@@ -117,7 +119,7 @@ function BohofitPage() {
             const Icon = TAB_META[t].icon;
             const active = t === tab;
             return (
-              <button
+              <Button variant="outline"
                 key={t}
                 onClick={() => selectTab(t)}
                 aria-pressed={active}
@@ -126,8 +128,8 @@ function BohofitPage() {
                   active ? "bg-gradient-gold text-primary-foreground border-transparent" : "border-border bg-card hover:border-primary",
                 )}
               >
-                <Icon className="w-4 h-4" /> {TAB_META[t].name}
-              </button>
+                <Icon className="w-4 h-4" /> {TAB_META[t].name}<TM />
+              </Button>
             );
           })}
         </div>
@@ -142,7 +144,7 @@ function BohofitPage() {
             <p className="mt-2 text-sm text-muted-foreground">{meta.sub}</p>
             <div className="mt-5 flex flex-wrap gap-2">
               {meta.formats.map((f) => (
-                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-white px-4 py-2">{f}</span>
+                <span key={f} className="text-sm md:text-base font-black uppercase tracking-wide rounded-full border border-primary/40 bg-background text-foreground px-4 py-2">{f}</span>
               ))}
             </div>
           </div>

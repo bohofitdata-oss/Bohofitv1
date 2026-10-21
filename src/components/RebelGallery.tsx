@@ -11,8 +11,8 @@ const IMGS = [
 
 export function RebelGallery() {
   return (
-    <section className="py-12 md:py-20">
-      <div className="container mx-auto px-5">
+    <section className="editorial-section">
+      <div className="container mx-auto px-5 md:px-8">
         <Reveal>
           <p className="rebel-label">Rebél in action</p>
         </Reveal>
@@ -23,18 +23,18 @@ export function RebelGallery() {
           {IMGS.map((src, i) => (
             <div
               key={i}
-              className="snap-center shrink-0 w-[68vw] aspect-[4/5] rounded-xl overflow-hidden relative group"
+              className="snap-center shrink-0 w-[68vw] aspect-[4/5] rounded-lg overflow-hidden relative group"
             >
               <img src={src} alt="" loading="lazy" className="w-full h-full object-cover" />
             </div>
           ))}
         </div>
         {/* Desktop: 3 column grid */}
-        <div className="hidden md:grid container mx-auto px-5 grid-cols-3 gap-4">
+        <div className="hidden md:grid container mx-auto px-5 md:px-8 grid-cols-3 gap-4">
           {IMGS.map((src, i) => (
             <div
               key={i}
-              className="aspect-[4/5] rounded-xl overflow-hidden relative group border border-transparent hover:border-primary/60 transition-all duration-300"
+              className="aspect-[4/5] rounded-lg overflow-hidden relative group border border-transparent hover:border-primary/60 transition-all duration-300"
             >
               <img
                 src={src}

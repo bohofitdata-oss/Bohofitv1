@@ -1,4 +1,4 @@
--- Longevity (50+) overhaul migration for bohofitdata-oss.
+-- Longevity (50+) overhaul migration.
 -- Run AFTER bohofit_full_schema.sql in the external project's SQL editor.
 -- Safe to re-run: uses IF NOT EXISTS / DROP POLICY IF EXISTS guards.
 

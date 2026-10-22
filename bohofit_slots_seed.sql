@@ -1,4 +1,4 @@
--- Seed slots for bohofitdata-oss
+-- Seed slots for the external studio project.
 -- Run this in the Supabase SQL editor of the EXTERNAL project
 -- (https://fuitymjndkmltlxstiqj.supabase.co) AFTER bohofit_full_schema.sql.
 --

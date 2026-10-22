@@ -1,4 +1,4 @@
-// Server-side admin client for the external bohofitdata-oss Supabase project.
+// Server-side admin client for the external Supabase project.
 // Bypasses RLS — never import from client code. The *.server.ts extension
 // enforces that at build time.
 import { createClient } from "@supabase/supabase-js";

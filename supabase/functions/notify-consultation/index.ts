@@ -5,9 +5,10 @@
 //   - Set WHATSAPP_API_URL, WHATSAPP_API_TOKEN, WHATSAPP_TEAM_NUMBER as secrets
 //     and POST the message payload to your WhatsApp Business provider
 //     (Gupshup / Twilio / Meta Cloud API).
-//   - Set RESEND_API_KEY (or SENDGRID_API_KEY) and TEAM_EMAIL_TO to send the
-//     team a plain-text summary email. Optionally also email the user a
-//     confirmation / calendar invite.
+//   - Team booking alerts go to REBEL_TEAM_EMAIL (letsbearebel@gmail.com).
+//     Set RESEND_API_KEY (or SENDGRID_API_KEY) to send the team a plain-text
+//     summary email. Optionally also email the user a confirmation /
+//     calendar invite.
 //
 // For now this function just logs the payload and returns 200 so the client
 // flow completes even before credentials are wired.
@@ -20,6 +21,9 @@ const corsHeaders = {
   "Access-Control-Allow-Headers":
     "authorization, x-client-info, apikey, content-type",
 };
+
+// Internal recipient for booking/consultation alerts to the studio.
+const REBEL_TEAM_EMAIL = "letsbearebel@gmail.com";
 
 interface Payload {
   consultation_id: string;
@@ -62,7 +66,7 @@ serve(async (req) => {
   // await fetch(WHATSAPP_API_URL, { method: "POST", headers: { Authorization: `Bearer ${WHATSAPP_API_TOKEN}` }, body: JSON.stringify({ to: WHATSAPP_TEAM_NUMBER, message: summary }) });
 
   // TODO: Email send to team (Resend example)
-  // await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ from: "Rebél <bookings@yourdomain>", to: TEAM_EMAIL_TO, subject: `New consultation — ${body.program}`, text: summary }) });
+  // await fetch("https://api.resend.com/emails", { method: "POST", headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ from: "Rebél <bookings@bearebel.in>", to: REBEL_TEAM_EMAIL, subject: `New consultation — ${body.program}`, text: summary }) });
 
   // TODO: Confirmation to the user (WhatsApp + email + optional .ics calendar invite)
 

@@ -2,7 +2,8 @@ import { Phone, MessageCircle, Mail } from "lucide-react";
 
 export const BOHOFIT_PHONE = "+918100265630";
 export const BOHOFIT_PHONE_DISPLAY = "+91 81002 65630";
-export const BOHOFIT_EMAIL = "bohofitdata@gmail.com";
+export const REBEL_EMAIL = "support@bearebel.in";
+export const REBEL_SECONDARY_EMAIL = "letsbearebel@gmail.com";
 
 export function EmergencyCTA() {
   return (
@@ -24,10 +25,10 @@ export function EmergencyCTA() {
           <MessageCircle className="w-4 h-4 text-primary" /> WhatsApp
         </a>
         <a
-          href={`mailto:${BOHOFIT_EMAIL}`}
+          href={`mailto:${REBEL_EMAIL}`}
           className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-primary"
         >
-          <Mail className="w-4 h-4 text-primary" /> {BOHOFIT_EMAIL}
+          <Mail className="w-4 h-4 text-primary" /> {REBEL_EMAIL}
         </a>
       </div>
     </div>

@@ -24,7 +24,7 @@ function PrivacyPage() {
           REBÉL collects only what's needed to coach you. Symptom selections and outcome
           check-ins are stored <strong>only after you opt in</strong> and used to personalise
           your coaching. We don't infer diagnoses. You can ask us to delete your stored
-          health data at any time — email <a className="underline" href="mailto:hello@rebel.fit">hello@rebel.fit</a>.
+          health data at any time — email <a className="underline" href="mailto:support@bearebel.in">support@bearebel.in</a>.
         </p>
         <p className="text-muted-foreground mt-4">
           Full policy coming soon. <Link to="/" className="underline">Back to home</Link>.

@@ -1,5 +1,5 @@
-// Manual override client pointing to the user's external Supabase project
-// (bohofitdata-oss). This bypasses the auto-managed Lovable Cloud client.
+// Manual override client pointing to the user's external Supabase project.
+// This bypasses the auto-managed Lovable Cloud client.
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 

@@ -5,7 +5,7 @@
 - [x] Swap hero photo; build swipeable offering cards, benefit bubbles, expressive stats, compact method and journey tree.
 - [x] Refresh Group Classes level navigation and process bubbles; preserve checkout and warnings.
 - [x] Replace stock gallery with member photos and unsupported testimonials with clearly attributed heritage excerpts.
-- [ ] Verify reviews directly from Google — waiting for the owner's Google Maps listing link; secondary-source excerpts are explicitly labelled.
+- [x] Verify reviews directly through the studio's Google Business Profile; display exact excerpts, dates and the checked rating/count with its Google link.
 - [x] Add the supplied Level 1/2 routine downloads; Level 3 uses both routines.
 - [x] Incorporate the supplied class rulebook into “Things to know before joining” without altering payment terms.
 - [x] Verify phone/MacBook/desktop interactions, all downloads, checkout form and 24 rule/price tests; no real payment submitted.

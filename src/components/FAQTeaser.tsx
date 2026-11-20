@@ -7,8 +7,8 @@ import { STUDIO_ADDRESS, STUDIO_HOURS, APPOINTMENT_NOTE } from "@/lib/site-facts
 const FAQS = [
   { q: "What does machine-free mean?", a: "Bodyweight, free weights, kettlebells and resistance bands. Real movement, with a coach beside you." },
   { q: "Where should a beginner start?", a: "Level 1 START™. Built for beginners and comeback journeys." },
-  { q: "Can I train from home?", a: "Yes. UnPause and 50+ offer live 1:1 training online or at home." },
-  { q: "Is there a free trial?", a: "One free class at Level 1 START™. UnPause and 50+ begin with a free consultation." },
+  { q: "Can I train from home?", a: "Yes. 50+ offers live 1:1 training online or at home." },
+  { q: "Is there a free trial?", a: "One free class at Level 1 START™. 50+ begins with a free consultation." },
   { q: "How does a membership pause work?", a: "Minimum two days. Your membership end date extends automatically." },
   { q: "Where are you located?", a: STUDIO_ADDRESS + "." },
 ];

@@ -9,3 +9,4 @@
 - Keep Group Classes plans in a shared catalogue used by the page and Razorpay handlers; derive server charge amounts from plan IDs, never browser prices.
 - Bind group membership checkout to a validated plan marker in the existing booking goal field and verify provider order amounts before marking paid; retain legacy booking plan enums and payment RPC.
 - Keep paid Group Classes entry in a page-local modal using the existing payment and membership-terms components; the existing booking page remains the free-trial flow.
+- Submit public trial requests through a validated server function with fixed booking state; never read private bookings back through anonymous browser access.

@@ -15,7 +15,7 @@ export default defineTool({
       .eq("active", true)
       .order("title");
     if (error) throw new ToolError("Could not load Rebél programs right now.");
-    const programs = (data ?? []).map((program) => ({
+    const programs = (data ?? []).filter(program => !/unpause|longevity/i.test(`${program.slug} ${program.title} ${program.path}`)).map((program) => ({
       slug: program.slug,
       title: program.title,
       description: program.description,

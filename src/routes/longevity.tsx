@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useWebMCP } from "use-webmcp-tool";
 import { Check, MessageCircle, ScanLine, ClipboardList, Dumbbell, ChartNoAxesCombined } from "lucide-react";
@@ -16,6 +16,7 @@ import energyImage from "@/assets/unpause-energy.jpg";
 import nutritionImage from "@/assets/unpause-nutrition.jpg";
 
 export const Route = createFileRoute("/longevity")({
+  beforeLoad: () => { throw redirect({ to: "/bohofit", replace: true }); },
   head: () => ({ meta: [
     { title: "UnPause — Strength for perimenopause & menopause | REBÉL" },
     { name: "description", content: "One coach. One dietitian. Doctor-guided. Twelve weeks of personal strength training. Book your free UnPause consultation." },

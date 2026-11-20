@@ -4,7 +4,6 @@ import { ArrowLeftRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 type ProgramKey = "unpause" | "fifty_plus" | "group_classes";
 const PROGRAMS = [
-  { key: "unpause", to: "/longevity" as const, name: "UnPause", tag: "1:1 | Perimenopause & menopause" },
   { key: "fifty_plus", to: "/fiftyplus" as const, name: "50+ by REBÉL", tag: "1:1 | Joints, mobility, balance" },
   { key: "group_classes", to: "/bohofit" as const, name: "Group Classes", tag: "Levels 1–3" },
 ];

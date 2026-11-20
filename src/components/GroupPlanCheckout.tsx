@@ -10,6 +10,7 @@ import { GeneralFitnessTerms, allGeneralTermsAccepted, scrollToFirstUncheckedTer
 import { PaymentScreen } from "@/components/PaymentScreen";
 import { prepareGroupCheckout } from "@/lib/group-checkout.functions";
 import { type GroupPlan, JOINING_RULES } from "@/lib/group-plans";
+import { joinWhatsAppLink } from "@/lib/join-request";
 
 export function GroupPlanCheckout({ plan, levelName, onClose }: { plan: GroupPlan; levelName: string; onClose: () => void }) {
   const prepare = useServerFn(prepareGroupCheckout);
@@ -18,12 +19,16 @@ export function GroupPlanCheckout({ plan, levelName, onClose }: { plan: GroupPla
   const [busy, setBusy] = useState(false);
   const [payment, setPayment] = useState<{ bookingId: string; customer: { name: string; email: string; phone: string } } | null>(null);
   const [paid, setPaid] = useState(false);
+  const [backupUrl, setBackupUrl] = useState<string | null>(null);
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!allGeneralTermsAccepted(terms)) { scrollToFirstUncheckedTerm(terms); toast.error("Please accept every membership term."); return; }
     if (!joiningAccepted) { toast.error("Please accept the joining rules."); return; }
     const values = new FormData(event.currentTarget);
     const customer = { name: String(values.get("name")), phone: String(values.get("phone")), email: String(values.get("email")) };
+    try {
+      setBackupUrl(joinWhatsAppLink({ ...customer, age: Number(values.get("age")), city: String(values.get("city")), goal: "Join a Group Classes membership" }, `${levelName} | ${plan.months} months | ₹${plan.price}`));
+    } catch { toast.error("Please check your contact details."); return; }
     setBusy(true);
     try {
       const result = await prepare({ data: { planId: plan.id, ...customer, age: Number(values.get("age")), city: String(values.get("city")), terms: Object.keys(terms).filter(key => terms[key]), joiningRulesAccepted: true } });
@@ -39,6 +44,7 @@ export function GroupPlanCheckout({ plan, levelName, onClose }: { plan: GroupPla
       <GeneralFitnessTerms checked={terms} onChange={setTerms} />
       <div className="border border-border rounded-lg p-5"><p className="font-mono text-xs text-storefront">BEFORE YOU JOIN — PLEASE READ</p><ol className="mt-4 list-decimal pl-4 space-y-3 text-sm text-muted-foreground">{JOINING_RULES.map(rule => <li key={rule}>{rule}</li>)}</ol><Label className="flex items-start gap-3 mt-5 leading-relaxed"><Checkbox checked={joiningAccepted} onCheckedChange={value => setJoiningAccepted(value === true)} aria-label="I accept the three joining rules" />I accept the three joining rules.</Label></div>
       <Button className="w-full rounded-full h-12" disabled={busy} type="submit">{busy ? "Preparing checkout…" : `Pay ₹${plan.price.toLocaleString("en-IN")}/-`}</Button>
+      {backupUrl && <Button asChild variant="outline" className="w-full"><a href={backupUrl} target="_blank" rel="noopener noreferrer">Send my details on WhatsApp</a></Button>}
     </form>}
   </DialogContent></Dialog>;
 }

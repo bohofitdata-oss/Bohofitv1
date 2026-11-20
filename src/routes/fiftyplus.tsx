@@ -15,7 +15,7 @@ import movementImage from "@/assets/fiftyplus-movement.jpg";
 import mobilityImage from "@/assets/fiftyplus-mobility.jpg";
 import strengthImage from "@/assets/fiftyplus-strength.jpg";
 import balanceImage from "@/assets/fiftyplus-balance.jpg";
-import heroImage from "@/assets/fiftyplus-hero.jpg";
+import heroPhoto from "@/assets/rebel-fiftyplus-member.webp.asset.json";
 
 export const Route = createFileRoute("/fiftyplus")({
   head: () => ({ meta: [
@@ -69,7 +69,7 @@ function FiftyPlusPage() {
   });
   return <SiteShell><div className="unpause-page fiftyplus-page">
     <section className="unpause-hero relative overflow-hidden flex items-center">
-      <img src={heroImage} alt="One-to-one strength training with an older adult and coach" width={1536} height={1024} className="fiftyplus-hero-image absolute inset-0 w-full h-full object-cover" />
+      <img src={heroPhoto.url} alt="Older REBÉL member in a green T-shirt practising balance" width={1536} height={1024} className="fiftyplus-hero-image absolute inset-0 w-full h-full object-contain object-right!" />
       <div className="absolute inset-0 unpause-hero-shade" aria-hidden />
       <div className="relative container mx-auto px-5 md:px-8 py-20 md:py-28"><Reveal>
         <p className="font-mono text-xs text-warm-gold leading-relaxed">50+ BY REBÉL<TM /> | 1:1</p>

@@ -1,5 +1,12 @@
 # Agent integrations
 
+# Current public updates
+
+- [x] Hide UnPause temporarily, keeping its records intact; show Group Classes and 50+ only.
+- [x] Update people trained to 2,700+ and use supplied member photos.
+- [x] Repair joining submission access error and add details-filled WhatsApp backup at 8100 265630.
+- [x] Verify real submission storage and desktop/mobile views; delete only the test booking.
+
 - [x] Configure authenticated OAuth consent and preserve the sign-in return path.
 - [x] Register caller-scoped MCP tools for personal progress, memberships, and programs.
 - [x] Add page-local browser tools for visible Rebél offerings, class levels, Unpause booking, and 50+ focus selection.

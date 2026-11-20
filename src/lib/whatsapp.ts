@@ -1,6 +1,6 @@
 // Click-to-send WhatsApp helpers (no API key required).
 // Rebél support number used as the recipient for confirmations.
-export const BOHOFIT_WHATSAPP = "919999999999"; // TODO: replace with real number (country code, no +)
+export const BOHOFIT_WHATSAPP = "918100265630";
 
 export function waLink(phone: string, message: string) {
   const clean = phone.replace(/[^\d]/g, "");

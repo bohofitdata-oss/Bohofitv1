@@ -16,8 +16,9 @@ import { LEVEL_FORMATS, type TrainingFormat } from "@/lib/group-formats";
 import { STUDIO_HOURS } from "@/lib/site-facts";
 import { cn } from "@/lib/utils";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
-import startImage from "@/assets/program-start.jpg";
-import strengthImage from "@/assets/program-strength.jpg";
+import startPhoto from "@/assets/rebel-start-members.jpg.asset.json";
+import strengthPhoto from "@/assets/rebel-strength-members.jpg.asset.json";
+import unlimitedPhoto from "@/assets/rebel-unlimited-members.jpg.asset.json";
 
 export const Route = createFileRoute("/bohofit")({
   head: () => ({ meta: [
@@ -32,9 +33,9 @@ export const Route = createFileRoute("/bohofit")({
 });
 
 const LEVELS: Record<ClassLevel, { name: string; level: string; tagline: string; sub: string; count: number; footer: string; image: string }> = {
-  start: { name: "START", level: "LEVEL 1", tagline: "India's safest start to fitness.", sub: "For beginners & comeback journeys.", count: 6, footer: "From beginner → consistent & confident", image: startImage },
-  strength: { name: "STRENGTH", level: "LEVEL 2", tagline: "Strength without limits.", sub: "For serious training & performance.", count: 4, footer: "From trained → strong & performance-driven", image: strengthImage },
-  unlimited: { name: "REBEL UNLIMITED", level: "LEVEL 3 • ALL-ACCESS", tagline: "Train everything. One membership.", sub: "Every format, ground floor + fifth floor, together.", count: 10, footer: "Transfer on 6 & 12-month (outsider only, ₹599 ERP) • Smart Switch across formats", image: strengthImage },
+  start: { name: "START", level: "LEVEL 1", tagline: "India's safest start to fitness.", sub: "For beginners & comeback journeys.", count: 6, footer: "From beginner → consistent & confident", image: startPhoto.url },
+  strength: { name: "STRENGTH", level: "LEVEL 2", tagline: "Strength without limits.", sub: "For serious training & performance.", count: 4, footer: "From trained → strong & performance-driven", image: strengthPhoto.url },
+  unlimited: { name: "REBEL UNLIMITED", level: "LEVEL 3 • ALL-ACCESS", tagline: "Train everything. One membership.", sub: "Every format, ground floor + fifth floor, together.", count: 10, footer: "Transfer on 6 & 12-month (outsider only, ₹599 ERP) • Smart Switch across formats", image: unlimitedPhoto.url },
 };
 const HOW = ["Book a free trial class", "Pick your plan", "Walk in to your level's routine — no booking needed", "Move up when your coach says you're ready"];
 
@@ -79,7 +80,7 @@ function GroupClassesPage() {
     <div className="container mx-auto px-5 md:px-8"><div className="group-tabs grid grid-cols-3 border-b border-border" role="tablist" aria-label="Class levels">{(Object.keys(LEVELS) as ClassLevel[]).map((level,index) => <Button key={level} id={`tab-${level}`} role="tab" aria-selected={tab === level} aria-pressed={tab === level} aria-controls="class-level-panel" variant="ghost" onClick={() => selectTab(level)} className={cn("rounded-none h-auto min-h-16 py-4 px-2 whitespace-normal text-center flex-col gap-1 border-b-2", tab === level ? "border-primary text-foreground bg-primary/10 hover:bg-primary/15" : "border-transparent text-muted-foreground hover:bg-card")}><span className="font-mono text-[10px]">LEVEL {index+1} ·</span><span className="text-xs md:text-sm font-medium">{LEVELS[level].name}<TM /></span></Button>)}</div></div>
     <div id="class-level-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
       <section className={cn("group-level-hero relative overflow-hidden mt-7", tab === "unlimited" && "all-access")}>
-        <img src={meta.image} alt={`${meta.name} machine-free group training`} width={1536} height={1024} className="absolute inset-0 size-full object-cover opacity-30" />
+        <img src={meta.image} alt={`${meta.name} machine-free group training`} width={1536} height={1024} className="absolute inset-0 size-full object-cover opacity-60" />
         <div className="group-hero-shade absolute inset-0" aria-hidden />
         <div className="container mx-auto relative px-5 md:px-8 py-16 md:py-20"><div className="flex justify-between items-start gap-4"><p className="group-eyebrow font-mono text-xs text-foreground/80">{meta.level}</p><span className="shrink-0 rounded-full border border-foreground/25 px-3 py-2 text-[10px] md:text-xs text-foreground">{meta.count} Training Formats</span></div><h1 className={cn("group-level-name font-medium mt-8",tab === "unlimited" && "unlimited-name")}>{meta.name}<TM /></h1><p className="text-foreground font-bold italic text-xl md:text-3xl mt-7 max-w-2xl">{meta.tagline}</p><p className="text-foreground/70 text-sm md:text-base mt-3">{meta.sub}</p>{tab === "strength" && <p className="inline-block font-mono text-[10px] rounded-full border border-foreground/30 px-4 py-2 mt-6 text-foreground">INTERMEDIATE &amp; ADVANCED ONLY</p>}<div className="mt-9"><Button onClick={() => enter({ type: "trial" })} className="rounded-full bg-foreground text-background hover:bg-foreground/90 h-12 px-6">Book a free trial →</Button></div></div>
       </section>

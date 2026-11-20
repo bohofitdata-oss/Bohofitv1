@@ -6,7 +6,7 @@ export const STUDIO_HOURS = [
   { day: "Sunday", hours: "8:30–9:30 AM" },
 ];
 export const APPOINTMENT_NOTE = "Consultations strictly by appointment.";
-export const PEOPLE_TRAINED = "2,500+ people trained since 2022";
+export const PEOPLE_TRAINED = "2,700+ people trained since 2022";
 export const CLASS_LEVEL_NAMES = {
   start: "Level 1 START",
   strength: "Level 2 STRENGTH",

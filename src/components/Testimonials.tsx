@@ -48,8 +48,8 @@ export function Testimonials() {
         </div>
       </Reveal>
 
-      <div className="mt-10 md:mt-14 grid md:grid-cols-3 gap-4 md:gap-5">
-        {STORIES.map((s, i) => (
+      <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-4 md:gap-5">
+        {STORIES.filter(story => !story.program.startsWith("UnPause")).map((s, i) => (
           <Reveal key={s.name} delay={i * 100}>
             <article className="rebel-card rounded-lg p-6 h-full flex flex-col">
               <p

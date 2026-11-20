@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { TM } from "@/components/TM";
 import rebelLogo from "@/assets/rebel-logo.png";
 
-const NAV_LINKS = [{ label: "Group Classes", href: "#group-classes" }, { label: "UnPause", href: "#unpause" }, { label: "50+", href: "#fifty-plus" }];
+const NAV_LINKS = [{ label: "Group Classes", href: "#group-classes" }, { label: "50+", href: "#fifty-plus" }];
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { SiteShell } from "@/components/SiteShell";
 import { Reveal } from "@/components/Reveal";
@@ -9,7 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { Check, MessageCircle } from "lucide-react";
-import { saveBooking, PROGRAM_LABEL } from "@/lib/bookings";
+import { PROGRAM_LABEL } from "@/lib/bookings";
+import { submitTrialBooking } from "@/lib/trial-booking.functions";
+import { joinWhatsAppLink } from "@/lib/join-request";
 import { waLink, BOHOFIT_WHATSAPP, bookingConfirmationMessage } from "@/lib/whatsapp";
 import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 
@@ -37,6 +40,8 @@ const schema = z.object({
 });
 
 function BookingPage() {
+  const submitTrial = useServerFn(submitTrialBooking);
+  const [backupUrl, setBackupUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const [submitted, setSubmitted] = useState<null | { name: string }>(null);
   const [loading, setLoading] = useState(false);
@@ -53,15 +58,14 @@ function BookingPage() {
     }
     setLoading(true);
     const { full_name, phone, email, age, city, goal } = parsed.data;
-    const result = await saveBooking({
-      name: full_name, phone, email, age, city, goal,
-      program: "group_classes",
-      rules_accepted: true,
-      is_trial: true,
-    });
-    setLoading(false);
-    if (!result.ok) return toast.error(result.error);
-    setSubmitted({ name: full_name });
+    const details = { name: full_name, phone, email, age, city, goal };
+    setBackupUrl(joinWhatsAppLink(details));
+    try {
+      await submitTrial({ data: details });
+      setSubmitted({ name: full_name });
+    } catch {
+      toast.error("We couldn't save your request. Send your details on WhatsApp below.");
+    } finally { setLoading(false); }
   };
 
   if (submitted) {
@@ -104,7 +108,7 @@ function BookingPage() {
         </Reveal>
 
         <Reveal delay={200}>
-          <form key={formKey} onSubmit={onSubmit} className="mt-8 rebel-card rounded-2xl p-6 md:p-8 space-y-5">
+          <form key={formKey} method="post" onSubmit={onSubmit} className="mt-8 rebel-card rounded-2xl p-6 md:p-8 space-y-5">
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="full_name" className="text-white">Your name</Label>
@@ -141,6 +145,8 @@ function BookingPage() {
               {loading ? "Sending…" : "Join now"}
             </Button>
             <p className="text-xs text-center" style={{ color: "#CCCCCC" }}>No spam. We call once, share the plan, you decide.</p>
+            {backupUrl && <Button asChild variant="outline" className="w-full"><a href={backupUrl} target="_blank" rel="noopener noreferrer"><MessageCircle className="size-4" />Send my details on WhatsApp</a></Button>}
+            <a href={waLink(BOHOFIT_WHATSAPP, "Hello REBÉL, I'd like help joining Group Classes.")} target="_blank" rel="noopener noreferrer" className="block text-center text-sm text-muted-foreground">Need help? WhatsApp 8100 265630</a>
           </form>
         </Reveal>
       </section>

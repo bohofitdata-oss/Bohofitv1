@@ -13,3 +13,4 @@
 - Prefetch public routine/rulebook assets into blobs before enabling download buttons; synchronous clicks retain mobile browser download activation.
 - Keep class operating rules and routine-level mapping in the browser-safe class-rulebook catalogue with tests; display changes must not alter membership terms or scheduling.
 - Keep public Google review excerpts in a dated browser-safe snapshot with original wording and source link; one-off imports must not expose account data or require runtime credentials.
+- Run progress score recalculation and consultation slot availability through server functions backed by service-only RPCs, with `attachSupabaseAuth` registered in `src/start.ts`; this avoids exposing `SECURITY DEFINER` reads to browser clients.

@@ -1,19 +1,9 @@
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, ChevronRight, RefreshCw } from "lucide-react";
-
-type Progress = {
-  score: number;
-  attendance_score: number;
-  completion_score: number;
-  milestone_score: number;
-  coach_score: number;
-  sessions_lifetime: number;
-  next_step: string | null;
-  next_milestone: string | null;
-  progress_to_next_level: number;
-};
+import { getMyProgressScore, type ProgressScoreDTO } from "@/lib/progression.functions";
 
 const LEVEL_LABEL: Record<string, string> = {
   foundation: "Foundation",
@@ -23,18 +13,21 @@ const LEVEL_LABEL: Record<string, string> = {
 };
 
 export function ProgressionCard({ userId }: { userId: string }) {
+  const fetchMyProgress = useServerFn(getMyProgressScore);
   const [level, setLevel] = useState<string>("foundation");
-  const [p, setP] = useState<Progress | null>(null);
+  const [p, setP] = useState<ProgressScoreDTO | null>(null);
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
     setLoading(true);
-    const { data: prof } = await supabase.from("profiles").select("current_level").eq("id", userId).maybeSingle();
-    if (prof?.current_level) setLevel(prof.current_level);
-    // Recompute & fetch in one go
-    const { data, error } = await supabase.rpc("compute_progress_score", { _user_id: userId });
-    if (!error && data) setP(data as Progress);
-    setLoading(false);
+    try {
+      const { data: prof } = await supabase.from("profiles").select("current_level").eq("id", userId).maybeSingle();
+      if (prof?.current_level) setLevel(prof.current_level);
+      const data = await fetchMyProgress();
+      if (data) setP(data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [userId]);

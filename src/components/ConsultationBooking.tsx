@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Check, MessageCircle } from "lucide-react";
 import { waLink, BOHOFIT_WHATSAPP } from "@/lib/whatsapp";
 import { consultationNotes } from "@/lib/unpause-booking";
+import { getTakenConsultationSlots } from "@/lib/consultation.functions";
 
 type Program = "unpause" | "fifty_plus";
 
@@ -74,6 +76,7 @@ interface Props {
 }
 
 export function ConsultationBooking({ program, problemAreas = [], eyebrow, headline, subtext, timeSlots = TIME_SLOTS, selectedConcerns = [], slotDescription }: Props) {
+  const fetchTakenSlots = useServerFn(getTakenConsultationSlots);
   const days = useMemo(() => nextDays(10), []);
   const [date, setDate] = useState<string>(days[0]?.iso ?? "");
   const [time, setTime] = useState<string | null>(null);
@@ -84,15 +87,18 @@ export function ConsultationBooking({ program, problemAreas = [], eyebrow, headl
   useEffect(() => {
     if (!date) return;
     let ignore = false;
-    supabase
-      .rpc("consultation_taken_slots", { _program: program, _date: date })
-      .then(({ data }) => {
+    fetchTakenSlots({ data: { program, date } })
+      .then((slots) => {
         if (ignore) return;
-        setTaken(((data ?? []) as { consult_time: string }[]).map((r) => r.consult_time));
-        setTime((t) => (t && ((data ?? []) as { consult_time: string }[]).some((r) => r.consult_time === t) ? null : t));
+        setTaken(slots);
+        setTime((t) => (t && slots.includes(t) ? null : t));
+      })
+      .catch(() => {
+        if (ignore) return;
+        setTaken([]);
       });
     return () => { ignore = true; };
-  }, [date, program, submitted]);
+  }, [date, program, submitted, fetchTakenSlots]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

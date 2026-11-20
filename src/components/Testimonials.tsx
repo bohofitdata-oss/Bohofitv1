@@ -1,78 +1,10 @@
+import { ArrowUpRight, Quote } from "lucide-react";
 import { PEOPLE_TRAINED } from "@/lib/site-facts";
 import { Reveal } from "@/components/Reveal";
-
-type Story = {
-  name: string;
-  age: number;
-  program: string;
-  result: string;
-  quote: string;
-};
-
-const STORIES: Story[] = [
-  {
-    name: "Priya M.",
-    age: 34,
-    program: "UnPause | 1:1",
-    result: "LOST 7.2 KG",
-    quote:
-      "UnPause adjusted things for my PCOS. I lost 7 kg without crash dieting.",
-  },
-  {
-    name: "Anand R.",
-    age: 41,
-    program: "Level 2 STRENGTH | 6 months",
-    result: "FIRST PULL-UP EVER",
-    quote:
-      "Six months in, I’m doing pull-ups. Small batches, zero machines.",
-  },
-  {
-    name: "Lakshmi V.",
-    age: 62,
-    program: "50+ by REBÉL | 12 weeks",
-    result: "STAIRS — PAIN-FREE",
-    quote:
-      "Knee pain stopped my walks. Now I climb two flights without holding the railing.",
-  },
+import { Button } from "@/components/ui/button";
+const SOURCE = "https://brandcompare.io/local/hsr/gyms-fitness/bohofit-fitness-center";
+const REVIEWS = [
+ {name:"Surbhi Anand", quote:"Bohofit is an excellent fitness center. It's well-maintained, spacious, and easily accessible. The extensive options for workouts make it easy to find something I enjoy."},
+ {name:"Nilesh",quote:"So far it has been an excellent experience. And it is not because of they have anything special, truth be told they have nothing special, everything that they are doing is very basic but the basic is just excellent. Their structure is what sets them apart."},
 ];
-
-export function Testimonials() {
-  return (
-    <section id="results" className="container mx-auto px-5 md:px-8 editorial-section">
-      <Reveal>
-        <div className="max-w-3xl">
-          <p className="rebel-label">Social proof</p>
-          <h2 className="editorial-title mt-5">A legacy of strength.</h2>
-          <p className="text-muted-foreground text-sm mt-6">{PEOPLE_TRAINED}.</p>
-          <p className="rebel-label mt-3">Since Bohofit</p>
-        </div>
-      </Reveal>
-
-      <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-4 md:gap-5">
-        {STORIES.filter(story => !story.program.startsWith("UnPause")).map((s, i) => (
-          <Reveal key={s.name} delay={i * 100}>
-            <article className="rebel-card rounded-lg p-6 h-full flex flex-col">
-              <p
-                className="font-display text-xl text-foreground leading-snug"
-                
-              >
-                {s.result}
-              </p>
-              <div className="mt-4">
-                <p className="font-black text-foreground text-base">
-                  {s.name} · {s.age}
-                </p>
-                <p className="text-xs uppercase tracking-widest text-muted-strong mt-0.5">
-                  {s.program}
-                </p>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed" >
-                &ldquo;{s.quote}&rdquo;
-              </p>
-            </article>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
+export function Testimonials(){return <section id="results" className="creative-section"><div className="container mx-auto px-5 md:px-8"><Reveal><div className="section-heading-row"><div><p className="rebel-label mb-4">Since Bohofit</p><h2 className="editorial-title">A legacy<br/>of strength.</h2></div><div><p className="font-display text-4xl text-foreground">2,700+</p><p className="text-sm mt-3">{PEOPLE_TRAINED}.</p></div></div></Reveal><div className="legacy-reviews">{REVIEWS.map(review=><article key={review.name} className="legacy-review"><Quote className="size-7 text-storefront" strokeWidth={1}/><blockquote className="text-base md:text-lg text-foreground mt-6 leading-relaxed">“{review.quote}”</blockquote><p className="font-mono text-xs text-foreground mt-7">{review.name}</p><a href={SOURCE} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-muted-foreground mt-3 underline underline-offset-4">View published source<ArrowUpRight className="size-3"/></a></article>)}</div><p className="text-xs text-muted-foreground mt-6">From our Bohofit years. Google review excerpts reproduced by BrandCompare; not a live Google feed.</p><Button asChild variant="outline" className="rounded-full mt-5"><a href="https://www.google.com/maps/search/REB%C3%89L+Bohofit+1189+MR+Tower+Bangalore/" target="_blank" rel="noopener noreferrer">Find us on Google<ArrowUpRight className="size-4"/></a></Button></div></section>}

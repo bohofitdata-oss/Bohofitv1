@@ -10,3 +10,5 @@
 - Bind group membership checkout to a validated plan marker in the existing booking goal field and verify provider order amounts before marking paid; retain legacy booking plan enums and payment RPC.
 - Keep paid Group Classes entry in a page-local modal using the existing payment and membership-terms components; the existing booking page remains the free-trial flow.
 - Submit public trial requests through a validated server function with fixed booking state; never read private bookings back through anonymous browser access.
+- Prefetch public routine/rulebook assets into blobs before enabling download buttons; synchronous clicks retain mobile browser download activation.
+- Keep class operating rules and routine-level mapping in the browser-safe class-rulebook catalogue with tests; display changes must not alter membership terms or scheduling.

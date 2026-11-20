@@ -14,7 +14,7 @@ import { RebelJourney } from "@/components/RebelJourney";
 
 import { Button } from "@/components/ui/button";
 import { TM } from "@/components/TM";
-import groupPhoto from "@/assets/rebel-group-members.jpg.asset.json";
+import heroPhoto from "@/assets/rebel-unlimited-members.jpg.asset.json";
 import fiftyPhoto from "@/assets/rebel-fiftyplus-member.webp.asset.json";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
@@ -72,8 +72,8 @@ function Home() {
 
 
       <Testimonials />
-      <LocationSection />
       <RebelGallery />
+      <LocationSection />
       <ReferralSection />
       <FAQTeaser />
 
@@ -86,10 +86,10 @@ function Home() {
 
 function HeroPanel() {
   return <section className="member-hero relative flex items-center overflow-hidden">
-    <img src={groupPhoto.url} alt="REBÉL members training together in the studio" className="absolute inset-0 w-full h-full object-cover" />
+    <img src={heroPhoto.url} alt="REBÉL members training together in the studio" className="absolute inset-0 w-full h-full object-cover" />
     <div aria-hidden className="absolute inset-0 hero-shade" />
     <div className="relative container mx-auto px-5 md:px-8 py-16 md:py-20">
-      <p className="font-mono text-[11px] text-foreground/80 mb-6">REBÉL<TM /> | MACHINE-FREE | BENGALURU</p>
+      <p className="hero-brand-line font-mono text-xs text-foreground mb-6">REBÉL<TM /> | MACHINE-FREE | BANGALORE</p>
       <h1 className="font-medium text-foreground">Fitness you<br />actually finish.</h1>
       <p className="mt-6 text-sm text-foreground/85 max-w-[32ch]">75% of our members are still training a year later.</p>
       <Button asChild variant="secondary" className="rounded-full mt-8 h-11 px-6 bg-foreground text-background hover:bg-foreground/90"><Link to="/booking">Book a free trial →</Link></Button>

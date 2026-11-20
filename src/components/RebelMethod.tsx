@@ -1,67 +1,15 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { ArrowUpRight, Plus, Minus, Zap } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Button } from "@/components/ui/button";
 import { METHOD_CHAPTERS } from "@/lib/methodChapters";
-
-const GREY = "var(--muted-foreground)";
-
 export function RebelMethod() {
-  return (
-    <section className="bg-background border-t border-foreground/5">
-      <div className="container mx-auto px-5 md:px-8 editorial-section">
-        <Reveal>
-          <div className="max-w-3xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-foreground/60">
-              Read the method
-            </p>
-            <h2
-              className="mt-3 font-medium text-foreground"
-              style={{ fontSize: "var(--editorial-heading-size)", letterSpacing: "0", lineHeight: "1" }}
-            >
-              The Rebél{" "}
-              <span style={{ color: "var(--storefront)", fontStyle: "italic" }}>Method.</span>
-            </h2>
-            <p className="mt-4 text-[15px] md:text-lg" style={{ color: GREY }}>
-              Strength that lasts. Ten chapters, one method.
-            </p>
-          </div>
-        </Reveal>
-
-        <ol className="mt-10 max-w-3xl space-y-3">
-          {METHOD_CHAPTERS.map((c, i) => (
-            <Reveal key={c.slug} delay={i * 50}>
-              <li>
-                <Link
-                  to="/method/$slug"
-                  params={{ slug: c.slug }}
-                  className="group flex items-center gap-4 md:gap-5 border-b border-border px-0 py-6 transition-all duration-300 hover:-translate-y-0.5"
-                  
-                >
-                  <span
-                    className="shrink-0 w-8 h-8 font-mono flex items-center justify-center font-medium text-foreground text-sm md:text-base transition-colors duration-300 group-hover:bg-primary/15"
-                    
-                  >
-                    {c.number.toString().padStart(2, "0")}
-                  </span>
-                  <span className="flex-1 min-w-0">
-                    <span className="block font-bold text-foreground text-[15px] md:text-base leading-tight">
-                      {c.title}
-                    </span>
-                    <span className="block text-[13px] md:text-sm mt-1" style={{ color: GREY }}>
-                      {c.subtitle}
-                    </span>
-                  </span>
-                  <ChevronRight
-                    size={20}
-                    color="var(--foreground)"
-                    className="shrink-0 opacity-60 transition-transform duration-300 group-hover:translate-x-1 group-hover:opacity-100"
-                  />
-                </Link>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
+  const [all, setAll] = useState(false);
+  const chapters = all ? METHOD_CHAPTERS : [METHOD_CHAPTERS[0], METHOD_CHAPTERS[2], METHOD_CHAPTERS[8]].filter(chapter => chapter !== undefined);
+  return <section className="creative-section method-remix"><div className="container mx-auto px-5 md:px-8">
+    <Reveal><div className="section-heading-row"><div><p className="rebel-label mb-4">Less noise. More know-how.</p><h2 className="editorial-title">The Rebél <span className="text-storefront">Method.</span></h2></div><p className="editorial-copy">Strength that lasts.<br />Ten chapters, one method.</p></div></Reveal>
+    <div className={`method-deck ${all ? "is-expanded" : ""}`}>{chapters.map((chapter,i) => <Link key={chapter.slug} to="/method/$slug" params={{slug:chapter.slug}} className={`method-ticket method-ticket-${i%3}`}><div className="flex justify-between items-center"><span className="font-mono text-xs">CHAPTER {String(chapter.number).padStart(2,"0")}</span><ArrowUpRight className="size-5"/></div><Zap className="method-ticket-symbol" strokeWidth={1}/><h3 className="font-sans text-xl font-bold">{chapter.title}</h3><p className="text-sm">{chapter.subtitle}</p></Link>)}</div>
+    <Button variant="ghost" className="mt-8 rounded-full border border-border px-6 h-12" onClick={()=>setAll(!all)} aria-expanded={all}>{all ? <Minus className="size-4"/> : <Plus className="size-4"/>}{all ? "Show less" : "All 10 chapters"}</Button>
+  </div></section>;
 }

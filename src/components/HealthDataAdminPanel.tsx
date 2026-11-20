@@ -44,7 +44,9 @@ function toCSV(rows: Record<string, unknown>[]): string {
   const keys = Object.keys(rows[0]);
   const esc = (v: unknown) => {
     if (v === null || v === undefined) return "";
-    const s = Array.isArray(v) ? v.join("|") : String(v);
+    let s = Array.isArray(v) ? v.join("|") : String(v);
+    // Neutralise spreadsheet formulas (=, +, -, @, tab, CR) in exported cells.
+    if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`;
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
   return [keys.join(","), ...rows.map((r) => keys.map((k) => esc(r[k])).join(","))].join("\n");

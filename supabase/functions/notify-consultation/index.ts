@@ -60,7 +60,7 @@ serve(async (req) => {
     (body.problem_areas?.length ? `• Concerns: ${body.problem_areas.join(", ")}\n` : "") +
     (body.notes ? `• Notes: ${body.notes}\n` : "");
 
-  console.log("[notify-consultation] payload:\n" + summary);
+  console.log(`[notify-consultation] received booking for program=${body.program}`);
 
   // TODO: WhatsApp send to team
   // await fetch(WHATSAPP_API_URL, { method: "POST", headers: { Authorization: `Bearer ${WHATSAPP_API_TOKEN}` }, body: JSON.stringify({ to: WHATSAPP_TEAM_NUMBER, message: summary }) });

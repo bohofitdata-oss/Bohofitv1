@@ -4,31 +4,24 @@ import { createHmac } from "crypto";
 import { getGroupPlan, groupAmountPaise, groupBookingMarker } from "./group-plans";
 
 // Returns { orderId, keyId, amount } for Razorpay Checkout.
+// Amount is always derived server-side from the booking's validated plan.
 export const createRazorpayOrder = createServerFn({ method: "POST" })
   .inputValidator((input) =>
     z
       .object({
         bookingId: z.string().uuid(),
-        amountPaise: z.number().int().min(100).max(10_000_000),
-        currency: z.string().default("INR"),
-        groupPlanId: z.string().optional(),
+        amountPaise: z.number().int().optional(),
+        currency: z.literal("INR").default("INR"),
+        groupPlanId: z.string().min(1).max(60),
       })
       .parse(input),
   )
   .handler(async ({ data }) => {
-    let amount = data.amountPaise;
-    if (data.groupPlanId) {
-      getGroupPlan(data.groupPlanId);
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { data: booking } = await supabaseAdmin.from("bookings").select("program,goal,is_trial,rules_accepted,payment_status").eq("id", data.bookingId).maybeSingle();
-      if (!booking || booking.program !== "group_classes" || booking.is_trial || !booking.rules_accepted || booking.payment_status === "paid" || !booking.goal?.startsWith(groupBookingMarker(data.groupPlanId))) throw new Error("This membership request is not available for payment.");
-      amount = groupAmountPaise(data.groupPlanId);
-      if (data.currency !== "INR") throw new Error("Membership payments must use INR.");
-    } else {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const { data: booking } = await supabaseAdmin.from("bookings").select("goal").eq("id", data.bookingId).maybeSingle();
-      if (booking?.goal?.startsWith("[group-plan:")) throw new Error("Choose your membership plan before paying.");
-    }
+    getGroupPlan(data.groupPlanId);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: booking } = await supabaseAdmin.from("bookings").select("program,goal,is_trial,rules_accepted,payment_status").eq("id", data.bookingId).maybeSingle();
+    if (!booking || booking.program !== "group_classes" || booking.is_trial || !booking.rules_accepted || booking.payment_status === "paid" || !booking.goal?.startsWith(groupBookingMarker(data.groupPlanId))) throw new Error("This membership request is not available for payment.");
+    const amount = groupAmountPaise(data.groupPlanId);
     const keyId = process.env.RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
     if (!keyId || !keySecret) throw new Error("Razorpay keys not configured");
@@ -80,20 +73,20 @@ export const verifyRazorpayPayment = createServerFn({ method: "POST" })
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: booking } = await supabaseAdmin.from("bookings").select("goal").eq("id", data.bookingId).maybeSingle();
+    const { data: booking } = await supabaseAdmin.from("bookings").select("goal,payment_status").eq("id", data.bookingId).maybeSingle();
     const planId = booking?.goal?.match(/^\[group-plan:([^\]]+)\]/)?.[1];
-    if (planId) {
-      const keyId = process.env.RAZORPAY_KEY_ID;
-      if (!keyId) throw new Error("Razorpay keys not configured");
-      const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
-      const response = await fetch(`https://api.razorpay.com/v1/payments/${encodeURIComponent(data.razorpay_payment_id)}`, { headers: { Authorization: `Basic ${auth}` } });
-      if (!response.ok) throw new Error("We couldn't verify this payment. Please contact the team.");
-      const payment = await response.json() as { amount: number; currency: string; order_id: string; status: string; notes?: { booking_id?: string; group_plan_id?: string } };
-      const orderResponse = await fetch(`https://api.razorpay.com/v1/orders/${encodeURIComponent(data.razorpay_order_id)}`, { headers: { Authorization: `Basic ${auth}` } });
-      if (!orderResponse.ok) throw new Error("We couldn't verify this order.");
-      const order = await orderResponse.json() as { amount: number; notes?: { booking_id?: string; group_plan_id?: string } };
-      if (payment.amount !== groupAmountPaise(planId) || order.amount !== groupAmountPaise(planId) || payment.currency !== "INR" || payment.order_id !== data.razorpay_order_id || !["captured", "authorized"].includes(payment.status) || order.notes?.booking_id !== data.bookingId || order.notes?.group_plan_id !== planId) throw new Error("Payment does not match this membership plan.");
-    }
+    if (!booking || !planId || booking.payment_status === "paid") throw new Error("This booking is not available for payment.");
+    const keyId = process.env.RAZORPAY_KEY_ID;
+    if (!keyId) throw new Error("Razorpay keys not configured");
+    const auth = Buffer.from(`${keyId}:${keySecret}`).toString("base64");
+    const response = await fetch(`https://api.razorpay.com/v1/payments/${encodeURIComponent(data.razorpay_payment_id)}`, { headers: { Authorization: `Basic ${auth}` } });
+    if (!response.ok) throw new Error("We couldn't verify this payment. Please contact the team.");
+    const payment = await response.json() as { amount: number; currency: string; order_id: string; status: string };
+    const orderResponse = await fetch(`https://api.razorpay.com/v1/orders/${encodeURIComponent(data.razorpay_order_id)}`, { headers: { Authorization: `Basic ${auth}` } });
+    if (!orderResponse.ok) throw new Error("We couldn't verify this order.");
+    const order = await orderResponse.json() as { amount: number; notes?: { booking_id?: string; group_plan_id?: string } };
+    const expectedAmount = groupAmountPaise(planId);
+    if (payment.amount !== expectedAmount || order.amount !== expectedAmount || payment.currency !== "INR" || payment.order_id !== data.razorpay_order_id || !["captured", "authorized"].includes(payment.status) || order.notes?.booking_id !== data.bookingId || order.notes?.group_plan_id !== planId) throw new Error("Payment does not match this booking.");
 
     const { error } = await supabaseAdmin.rpc("mark_booking_paid", {
       _booking_id: data.bookingId,

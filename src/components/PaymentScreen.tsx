@@ -49,7 +49,7 @@ export interface PaymentScreenProps {
   slotLabel?: string | null;
   customer: { name: string; email: string; phone: string };
   onPaid: () => void;
-  groupPlanId?: string;
+  groupPlanId: string;
 }
 
 export function PaymentScreen({ bookingId, amountInr, programLabel, planLabel, slotLabel, customer, onPaid, groupPlanId }: PaymentScreenProps) {

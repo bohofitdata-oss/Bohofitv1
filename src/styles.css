@@ -589,6 +589,9 @@
 }
 @media(prefers-reduced-motion:reduce) { .benefit-bubble:hover, .benefit-bubble:focus-visible, .method-ticket, .method-ticket:hover, .offering-swipe-card:hover, .community-frame { transform: none; } }
 .class-rulebook-grid, .legacy-reviews { display: grid; gap: 24px; }
+.format-reel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+.format-reel-clip { flex: 0 0 78%; max-width: 300px; aspect-ratio: 9/16; object-fit: cover; border-radius: 12px; border: 1px solid var(--creative-outline); background: var(--creative-surface); scroll-snap-align: start; }
+@media(min-width:768px) { .format-reel-clip { flex-basis: 240px; } }
 .class-rule-item { display: grid; grid-template-columns: 48px minmax(0,1fr); gap: 16px; border-top: 1px solid var(--creative-outline); padding-top: 28px; }
 .rule-number { font-size: 28px; color: var(--storefront); }
 .legacy-review { padding: 30px; border: 1px solid var(--creative-outline); border-radius: 8px 40px 8px 8px; background: var(--creative-surface); }

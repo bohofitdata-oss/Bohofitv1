@@ -12,7 +12,7 @@ const FAQS = [
   },
   {
     q: "I'm a complete beginner. Where do I start?",
-    a: "Level 1 START. Yoga, Zumba, Mat Pilates and Beginner Strength — all unlimited. After 2–3 months you graduate into Level 2 STRENGTH.",
+    a: "Level 1 START. Weightlifting+, Calisthenics Level 1 and Yoga • Spin • Pilates — all unlimited. After 2–3 months you graduate into Level 2 STRENGTH.",
   },
   {
     q: "Can I pause my membership?",

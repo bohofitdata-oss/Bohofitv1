@@ -15,6 +15,7 @@ describe("Group membership rules", () => {
   test("unlimited pauses are 15, 30, 60 days", () => assert.deepEqual(GROUP_PLANS.unlimited.map(plan => plan.pause), [15,30,60]));
   test("Level 2 requires the entry warning", () => assert.equal(requiresLevelWarning("strength"), true));
   test("Level 1 and all-access do not require the Level 2 warning", () => { assert.equal(requiresLevelWarning("start"), false); assert.equal(requiresLevelWarning("unlimited"), false); });
-  test("format counts are six, four and ten", () => assert.deepEqual(Object.values(LEVEL_FORMATS).map(groups => groups.flatMap(group => group.formats).length), [6,4,10]));
+  test("format counts are three, three and five", () => assert.deepEqual(Object.values(LEVEL_FORMATS).map(groups => groups.flatMap(group => group.formats).length), [3,3,5]));
+  test("every format carries real class clips", () => { for (const groups of Object.values(LEVEL_FORMATS)) for (const group of groups) for (const format of group.formats) assert.ok(format.videos && format.videos.length > 0, `${format.name} has no clips`); });
   test("unknown plans cannot supply a checkout amount", () => assert.throws(() => getGroupPlan("start_1")));
 });

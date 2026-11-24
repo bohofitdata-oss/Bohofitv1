@@ -592,6 +592,16 @@
 .format-reel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
 .format-reel-clip { flex: 0 0 78%; max-width: 300px; aspect-ratio: 9/16; object-fit: cover; border-radius: 12px; border: 1px solid var(--creative-outline); background: var(--creative-surface); scroll-snap-align: start; }
 @media(min-width:768px) { .format-reel-clip { flex-basis: 240px; } }
+.compare-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--creative-outline); border-radius: 16px; background: var(--creative-surface); }
+.compare-table { width: 100%; min-width: 780px; border-collapse: collapse; text-align: left; }
+.compare-table th, .compare-table td { padding: 16px 18px; border-bottom: 1px solid var(--creative-outline); vertical-align: top; }
+.compare-table tbody tr:last-child th, .compare-table tbody tr:last-child td { border-bottom: 0; }
+.compare-sticky { position: sticky; left: 0; z-index: 2; background: var(--background); min-width: 132px; border-right: 1px solid var(--creative-outline); }
+.compare-rebel-head { background: color-mix(in srgb, var(--primary) 26%, var(--background)); border-inline: 1px solid color-mix(in srgb, var(--primary) 65%, transparent); min-width: 190px; }
+.compare-rebel-cell { background: color-mix(in srgb, var(--primary) 12%, var(--background)); border-inline: 1px solid color-mix(in srgb, var(--primary) 50%, transparent); color: var(--foreground); font-size: 13px; font-weight: 500; line-height: 1.5; }
+.compare-other-head { min-width: 150px; }
+.compare-other-cell { color: var(--muted-foreground); font-size: 13px; line-height: 1.5; }
+.compare-cell-inner { display: flex; align-items: flex-start; gap: 8px; }
 .class-rule-item { display: grid; grid-template-columns: 48px minmax(0,1fr); gap: 16px; border-top: 1px solid var(--creative-outline); padding-top: 28px; }
 .rule-number { font-size: 28px; color: var(--storefront); }
 .legacy-review { padding: 30px; border: 1px solid var(--creative-outline); border-radius: 8px 40px 8px 8px; background: var(--creative-surface); }

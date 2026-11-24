@@ -9,6 +9,7 @@ import { RebelGallery } from "@/components/RebelGallery";
 import { ProgramCarousel } from "@/components/ProgramCarousel";
 
 import { WhatYouGet } from "@/components/WhatYouGet";
+import { CompareTable } from "@/components/CompareTable";
 import { RebelMethod } from "@/components/RebelMethod";
 import { RebelJourney } from "@/components/RebelJourney";
 
@@ -16,19 +17,57 @@ import { Button } from "@/components/ui/button";
 import { TM } from "@/components/TM";
 import heroPhoto from "@/assets/rebel-unlimited-members.jpg.asset.json";
 import fiftyPhoto from "@/assets/rebel-fiftyplus-member.webp.asset.json";
+import { GOOGLE_REVIEW_SNAPSHOT } from "@/lib/google-review-snapshot";
+import { BOHOFIT_PHONE, REBEL_EMAIL } from "@/components/EmergencyCTA";
 import { runWebMCPTool } from "@/lib/webmcp-telemetry";
+
+const STUDIO_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ExerciseGym",
+  name: "Rebél Fitness Club - Calisthenics Gym",
+  alternateName: "REBÉL",
+  url: "https://bearebel.in",
+  description:
+    "Machine-free calisthenics gym and coach-led strength training studio in HSR Layout, Bangalore. Group classes for calisthenics, weightlifting, yoga, spin and Pilates plus 1:1 50+ training.",
+  telephone: BOHOFIT_PHONE,
+  email: REBEL_EMAIL,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "1189, MR Tower, Ground & 5th Floor, 24th Main, Sector 2, HSR Layout",
+    addressLocality: "Bengaluru",
+    addressRegion: "KA",
+    postalCode: "560102",
+    addressCountry: "IN",
+  },
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "07:15", closes: "10:30" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "17:00", closes: "21:30" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "08:30", closes: "11:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "17:00", closes: "19:30" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "08:30", closes: "09:30" },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: GOOGLE_REVIEW_SNAPSHOT.rating,
+    reviewCount: GOOGLE_REVIEW_SNAPSHOT.totalReviews,
+  },
+  sameAs: [GOOGLE_REVIEW_SNAPSHOT.listingUrl],
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Rebél — The Fitness System People Actually Stick To" },
-      { name: "description", content: "75% of our members are still training after a year — because Rebél is built on structure, not machines. Group Classes and 50+ by REBÉL in HSR Layout, Bengaluru." },
-      { name: "keywords", content: "machine free fitness Bangalore, functional training HSR Layout, group fitness classes, fitness 50+, gym alternative" },
-      { property: "og:title", content: "Rebél — Fitness That Doesn't Quit on You" },
-      { property: "og:description", content: "Group Classes and 50+ by REBÉL. Coach-led, machine-free strength in HSR Layout, Bengaluru." },
+      { title: "Rebél — Calisthenics & Machine-Free Gym in HSR Layout, Bangalore" },
+      { name: "description", content: "Rebél is HSR Layout, Bangalore's coach-led, machine-free calisthenics and strength gym. Group classes (calisthenics, weightlifting, yoga, spin, Pilates) and 1:1 50+ training. 75% annual retention." },
+      { name: "keywords", content: "calisthenics gym Bangalore, calisthenics Bangalore, gym in HSR Layout, machine-free gym Bangalore, group fitness classes HSR Layout, weightlifting classes Bangalore, yoga spin pilates HSR Layout, functional strength training Bangalore, 50+ fitness Bangalore, Cult alternative HSR Layout" },
+      { property: "og:title", content: "Rebél — Calisthenics & Machine-Free Gym in Bangalore" },
+      { property: "og:description", content: "Coach-led calisthenics, weightlifting, yoga, spin, Pilates and 1:1 50+ strength training in HSR Layout, Bengaluru." },
+      { property: "og:url", content: "https://bearebel.in/" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "https://bearebel.in/" }],
+    scripts: [{ type: "application/ld+json", children: JSON.stringify(STUDIO_JSON_LD) }],
   }),
   component: Home,
 });
@@ -64,6 +103,7 @@ function Home() {
       <HeroPanel />
       <div id="group-classes" className="scroll-mt-20"><ProgramCarousel /></div>
       <WhatYouGet />
+      <CompareTable />
       <FiftyPlusFlagship />
       <div id="method"><RebelMethod /></div>
       <RebelJourney />

@@ -19,13 +19,15 @@ import heroPhoto from "@/assets/rebel-fiftyplus-member.webp.asset.json";
 
 export const Route = createFileRoute("/fiftyplus")({
   head: () => ({ meta: [
-    { title: "50+ by REBÉL — Strong. Steady. Independent." },
-    { name: "description", content: "One-to-one, coach-led strength training for joints, mobility and balance. Machine-free training built around you. Book a free 50+ consultation." },
-    { property: "og:title", content: "50+ by REBÉL — Strength for independent living" },
-    { property: "og:description", content: "Your own coach. Your own plan. Personal strength training for everyday movement, mobility and balance. Start with a free consultation." },
+    { title: "50+ by REBÉL — 1:1 Strength & Mobility Training in HSR Layout, Bangalore" },
+    { name: "description", content: "One-to-one, coach-led, joint-friendly strength training for adults 50+ in HSR Layout, Bangalore. Machine-free personal training for mobility, balance and knee or back support." },
+    { name: "keywords", content: "50+ fitness Bangalore, senior strength training Bangalore, personal trainer 50+ HSR Layout, joint-friendly strength training Bangalore, mobility and balance training seniors Bengaluru, machine-free personal training HSR Layout" },
+    { property: "og:title", content: "50+ by REBÉL — 1:1 Strength & Mobility Training in Bangalore" },
+    { property: "og:description", content: "Your own coach. Your own plan. Joint-friendly, machine-free 1:1 strength training for adults 50+ in HSR Layout, Bangalore." },
+    { property: "og:url", content: "https://bearebel.in/fiftyplus" },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+  ], links: [{ rel: "canonical", href: "https://bearebel.in/fiftyplus" }] }),
   component: FiftyPlusPage,
 });
 

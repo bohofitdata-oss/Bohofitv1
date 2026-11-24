@@ -11,7 +11,6 @@ import lift01 from "@/assets/videography/weightlifting-01.mp4.asset.json";
 import lift02 from "@/assets/videography/weightlifting-02.mp4.asset.json";
 import lift03 from "@/assets/videography/weightlifting-03.mp4.asset.json";
 import lift04 from "@/assets/videography/weightlifting-04.mp4.asset.json";
-import lift05 from "@/assets/videography/weightlifting-05.mp4.asset.json";
 import lift06 from "@/assets/videography/weightlifting-06.mp4.asset.json";
 import lift07 from "@/assets/videography/weightlifting-07.mp4.asset.json";
 import mind01 from "@/assets/videography/mind-mobility-01.mp4.asset.json";
@@ -26,7 +25,7 @@ export type TrainingFormat = { name: string; line: string; videos?: string[] };
 
 const CALISTHENICS_L1_CLIPS = [cali01.url, cali02.url, cali03.url, cali04.url];
 const CALISTHENICS_L2_CLIPS = [cali05.url, cali06.url, cali07.url, cali08.url];
-const WEIGHTLIFTING_CLIPS = [lift01.url, lift02.url, lift03.url, lift04.url, lift05.url, lift06.url, lift07.url];
+const WEIGHTLIFTING_CLIPS = [lift01.url, lift02.url, lift03.url, lift04.url, lift06.url, lift07.url];
 const MIND_MOBILITY_CLIPS = [mind01.url, mind02.url, mind03.url, mind04.url, mind05.url, mind06.url, mind07.url];
 
 const formats: Record<string, TrainingFormat> = {

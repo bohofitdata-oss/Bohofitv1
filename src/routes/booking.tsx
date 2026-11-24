@@ -19,13 +19,16 @@ import { useBookingPrefill } from "@/hooks/useBookingPrefill";
 export const Route = createFileRoute("/booking")({
   head: () => ({
     meta: [
-      { title: "Join Rebél Group Classes" },
-      { name: "description", content: "Book your spot in Rebél Group Classes — Level 1 START, Level 2 STRENGTH, Level 3 REBEL UNLIMITED." },
-      { property: "og:title", content: "Join Rebél Group Classes" },
-      { property: "og:description", content: "Book your spot in Rebél Group Classes — Level 1 START, Level 2 STRENGTH, Level 3 REBEL UNLIMITED." },
+      { title: "Book a Free Trial — REBÉL Calisthenics & Strength Gym, HSR Layout Bangalore" },
+      { name: "description", content: "Book your free trial class at REBÉL in HSR Layout, Bangalore. Try Level 1 START, Level 2 STRENGTH, or Level 3 REBEL UNLIMITED calisthenics, weightlifting, yoga, spin and Pilates." },
+      { name: "keywords", content: "free gym trial HSR Layout, calisthenics trial class Bangalore, book group fitness class HSR Layout, strength training trial Bangalore" },
+      { property: "og:title", content: "Book a Free Trial — REBÉL Bangalore" },
+      { property: "og:description", content: "Book a free trial class in HSR Layout, Bangalore — calisthenics, weightlifting, yoga, spin and Pilates." },
+      { property: "og:url", content: "https://bearebel.in/booking" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "https://bearebel.in/booking" }],
   }),
   component: BookingPage,
 });

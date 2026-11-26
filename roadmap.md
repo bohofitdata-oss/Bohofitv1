@@ -1,5 +1,13 @@
 # Agent integrations
 
+# Group progression, comparison and membership update
+
+- [ ] Replace unsupported competitor claims with respectful REBÉL standards and owner-reported retention.
+- [ ] Restrict class footage and formats by level; add visible previous/next video controls.
+- [ ] Update authoritative prices and duration choices; preserve existing benefits pending clarification for new durations.
+- [ ] Apply owner-confirmed zero pause days for one-month Unlimited.
+- [ ] Test price and format rules and verify mobile/desktop class and checkout views.
+
 # Creative homepage and Group Classes refresh
 
 - [x] Swap hero photo; build swipeable offering cards, benefit bubbles, expressive stats, compact method and journey tree.

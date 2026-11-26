@@ -7,6 +7,8 @@
 - Pass page-specific consultation times and concern notes as optional booking props, with defaults unchanged; UnPause and 50+ share slot configuration without altering inserts or notifications.
 - Keep 50+ body-map focus data browser-safe and separate from its presentation; map dots, mobile chips and MCP use the same selection catalogue.
 - Keep Group Classes plans in a shared catalogue used by the page and Razorpay handlers; derive server charge amounts from plan IDs, never browser prices.
+- Keep class footage partitioned by level in the browser-safe format catalogue and combine both partitions for all-access; shared selectors and tests prevent cross-level leakage.
+- Keep comparison standards in a browser-safe catalogue and treat unverified competitor cells as questions, not negative claims; this keeps public positioning evidence-led.
 - Bind group membership checkout to a validated plan marker in the existing booking goal field and verify provider order amounts before marking paid; retain legacy booking plan enums and payment RPC.
 - Keep paid Group Classes entry in a page-local modal using the existing payment and membership-terms components; the existing booking page remains the free-trial flow.
 - Submit public trial requests through a validated server function with fixed booking state; never read private bookings back through anonymous browser access.

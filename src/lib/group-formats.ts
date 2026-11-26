@@ -24,20 +24,22 @@ import mind07 from "@/assets/videography/mind-mobility-07.mp4.asset.json";
 export type TrainingFormat = { name: string; line: string; videos?: string[] };
 
 const CALISTHENICS_L1_CLIPS = [cali01.url, cali02.url, cali03.url, cali04.url];
-const CALISTHENICS_L2_CLIPS = [cali05.url, cali06.url, cali07.url, cali08.url];
-const WEIGHTLIFTING_CLIPS = [lift01.url, lift02.url, lift03.url, lift04.url, lift06.url, lift07.url];
+const CALISTHENICS_L2_CLIPS = [cali05.url, cali06.url];
+const HYBRID_L2_CLIPS = [cali07.url, cali08.url];
+const WEIGHTLIFTING_L1_CLIPS = [lift03.url, lift07.url];
+const WEIGHTLIFTING_L2_CLIPS = [lift01.url, lift02.url, lift04.url, lift06.url];
 const MIND_MOBILITY_CLIPS = [mind01.url, mind02.url, mind03.url, mind04.url, mind05.url, mind06.url, mind07.url];
 
 const formats: Record<string, TrainingFormat> = {
   lift1: {
-    name: "Weightlifting+",
+    name: "Weightlifting Level 1",
     line: "Learn the main lifts with controlled loads and coach-led technique.",
-    videos: WEIGHTLIFTING_CLIPS,
+    videos: WEIGHTLIFTING_L1_CLIPS,
   },
   lift2: {
-    name: "Weightlifting++",
+    name: "Weightlifting Level 2",
     line: "Build strength under heavier loads, with focused technique and coaching.",
-    videos: WEIGHTLIFTING_CLIPS,
+    videos: WEIGHTLIFTING_L2_CLIPS,
   },
   skills1: {
     name: "Calisthenics Level 1",
@@ -54,6 +56,11 @@ const formats: Record<string, TrainingFormat> = {
     line: "Mobility, rhythm and core control — one mat, one bike, one strong centre.",
     videos: MIND_MOBILITY_CLIPS,
   },
+  hybrid: {
+    name: "Hybrid Conditioning Level 2",
+    line: "Combine strength and cardio in coached conditioning sessions.",
+    videos: HYBRID_L2_CLIPS,
+  },
 };
 
 export const LEVEL_FORMATS: Record<ClassLevel, { category: string; formats: TrainingFormat[] }[]> = {
@@ -65,11 +72,12 @@ export const LEVEL_FORMATS: Record<ClassLevel, { category: string; formats: Trai
   strength: [
     { category: "STRENGTH & LIFT", formats: [formats.lift2] },
     { category: "CALISTHENICS • SKILLS", formats: [formats.skills2] },
-    { category: "MIND & MOBILITY", formats: [formats.mind] },
+    { category: "HYBRID CONDITIONING", formats: [formats.hybrid] },
   ],
   unlimited: [
     { category: "STRENGTH & LIFT", formats: [formats.lift1, formats.lift2] },
     { category: "CALISTHENICS • SKILLS", formats: [{ ...formats.skills1, name: "Calisthenics L1" }, { ...formats.skills2, name: "Calisthenics L2" }] },
     { category: "MIND & MOBILITY", formats: [formats.mind] },
+    { category: "HYBRID CONDITIONING", formats: [formats.hybrid] },
   ],
 };

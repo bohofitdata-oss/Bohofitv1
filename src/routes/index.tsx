@@ -58,7 +58,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Rebél — Calisthenics & Machine-Free Gym in HSR Layout, Bangalore" },
-      { name: "description", content: "Rebél is HSR Layout, Bangalore's coach-led, machine-free calisthenics and strength gym. Group classes (calisthenics, weightlifting, yoga, spin, Pilates) and 1:1 50+ training. 75% annual retention." },
+      { name: "description", content: "Rebél is HSR Layout, Bangalore's coach-led, machine-free calisthenics and strength gym. Group classes (calisthenics, weightlifting, yoga, spin, Pilates) and 1:1 50+ training. Assessment-led levels, dedicated skill coaching and in-house dietitians." },
       { name: "keywords", content: "calisthenics gym Bangalore, calisthenics Bangalore, gym in HSR Layout, machine-free gym Bangalore, group fitness classes HSR Layout, weightlifting classes Bangalore, yoga spin pilates HSR Layout, functional strength training Bangalore, 50+ fitness Bangalore, Cult alternative HSR Layout" },
       { property: "og:title", content: "Rebél — Calisthenics & Machine-Free Gym in Bangalore" },
       { property: "og:description", content: "Coach-led calisthenics, weightlifting, yoga, spin, Pilates and 1:1 50+ strength training in HSR Layout, Bengaluru." },
@@ -131,7 +131,7 @@ function HeroPanel() {
     <div className="relative container mx-auto px-5 md:px-8 py-16 md:py-20">
       <p className="hero-brand-line font-mono text-xs text-foreground mb-6">REBÉL<TM /> | MACHINE-FREE | BANGALORE</p>
       <h1 className="font-medium text-foreground">Fitness you<br />actually finish.</h1>
-      <p className="mt-6 text-sm text-foreground/85 max-w-[32ch]">75% of our members are still training a year later.</p>
+      <p className="mt-6 text-sm text-foreground/85 max-w-[32ch]">Coach-led group classes. A clear path from your first rep to your next level.</p>
       <Button asChild variant="secondary" className="rounded-full mt-8 h-11 px-6 bg-foreground text-background hover:bg-foreground/90"><Link to="/booking">Book a free trial →</Link></Button>
     </div>
   </section>;

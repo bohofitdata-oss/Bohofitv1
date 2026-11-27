@@ -33,7 +33,7 @@ export function ClassVideoReel({ format }: { format: TrainingFormat }) {
     <div ref={viewport} className="overflow-hidden" aria-label={`${format.name} class clips`}>
       <div className="flex gap-3 touch-pan-y">
         {videos.map((src, index) => <div key={src} className="min-w-0 shrink-0 basis-[88%] sm:basis-[70%]">
-          <video src={src} controls muted playsInline preload="metadata" onLoadedMetadata={event => { event.currentTarget.muted = true; }} onVolumeChange={event => { if (!event.currentTarget.muted) event.currentTarget.muted = true; }} className="w-full aspect-[9/16] object-cover rounded-lg border border-border bg-card" aria-label={`${format.name} clip ${index + 1} of ${videos.length}`} />
+          <video src={src} controls muted playsInline preload="metadata" onLoadedMetadata={event => { event.currentTarget.muted = true; }} onVolumeChange={event => { if (!event.currentTarget.muted) event.currentTarget.muted = true; }} className="w-full h-[48dvh] max-h-[520px] object-contain rounded-lg border border-border bg-card" aria-label={`${format.name} clip ${index + 1} of ${videos.length}`} />
         </div>)}
       </div>
     </div>

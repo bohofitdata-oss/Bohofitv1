@@ -11,11 +11,13 @@ describe("Group membership rules", () => {
     test(`${level} pauses are 7, 15, 21, 45 days`, () => assert.deepEqual(GROUP_PLANS[level].map(plan => plan.pause), [7,15,21,45]));
     test(`${level} prices include GST`, () => assert.ok(GROUP_PLANS[level].every(plan => plan.gstIncluded)));
     test(`${level} offers only 2, 3, 4 and 12 months`, () => assert.deepEqual(GROUP_PLANS[level].map(plan => plan.months), [2,3,4,12]));
+    test(`${level} four-month optional diet support costs ₹1,000 per month`, () => assert.equal(getGroupPlan(`${level}_4`).dietMonthlyPrice, 1000));
   }
   for (const [months, price] of [[1,3999],[6,17999],[12,22999]]) {
     test(`unlimited ${months} months charges exactly ₹${price}`, () => assert.equal(groupAmountPaise(`unlimited_${months}`), price * 100));
   }
   test("one-month Unlimited has zero pause days", () => assert.equal(getGroupPlan("unlimited_1").pause, 0));
+  test("one-month Unlimited does not include diet consultation", () => assert.equal(getGroupPlan("unlimited_1").dietConsultIncluded, false));
   test("unlimited pauses are 0, 30, 60 days", () => assert.deepEqual(GROUP_PLANS.unlimited.map(plan => plan.pause), [0,30,60]));
   test("Unlimited offers only 1, 6 and 12 months", () => assert.deepEqual(GROUP_PLANS.unlimited.map(plan => plan.months), [1,6,12]));
   test("Level 2 requires the entry warning", () => assert.equal(requiresLevelWarning("strength"), true));
